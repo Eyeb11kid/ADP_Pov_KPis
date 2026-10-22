@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Persona Branching</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  .topbar { max-width: 1280px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
+  .back:hover { background: #012749; }
+  h1 { font-size: 22px; }
+  .sub { color: #57606a; font-size: 13px; margin-bottom: 24px; }
+  .scroll { overflow-x: auto; }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); min-width: 1000px; }
+  .cell { padding: 0 8px; display: flex; }
+  .card { background: #f7f8fa; border: 1px solid #e5e7eb; border-top: 4px solid #002D9C; padding: 16px 14px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .card.l1 { border-top-color: #002D9C; }
+  .card.l2 { border-top-color: #6929C4; }
+  .card.l3 { border-top-color: #009D9A; }
+  .ic { fill: #002D9C; }
+  .l2 .ic { fill: #6929C4; }
+  .l3 .ic { fill: #009D9A; }
+  .card h2 { font-size: 16px; margin: 8px 0 4px; color: #012749; }
+  .card p { font-size: 12px; color: #57606a; margin-bottom: 14px; flex: 1; }
+  .sel { background: #002D9C; color: #fff; border: 0; border-radius: 4px; font: inherit; font-size: 13px; padding: 6px 28px; cursor: pointer; display: inline-block; text-decoration: none; }
+  .l2 .sel { background: #6929C4; }
+  .l3 .sel { background: #009D9A; }
+  .sel:hover { opacity: .85; }
+  .sel:focus-visible { outline: 2px solid #1192E8; outline-offset: 2px; }
+  .cn { height: 44px; }
+  .g5 { display: grid; grid-template-columns: repeat(5, 1fr); height: 100%; }
+  .g5 > div { position: relative; }
+  .g5 i { position: absolute; background: #57606a; }
+  .g5 i.u { left: calc(50% - 1px); width: 2px; top: 0; height: 50%; }
+  .g5 i.d { left: calc(50% - 1px); width: 2px; top: 50%; bottom: 0; }
+  .g5 i.l { top: calc(50% - 1px); height: 2px; left: 0; width: 50%; }
+  .g5 i.r { top: calc(50% - 1px); height: 2px; left: 50%; width: 50%; }
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
+<div class="wrap">
+
+<h1>Persona Branching</h1>
+<div class="sub">Choose a persona, then the report to open</div>
+
+<div class="scroll">
+<div class="flow">
+<div class="cell" style="grid-column:3"><div class="card l1"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>CFO Dashboard</h2><p>Company-wide view of revenue, expense, NOI and headcount versus Plan and last year.</p><a class="sel" href="executive_kpi_dashboard.html">Select</a></div></div>
+<div class="cn" style="grid-column:1/-1"><div class="g5"><div></div><div><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i></div><div><i class="l"></i><i class="d"></i></div><div></div></div></div>
+<div class="cell" style="grid-column:2"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - NAS</h2><p>Business unit view for the NAS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:4"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - RS</h2><p>Business unit view for the RS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cn" style="grid-column:1/-1"><div class="g5"><div><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="l"></i><i class="d"></i></div></div></div>
+<div class="cell" style="grid-column:1"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Management P&amp;L</h2><p>Summary P&amp;L by segment: revenue, expense and Adj EBIT versus Plan and last year.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:2"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Field Expense P&amp;L</h2><p>Field operating expense by line and business unit, with variance to Plan.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:3"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>NPI P&amp;L</h2><p>P&amp;L for new product introductions: revenue, cost and contribution to date.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:4"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Revenue Drivers</h2><p>Volume, price and mix drivers behind revenue growth, with ROY growth needed.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:5"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Headcount FTE</h2><p>Ending headcount and average FTEs by function versus Plan.</p><button type="button" class="sel">Select</button></div></div>
+</div>
+</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>

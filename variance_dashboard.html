@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual vs Plan Variance Dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  .topbar { max-width: 960px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
+  .back:hover { background: #012749; }
+  h1 { font-size: 22px; }
+  .sub { color: #57606a; font-size: 13px; margin-bottom: 14px; }
+  .note { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 14px; font-size: 12px; color: #57606a; margin-bottom: 18px; }
+  .chips { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .chip { border: 1px solid #e5e7eb; background: #f7f8fa; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  h2 { font-size: 16px; margin-top: 26px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-bottom: 10px; }
+  .desc { font-size: 12px; color: #57606a; margin: -4px 0 10px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .card { background: #f7f8fa; border: 1px solid #e5e7eb; border-left: 4px solid #9ca3af; padding: 10px 12px; }
+  .card.fav { border-left-color: #198038; }
+  .card.unfav { border-left-color: #FA4D56; }
+  .nm { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .val { font-size: 22px; font-weight: 600; line-height: 1.3; margin-top: 6px; }
+  .pl { font-size: 12px; color: #57606a; }
+  .vr { font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .fav .vr { color: #198038; }
+  .unfav .vr { color: #FA4D56; }
+  .flat .vr { color: #57606a; }
+  .legend { font-size: 12px; color: #57606a; margin: 6px 0 4px; }
+  .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
+  .legend span.sw:first-child { margin-left: 0; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
+  svg text.d { fill: #1f2328; }
+  svg text.g { fill: #198038; }
+  svg text.r { fill: #FA4D56; }
+  .ins { font-size: 13px; margin-top: 6px; }
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
+<div class="wrap">
+
+<h1>Actual vs Plan Variance Dashboard</h1>
+<div class="sub">YTD September FY27 · $M unless noted · variance shown as Favorable / (Unfavorable) vs Plan</div>
+<div class="note"><strong>Illustrative data.</strong> All figures are sample values for demonstration only, not actuals. Plan is derived from the variances shown. Expenses and headcount are favorable when below Plan. Basis-point variances come from unrounded values.</div>
+
+<div class="chips">
+  <div class="chip" style="color:#198038">10 favorable</div>
+  <div class="chip" style="color:#FA4D56">2 unfavorable</div>
+  <div class="chip" style="color:#57606a">2 on Plan</div>
+</div>
+
+<h2>Revenue</h2>
+<div class="grid">
+  <div class="card unfav"><div class="nm">Income summary sales</div><div class="val">$18M</div><div class="pl">Plan $24M</div><div class="vr">($6M) unfav · -26.7%</div></div>
+  <div class="card fav"><div class="nm">Retention %</div><div class="val">95.1%</div><div class="pl">Plan 94.2%</div><div class="vr">+90 bps fav</div></div>
+  <div class="card fav"><div class="nm">Revenue</div><div class="val">$202M</div><div class="pl">Plan $200M</div><div class="vr">+$2M fav · +0.8%</div></div>
+  <div class="card unfav"><div class="nm">Clients (average)</div><div class="val">7,624</div><div class="pl">Plan 7,648</div><div class="vr">(24) unfav · -0.3%</div></div>
+</div>
+
+<h2>Expense</h2>
+<div class="grid">
+  <div class="card flat"><div class="nm">Field expense</div><div class="val">$133M</div><div class="pl">Plan $133M</div><div class="vr">$0M on Plan</div></div>
+  <div class="card fav"><div class="nm">NDE</div><div class="val">$20M</div><div class="pl">Plan $22M</div><div class="vr">+$2M fav · +7.4%</div></div>
+  <div class="card flat"><div class="nm">Allocations</div><div class="val">$98M</div><div class="pl">Plan $98M</div><div class="vr">$0M on Plan</div></div>
+  <div class="card fav"><div class="nm">Total expenses</div><div class="val">$250M</div><div class="pl">Plan $252M</div><div class="vr">+$2M fav · +0.6%</div></div>
+</div>
+
+<h2>Profit</h2>
+<div class="grid">
+  <div class="card fav"><div class="nm">Field operating NOI</div><div class="val">$69M</div><div class="pl">Plan $67M</div><div class="vr">+$2M fav · +2.4%</div></div>
+  <div class="card fav"><div class="nm">Field operating NOI %</div><div class="val">34.1%</div><div class="pl">Plan 33.6%</div><div class="vr">+53 bps fav</div></div>
+  <div class="card fav"><div class="nm">NOI</div><div class="val">($49M)</div><div class="pl">Plan ($52M)</div><div class="vr">+$3M fav · +6.2%</div></div>
+  <div class="card fav"><div class="nm">NOI margin %</div><div class="val">(24.1%)</div><div class="pl">Plan (25.8%)</div><div class="vr">+173 bps fav</div></div>
+</div>
+
+<h2>People</h2>
+<div class="grid">
+  <div class="card fav"><div class="nm">Headcount (ending)</div><div class="val">3,557</div><div class="pl">Plan 3,590</div><div class="vr">+34 fav · +0.9%</div></div>
+  <div class="card fav"><div class="nm">FTE (average)</div><div class="val">3,590</div><div class="pl">Plan 3,650</div><div class="vr">+60 fav · +1.6%</div></div>
+</div>
+
+<h2>Variance vs Plan by Metric</h2>
+<div class="desc">% variance, favorable to the right of the line (the % metrics, retention, Field operating NOI % and NOI margin, are in basis points in the cards above)</div>
+<div class="legend"><span class="sw" style="background:#198038"></span>Favorable<span class="sw" style="background:#FA4D56"></span>Unfavorable</div>
+<svg viewBox="0 0 720 325" role="img" aria-label="Diverging bar chart of percent variance to plan by metric">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="160" y1="8" x2="160" y2="296"/><line x1="295" y1="8" x2="295" y2="296"/><line x1="430" y1="8" x2="430" y2="296"/><line x1="700" y1="8" x2="700" y2="296"/></g>
+  <line x1="565" y1="8" x2="565" y2="296" stroke="#57606a" stroke-width="1"/>
+  <g text-anchor="middle"><text x="160" y="314">-30%</text><text x="295" y="314">-20%</text><text x="430" y="314">-10%</text><text x="565" y="314">0%</text><text x="700" y="314">+10%</text></g>
+  <g text-anchor="end" class="d">
+    <text class="d" x="152" y="26">Income summary sales</text><text class="d" x="152" y="52">Revenue</text><text class="d" x="152" y="78">Clients (average)</text><text class="d" x="152" y="104">Field expense</text>
+    <text class="d" x="152" y="130">NDE</text><text class="d" x="152" y="156">Allocations</text><text class="d" x="152" y="182">Total expenses</text><text class="d" x="152" y="208">Field operating NOI</text>
+    <text class="d" x="152" y="234">NOI</text><text class="d" x="152" y="260">Headcount (ending)</text><text class="d" x="152" y="286">FTE (average)</text>
+  </g>
+  <rect x="204.5" y="14" width="360.5" height="16" fill="#FA4D56"/>
+  <rect x="565" y="40" width="10.8" height="16" fill="#198038"/>
+  <rect x="560.9" y="66" width="4.1" height="16" fill="#FA4D56"/>
+  <rect x="565" y="118" width="99.9" height="16" fill="#198038"/>
+  <rect x="565" y="170" width="8.1" height="16" fill="#198038"/>
+  <rect x="565" y="196" width="32.4" height="16" fill="#198038"/>
+  <rect x="565" y="222" width="83.7" height="16" fill="#198038"/>
+  <rect x="565" y="248" width="12.2" height="16" fill="#198038"/>
+  <rect x="565" y="274" width="21.6" height="16" fill="#198038"/>
+  <g>
+    <text class="d" text-anchor="end" x="200.5" y="26">-26.7%</text>
+    <text class="d" x="579.8" y="52">+0.8%</text>
+    <text class="d" text-anchor="end" x="556.9" y="78">-0.3%</text>
+    <text class="d" x="571" y="104">0.0%</text>
+    <text class="d" x="668.9" y="130">+7.4%</text>
+    <text class="d" x="571" y="156">0.0%</text>
+    <text class="d" x="577.1" y="182">+0.6%</text>
+    <text class="d" x="601.4" y="208">+2.4%</text>
+    <text class="d" x="652.7" y="234">+6.2%</text>
+    <text class="d" x="581.2" y="260">+0.9%</text>
+    <text class="d" x="590.6" y="286">+1.6%</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Income summary sales is the one large miss, at 73% of Plan (-26.7%). Every cost and profit line is on or better than Plan, led by NDE (+7.4%) and NOI (+6.2%). Clients is slightly under Plan (-0.3%).</div>
+
+<h2>Revenue to NOI Bridge</h2>
+<div class="desc">Actual $M, with the variance vs Plan under each step</div>
+<svg viewBox="0 0 720 265" role="img" aria-label="Waterfall chart from revenue to NOI with variance to plan under each step">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="20" x2="700" y2="20"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="220" x2="700" y2="220"/></g>
+  <line x1="50" y1="170" x2="700" y2="170" stroke="#57606a" stroke-width="1"/>
+  <g text-anchor="end"><text x="44" y="24">240</text><text x="44" y="74">160</text><text x="44" y="124">80</text><text x="44" y="174">0</text><text x="44" y="224">-80</text></g>
+  <g stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"><line x1="170" y1="44" x2="220" y2="44"/><line x1="300" y1="127" x2="350" y2="127"/><line x1="430" y1="188" x2="480" y2="188"/><line x1="560" y1="200.5" x2="610" y2="200.5"/></g>
+  <rect x="90" y="44" width="80" height="126" fill="#1192E8"/>
+  <rect x="220" y="44" width="80" height="83" fill="#9ca3af"/>
+  <rect x="350" y="127" width="80" height="61" fill="#9ca3af"/>
+  <rect x="480" y="188" width="80" height="12.5" fill="#9ca3af"/>
+  <rect x="610" y="170" width="80" height="30.5" fill="#6929C4"/>
+  <g text-anchor="middle">
+    <text class="d" x="130" y="38">202</text><text class="d" x="260" y="38">(133)</text><text class="d" x="390" y="121">(98)</text><text class="d" x="520" y="182">(20)</text><text class="d" x="650" y="214">(49)</text>
+    <text x="130" y="238">Revenue</text><text x="260" y="238">Field expense</text><text x="390" y="238">Allocations</text><text x="520" y="238">NDE</text><text x="650" y="238">NOI</text>
+    <text class="g" x="130" y="255">+2 vs Plan</text><text x="260" y="255">0 vs Plan</text><text x="390" y="255">0 vs Plan</text><text class="g" x="520" y="255">+2 vs Plan</text><text class="g" x="650" y="255">+3 vs Plan</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Revenue of $202M less $250M of total expenses leaves NOI of ($49M), $3M better than Plan. The improvement is the $2M revenue lead plus $2M of lower NDE; Field expense and Allocations are exactly on Plan.</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>

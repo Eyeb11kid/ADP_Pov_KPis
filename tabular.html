@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabular</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .topbar { max-width: 1100px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
+  .back:hover { background: #012749; }
+  h1 { font-size: 22px; }
+  .sub { color: #57606a; font-size: 13px; margin-bottom: 16px; }
+  .note { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 14px; font-size: 12px; color: #57606a; margin-bottom: 14px; }
+  .hint { font-size: 12px; color: #57606a; margin-bottom: 6px; }
+  .scroll { overflow-x: auto; border: 1px solid #e5e7eb; }
+  table { border-collapse: separate; border-spacing: 0; font-size: 12px; white-space: nowrap; min-width: 1500px; width: 100%; }
+  th, td { padding: 3px 9px; text-align: right; border-bottom: 1px solid #f0f1f3; background: #fff; }
+  thead th { background: #f7f8fa; font-weight: 600; border-bottom: 1px solid #e5e7eb; }
+  thead tr.grp th { text-align: center; border-bottom: 1px solid #e5e7eb; border-left: 1px dashed #9ca3af; }
+  thead tr.grp th:first-child { border-left: 0; text-align: left; font-weight: 400; color: #57606a; }
+  thead tr.cols th:first-child { text-align: left; font-weight: 400; color: #57606a; }
+  th.g, td.g { border-left: 1px dashed #9ca3af; }
+  th:first-child, td:first-child { position: sticky; left: 0; text-align: left; min-width: 110px; border-right: 1px solid #e5e7eb; z-index: 1; }
+  thead th:first-child { z-index: 2; }
+  tr.row td:first-child { padding-left: 22px; }
+  tr.sec td { font-weight: 600; padding-top: 10px; border-bottom: 0; }
+  tr.gap td { height: 8px; padding: 0; border-bottom: 0; }
+  tr.sub td, tr.tot td { background: #e8f0fb; font-weight: 600; }
+  tr.tot td { border-top: 1px solid #9ca3af; }
+  tr.gr td { color: #57606a; font-size: 11px; border-bottom: 0; }
+  tbody tr.row:hover td, tbody tr.sub:hover td, tbody tr.tot:hover td { background: #f1f6fd; }
+  tbody tr.sub:hover td, tbody tr.tot:hover td { background: #d6e5f8; }
+  tr.drill { cursor: pointer; }
+  tr.drill td { padding: 0; }
+  tr.drill td a { display: block; padding: 3px 9px; color: inherit; text-decoration: none; }
+  tr.drill td:first-child a { padding-left: 22px; color: #002D9C; }
+  tr.drill:hover td:first-child a { text-decoration: underline; }
+  td.n { color: #FA4D56; }
+  td.z { color: #57606a; }
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
+<div class="wrap">
+
+<h1>Tabular</h1>
+<div class="sub">$ in millions · Favorable / (Unfavorable) · Sep actuals, Oct forecast, rest of year, full year and history</div>
+<div class="note"><strong>Illustrative data.</strong> All figures and owner names are sample values for demonstration only, not actuals. Totals may differ from the sum of their parts by rounding. Var Pl = variance vs Plan; Var LY = variance vs last year; Fcst = forecast; Gr = growth. Negative values show in red.</div>
+<div class="hint">Scroll sideways to see all columns; the row labels stay in place. Hover a row to highlight it. Click any <strong>Payroll</strong> row to open the payroll drill-down.</div>
+
+<div class="scroll">
+<table>
+<thead>
+  <tr class="grp"><th>$ in Millions</th><th colspan="4" class="g">Sep</th><th colspan="4" class="g">Sep YTD</th><th colspan="3" class="g">Oct</th><th colspan="5" class="g">Rest of Year</th><th colspan="5" class="g">Full Year</th><th colspan="3" class="g">History</th></tr>
+  <tr class="cols"><th>Favorable / (Unfav)</th>
+    <th class="g">Actual</th><th>Var Pl</th><th>Var LY</th><th>% Gr</th>
+    <th class="g">Actual</th><th>Var Pl</th><th>Var LY</th><th>% Gr</th>
+    <th class="g">Fcst</th><th>Var LY</th><th>% Gr</th>
+    <th class="g">Fcst</th><th>Var Pl</th><th>% Plan</th><th>Var LY</th><th>% Gr</th>
+    <th class="g">Fcst</th><th>Var Pl</th><th>% Plan</th><th>Var LY</th><th>% Gr</th>
+    <th class="g">FY24</th><th>FY25</th><th>FY26</th></tr>
+</thead>
+<tbody>
+<tr class="sec"><td>Trad</td><td colspan="24"></td></tr>
+<tr class="row drill" title="Open payroll drill-down"><td><a href="payroll_drill.html#trad">Payroll</a></td><td class="g"><a href="payroll_drill.html#trad">23</a></td><td class="n"><a href="payroll_drill.html#trad">(0)</a></td><td class="n"><a href="payroll_drill.html#trad">(2)</a></td><td class="n"><a href="payroll_drill.html#trad">-6%</a></td><td class="g"><a href="payroll_drill.html#trad">72</a></td><td><a href="payroll_drill.html#trad">0</a></td><td class="n"><a href="payroll_drill.html#trad">(6)</a></td><td class="n"><a href="payroll_drill.html#trad">-7%</a></td><td class="g"><a href="payroll_drill.html#trad">22</a></td><td class="n"><a href="payroll_drill.html#trad">(2)</a></td><td class="n"><a href="payroll_drill.html#trad">-8%</a></td><td class="g"><a href="payroll_drill.html#trad">232</a></td><td><a href="payroll_drill.html#trad">1</a></td><td><a href="payroll_drill.html#trad">100%</a></td><td class="n"><a href="payroll_drill.html#trad">(22)</a></td><td class="n"><a href="payroll_drill.html#trad">-8%</a></td><td class="g"><a href="payroll_drill.html#trad">304</a></td><td><a href="payroll_drill.html#trad">1</a></td><td><a href="payroll_drill.html#trad">100%</a></td><td class="n"><a href="payroll_drill.html#trad">(27)</a></td><td class="n"><a href="payroll_drill.html#trad">-8%</a></td><td class="g"><a href="payroll_drill.html#trad">396</a></td><td><a href="payroll_drill.html#trad">361</a></td><td><a href="payroll_drill.html#trad">331</a></td></tr>
+<tr class="row"><td>TLM</td><td class="g">9</td><td>1</td><td class="n">(0)</td><td class="n">-3%</td><td class="g">26</td><td>1</td><td class="n">(1)</td><td class="n">-4%</td><td class="g">8</td><td class="n">(1)</td><td class="n">-5%</td><td class="g">74</td><td class="n">(0)</td><td>100%</td><td class="n">(2)</td><td class="n">-4%</td><td class="g">100</td><td>0</td><td>100%</td><td class="n">(4)</td><td class="n">-4%</td><td class="g">117</td><td>112</td><td>104</td></tr>
+<tr class="row"><td>Benefits</td><td class="g">8</td><td class="n">(0)</td><td class="n">(1)</td><td class="n">-5%</td><td class="g">22</td><td>0</td><td class="n">(1)</td><td class="n">-6%</td><td class="g">9</td><td class="n">(1)</td><td class="n">-7%</td><td class="g">69</td><td class="n">(0)</td><td>100%</td><td class="n">(4)</td><td class="n">-5%</td><td class="g">91</td><td>0</td><td>100%</td><td class="n">(5)</td><td class="n">-5%</td><td class="g">103</td><td>100</td><td>96</td></tr>
+<tr class="sub"><td>HCM</td><td class="g">40</td><td>0</td><td class="n">(2)</td><td class="n">-5%</td><td class="g">120</td><td>1</td><td class="n">(8)</td><td class="n">-6%</td><td class="g">40</td><td class="n">(3)</td><td class="n">-7%</td><td class="g">375</td><td>0</td><td>100%</td><td class="n">(28)</td><td class="n">-7%</td><td class="g">495</td><td>2</td><td>100%</td><td class="n">(36)</td><td class="n">-7%</td><td class="g">616</td><td>573</td><td>531</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>SASS</td><td class="g">6</td><td>0</td><td>1</td><td>9%</td><td class="g">18</td><td>1</td><td>2</td><td>9%</td><td class="g">5</td><td>0</td><td>7%</td><td class="g">48</td><td>2</td><td>103%</td><td>1</td><td>2%</td><td class="g">66</td><td>2</td><td>104%</td><td>2</td><td>4%</td><td class="g">64</td><td>63</td><td>63</td></tr>
+<tr class="row"><td>RM</td><td class="g">2</td><td class="n">(0)</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">5</td><td>0</td><td>0</td><td>1%</td><td class="g">2</td><td class="n">(0)</td><td class="n">-4%</td><td class="g">14</td><td class="n">(0)</td><td>98%</td><td class="n">(1)</td><td class="n">-4%</td><td class="g">18</td><td>0</td><td>99%</td><td class="n">(1)</td><td class="n">-3%</td><td class="g">18</td><td>18</td><td>18</td></tr>
+<tr class="row"><td>TM</td><td class="g">2</td><td>0</td><td class="n">(0)</td><td class="n">-13%</td><td class="g">5</td><td>0</td><td class="n">(1)</td><td class="n">-12%</td><td class="g">2</td><td class="n">(0)</td><td class="n">-9%</td><td class="g">15</td><td>1</td><td>106%</td><td class="n">(1)</td><td class="n">-7%</td><td class="g">21</td><td>1</td><td>105%</td><td class="n">(2)</td><td class="n">-8%</td><td class="g">22</td><td>23</td><td>22</td></tr>
+<tr class="row"><td>StandOut</td><td class="g">1</td><td>0</td><td class="n">(0)</td><td class="n">-30%</td><td class="g">2</td><td class="n">(0)</td><td class="n">(1)</td><td class="n">-26%</td><td class="g">1</td><td class="n">(0)</td><td class="n">-23%</td><td class="g">5</td><td class="n">(0)</td><td>99%</td><td class="n">(2)</td><td class="n">-29%</td><td class="g">6</td><td class="n">(0)</td><td>98%</td><td class="n">(2)</td><td class="n">-28%</td><td class="g">11</td><td>10</td><td>9</td></tr>
+<tr class="sub"><td>Talent</td><td class="g">9</td><td>0</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">29</td><td>2</td><td>0</td><td>1%</td><td class="g">9</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">82</td><td>2</td><td>102%</td><td class="n">(2)</td><td class="n">-3%</td><td class="g">110</td><td>3</td><td>103%</td><td class="n">(2)</td><td class="n">-2%</td><td class="g">115</td><td>114</td><td>113</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>COS</td><td class="g">10</td><td class="n">(0)</td><td class="n">(0)</td><td class="n">-2%</td><td class="g">29</td><td class="n">(0)</td><td class="n">(2)</td><td class="n">-5%</td><td class="g">10</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">90</td><td>0</td><td>100%</td><td>1</td><td>0%</td><td class="g">118</td><td class="n">(0)</td><td>100%</td><td class="n">(1)</td><td class="n">-1%</td><td class="g">130</td><td>130</td><td>119</td></tr>
+<tr class="row"><td>RPO</td><td class="g">2</td><td class="n">(1)</td><td class="n">(1)</td><td class="n">-16%</td><td class="g">10</td><td class="n">(0)</td><td>0</td><td>4%</td><td class="g">3</td><td>0</td><td>0%</td><td class="g">25</td><td class="z">-</td><td>100%</td><td class="n">(5)</td><td class="n">-17%</td><td class="g">34</td><td class="n">(0)</td><td>100%</td><td class="n">(5)</td><td class="n">-12%</td><td class="g">45</td><td>41</td><td>39</td></tr>
+<tr class="tot"><td>NAS Trad</td><td class="g">61</td><td class="n">(0)</td><td class="n">(3)</td><td class="n">-5%</td><td class="g">186</td><td>2</td><td class="n">(9)</td><td class="n">-4%</td><td class="g">62</td><td class="n">(3)</td><td class="n">-5%</td><td class="g">572</td><td>2</td><td>100%</td><td class="n">(35)</td><td class="n">-6%</td><td class="g">758</td><td>4</td><td>101%</td><td class="n">(44)</td><td class="n">-6%</td><td class="g">906</td><td>858</td><td>802</td></tr>
+<tr class="gr"><td>Gr %</td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td class="n">-5%</td><td class="n">-7%</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="sec"><td>Lyric</td><td colspan="24"></td></tr>
+<tr class="row drill" title="Open payroll drill-down"><td><a href="payroll_drill.html#lyric">Payroll</a></td><td class="g"><a href="payroll_drill.html#lyric">2</a></td><td class="n"><a href="payroll_drill.html#lyric">(0)</a></td><td><a href="payroll_drill.html#lyric">1</a></td><td><a href="payroll_drill.html#lyric">103%</a></td><td class="g"><a href="payroll_drill.html#lyric">6</a></td><td class="n"><a href="payroll_drill.html#lyric">(1)</a></td><td><a href="payroll_drill.html#lyric">0</a></td><td><a href="payroll_drill.html#lyric">7%</a></td><td class="g"><a href="payroll_drill.html#lyric">2</a></td><td><a href="payroll_drill.html#lyric">1</a></td><td><a href="payroll_drill.html#lyric">55%</a></td><td class="g"><a href="payroll_drill.html#lyric">30</a></td><td class="n"><a href="payroll_drill.html#lyric">(3)</a></td><td><a href="payroll_drill.html#lyric">91%</a></td><td><a href="payroll_drill.html#lyric">14</a></td><td><a href="payroll_drill.html#lyric">82%</a></td><td class="g"><a href="payroll_drill.html#lyric">35</a></td><td class="n"><a href="payroll_drill.html#lyric">(4)</a></td><td><a href="payroll_drill.html#lyric">90%</a></td><td><a href="payroll_drill.html#lyric">14</a></td><td><a href="payroll_drill.html#lyric">63%</a></td><td class="g"><a href="payroll_drill.html#lyric">6</a></td><td><a href="payroll_drill.html#lyric">8</a></td><td><a href="payroll_drill.html#lyric">22</a></td></tr>
+<tr class="row"><td>TLM</td><td class="g">1</td><td class="n">(0)</td><td>1</td><td>95%</td><td class="g">3</td><td>0</td><td>2</td><td>86%</td><td class="g">1</td><td>0</td><td>66%</td><td class="g">14</td><td class="n">(1)</td><td>97%</td><td>6</td><td>91%</td><td class="g">16</td><td class="n">(0)</td><td>99%</td><td>8</td><td>90%</td><td class="g">2</td><td>3</td><td>9</td></tr>
+<tr class="row"><td>Benefits</td><td class="g">1</td><td>0</td><td>0</td><td>86%</td><td class="g">2</td><td>0</td><td>1</td><td>100%</td><td class="g">1</td><td>0</td><td>52%</td><td class="g">6</td><td class="n">(0)</td><td>99%</td><td>2</td><td>58%</td><td class="g">8</td><td>0</td><td>101%</td><td>3</td><td>65%</td><td class="g">2</td><td>2</td><td>5</td></tr>
+<tr class="sub"><td>HCM Lyric</td><td class="g">4</td><td class="n">(0)</td><td>2</td><td>98%</td><td class="g">10</td><td class="n">(1)</td><td>2</td><td>32%</td><td class="g">4</td><td>2</td><td>57%</td><td class="g">49</td><td class="n">(3)</td><td>93%</td><td>22</td><td>81%</td><td class="g">60</td><td class="n">(4)</td><td>93%</td><td>25</td><td>70%</td><td class="g">9</td><td>14</td><td>35</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>SASS</td><td class="g"></td><td class="n">(0)</td><td class="z">-</td><td></td><td class="g"></td><td class="n">(0)</td><td class="z">-</td><td></td><td class="g">0</td><td>0</td><td></td><td class="g">0</td><td>0</td><td>174%</td><td>0</td><td></td><td class="g">0</td><td>0</td><td>131%</td><td>0</td><td></td><td class="g"></td><td></td><td></td></tr>
+<tr class="row"><td>RM</td><td class="g">0</td><td class="n">(0)</td><td>0</td><td>69%</td><td class="g">1</td><td>0</td><td>0</td><td>30%</td><td class="g">0</td><td>0</td><td>70%</td><td class="g">2</td><td>0</td><td>112%</td><td>2</td><td>81%</td><td class="g">3</td><td>0</td><td>111%</td><td>2</td><td>69%</td><td class="g">1</td><td>1</td><td>2</td></tr>
+<tr class="row"><td>TM</td><td class="g">1</td><td>0</td><td>0</td><td>56%</td><td class="g">2</td><td>0</td><td>1</td><td>59%</td><td class="g">1</td><td>0</td><td>59%</td><td class="g">5</td><td>0</td><td>107%</td><td>2</td><td>54%</td><td class="g">6</td><td>1</td><td>108%</td><td>2</td><td>55%</td><td class="g">2</td><td>2</td><td>4</td></tr>
+<tr class="row"><td>StandOut</td><td class="g">0</td><td>0</td><td>0</td><td>24%</td><td class="g">0</td><td>0</td><td>0</td><td>37%</td><td class="g">0</td><td>0</td><td>17%</td><td class="g">1</td><td>0</td><td>101%</td><td>0</td><td>17%</td><td class="g">2</td><td>0</td><td>102%</td><td>0</td><td>21%</td><td class="g">1</td><td>1</td><td>1</td></tr>
+<tr class="sub"><td>Talent Lyric</td><td class="g">1</td><td>0</td><td>0</td><td>54%</td><td class="g">2</td><td>0</td><td>1</td><td>47%</td><td class="g">1</td><td>0</td><td>55%</td><td class="g">9</td><td>1</td><td>108%</td><td>3</td><td>55%</td><td class="g">11</td><td>1</td><td>108%</td><td>4</td><td>53%</td><td class="g">2</td><td>4</td><td>7</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>COS Lyric</td><td class="g">1</td><td class="n">(1)</td><td>1</td><td>NA</td><td class="g">2</td><td class="n">(0)</td><td>2</td><td>NA</td><td class="g">2</td><td>2</td><td>1272%</td><td class="g">11</td><td class="n">(1)</td><td>93%</td><td>7</td><td>169%</td><td class="g">14</td><td class="n">(1)</td><td>93%</td><td>9</td><td></td><td class="g"></td><td>0</td><td>5</td></tr>
+<tr class="tot"><td>Lyric</td><td class="g">5</td><td class="n">(1)</td><td>2</td><td>102%</td><td class="g">15</td><td class="n">(1)</td><td>5</td><td>46%</td><td class="g">6</td><td>3</td><td>93%</td><td class="g">69</td><td class="n">(4)</td><td>95%</td><td>32</td><td>87%</td><td class="g">84</td><td class="n">(4)</td><td>95%</td><td>37</td><td>78%</td><td class="g">12</td><td>18</td><td>47</td></tr>
+<tr class="gr"><td>Gr %</td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td>49%</td><td>169%</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="sec"><td>All-in</td><td colspan="24"></td></tr>
+<tr class="row drill" title="Open payroll drill-down"><td><a href="payroll_drill.html#allin">Payroll</a></td><td class="g"><a href="payroll_drill.html#allin">26</a></td><td class="n"><a href="payroll_drill.html#allin">(1)</a></td><td class="n"><a href="payroll_drill.html#allin">(0)</a></td><td class="n"><a href="payroll_drill.html#allin">-1%</a></td><td class="g"><a href="payroll_drill.html#allin">78</a></td><td class="n"><a href="payroll_drill.html#allin">(1)</a></td><td class="n"><a href="payroll_drill.html#allin">(5)</a></td><td class="n"><a href="payroll_drill.html#allin">-6%</a></td><td class="g"><a href="payroll_drill.html#allin">25</a></td><td class="n"><a href="payroll_drill.html#allin">(1)</a></td><td class="n"><a href="payroll_drill.html#allin">-4%</a></td><td class="g"><a href="payroll_drill.html#allin">262</a></td><td class="n"><a href="payroll_drill.html#allin">(2)</a></td><td><a href="payroll_drill.html#allin">99%</a></td><td class="n"><a href="payroll_drill.html#allin">(8)</a></td><td class="n"><a href="payroll_drill.html#allin">-3%</a></td><td class="g"><a href="payroll_drill.html#allin">339</a></td><td class="n"><a href="payroll_drill.html#allin">(3)</a></td><td><a href="payroll_drill.html#allin">99%</a></td><td class="n"><a href="payroll_drill.html#allin">(13)</a></td><td class="n"><a href="payroll_drill.html#allin">-4%</a></td><td class="g"><a href="payroll_drill.html#allin">402</a></td><td><a href="payroll_drill.html#allin">368</a></td><td><a href="payroll_drill.html#allin">353</a></td></tr>
+<tr class="row"><td>TLM</td><td class="g">10</td><td>1</td><td>0</td><td>2%</td><td class="g">29</td><td>1</td><td>0</td><td>1%</td><td class="g">10</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">88</td><td class="n">(1)</td><td>99%</td><td>3</td><td>4%</td><td class="g">116</td><td>0</td><td>100%</td><td>4</td><td>3%</td><td class="g">118</td><td>115</td><td>113</td></tr>
+<tr class="row"><td>Benefits</td><td class="g">9</td><td class="n">(0)</td><td class="n">(0)</td><td class="n">-2%</td><td class="g">24</td><td>1</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">10</td><td class="n">(1)</td><td class="n">-5%</td><td class="g">75</td><td class="n">(0)</td><td>100%</td><td class="n">(2)</td><td class="n">-2%</td><td class="g">99</td><td>0</td><td>100%</td><td class="n">(2)</td><td class="n">-2%</td><td class="g">105</td><td>102</td><td>101</td></tr>
+<tr class="sub"><td>HCM</td><td class="g">43</td><td class="n">(0)</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">130</td><td>1</td><td class="n">(5)</td><td class="n">-4%</td><td class="g">44</td><td class="n">(2)</td><td class="n">-3%</td><td class="g">425</td><td class="n">(3)</td><td>99%</td><td class="n">(6)</td><td class="n">-1%</td><td class="g">555</td><td class="n">(3)</td><td>99%</td><td class="n">(11)</td><td class="n">-2%</td><td class="g">625</td><td>586</td><td>566</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>SASS</td><td class="g">6</td><td>0</td><td>1</td><td>9%</td><td class="g">18</td><td>1</td><td>2</td><td>9%</td><td class="g">5</td><td>0</td><td>7%</td><td class="g">48</td><td>2</td><td>103%</td><td>1</td><td>2%</td><td class="g">66</td><td>2</td><td>104%</td><td>2</td><td>4%</td><td class="g">64</td><td>63</td><td>63</td></tr>
+<tr class="row"><td>RM</td><td class="g">2</td><td class="n">(0)</td><td>0</td><td>4%</td><td class="g">5</td><td>0</td><td>0</td><td>3%</td><td class="g">2</td><td>0</td><td>2%</td><td class="g">16</td><td>0</td><td>100%</td><td>1</td><td>4%</td><td class="g">21</td><td>0</td><td>101%</td><td>1</td><td>4%</td><td class="g">18</td><td>19</td><td>20</td></tr>
+<tr class="row"><td>TM</td><td class="g">2</td><td>0</td><td class="n">(0)</td><td class="n">-4%</td><td class="g">6</td><td>0</td><td class="n">(0)</td><td class="n">-3%</td><td class="g">2</td><td class="n">(0)</td><td>0%</td><td class="g">21</td><td>1</td><td>106%</td><td>1</td><td>3%</td><td class="g">27</td><td>2</td><td>106%</td><td>1</td><td>2%</td><td class="g">24</td><td>26</td><td>26</td></tr>
+<tr class="row"><td>StandOut</td><td class="g">1</td><td>0</td><td class="n">(0)</td><td class="n">-24%</td><td class="g">2</td><td class="n">(0)</td><td class="n">(1)</td><td class="n">-21%</td><td class="g">1</td><td class="n">(0)</td><td class="n">-19%</td><td class="g">6</td><td class="n">(0)</td><td>100%</td><td class="n">(2)</td><td class="n">-24%</td><td class="g">8</td><td>0</td><td>99%</td><td class="n">(2)</td><td class="n">-23%</td><td class="g">11</td><td>10</td><td>10</td></tr>
+<tr class="sub"><td>Talent</td><td class="g">10</td><td>0</td><td>0</td><td>2%</td><td class="g">31</td><td>2</td><td>1</td><td>3%</td><td class="g">10</td><td>0</td><td>2%</td><td class="g">90</td><td>2</td><td>103%</td><td>1</td><td>1%</td><td class="g">122</td><td>4</td><td>103%</td><td>2</td><td>1%</td><td class="g">118</td><td>118</td><td>120</td></tr>
+<tr class="gap"><td></td><td colspan="24"></td></tr>
+<tr class="row"><td>COS</td><td class="g">10</td><td class="n">(1)</td><td>0</td><td>2%</td><td class="g">30</td><td class="n">(0)</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">11</td><td>1</td><td>12%</td><td class="g">101</td><td class="n">(1)</td><td>99%</td><td>7</td><td>8%</td><td class="g">131</td><td class="n">(1)</td><td>99%</td><td>7</td><td>6%</td><td class="g">130</td><td>130</td><td>124</td></tr>
+<tr class="row"><td>RPO</td><td class="g">2</td><td class="n">(1)</td><td class="n">(1)</td><td class="n">-16%</td><td class="g">10</td><td class="n">(0)</td><td>0</td><td>4%</td><td class="g">3</td><td>0</td><td>0%</td><td class="g">25</td><td class="z">-</td><td>100%</td><td class="n">(5)</td><td class="n">-17%</td><td class="g">34</td><td class="n">(0)</td><td>100%</td><td class="n">(5)</td><td class="n">-12%</td><td class="g">45</td><td>41</td><td>39</td></tr>
+<tr class="tot"><td>NAS Cons</td><td class="g">66</td><td class="n">(1)</td><td class="n">(0)</td><td class="n">-1%</td><td class="g">202</td><td>2</td><td class="n">(4)</td><td class="n">-2%</td><td class="g">68</td><td class="n">(0)</td><td>0%</td><td class="g">641</td><td class="n">(2)</td><td>100%</td><td class="n">(3)</td><td class="n">-1%</td><td class="g">842</td><td>0</td><td>100%</td><td class="n">(7)</td><td class="n">-1%</td><td class="g">917</td><td>876</td><td>850</td></tr>
+<tr class="gr"><td>Gr %</td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td></td><td></td><td></td><td></td><td class="g"></td><td class="n">-4%</td><td class="n">-3%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>

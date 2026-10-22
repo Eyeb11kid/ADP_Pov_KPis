@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll Drill-Down</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  .topbar { max-width: 900px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+  .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; margin-right: 8px; }
+  .back:hover { background: #012749; }
+  h1 { font-size: 22px; }
+  .sub { color: #57606a; font-size: 13px; margin-bottom: 16px; }
+  .note { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 14px; font-size: 12px; color: #57606a; margin-bottom: 24px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+  .kpi { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 12px; }
+  .kpi .v { font-size: 20px; font-weight: 600; }
+  .kpi .l { font-size: 11px; color: #57606a; }
+  h2 { font-size: 16px; margin-top: 28px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  .desc { font-size: 12px; color: #57606a; margin: 4px 0 10px; }
+  .scroll { overflow-x: auto; border: 1px solid #e5e7eb; margin: 10px 0 14px; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; white-space: nowrap; min-width: 1000px; }
+  th, td { padding: 4px 9px; text-align: right; border-bottom: 1px solid #f0f1f3; background: #fff; }
+  thead th { background: #f7f8fa; font-weight: 600; border-bottom: 1px solid #e5e7eb; }
+  thead tr.grp th { text-align: center; }
+  th.g, td.g { border-left: 1px dashed #9ca3af; }
+  th:first-child, td:first-child { position: sticky; left: 0; text-align: left; min-width: 80px; font-weight: 600; border-right: 1px solid #e5e7eb; z-index: 1; }
+  thead th:first-child { z-index: 2; }
+  tbody tr:hover td { background: #f1f6fd; }
+  tbody tr:target td { background: #fff4c2; }
+  tr.tot td { background: #e8f0fb; font-weight: 600; }
+  tr.tot:hover td { background: #d6e5f8; }
+  td.n { color: #FA4D56; }
+  .legend { font-size: 12px; color: #57606a; margin: 6px 0 4px; }
+  .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
+  .legend span.sw:first-child { margin-left: 0; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
+  svg text.d { fill: #1f2328; }
+  svg text.w { fill: #fff; font-weight: 600; }
+  svg text.g { fill: #198038; }
+  svg text.r { fill: #FA4D56; }
+  .ins { font-size: 13px; margin-top: 6px; }
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a><a class="back" href="tabular.html">&larr; Back to Tabular</a></div>
+<div class="wrap">
+
+<h1>Payroll Drill-Down</h1>
+<div class="sub">$ in millions · Trad, Lyric and All-in · drilled from the Payroll rows on the Tabular page</div>
+<div class="note"><strong>Illustrative data.</strong> Figures are sample values for demonstration only, not actuals. They come from the Payroll rows on the <a href="tabular.html">Tabular</a> page. All-in = Trad + Lyric; differences of $1M are rounding. Var Pl = variance vs Plan; Var LY = variance vs last year. Negative values show in red.</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">$339M</div><div class="l">All-in full-year forecast</div></div>
+  <div class="kpi"><div class="v">99%</div><div class="l">of Plan ($3M behind)</div></div>
+  <div class="kpi"><div class="v">-4%</div><div class="l">vs last year ($13M lower)</div></div>
+  <div class="kpi"><div class="v">10.4%</div><div class="l">Lyric share of full-year payroll</div></div>
+</div>
+
+<!-- 1 -->
+<h2>1. Payroll by Platform</h2>
+<div class="desc">Trad, Lyric and All-in across all periods. The row you clicked on the Tabular page is highlighted.</div>
+<div class="scroll">
+<table>
+<thead>
+  <tr class="grp"><th></th><th colspan="2" class="g">Sep</th><th colspan="3" class="g">Sep YTD</th><th colspan="2" class="g">Oct</th><th colspan="3" class="g">Rest of Year</th><th colspan="5" class="g">Full Year</th><th colspan="3" class="g">History</th></tr>
+  <tr><th>View</th><th class="g">Actual</th><th>% Gr</th><th class="g">Actual</th><th>Var Pl</th><th>% Gr</th><th class="g">Fcst</th><th>% Gr</th><th class="g">Fcst</th><th>% Plan</th><th>% Gr</th><th class="g">Fcst</th><th>Var Pl</th><th>% Plan</th><th>Var LY</th><th>% Gr</th><th class="g">FY24</th><th>FY25</th><th>FY26</th></tr>
+</thead>
+<tbody>
+  <tr id="trad"><td>Trad</td><td class="g">23</td><td class="n">-6%</td><td class="g">72</td><td>0</td><td class="n">-7%</td><td class="g">22</td><td class="n">-8%</td><td class="g">232</td><td>100%</td><td class="n">-8%</td><td class="g">304</td><td>1</td><td>100%</td><td class="n">(27)</td><td class="n">-8%</td><td class="g">396</td><td>361</td><td>331</td></tr>
+  <tr id="lyric"><td>Lyric</td><td class="g">2</td><td>103%</td><td class="g">6</td><td class="n">(1)</td><td>7%</td><td class="g">2</td><td>55%</td><td class="g">30</td><td>91%</td><td>82%</td><td class="g">35</td><td class="n">(4)</td><td>90%</td><td>14</td><td>63%</td><td class="g">6</td><td>8</td><td>22</td></tr>
+  <tr id="allin" class="tot"><td>All-in</td><td class="g">26</td><td class="n">-1%</td><td class="g">78</td><td class="n">(1)</td><td class="n">-6%</td><td class="g">25</td><td class="n">-4%</td><td class="g">262</td><td>99%</td><td class="n">-3%</td><td class="g">339</td><td class="n">(3)</td><td>99%</td><td class="n">(13)</td><td class="n">-4%</td><td class="g">402</td><td>368</td><td>353</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 2 -->
+<h2>2. Payroll Trend: Trad vs Lyric</h2>
+<div class="desc">FY24 – FY26 history and the full-year forecast ($M). Bar totals are All-in.</div>
+<div class="legend"><span class="sw" style="background:#1192E8"></span>Trad<span class="sw" style="background:#6929C4"></span>Lyric</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Stacked bar chart of Trad and Lyric payroll by year, FY24 to full-year forecast">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="174">120</text><text x="44" y="124">240</text><text x="44" y="74">360</text><text x="44" y="24">480</text></g>
+  <g fill="#1192E8"><rect x="90" y="55" width="80" height="165"/><rect x="240" y="69.7" width="80" height="150.3"/><rect x="390" y="82" width="80" height="138"/><rect x="540" y="93.3" width="80" height="126.7"/></g>
+  <g fill="#6929C4"><rect x="90" y="52.7" width="80" height="2.3"/><rect x="240" y="66.4" width="80" height="3.3"/><rect x="390" y="73" width="80" height="9"/><rect x="540" y="78.6" width="80" height="14.7"/></g>
+  <g text-anchor="middle">
+    <text class="w" x="130" y="141.5">396</text><text class="w" x="280" y="148.9">361</text><text class="w" x="430" y="155">331</text><text class="w" x="580" y="160.7">304</text>
+    <text class="d" x="130" y="47">402</text><text class="d" x="280" y="60">368</text><text class="d" x="430" y="67">353</text><text class="d" x="580" y="73">339</text>
+    <text x="130" y="238">FY24</text><text x="280" y="238">FY25</text><text x="430" y="238">FY26 (last year)</text><text x="580" y="238">Full Year Fcst</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> All-in payroll falls from $402M in FY24 to a $339M forecast (-15.5%). Trad drops from $396M to $304M (-23.2%), and Lyric ($6M to $35M) replaces only part of it.</div>
+
+<!-- 3 -->
+<h2>2. Lyric Ramp and Share of Payroll</h2>
+<div class="desc">Lyric payroll ($M), YoY growth, and Lyric as a % of All-in payroll</div>
+<svg viewBox="0 0 720 262" role="img" aria-label="Bar chart of Lyric payroll by year with growth and share of all-in payroll">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="180" x2="700" y2="180"/><line x1="50" y1="140" x2="700" y2="140"/><line x1="50" y1="100" x2="700" y2="100"/><line x1="50" y1="60" x2="700" y2="60"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="184">8</text><text x="44" y="144">16</text><text x="44" y="104">24</text><text x="44" y="64">32</text><text x="44" y="24">40</text></g>
+  <g fill="#6929C4"><rect x="90" y="192" width="80" height="28"/><rect x="240" y="180" width="80" height="40"/><rect x="390" y="112" width="80" height="108"/><rect x="540" y="44" width="80" height="176"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="130" y="186">6</text><text class="d" x="280" y="174">8</text><text class="d" x="430" y="106">22</text><text class="d" x="580" y="38">35</text>
+    <text class="g" x="205" y="212">+43%</text><text class="g" x="355" y="212">+170%</text><text class="g" x="505" y="212">+63%</text>
+    <text x="130" y="238">FY24</text><text x="280" y="238">FY25</text><text x="430" y="238">FY26 (last year)</text><text x="580" y="238">Full Year Fcst</text>
+    <text class="d" x="130" y="254">1.4% of payroll</text><text class="d" x="280" y="254">2.2% of payroll</text><text class="d" x="430" y="254">6.1% of payroll</text><text class="d" x="580" y="254">10.4% of payroll</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Lyric has grown from 1.4% to 10.4% of All-in payroll in three years. Growth is still strong (+63% in the forecast year) but slowing from +170%.</div>
+
+<!-- 4 -->
+<h2>3. Growth vs Last Year by Period</h2>
+<div class="desc">% growth YoY for Trad and All-in (Lyric, +7% to +103%, is in the table above)</div>
+<div class="legend"><span class="sw" style="background:#1192E8"></span>Trad<span class="sw" style="background:#9ca3af"></span>All-in</div>
+<svg viewBox="0 0 720 252" role="img" aria-label="Bar chart of percent growth year over year by period for Trad and All-in payroll">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="68" x2="700" y2="68"/><line x1="50" y1="106" x2="700" y2="106"/><line x1="50" y1="144" x2="700" y2="144"/><line x1="50" y1="182" x2="700" y2="182"/><line x1="50" y1="220" x2="700" y2="220"/></g>
+  <line x1="50" y1="30" x2="700" y2="30" stroke="#9ca3af" stroke-width="1"/>
+  <g text-anchor="end"><text x="44" y="34">0%</text><text x="44" y="72">-2%</text><text x="44" y="110">-4%</text><text x="44" y="148">-6%</text><text x="44" y="186">-8%</text><text x="44" y="224">-10%</text></g>
+  <g fill="#1192E8"><rect x="73" y="30" width="40" height="114"/><rect x="203" y="30" width="40" height="133"/><rect x="333" y="30" width="40" height="152"/><rect x="463" y="30" width="40" height="152"/><rect x="593" y="30" width="40" height="152"/></g>
+  <g fill="#9ca3af"><rect x="117" y="30" width="40" height="19"/><rect x="247" y="30" width="40" height="114"/><rect x="377" y="30" width="40" height="76"/><rect x="507" y="30" width="40" height="57"/><rect x="637" y="30" width="40" height="76"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="93" y="156">-6%</text><text class="d" x="223" y="175">-7%</text><text class="d" x="353" y="194">-8%</text><text class="d" x="483" y="194">-8%</text><text class="d" x="613" y="194">-8%</text>
+    <text class="d" x="137" y="61">-1%</text><text class="d" x="267" y="156">-6%</text><text class="d" x="397" y="118">-4%</text><text class="d" x="527" y="99">-3%</text><text class="d" x="657" y="118">-4%</text>
+    <text x="115" y="244">Sep</text><text x="245" y="244">Sep YTD</text><text x="375" y="244">Oct</text><text x="505" y="244">Rest of Year</text><text x="635" y="244">Full Year</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Trad payroll is down 6% to 8% in every period, and the decline has settled at -8% for Oct, rest of year and full year. All-in is softer (-1% to -6%) because Lyric adds about 3 points to full-year growth (-8% Trad vs -4% All-in).</div>
+
+<!-- 5 -->
+<h2>4. Where the Trad Shortfall vs Last Year Comes From</h2>
+<div class="desc">Full-year Trad payroll bridge from last year (FY26) to the full-year forecast ($M, axis starts at 272)</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Waterfall chart bridging Trad payroll from last year to full-year forecast">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">272</text><text x="44" y="174">288</text><text x="44" y="124">304</text><text x="44" y="74">320</text><text x="44" y="24">336</text></g>
+  <rect x="90" y="35" width="80" height="185" fill="#1192E8"/>
+  <rect x="240" y="35" width="80" height="17.5" fill="#FA4D56"/>
+  <rect x="390" y="52.5" width="80" height="67.5" fill="#FA4D56"/>
+  <rect x="540" y="120" width="80" height="100" fill="#1192E8"/>
+  <g text-anchor="middle">
+    <text class="d" x="130" y="29">331</text><text class="r" x="280" y="66">(6)</text><text class="r" x="430" y="134">(22)</text><text class="d" x="580" y="114">304</text>
+    <text x="130" y="238">FY26 (last year)</text><text x="280" y="238">Sep YTD vs LY</text><text x="430" y="238">Rest of Year vs LY</text><text x="580" y="238">Full Year Fcst</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Trad is forecast $27M below last year. Only $6M of that has happened (Sep YTD); $22M, about 79% of the gap, is still to come in the rest of the year.</div>
+
+<!-- 6 -->
+<h2>5. Attainment vs Plan</h2>
+<div class="desc">% of Plan for rest of year and full year (axis starts at 85%; dashed line = 100%)</div>
+<div class="legend"><span class="sw" style="background:#1192E8"></span>Rest of Year<span class="sw" style="background:#6929C4"></span>Full Year</div>
+<svg viewBox="0 0 720 232" role="img" aria-label="Horizontal bar chart of percent of plan for rest of year and full year by platform">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="150" y1="20" x2="150" y2="205"/><line x1="275" y1="20" x2="275" y2="205"/><line x1="400" y1="20" x2="400" y2="205"/><line x1="650" y1="20" x2="650" y2="205"/></g>
+  <line x1="525" y1="20" x2="525" y2="205" stroke="#57606a" stroke-width="1" stroke-dasharray="4 3"/>
+  <g text-anchor="middle"><text x="150" y="222">85%</text><text x="275" y="222">90%</text><text x="400" y="222">95%</text><text x="525" y="222">100%</text><text x="650" y="222">105%</text></g>
+  <g text-anchor="end"><text class="d" x="142" y="48">Trad</text><text class="d" x="142" y="118">Lyric</text><text class="d" x="142" y="188">All-in</text></g>
+  <g fill="#1192E8"><rect x="150" y="26" width="375" height="16"/><rect x="150" y="96" width="150" height="16"/><rect x="150" y="166" width="350" height="16"/></g>
+  <g fill="#6929C4"><rect x="150" y="44" width="375" height="16"/><rect x="150" y="114" width="125" height="16"/><rect x="150" y="184" width="350" height="16"/></g>
+  <g>
+    <text class="d" x="529" y="38">100%</text><text class="d" x="304" y="108">91%</text><text class="d" x="504" y="178">99%</text>
+    <text class="d" x="529" y="56">100%</text><text class="d" x="279" y="126">90%</text><text class="d" x="504" y="196">99%</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Trad is on Plan (100%) and All-in is 1 pt short (99%, $3M behind for the year). Lyric is the only part running behind, at 90% of Plan for the full year ($4M short), so the All-in gap is a Lyric ramp issue.</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>

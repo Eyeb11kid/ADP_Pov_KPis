@@ -7,13 +7,25 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
-  .wrap { max-width: 760px; margin: 0 auto; }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
+  .persona { position: sticky; top: 20px; background: #f7f8fa; border: 1px solid #e5e7eb; border-top: 4px solid #6929C4; padding: 16px 16px 18px; text-align: center; }
+  .persona .pic { fill: #6929C4; }
+  .persona h2 { font-size: 16px; color: #012749; margin: 6px 0 2px; }
+  .persona p { font-size: 12px; color: #57606a; margin-bottom: 12px; }
+  .persona .thumb { display: block; border: 1px solid #e5e7eb; background: #fff; margin-bottom: 14px; }
+  .persona .thumb:hover { border-color: #1192E8; }
+  .persona .psel { display: inline-block; background: #6929C4; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 32px; border-radius: 4px; }
+  .persona .psel:hover { opacity: .85; }
+  .persona a:focus-visible { outline: 2px solid #1192E8; outline-offset: 2px; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .persona { position: static; order: -1; } }
   h1 { font-size: 22px; }
   .sub { color: #57606a; font-size: 13px; margin-bottom: 24px; }
   ul { list-style: none; }
   li a { display: block; background: #f7f8fa; border: 1px solid #e5e7eb; padding: 12px 16px; text-decoration: none; color: #1f2328; }
-  li a:hover { border-color: #3b82d4; }
-  li a strong { display: block; color: #3b82d4; font-size: 15px; }
+  li a:hover { border-color: #1192E8; }
+  li a.hl { background: #e5f0fb; border-color: #1192E8; border-left: 4px solid #002D9C; }
+  li a strong { display: block; color: #002D9C; font-size: 15px; }
   li a span { font-size: 12px; color: #57606a; }
   .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
 </style>
@@ -22,12 +34,45 @@
 <div class="wrap">
   <h1>ADP POV KPIs</h1>
   <div class="sub">Reports</div>
+  <div class="layout">
   <ul>
-    <li><a href="pipeline_kpi_report.html"><strong>Sales pipeline</strong><span>Pipeline value, win/loss by competitor, days in pipe, net new pipeline</span></a></li>
+    <li><a class="hl" href="executive_kpi_dashboard.html"><strong>CFO Dashboard</strong><span>Wide-screen dashboard: revenue, NOI, margin, NNB, headcount, sales, mixes, NOI bridge and variance scorecard</span></a></li>
+    <li style="margin-top:10px"><a href="consolidated_qtrs.html"><strong>Consolidated Financial Results - Quarters</strong><span>Wide table: FY26 actual, FY27 plan and actual/forecast by quarter, with variances vs prior forecast and FY26 and growth</span></a></li>
+    <li style="margin-top:10px"><a href="consolidated_mth_ytd.html"><strong>Consolidated Financial Results - Month &amp; YTD</strong><span>Wide table: each month, quarter-to-date and Sep YTD, with actual or forecast, plan, prior forecast, last year and variances</span></a></li>
+    <li style="margin-top:10px"><a href="variance_dashboard.html"><strong>Actual vs Plan Variance Dashboard</strong><span>Metric cards for revenue, expense, profit and people with variance to Plan, plus a revenue to NOI bridge</span></a></li>
+    <li style="margin-top:10px"><a href="executive_kpi_dashboard.html"><strong>KPD Executive Summary KPI</strong><span>Executive summary of the headline KPIs: revenue, NOI, margin, NNB, headcount and sales vs Plan</span></a></li>
+    <li style="margin-top:10px"><a href="pipeline_kpi_report.html"><strong>Sales pipeline</strong><span>Pipeline value, win/loss by competitor, days in pipe, net new pipeline</span></a></li>
     <li style="margin-top:10px"><a href="sales_income_summary.html"><strong>Sales (Income Summary)</strong><span>Sales vs plan, units, gross to net, competitor wins, setup sold, market share</span></a></li>
     <li style="margin-top:10px"><a href="revenue_summary.html"><strong>Revenue Summary</strong><span>Revenue by category vs plan, ROY growth needed, revenue per FTE and per client</span></a></li>
     <li style="margin-top:10px"><a href="processing_revenue.html"><strong>Processing Revenue</strong><span>Processing revenue vs plan, ROY growth needed, per FTE and per client, pays processed, PEPM</span></a></li>
+    <li style="margin-top:10px"><a href="tabular.html"><strong>Tabular</strong><span>Horizontally scrolling table: Trad, Lyric and All-in by Sep, YTD, Oct, rest of year, full year and history</span></a></li>
+    <li style="margin-top:10px"><a href="q1_roy_full_year_forecast.html"><strong>NAS P&amp;L Summary - September FY27</strong><span>Horizontally scrolling table: GES sales, retention, revenue, expense, NOI and FTEs vs Plan and last year</span></a></li>
+    <li style="margin-top:10px"><a href="te_point_to_point.html"><strong>T&amp;E - Point to Point</strong><span>Horizontally scrolling table: T&amp;E by owner for Trad, Lyric and all-in, month, YTD, ROY, full year and history</span></a></li>
+    <li style="margin-top:10px"><a href="nas_cons_pl_ytd_detail.html"><strong>NAS Cons P&amp;L Summary YTD - Detail</strong><span>Horizontally scrolling table: Sep, YTD Sep, ROY and full year, with revenue, expense, NOI, FTEs and memo lines</span></a></li>
+    <li style="margin-top:10px"><a href="portfolio_view_fy27_cons_month.html"><strong>Portfolio View FY27 Cons - Month</strong><span>Horizontally scrolling tables: sales, starts, losses, retention, HC, FTEs, revenue, NOI and expenses by pillar</span></a></li>
+    <li style="margin-top:10px"><a href="persona_branching.html"><strong>Persona Branching</strong><span>Flow of persona cards: CFO Dashboard, BU CFO - NAS and RS, then the reports for each</span></a></li>
   </ul>
+  <aside class="persona">
+    <svg class="pic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg>
+    <h2>Select your persona</h2>
+    <p>Pick a persona to branch to the reports that fit your role.</p>
+    <a class="thumb" href="persona_branching.html" aria-label="Preview of the Persona Branching page">
+      <svg viewBox="0 0 200 130" width="100%" role="img" aria-label="Small preview of the Persona Branching page: one card, two cards, then five cards joined by lines">
+        <rect x="0.5" y="0.5" width="199" height="129" fill="#fff" stroke="#e5e7eb"/>
+        <rect x="70" y="8" width="60" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="70" y="8" width="60" height="3" fill="#002D9C"/><circle cx="100" cy="19" r="3" fill="#002D9C"/><rect x="88" y="25" width="24" height="3" fill="#002D9C"/>
+        <g stroke="#57606a" stroke-width="1" fill="none"><path d="M100 34V41M50 41H150M50 41V46M150 41V46"/><path d="M100 72V79M20 79H180M20 79V84M60 79V84M100 79V84M140 79V84M180 79V84"/></g>
+        <path d="M100 72V79" stroke="#57606a"/>
+        <rect x="30" y="46" width="40" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="30" y="46" width="40" height="3" fill="#6929C4"/><circle cx="50" cy="57" r="3" fill="#6929C4"/><rect x="42" y="63" width="16" height="3" fill="#6929C4"/>
+        <rect x="130" y="46" width="40" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="130" y="46" width="40" height="3" fill="#6929C4"/><circle cx="150" cy="57" r="3" fill="#6929C4"/><rect x="142" y="63" width="16" height="3" fill="#6929C4"/>
+        <path d="M50 72V79" stroke="#57606a"/><path d="M150 72V79" stroke="#57606a"/>
+        <g fill="#f7f8fa" stroke="#e5e7eb"><rect x="4" y="84" width="32" height="26"/><rect x="44" y="84" width="32" height="26"/><rect x="84" y="84" width="32" height="26"/><rect x="124" y="84" width="32" height="26"/><rect x="164" y="84" width="32" height="26"/></g>
+        <g fill="#009D9A"><rect x="4" y="84" width="32" height="3"/><rect x="44" y="84" width="32" height="3"/><rect x="84" y="84" width="32" height="3"/><rect x="124" y="84" width="32" height="3"/><rect x="164" y="84" width="32" height="3"/><circle cx="20" cy="95" r="3"/><circle cx="60" cy="95" r="3"/><circle cx="100" cy="95" r="3"/><circle cx="140" cy="95" r="3"/><circle cx="180" cy="95" r="3"/><rect x="13" y="101" width="14" height="3"/><rect x="53" y="101" width="14" height="3"/><rect x="93" y="101" width="14" height="3"/><rect x="133" y="101" width="14" height="3"/><rect x="173" y="101" width="14" height="3"/></g>
+        <text x="100" y="124" text-anchor="middle" style="font-size:8px;fill:#57606a">Persona Branching</text>
+      </svg>
+    </a>
+    <a class="psel" href="persona_branching.html">Select</a>
+  </aside>
+  </div>
   <div class="footer">Made with IBM Bob</div>
 </div>
 </body>
