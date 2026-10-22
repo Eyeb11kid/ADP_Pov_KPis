@@ -1,4 +1,4 @@
-# ADP_Pov_KPis
+![ADP](images/ADP-logo.png)
 
 Sales pipeline KPI report for the ADP POV (proof of value).
 

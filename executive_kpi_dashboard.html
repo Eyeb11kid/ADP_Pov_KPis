@@ -12,6 +12,25 @@
   .topbar { max-width: 1640px; margin: 0 auto 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
   .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
   .back:hover { background: #012749; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; max-width: 1640px; margin: 0 auto 16px; padding: 6px 16px; background: var(--tile, #fff); border: 1px solid var(--line); }
+  .logo { display: inline-flex; align-items: center; text-decoration: none; }
+  .logo:focus-visible, .acct-btn:focus-visible, .fld select:focus-visible, .pers:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .hdr-r { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .fld { display: flex; flex-direction: column; font-size: 11px; color: var(--muted); }
+  .fld select { font: inherit; font-size: 13px; color: var(--navy); height: 34px; min-width: 150px; padding: 0 10px; background: var(--inner, #f7f8fa); border: 0; border-bottom: 1px solid var(--muted); border-radius: 0; cursor: pointer; }
+  .fld select:hover { background: var(--hover, #f1f6fd); }
+  .acct { position: relative; }
+  .acct-btn { display: flex; align-items: center; gap: 8px; font: inherit; color: var(--navy); background: transparent; border: 0; padding: 4px 10px; cursor: pointer; text-align: left; }
+  .acct-btn:hover, .acct-btn[aria-expanded="true"] { background: var(--hover, #f1f6fd); }
+  .acct-lbl { display: flex; flex-direction: column; line-height: 1.2; font-size: 13px; font-weight: 600; }
+  .acct-lbl small { font-size: 11px; font-weight: 400; color: var(--muted); }
+  .acct-menu { position: absolute; right: 0; top: 100%; z-index: 30; min-width: 270px; background: var(--tile, #fff); border: 1px solid var(--line); box-shadow: 0 2px 6px rgba(0,0,0,.2); padding: 4px 0; }
+  .acct-menu[hidden] { display: none; }
+  .acct-h { font-size: 11px; color: var(--muted); padding: 6px 14px 4px; text-transform: uppercase; letter-spacing: .04em; }
+  .pers { display: flex; align-items: center; gap: 10px; width: 100%; font: inherit; font-size: 13px; color: var(--navy); background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; cursor: pointer; text-align: left; }
+  .pers:hover, .pers:focus-visible { background: var(--hover, #f1f6fd); }
+  .pers[aria-checked="true"] { border-left-color: var(--blue); font-weight: 600; }
+  .av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; color: #fff; }
   .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
   h1 { font-size: 24px; color: var(--navy); }
   .sub { color: var(--muted); font-size: 13px; }
@@ -119,7 +138,22 @@
 </style>
 </head>
 <body>
-<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
+<header class="hdr">
+  <a class="logo" href="index.html" aria-label="ADP - back to the index page"><span style="font-family:'Arial Black',Helvetica,Arial,sans-serif;font-size:1.6rem;font-weight:900;font-style:italic;color:#E8222F;letter-spacing:-0.5px;">ADP<sup style="font-size:0.45em;font-style:normal;vertical-align:super;">®</sup></span></a>
+  <div class="hdr-r">
+    <label class="fld"><span>Product</span><select aria-label="Product"><option>All products</option><option>Product 1 (FPO)</option><option>Product 2 (FPO)</option><option>Product 3 (FPO)</option><option>Product 4 (FPO)</option><option>Product 5 (FPO)</option></select></label>
+    <label class="fld"><span>Region</span><select aria-label="Region"><option>All regions</option><option>Americas</option><option>APAC</option><option>Canada</option><option>EMEA</option><option>LATAM</option></select></label>
+    <div class="acct">
+      <button type="button" class="acct-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg><span class="acct-lbl"><small>Account</small><span id="acct-name">Charles</span></span><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <div class="acct-menu" id="acct-menu" role="menu" aria-label="Switch persona" hidden>
+        <div class="acct-h">Personas</div>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="true" data-name="Charles"><span class="av" style="background:#6929C4"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Charles - BU CFO</b></span></button>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Sebastian"><span class="av" style="background:#009D9A"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Sebastian - FP&amp;A Analyst</b></span></button>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Diane"><span class="av" style="background:#EE5396"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Diane - Financial Analyst</b></span></button>
+      </div>
+    </div>
+  </div>
+</header>
 <div class="wrap">
 
 <div class="head"><h1>CFO Dashboard</h1><div class="sub">YTD · $M unless noted · variances Favorable / (Unfavorable)</div></div>
@@ -601,6 +635,151 @@
       else if (e.key === 'End') n = tabs[tabs.length - 1];
       if (n) { e.preventDefault(); select(n, true); }
     });
+  });
+})();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
+  if (!btn || !menu) return;
+  var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
+  function open(on, focusFirst) {
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on) { menu.removeAttribute('hidden'); if (focusFirst) { var c = menu.querySelector('[aria-checked="true"]') || items[0]; c.focus(); } }
+    else menu.setAttribute('hidden', '');
+  }
+  btn.addEventListener('click', function () { open(menu.hasAttribute('hidden'), false); });
+  btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); open(true, true); } });
+  items.forEach(function (it, i) {
+    it.addEventListener('click', function () {
+      items.forEach(function (o) { o.setAttribute('aria-checked', o === it ? 'true' : 'false'); });
+      nm.textContent = it.getAttribute('data-name');
+      open(false, false); btn.focus();
+    });
+    it.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    });
+  });
+  document.addEventListener('click', function (e) { if (!menu.hasAttribute('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) open(false, false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hasAttribute('hidden')) { open(false, false); btn.focus(); } });
+})();
+</script>
+
+<script>
+(function () {
+  /* ── Region filter: animate data update on region select ── */
+  var regionSel = document.querySelector('select[aria-label="Region"]');
+  if (!regionSel) return;
+
+  var MULT = {
+    'All regions': 1.000,
+    'Americas':    0.872,
+    'APAC':        0.541,
+    'Canada':      0.318,
+    'EMEA':        0.743,
+    'LATAM':       0.214
+  };
+  var JITTER = {
+    'All regions': [1.000, 1.000, 1.000, 1.000],
+    'Americas':    [0.872, 0.891, 0.856, 0.908],
+    'APAC':        [0.541, 0.528, 0.563, 0.519],
+    'Canada':      [0.318, 0.334, 0.302, 0.341],
+    'EMEA':        [0.743, 0.761, 0.728, 0.779],
+    'LATAM':       [0.214, 0.228, 0.201, 0.237]
+  };
+
+  var style = document.createElement('style');
+  style.textContent =
+    '.wrap{transition:opacity .18s ease,transform .18s ease;}' +
+    '.wrap.rf-out{opacity:0;transform:translateY(3px);}' +
+    '.wrap.rf-in{opacity:1;transform:translateY(0);}';
+  document.head.appendChild(style);
+
+  function snapText(sel) {
+    var els = document.querySelectorAll(sel), snap = [];
+    for (var i = 0; i < els.length; i++) snap.push({ el: els[i], orig: els[i].textContent });
+    return snap;
+  }
+  function snapRects() {
+    var rects = document.querySelectorAll('svg rect[height]'), snap = [];
+    for (var i = 0; i < rects.length; i++) {
+      var r = rects[i];
+      snap.push({ el: r, origH: parseFloat(r.getAttribute('height')), origY: parseFloat(r.getAttribute('y')) });
+    }
+    return snap;
+  }
+  function snapPolylines() {
+    var pls = document.querySelectorAll('svg polyline'), snap = [];
+    for (var i = 0; i < pls.length; i++) snap.push({ el: pls[i], orig: pls[i].getAttribute('points') });
+    return snap;
+  }
+  function snapSvgText() {
+    var texts = document.querySelectorAll('svg text'), snap = [];
+    for (var i = 0; i < texts.length; i++) {
+      var v = texts[i].textContent.trim();
+      if (/^[\$\(]?[\d,]+\.?\d*[BMK%\)]?$/.test(v)) snap.push({ el: texts[i], orig: v });
+    }
+    return snap;
+  }
+  function snapTableCells() {
+    var tds = document.querySelectorAll('td'), snap = [];
+    for (var i = 0; i < tds.length; i++) {
+      var v = tds[i].textContent.trim();
+      if (/^[\(]?[\d,]+\.?\d*[\)]?$/.test(v)) snap.push({ el: tds[i], orig: v });
+    }
+    return snap;
+  }
+
+  var vals = snapText('.val'), varBolds = snapText('.vars b');
+  var rects = snapRects(), plines = snapPolylines();
+  var svgTexts = snapSvgText(), tableCells = snapTableCells();
+
+  function scaleNumStr(str, m) {
+    var neg = str.charAt(0) === '(' && str.slice(-1) === ')';
+    var inner = neg ? str.slice(1, -1) : str;
+    var prefix = inner.charAt(0) === '$' ? (inner = inner.slice(1), '$') : '';
+    var suffMatch = inner.match(/([BMK%]+)$/), suffix = suffMatch ? (inner = inner.slice(0, -suffMatch[1].length), suffMatch[1]) : '';
+    var n = parseFloat(inner.replace(/,/g, ''));
+    if (isNaN(n)) return str;
+    var scaled = n * m;
+    var fmt = suffix === 'B' ? scaled.toFixed(3) : Math.abs(scaled) >= 1000 ? scaled.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : scaled.toFixed(1);
+    var result = prefix + fmt + suffix;
+    return neg ? '(' + result + ')' : result;
+  }
+  function scalePoints(pts, m) {
+    return pts.trim().replace(/(\d+\.?\d*),(\d+\.?\d*)/g, function (_, x, y) {
+      var dist = 36 - parseFloat(y);
+      return x + ',' + Math.max(1, 36 - dist * m).toFixed(1);
+    });
+  }
+
+  function applyRegion(region) {
+    var j = JITTER[region] || JITTER['All regions'];
+    var baseM = MULT[region] || 1;
+    for (var i = 0; i < vals.length; i++) vals[i].el.textContent = scaleNumStr(vals[i].orig, j[i % j.length]);
+    for (var i = 0; i < varBolds.length; i++) varBolds[i].el.textContent = scaleNumStr(varBolds[i].orig, j[i % j.length]);
+    for (var i = 0; i < rects.length; i++) {
+      var r = rects[i], newH = Math.max(1, r.origH * baseM), newY = r.origY + (r.origH - newH);
+      r.el.setAttribute('height', newH.toFixed(1));
+      r.el.setAttribute('y', newY.toFixed(1));
+    }
+    for (var i = 0; i < plines.length; i++) plines[i].el.setAttribute('points', scalePoints(plines[i].orig, baseM));
+    for (var i = 0; i < svgTexts.length; i++) svgTexts[i].el.textContent = scaleNumStr(svgTexts[i].orig, j[i % j.length]);
+    for (var i = 0; i < tableCells.length; i++) tableCells[i].el.textContent = scaleNumStr(tableCells[i].orig, j[i % j.length]);
+  }
+
+  var wrap = document.querySelector('.wrap');
+  regionSel.addEventListener('change', function () {
+    var region = regionSel.options[regionSel.selectedIndex].text;
+    if (!wrap) { applyRegion(region); return; }
+    wrap.classList.add('rf-out');
+    setTimeout(function () {
+      applyRegion(region);
+      wrap.classList.remove('rf-out');
+      wrap.classList.add('rf-in');
+      setTimeout(function () { wrap.classList.remove('rf-in'); }, 200);
+    }, 180);
   });
 })();
 </script>

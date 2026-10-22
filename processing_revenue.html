@@ -37,9 +37,42 @@
   .topbar { max-width: 760px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
   .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
   .back:hover { background: #012749; }
+  .hdr { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; max-width: 1640px; margin: 0 auto 16px; padding: 6px 16px; background: #fff; border-bottom: 1px solid #e0e0e0; }
+  .logo { display: inline-flex; align-items: center; text-decoration: none; }
+  .hdr-r { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .fld { display: flex; flex-direction: column; font-size: 11px; color: #555; }
+  .fld select { font: inherit; font-size: 13px; height: 34px; min-width: 150px; padding: 0 10px; background: #f7f8fa; border: 0; border-bottom: 1px solid #aaa; cursor: pointer; }
+  .acct { position: relative; }
+  .acct-btn { display: flex; align-items: center; gap: 8px; font: inherit; background: transparent; border: 0; padding: 4px 10px; cursor: pointer; text-align: left; }
+  .acct-btn:hover { background: #f1f6fd; }
+  .acct-lbl { display: flex; flex-direction: column; line-height: 1.2; font-size: 13px; font-weight: 600; }
+  .acct-lbl small { font-size: 11px; font-weight: 400; color: #777; }
+  .acct-menu { position: absolute; right: 0; top: 100%; z-index: 30; min-width: 270px; background: #fff; border: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,.2); padding: 4px 0; }
+  .acct-menu[hidden] { display: none; }
+  .acct-h { font-size: 11px; color: #777; padding: 6px 14px 4px; text-transform: uppercase; letter-spacing: .04em; }
+  .pers { display: flex; align-items: center; gap: 10px; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; cursor: pointer; text-align: left; }
+  .pers:hover { background: #f1f6fd; }
+  .pers[aria-checked="true"] { border-left-color: #0f62fe; font-weight: 600; }
+  .av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; color: #fff; }
 </style>
 </head>
 <body>
+<header class="hdr">
+  <a class="logo" href="index.html" aria-label="ADP - back to the index page"><span style="font-family:'Arial Black',Helvetica,Arial,sans-serif;font-size:1.6rem;font-weight:900;font-style:italic;color:#E8222F;letter-spacing:-0.5px;">ADP<sup style="font-size:0.45em;font-style:normal;vertical-align:super;">&reg;</sup></span></a>
+  <div class="hdr-r">
+    <label class="fld"><span>Product</span><select aria-label="Product"><option>All products</option><option>Product 1 (FPO)</option><option>Product 2 (FPO)</option><option>Product 3 (FPO)</option><option>Product 4 (FPO)</option><option>Product 5 (FPO)</option></select></label>
+    <label class="fld"><span>Region</span><select aria-label="Region"><option>All regions</option><option>Americas</option><option>APAC</option><option>Canada</option><option>EMEA</option><option>LATAM</option></select></label>
+    <div class="acct">
+      <button type="button" class="acct-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg><span class="acct-lbl"><small>Account</small><span id="acct-name">Charles</span></span><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <div class="acct-menu" id="acct-menu" role="menu" aria-label="Switch persona" hidden>
+        <div class="acct-h">Personas</div>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="true" data-name="Charles"><span class="av" style="background:#A56EFF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Charles - BU CFO</b></span></button>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Sebastian"><span class="av" style="background:#009D9A"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Sebastian - FP&amp;A Analyst</b></span></button>
+        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Diane"><span class="av" style="background:#EE5396"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Diane - Financial Analyst</b></span></button>
+      </div>
+    </div>
+  </div>
+</header>
 <div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
 <div class="wrap">
 
