@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADP POV KPIs – Pipeline Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; }
+  .sub { color: #57606a; font-size: 13px; margin-bottom: 16px; }
+  .note { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 14px; font-size: 12px; color: #57606a; margin-bottom: 24px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+  .kpi { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 12px; }
+  .kpi .v { font-size: 20px; font-weight: 600; }
+  .kpi .l { font-size: 11px; color: #57606a; }
+  h2 { font-size: 16px; margin-top: 28px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  .desc { font-size: 12px; color: #57606a; margin: 4px 0 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 14px; }
+  th { background: #f7f8fa; border-bottom: 1px solid #e5e7eb; padding: 6px 8px; text-align: right; font-weight: 600; }
+  td { padding: 5px 8px; text-align: right; border-bottom: 1px solid #e5e7eb; }
+  th:first-child, td:first-child, .l { text-align: left; }
+  tr.total td { font-weight: 600; background: #f7f8fa; }
+  .up { color: #1a7f37; }
+  .down { color: #cf222e; }
+  .legend { font-size: 12px; color: #57606a; margin-bottom: 4px; }
+  .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
+  .legend span.sw:first-child { margin-left: 0; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
+  .ins { font-size: 13px; margin-top: 6px; }
+  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>ADP POV KPIs – Pipeline Report</h1>
+<div class="sub">Jan – Jun 2025</div>
+<div class="note"><strong>Illustrative data.</strong> Figures are placeholders carried over from <code>netlify-drop/pipeline-metrics.html</code>; replace with your CRM extract. Months of sales in pipe = pipeline value ÷ trailing average monthly sales.</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">$137.9M</div><div class="l">Pipeline (Jun), +17.7% YoY</div></div>
+  <div class="kpi"><div class="v">3.6</div><div class="l">Months of sales in pipe</div></div>
+  <div class="kpi"><div class="v">55.0%</div><div class="l">Win rate, YTD (99 of 180)</div></div>
+  <div class="kpi"><div class="v">+$59.7M</div><div class="l">Net new pipeline, +150 units</div></div>
+</div>
+
+<!-- 1 -->
+<h2>1. Pipeline Value ($M)</h2>
+<div class="desc">Growth YoY, growth vs last month, and months of sales in pipe</div>
+<table>
+  <thead><tr><th>Month</th><th>Pipeline ($M)</th><th>% Growth YoY</th><th>% Growth vs Last Month</th><th>Avg Monthly Sales ($M)</th><th>Months of Sales in Pipe</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>118.0</td><td class="up">+15.2%</td><td class="up">+2.6%</td><td>36.0</td><td>3.3</td></tr>
+    <tr><td>Feb</td><td>121.5</td><td class="up">+15.6%</td><td class="up">+3.0%</td><td>36.4</td><td>3.3</td></tr>
+    <tr><td>Mar</td><td>126.2</td><td class="up">+15.9%</td><td class="up">+3.9%</td><td>37.1</td><td>3.4</td></tr>
+    <tr><td>Apr</td><td>124.8</td><td class="up">+11.8%</td><td class="down">-1.1%</td><td>37.5</td><td>3.3</td></tr>
+    <tr><td>May</td><td>131.4</td><td class="up">+16.3%</td><td class="up">+5.3%</td><td>38.0</td><td>3.5</td></tr>
+    <tr class="total"><td>Jun</td><td>137.9</td><td>+17.7%</td><td>+4.9%</td><td>38.6</td><td>3.6</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>Pipeline value ($M)</strong></div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Bar chart of pipeline value in $M by month">
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/>
+  </g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="174">40</text><text x="44" y="124">80</text><text x="44" y="74">120</text><text x="44" y="24">160</text></g>
+  <g fill="#3b82d4">
+    <rect x="76.2" y="72.5" width="56" height="147.5"/><rect x="184.5" y="68.1" width="56" height="151.9"/><rect x="292.8" y="62.3" width="56" height="157.7"/>
+    <rect x="401.2" y="64" width="56" height="156"/><rect x="509.5" y="55.8" width="56" height="164.2"/><rect x="617.8" y="47.6" width="56" height="172.4"/>
+  </g>
+  <g text-anchor="middle" style="fill:#1f2328">
+    <text x="104.2" y="66" style="fill:#1f2328">118.0</text><text x="212.5" y="62" style="fill:#1f2328">121.5</text><text x="320.8" y="56" style="fill:#1f2328">126.2</text>
+    <text x="429.2" y="58" style="fill:#1f2328">124.8</text><text x="537.5" y="50" style="fill:#1f2328">131.4</text><text x="645.8" y="42" style="fill:#1f2328">137.9</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+
+<div class="legend" style="margin-top:14px"><strong>Growth (%)</strong><span class="sw" style="background:#3b82d4"></span>YoY<span class="sw" style="background:#7c5cd8"></span>vs last month</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Line chart of YoY and month-over-month pipeline growth">
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="50" y1="20" x2="700" y2="20"/><line x1="50" y1="60" x2="700" y2="60"/><line x1="50" y1="100" x2="700" y2="100"/><line x1="50" y1="140" x2="700" y2="140"/><line x1="50" y1="220" x2="700" y2="220"/>
+  </g>
+  <line x1="50" y1="180" x2="700" y2="180" stroke="#9ca3af" stroke-width="1"/>
+  <g text-anchor="end"><text x="44" y="24">20%</text><text x="44" y="64">15%</text><text x="44" y="104">10%</text><text x="44" y="144">5%</text><text x="44" y="184">0%</text><text x="44" y="224">-5%</text></g>
+  <polyline fill="none" stroke="#3b82d4" stroke-width="2" points="104.2,58.4 212.5,55.2 320.8,52.8 429.2,85.6 537.5,49.6 645.8,38.4"/>
+  <polyline fill="none" stroke="#7c5cd8" stroke-width="2" points="104.2,159.2 212.5,155.2 320.8,148 429.2,188.8 537.5,137.6 645.8,140.8"/>
+  <g fill="#3b82d4"><circle cx="104.2" cy="58.4" r="3"/><circle cx="212.5" cy="55.2" r="3"/><circle cx="320.8" cy="52.8" r="3"/><circle cx="429.2" cy="85.6" r="3"/><circle cx="537.5" cy="49.6" r="3"/><circle cx="645.8" cy="38.4" r="3"/></g>
+  <g fill="#7c5cd8"><circle cx="104.2" cy="159.2" r="3"/><circle cx="212.5" cy="155.2" r="3"/><circle cx="320.8" cy="148" r="3"/><circle cx="429.2" cy="188.8" r="3"/><circle cx="537.5" cy="137.6" r="3"/><circle cx="645.8" cy="140.8" r="3"/></g>
+  <g text-anchor="middle">
+    <text x="104.2" y="46">15.2</text><text x="212.5" y="43">15.6</text><text x="320.8" y="40">15.9</text><text x="429.2" y="74">11.8</text><text x="537.5" y="37">16.3</text><text x="645.8" y="27">17.7</text>
+    <text x="104.2" y="150">2.6</text><text x="212.5" y="146">3.0</text><text x="320.8" y="138">3.9</text><text x="429.2" y="206">-1.1</text><text x="537.5" y="128">5.3</text><text x="645.8" y="131">4.9</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="104.2" y="242">Jan</text><text x="212.5" y="242">Feb</text><text x="320.8" y="242">Mar</text><text x="429.2" y="242">Apr</text><text x="537.5" y="242">May</text><text x="645.8" y="242">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Pipeline is up 17.7% YoY and coverage has improved from 3.3 to 3.6 months of sales. April was the only month-over-month decline (-1.1%).</div>
+
+<!-- 2 -->
+<h2>2. Win Rate vs Loss Rate by Competitor</h2>
+<div class="desc">Decided deals, YTD</div>
+<table>
+  <thead><tr><th>Competitor</th><th>Deals</th><th>Won</th><th>Lost</th><th>Win Rate</th><th>Loss Rate</th><th>Win – Loss (pts)</th><th class="l">Insight</th></tr></thead>
+  <tbody>
+    <tr><td>Competitor A</td><td>42</td><td>19</td><td>23</td><td>45.2%</td><td>54.8%</td><td class="down">-9.6</td><td class="l">Review pricing and positioning</td></tr>
+    <tr><td>Competitor B</td><td>35</td><td>21</td><td>14</td><td>60.0%</td><td>40.0%</td><td class="up">+20.0</td><td class="l">Strong; maintain</td></tr>
+    <tr><td>Competitor C</td><td>28</td><td>11</td><td>17</td><td>39.3%</td><td>60.7%</td><td class="down">-21.4</td><td class="l">Weakest; refresh battlecard</td></tr>
+    <tr><td>Competitor D</td><td>24</td><td>15</td><td>9</td><td>62.5%</td><td>37.5%</td><td class="up">+25.0</td><td class="l">Strong; maintain</td></tr>
+    <tr><td>No competitor / status quo</td><td>51</td><td>33</td><td>18</td><td>64.7%</td><td>35.3%</td><td class="up">+29.4</td><td class="l">Losses mainly "no decision"</td></tr>
+    <tr class="total"><td>Total</td><td>180</td><td>99</td><td>81</td><td>55.0%</td><td>45.0%</td><td>+10.0</td><td class="l"></td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><span class="sw" style="background:#3b82d4"></span>Win rate<span class="sw" style="background:#7c5cd8"></span>Loss rate</div>
+<svg viewBox="0 0 720 295" role="img" aria-label="Grouped bar chart of win rate and loss rate by competitor">
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="180" y1="20" x2="180" y2="270"/><line x1="307.5" y1="20" x2="307.5" y2="270"/><line x1="435" y1="20" x2="435" y2="270"/><line x1="562.5" y1="20" x2="562.5" y2="270"/><line x1="690" y1="20" x2="690" y2="270"/>
+  </g>
+  <g text-anchor="middle"><text x="180" y="287">0%</text><text x="307.5" y="287">25%</text><text x="435" y="287">50%</text><text x="562.5" y="287">75%</text><text x="690" y="287">100%</text></g>
+  <g text-anchor="end" style="fill:#1f2328">
+    <text x="172" y="45" style="fill:#1f2328">Competitor A</text><text x="172" y="95" style="fill:#1f2328">Competitor B</text><text x="172" y="145" style="fill:#1f2328">Competitor C</text><text x="172" y="195" style="fill:#1f2328">Competitor D</text><text x="172" y="245" style="fill:#1f2328">No competitor</text>
+  </g>
+  <g fill="#3b82d4">
+    <rect x="180" y="26" width="230.5" height="16"/><rect x="180" y="76" width="306" height="16"/><rect x="180" y="126" width="200.4" height="16"/><rect x="180" y="176" width="318.8" height="16"/><rect x="180" y="226" width="330" height="16"/>
+  </g>
+  <g fill="#7c5cd8">
+    <rect x="180" y="44" width="279.5" height="16"/><rect x="180" y="94" width="204" height="16"/><rect x="180" y="144" width="309.6" height="16"/><rect x="180" y="194" width="191.3" height="16"/><rect x="180" y="244" width="180" height="16"/>
+  </g>
+  <g style="fill:#1f2328">
+    <text x="414.5" y="38" style="fill:#1f2328">45.2%</text><text x="490" y="88" style="fill:#1f2328">60.0%</text><text x="384.4" y="138" style="fill:#1f2328">39.3%</text><text x="502.8" y="188" style="fill:#1f2328">62.5%</text><text x="514" y="238" style="fill:#1f2328">64.7%</text>
+    <text x="463.5" y="56" style="fill:#1f2328">54.8%</text><text x="388" y="106" style="fill:#1f2328">40.0%</text><text x="493.6" y="156" style="fill:#1f2328">60.7%</text><text x="375.3" y="206" style="fill:#1f2328">37.5%</text><text x="364" y="256" style="fill:#1f2328">35.3%</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Competitor C (39.3% win rate) and Competitor A (45.2%) are the only matchups where losses exceed wins. Competitor D and B are strong matchups.</div>
+
+<!-- 3 -->
+<h2>3. Average Days in Pipe</h2>
+<div class="desc">By stage, current quarter vs prior quarter</div>
+<table>
+  <thead><tr><th>Stage</th><th>Current Qtr (days)</th><th>Prior Qtr (days)</th><th>Change (days)</th></tr></thead>
+  <tbody>
+    <tr><td>Qualify</td><td>12</td><td>13</td><td class="up">-1</td></tr>
+    <tr><td>Discovery</td><td>18</td><td>17</td><td class="down">+1</td></tr>
+    <tr><td>Proposal</td><td>26</td><td>29</td><td class="up">-3</td></tr>
+    <tr><td>Negotiation</td><td>21</td><td>24</td><td class="up">-3</td></tr>
+    <tr><td>Close</td><td>14</td><td>15</td><td class="up">-1</td></tr>
+    <tr class="total"><td>Total cycle</td><td>91</td><td>98</td><td>-7</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><span class="sw" style="background:#3b82d4"></span>Current quarter<span class="sw" style="background:#9ca3af"></span>Prior quarter</div>
+<svg viewBox="0 0 720 295" role="img" aria-label="Grouped bar chart of average days in each pipeline stage, current vs prior quarter">
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="120" y1="20" x2="120" y2="270"/><line x1="310" y1="20" x2="310" y2="270"/><line x1="500" y1="20" x2="500" y2="270"/><line x1="690" y1="20" x2="690" y2="270"/>
+  </g>
+  <g text-anchor="middle"><text x="120" y="287">0</text><text x="310" y="287">10</text><text x="500" y="287">20</text><text x="690" y="287">30 days</text></g>
+  <g text-anchor="end">
+    <text x="112" y="45" style="fill:#1f2328">Qualify</text><text x="112" y="95" style="fill:#1f2328">Discovery</text><text x="112" y="145" style="fill:#1f2328">Proposal</text><text x="112" y="195" style="fill:#1f2328">Negotiation</text><text x="112" y="245" style="fill:#1f2328">Close</text>
+  </g>
+  <g fill="#3b82d4">
+    <rect x="120" y="26" width="228" height="16"/><rect x="120" y="76" width="342" height="16"/><rect x="120" y="126" width="494" height="16"/><rect x="120" y="176" width="399" height="16"/><rect x="120" y="226" width="266" height="16"/>
+  </g>
+  <g fill="#9ca3af">
+    <rect x="120" y="44" width="247" height="16"/><rect x="120" y="94" width="323" height="16"/><rect x="120" y="144" width="551" height="16"/><rect x="120" y="194" width="456" height="16"/><rect x="120" y="244" width="285" height="16"/>
+  </g>
+  <g>
+    <text x="352" y="38" style="fill:#1f2328">12</text><text x="466" y="88" style="fill:#1f2328">18</text><text x="618" y="138" style="fill:#1f2328">26</text><text x="523" y="188" style="fill:#1f2328">21</text><text x="390" y="238" style="fill:#1f2328">14</text>
+    <text x="371" y="56" style="fill:#1f2328">13</text><text x="447" y="106" style="fill:#1f2328">17</text><text x="675" y="156" style="fill:#1f2328">29</text><text x="580" y="206" style="fill:#1f2328">24</text><text x="409" y="256" style="fill:#1f2328">15</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Total cycle shortened by 7 days (98 to 91), driven by Proposal and Negotiation (-3 days each). Discovery is the only stage that slowed (+1).</div>
+
+<!-- 4 -->
+<h2>4. New Opportunities Created vs Opportunities Lost</h2>
+<div class="desc">Net new pipeline in units and $M</div>
+<table>
+  <thead><tr><th>Month</th><th>Created (units)</th><th>Created ($M)</th><th>Lost (units)</th><th>Lost ($M)</th><th>Net New (units)</th><th>Net New ($M)</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>64</td><td>21.5</td><td>38</td><td>11.2</td><td class="up">+26</td><td class="up">+10.3</td></tr>
+    <tr><td>Feb</td><td>61</td><td>20.8</td><td>35</td><td>10.9</td><td class="up">+26</td><td class="up">+9.9</td></tr>
+    <tr><td>Mar</td><td>70</td><td>24.6</td><td>40</td><td>12.1</td><td class="up">+30</td><td class="up">+12.5</td></tr>
+    <tr><td>Apr</td><td>58</td><td>19.4</td><td>52</td><td>20.8</td><td class="up">+6</td><td class="down">-1.4</td></tr>
+    <tr><td>May</td><td>72</td><td>25.9</td><td>41</td><td>11.8</td><td class="up">+31</td><td class="up">+14.1</td></tr>
+    <tr><td>Jun</td><td>75</td><td>27.3</td><td>44</td><td>13.0</td><td class="up">+31</td><td class="up">+14.3</td></tr>
+    <tr class="total"><td>Total</td><td>400</td><td>139.5</td><td>250</td><td>79.8</td><td>+150</td><td>+59.7</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>$M by month</strong><span class="sw" style="background:#3b82d4"></span>Created<span class="sw" style="background:#7c5cd8"></span>Lost</div>
+<svg viewBox="0 0 720 270" role="img" aria-label="Grouped bar chart of opportunities created vs lost in $M by month, with net new">
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="153.3" x2="700" y2="153.3"/><line x1="50" y1="86.7" x2="700" y2="86.7"/><line x1="50" y1="20" x2="700" y2="20"/>
+  </g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="157">10</text><text x="44" y="91">20</text><text x="44" y="24">30</text></g>
+  <g fill="#3b82d4">
+    <rect x="69.2" y="76.7" width="34" height="143.3"/><rect x="177.5" y="81.3" width="34" height="138.7"/><rect x="285.9" y="56" width="34" height="164"/>
+    <rect x="394.2" y="90.7" width="34" height="129.3"/><rect x="502.5" y="47.3" width="34" height="172.7"/><rect x="610.9" y="38" width="34" height="182"/>
+  </g>
+  <g fill="#7c5cd8">
+    <rect x="105.2" y="145.3" width="34" height="74.7"/><rect x="213.5" y="147.3" width="34" height="72.7"/><rect x="321.9" y="139.3" width="34" height="80.7"/>
+    <rect x="430.2" y="81.3" width="34" height="138.7"/><rect x="538.5" y="141.3" width="34" height="78.7"/><rect x="646.9" y="133.3" width="34" height="86.7"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="86.2" y="70" style="fill:#1f2328">21.5</text><text x="194.5" y="75" style="fill:#1f2328">20.8</text><text x="302.9" y="50" style="fill:#1f2328">24.6</text><text x="411.2" y="84" style="fill:#1f2328">19.4</text><text x="519.5" y="41" style="fill:#1f2328">25.9</text><text x="627.9" y="32" style="fill:#1f2328">27.3</text>
+    <text x="122.2" y="139" style="fill:#1f2328">11.2</text><text x="230.5" y="141" style="fill:#1f2328">10.9</text><text x="338.9" y="133" style="fill:#1f2328">12.1</text><text x="447.2" y="75" style="fill:#1f2328">20.8</text><text x="555.5" y="135" style="fill:#1f2328">11.8</text><text x="663.9" y="127" style="fill:#1f2328">13.0</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+  <g text-anchor="middle" style="fill:#1f2328">
+    <text x="104.2" y="256" style="fill:#1a7f37">Net +10.3</text><text x="212.5" y="256" style="fill:#1a7f37">Net +9.9</text><text x="320.8" y="256" style="fill:#1a7f37">Net +12.5</text>
+    <text x="429.2" y="256" style="fill:#cf222e">Net -1.4</text><text x="537.5" y="256" style="fill:#1a7f37">Net +14.1</text><text x="645.8" y="256" style="fill:#1a7f37">Net +14.3</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> 400 opportunities ($139.5M) were created against 250 ($79.8M) lost, a net gain of 150 units and $59.7M. April was the exception: losses of $20.8M outweighed $19.4M created.</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>
