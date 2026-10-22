@@ -25,6 +25,10 @@
   .l3 .ic { fill: #009D9A; }
   .card h2 { font-size: 16px; margin: 8px 0 4px; color: #012749; }
   .card p { font-size: 12px; color: #57606a; margin-bottom: 14px; flex: 1; }
+  .modes { display: flex; gap: 14px; justify-content: center; font-size: 11px; margin: -6px 0 12px; }
+  .modes a { color: #002D9C; text-decoration: underline; }
+  .modes a:hover { color: #012749; }
+  .modes a:focus-visible { outline: 2px solid #1192E8; outline-offset: 2px; }
   .sel { background: #002D9C; color: #fff; border: 0; border-radius: 4px; font: inherit; font-size: 13px; padding: 6px 28px; cursor: pointer; display: inline-block; text-decoration: none; }
   .l2 .sel { background: #6929C4; }
   .l3 .sel { background: #009D9A; }
@@ -50,7 +54,7 @@
 
 <div class="scroll">
 <div class="flow">
-<div class="cell" style="grid-column:3"><div class="card l1"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>CFO Dashboard</h2><p>Company-wide view of revenue, expense, NOI and headcount versus Plan and last year.</p><a class="sel" href="executive_kpi_dashboard.html">Select</a></div></div>
+<div class="cell" style="grid-column:3"><div class="card l1"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>CFO Dashboard</h2><p>Company-wide view of revenue, expense, NOI and headcount versus Plan and last year.</p><div class="modes"><a href="cfo_dashboard_dark.html">Dark Mode</a><a href="cfo_dashboard_light.html">Light Mode</a></div><a class="sel" href="executive_kpi_dashboard.html">Select</a></div></div>
 <div class="cn" style="grid-column:1/-1"><div class="g5"><div></div><div><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i></div><div><i class="l"></i><i class="d"></i></div><div></div></div></div>
 <div class="cell" style="grid-column:2"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - NAS</h2><p>Business unit view for the NAS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><button type="button" class="sel">Select</button></div></div>
 <div class="cell" style="grid-column:4"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - RS</h2><p>Business unit view for the RS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><button type="button" class="sel">Select</button></div></div>
