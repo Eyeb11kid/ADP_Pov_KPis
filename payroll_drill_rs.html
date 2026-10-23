@@ -182,6 +182,23 @@
   .ask-input::placeholder { color: var(--muted); }
   .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
   .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
+  /* Modify filters modal */
+  .mf-overlay { position: fixed; inset: 0; background: rgba(22,22,22,.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .mf-overlay[hidden] { display: none; }
+  .mf-modal { background: #fff; width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; border: 1px solid var(--line); }
+  .mf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .mf-title { font-size: 15px; font-weight: 600; }
+  .mf-close { font: inherit; font-size: 20px; line-height: 1; width: 28px; height: 28px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .mf-close:hover { background: var(--hover); color: var(--navy); }
+  .mf-body { display: grid; grid-template-columns: repeat(4, 1fr); overflow-y: auto; }
+  .mf-col { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 0; min-width: 0; }
+  .mf-col:last-child { border-right: 0; }
+  .mf-col h3 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .mf-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; cursor: pointer; }
+  .mf-opt input { accent-color: var(--blue); width: 14px; height: 14px; flex: none; margin: 0; }
+  .mf-opt.mf-all { font-weight: 600; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
+  @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -280,7 +297,7 @@
       <div class="fb-sep"></div>
       <div class="fb-chip">Function: All RS</div>
       <div class="fb-chip">Geography: All</div>
-      <a class="fb-link">Modify filters</a>
+      <a class="fb-link" id="mf-open" href="#" role="button" aria-haspopup="dialog">Modify filters</a>
       <a class="fb-link">Clear all</a>
       <span class="fb-note">Carried across reports</span>
     </div>
@@ -617,6 +634,95 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
+    });
+  }
+})();
+</script>
+<!-- Modify filters modal -->
+<div class="mf-overlay" id="mf-overlay" hidden>
+  <div class="mf-modal" role="dialog" aria-modal="true" aria-labelledby="mf-title">
+    <div class="mf-head">
+      <div class="mf-title" id="mf-title">Modify filters</div>
+      <button type="button" class="mf-close" id="mf-x" aria-label="Close">&times;</button>
+    </div>
+    <div class="mf-body">
+      <div class="mf-col" data-col="Function">
+        <h3>Function</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Client Services</label>
+        <label class="mf-opt"><input type="checkbox" checked> Implementation</label>
+        <label class="mf-opt"><input type="checkbox" checked> Operations</label>
+        <label class="mf-opt"><input type="checkbox" checked> Product &amp; Tech</label>
+      </div>
+      <div class="mf-col" data-col="Geography">
+        <h3>Geography</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Northeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Midwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> West</label>
+      </div>
+      <div class="mf-col" data-col="Platform">
+        <h3>Platform</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (multi-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (single-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Hosted</label>
+        <label class="mf-opt"><input type="checkbox" checked> Mobile app</label>
+        <label class="mf-opt"><input type="checkbox" checked> API / Integrations</label>
+      </div>
+      <div class="mf-col" data-col="HC Type">
+        <h3>HC Type</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Regular full-time</label>
+        <label class="mf-opt"><input type="checkbox" checked> Regular part-time</label>
+        <label class="mf-opt"><input type="checkbox" checked> Contractor</label>
+        <label class="mf-opt"><input type="checkbox" checked> Intern</label>
+      </div>
+    </div>
+    <div class="mf-foot">
+      <button type="button" class="btn btn-ghost" id="mf-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="mf-apply">Apply Filter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* Modify filters modal */
+  var mfOverlay = document.getElementById('mf-overlay');
+  var mfOpen = document.getElementById('mf-open');
+  function mfSync(col) {
+    var all = col.querySelector('.mf-allbox');
+    var opts = col.querySelectorAll('.mf-opt:not(.mf-all) input');
+    var n = col.querySelectorAll('.mf-opt:not(.mf-all) input:checked').length;
+    all.checked = false;
+    all.indeterminate = n > 0 && n < opts.length;
+  }
+  function mfShow(on) {
+    if (on) { mfOverlay.removeAttribute('hidden'); document.getElementById('mf-x').focus(); }
+    else { mfOverlay.setAttribute('hidden', ''); mfOpen.focus(); }
+  }
+  if (mfOverlay && mfOpen) {
+    var cols = mfOverlay.querySelectorAll('.mf-col');
+    cols.forEach(function (col) {
+      mfSync(col);
+      col.addEventListener('change', function (e) {
+        if (e.target.classList.contains('mf-allbox')) {
+          col.querySelectorAll('.mf-opt:not(.mf-all) input').forEach(function (cb) { cb.checked = e.target.checked; });
+        }
+        mfSync(col);
+      });
+    });
+    mfOpen.addEventListener('click', function (e) { e.preventDefault(); mfShow(true); });
+    document.getElementById('mf-x').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-cancel').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-apply').addEventListener('click', function () { mfShow(false); });
+    mfOverlay.addEventListener('click', function (e) { if (e.target === mfOverlay) mfShow(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mfOverlay.hasAttribute('hidden')) mfShow(false);
     });
   }
 })();

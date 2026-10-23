@@ -628,7 +628,8 @@
     var all = col.querySelector('.mf-allbox');
     var opts = col.querySelectorAll('.mf-opt:not(.mf-all) input');
     var n = col.querySelectorAll('.mf-opt:not(.mf-all) input:checked').length;
-    all.checked = n === opts.length;
+    /* Never auto-check "All" — it only reflects indeterminate state */
+    all.checked = false;
     all.indeterminate = n > 0 && n < opts.length;
   }
   function mfShow(on) {

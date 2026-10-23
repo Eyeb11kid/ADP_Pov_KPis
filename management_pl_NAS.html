@@ -167,6 +167,23 @@
   .ask-input::placeholder { color: var(--muted); }
   .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
   .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
+  /* Modify filters modal */
+  .mf-overlay { position: fixed; inset: 0; background: rgba(22,22,22,.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .mf-overlay[hidden] { display: none; }
+  .mf-modal { background: #fff; width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; border: 1px solid var(--line); }
+  .mf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .mf-title { font-size: 15px; font-weight: 600; }
+  .mf-close { font: inherit; font-size: 20px; line-height: 1; width: 28px; height: 28px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .mf-close:hover { background: var(--hover); color: var(--navy); }
+  .mf-body { display: grid; grid-template-columns: repeat(4, 1fr); overflow-y: auto; }
+  .mf-col { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 0; min-width: 0; }
+  .mf-col:last-child { border-right: 0; }
+  .mf-col h3 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .mf-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; cursor: pointer; }
+  .mf-opt input { accent-color: var(--blue); width: 14px; height: 14px; flex: none; margin: 0; }
+  .mf-opt.mf-all { font-weight: 600; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
+  @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -266,7 +283,7 @@
       <div class="fb-chip">Geography: All</div>
       <div class="fb-chip">Platform: All</div>
       <div class="fb-chip">Sales channel: All</div>
-      <a class="fb-link">Modify filters</a>
+      <a class="fb-link" id="mf-open" href="#" role="button" aria-haspopup="dialog">Modify filters</a>
       <a class="fb-link">Clear all</a>
       <span class="fb-note">Carried across reports</span>
     </div>
@@ -324,26 +341,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Income summary sales</td><td>18.6</td><td>18.0</td><td class="fav">+0.6</td><td class="fav">+3.3%</td><td>17.2</td><td class="fav">+8.1%</td><td>18.2</td><td class="fav">+2.2%</td></tr>
-              <tr><td>Retention %</td><td>92.4%</td><td>92.0%</td><td class="fav">+0.4 pp</td><td class="fav">+0.4%</td><td>91.6%</td><td class="fav">+0.8 pp</td><td>92.2%</td><td class="fav">+0.2 pp</td></tr>
-              <tr class="bold"><td>↓ Revenue</td><td>120.0</td><td>116.0</td><td class="fav">+4.0</td><td class="fav">+3.4%</td><td>110.0</td><td class="fav">+9.1%</td><td>118.0</td><td class="fav">+1.7%</td></tr>
-              <tr class="indent"><td>↓ Core K</td><td>90.0</td><td>86.0</td><td class="fav">+2.0 <span class="dot-fav"></span></td><td class="fav">+2.3%</td><td>83.0</td><td class="fav">+8.4%</td><td>89.0</td><td class="fav">+1.1%</td></tr>
-              <tr class="indent2"><td>Direct ↗</td><td>65.0</td><td>63.5</td><td class="fav">+1.5</td><td class="fav">+2.4%</td><td>60.0</td><td class="fav">+8.3%</td><td>64.0</td><td class="fav">+1.6%</td></tr>
-              <tr class="indent2"><td>Partner ↗</td><td>25.0</td><td>24.5</td><td class="fav">+0.5</td><td class="fav">+2.0%</td><td>23.0</td><td class="fav">+8.7%</td><td>25.0</td><td>—</td></tr>
-              <tr class="indent"><td>↓ Simple</td><td>30.0</td><td>28.0</td><td class="fav">+2.0</td><td class="fav">+7.1%</td><td>27.0</td><td class="fav">+11.1%</td><td>29.0</td><td class="fav">+3.4%</td></tr>
-              <tr class="indent2"><td>Direct ↗</td><td>23.0</td><td>21.5</td><td class="fav">+1.5</td><td class="fav">+7.0%</td><td>21.0</td><td class="fav">+9.5%</td><td>22.5</td><td class="fav">+2.2%</td></tr>
-              <tr class="indent2"><td>Partner ↗</td><td>7.0</td><td>6.5</td><td class="fav">+0.5</td><td class="fav">+7.7%</td><td>6.0</td><td class="fav">+16.7%</td><td>6.5</td><td class="fav">+7.7%</td></tr>
-              <tr><td>Field expense ↗</td><td>78.0</td><td>77.0</td><td class="unf">+1.0</td><td class="unf">+1.3%</td><td>74.0</td><td class="unf">+5.4%</td><td>77.0</td><td class="unf">+1.3%</td></tr>
-              <tr class="bold"><td>Field operating NOI</td><td>42.0</td><td>39.0</td><td class="fav">+3.0</td><td class="fav">+7.7%</td><td>36.0</td><td class="fav">+16.7%</td><td>41.0</td><td class="fav">+2.4%</td></tr>
-              <tr><td>Field operating NOI margin %</td><td>35.0%</td><td>33.6%</td><td class="fav">+1.4 pp</td><td class="fav">+4.1%</td><td>32.7%</td><td class="fav">+2.3 pp</td><td>34.7%</td><td class="fav">+0.3 pp</td></tr>
-              <tr><td>NDE</td><td>8.0</td><td>8.0</td><td>—</td><td>—</td><td>7.5</td><td class="unf">+6.7%</td><td>8.0</td><td>—</td></tr>
-              <tr><td>Allocations</td><td>6.0</td><td>6.0</td><td>—</td><td>—</td><td>5.5</td><td class="unf">+9.1%</td><td>6.0</td><td>—</td></tr>
-              <tr class="bold"><td>Total expenses</td><td>92.0</td><td>91.0</td><td class="unf">+1.0</td><td class="unf">+1.1%</td><td>87.0</td><td class="unf">+5.7%</td><td>91.0</td><td class="unf">+1.1%</td></tr>
-              <tr class="subtotal"><td>NOI</td><td>28.0</td><td>25.0</td><td class="fav">+3.0</td><td class="fav">+12.0%</td><td>23.0</td><td class="fav">+21.7%</td><td>27.0</td><td class="fav">+3.7%</td></tr>
-              <tr><td>NOI margin %</td><td>23.3%</td><td>21.6%</td><td class="fav">+1.8 pp</td><td class="fav">+8.3%</td><td>20.9%</td><td class="fav">+2.4 pp</td><td>22.9%</td><td class="fav">+0.5 pp</td></tr>
-              <tr><td>Clients (average)</td><td>42,600</td><td>42,200</td><td class="fav">+400</td><td class="fav">+0.9%</td><td>41,800</td><td class="fav">+3.9%</td><td>42,480</td><td class="fav">+0.5%</td></tr>
-              <tr><td>Headcount (ending) ↗</td><td>1,240</td><td>1,250</td><td class="unf">−10</td><td class="unf">−0.8%</td><td>1,200</td><td class="fav">+3.3%</td><td>1,235</td><td class="fav">+0.4%</td></tr>
-              <tr><td>FTE (average) ↗</td><td>1,210</td><td>1,230</td><td class="unf">−12</td><td class="unf">−1.0%</td><td>1,180</td><td class="fav">+3.2%</td><td>1,210</td><td class="fav">+0.7%</td></tr>
+              <tr><td>Income summary sales</td><td>24.3</td><td>22.5</td><td class="fav">+1.8</td><td class="fav">+8.0%</td><td>20.1</td><td class="fav">+20.9%</td><td>23.7</td><td class="fav">+2.5%</td></tr>
+              <tr><td>Retention %</td><td>94.1%</td><td>93.0%</td><td class="fav">+1.1 pp</td><td class="fav">+1.2%</td><td>92.3%</td><td class="fav">+1.8 pp</td><td>93.8%</td><td class="fav">+0.3 pp</td></tr>
+              <tr class="bold"><td>↓ Revenue</td><td>158.4</td><td>152.0</td><td class="fav">+6.4</td><td class="fav">+4.2%</td><td>139.5</td><td class="fav">+13.5%</td><td>154.9</td><td class="fav">+2.3%</td></tr>
+              <tr class="indent"><td>↓ Core K</td><td>118.6</td><td>113.0</td><td class="fav">+5.6 <span class="dot-fav"></span></td><td class="fav">+5.0%</td><td>104.2</td><td class="fav">+13.8%</td><td>116.1</td><td class="fav">+2.2%</td></tr>
+              <tr class="indent2"><td>Direct ↗</td><td>86.4</td><td>82.0</td><td class="fav">+4.4</td><td class="fav">+5.4%</td><td>75.8</td><td class="fav">+14.0%</td><td>84.5</td><td class="fav">+2.2%</td></tr>
+              <tr class="indent2"><td>Partner ↗</td><td>32.2</td><td>31.0</td><td class="fav">+1.2</td><td class="fav">+3.9%</td><td>28.4</td><td class="fav">+13.4%</td><td>31.6</td><td class="fav">+1.9%</td></tr>
+              <tr class="indent"><td>↓ Simple</td><td>39.8</td><td>39.0</td><td class="fav">+0.8</td><td class="fav">+2.1%</td><td>35.3</td><td class="fav">+12.7%</td><td>38.8</td><td class="fav">+2.6%</td></tr>
+              <tr class="indent2"><td>Direct ↗</td><td>30.5</td><td>29.5</td><td class="fav">+1.0</td><td class="fav">+3.4%</td><td>27.1</td><td class="fav">+12.5%</td><td>29.8</td><td class="fav">+2.3%</td></tr>
+              <tr class="indent2"><td>Partner ↗</td><td>9.3</td><td>9.5</td><td class="unf">−0.2</td><td class="unf">−2.1%</td><td>8.2</td><td class="fav">+13.4%</td><td>9.0</td><td class="fav">+3.3%</td></tr>
+              <tr><td>Field expense ↗</td><td>98.7</td><td>101.0</td><td class="fav">−2.3</td><td class="fav">−2.3%</td><td>91.4</td><td class="unf">+7.9%</td><td>97.2</td><td class="unf">+1.5%</td></tr>
+              <tr class="bold"><td>Field operating NOI</td><td>59.7</td><td>51.0</td><td class="fav">+8.7</td><td class="fav">+17.1%</td><td>48.1</td><td class="fav">+24.1%</td><td>57.7</td><td class="fav">+3.5%</td></tr>
+              <tr><td>Field operating NOI margin %</td><td>37.7%</td><td>33.6%</td><td class="fav">+4.1 pp</td><td class="fav">+12.2%</td><td>34.5%</td><td class="fav">+3.2 pp</td><td>37.3%</td><td class="fav">+0.4 pp</td></tr>
+              <tr><td>NDE</td><td>9.4</td><td>10.0</td><td class="fav">−0.6</td><td class="fav">−6.0%</td><td>8.8</td><td class="unf">+6.8%</td><td>9.4</td><td>—</td></tr>
+              <tr><td>Allocations</td><td>7.2</td><td>7.5</td><td class="fav">−0.3</td><td class="fav">−4.0%</td><td>6.6</td><td class="unf">+9.1%</td><td>7.1</td><td class="unf">+1.4%</td></tr>
+              <tr class="bold"><td>Total expenses</td><td>115.3</td><td>118.5</td><td class="fav">−3.2</td><td class="fav">−2.7%</td><td>106.8</td><td class="unf">+8.0%</td><td>113.7</td><td class="unf">+1.4%</td></tr>
+              <tr class="subtotal"><td>NOI</td><td>43.1</td><td>33.5</td><td class="fav">+9.6</td><td class="fav">+28.7%</td><td>32.7</td><td class="fav">+31.8%</td><td>41.2</td><td class="fav">+4.6%</td></tr>
+              <tr><td>NOI margin %</td><td>27.2%</td><td>22.0%</td><td class="fav">+5.2 pp</td><td class="fav">+23.6%</td><td>23.4%</td><td class="fav">+3.8 pp</td><td>26.6%</td><td class="fav">+0.6 pp</td></tr>
+              <tr><td>Clients (average)</td><td>58,140</td><td>56,500</td><td class="fav">+1,640</td><td class="fav">+2.9%</td><td>53,200</td><td class="fav">+9.3%</td><td>57,680</td><td class="fav">+0.8%</td></tr>
+              <tr><td>Headcount (ending) ↗</td><td>1,680</td><td>1,650</td><td class="fav">+30</td><td class="fav">+1.8%</td><td>1,540</td><td class="fav">+9.1%</td><td>1,665</td><td class="fav">+0.9%</td></tr>
+              <tr><td>FTE (average) ↗</td><td>1,645</td><td>1,620</td><td class="fav">+25</td><td class="fav">+1.5%</td><td>1,510</td><td class="fav">+8.9%</td><td>1,638</td><td class="fav">+0.4%</td></tr>
             </tbody>
           </table>
         </div>
@@ -392,10 +409,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Sales (income summary)</td><td>18.6</td><td>18.0</td><td class="fav">+0.6</td><td class="fav">+3.3%</td><td>17.2</td><td class="fav">+8.1%</td><td>18.2</td><td class="fav">+2.2%</td></tr>
-              <tr><td>Starts</td><td>14.0</td><td>13.0</td><td class="fav">+1.0</td><td class="fav">+7.7%</td><td>12.0</td><td class="fav">+16.7%</td><td>13.5</td><td class="fav">+3.7%</td></tr>
-              <tr><td>Losses · aggregate only</td><td>3.8</td><td>4.0</td><td class="fav">−0.2</td><td class="fav">−5.0%</td><td>4.2</td><td class="fav">−9.5%</td><td>4.0</td><td class="fav">−5.0%</td></tr>
-              <tr><td>Retention %</td><td>92.4%</td><td>92.0%</td><td class="fav">+0.4 pp</td><td class="fav">+0.4%</td><td>91.6%</td><td class="fav">+0.8 pp</td><td>92.2%</td><td class="fav">+0.2 pp</td></tr>
+              <tr><td>Sales (income summary)</td><td>24.3</td><td>22.5</td><td class="fav">+1.8</td><td class="fav">+8.0%</td><td>20.1</td><td class="fav">+20.9%</td><td>23.7</td><td class="fav">+2.5%</td></tr>
+              <tr><td>Starts</td><td>19.2</td><td>17.5</td><td class="fav">+1.7</td><td class="fav">+9.7%</td><td>15.4</td><td class="fav">+24.7%</td><td>18.6</td><td class="fav">+3.2%</td></tr>
+              <tr><td>Losses · aggregate only</td><td>3.1</td><td>3.8</td><td class="fav">−0.7</td><td class="fav">−18.4%</td><td>4.4</td><td class="fav">−29.5%</td><td>3.4</td><td class="fav">−8.8%</td></tr>
+              <tr><td>Retention %</td><td>94.1%</td><td>93.0%</td><td class="fav">+1.1 pp</td><td class="fav">+1.2%</td><td>92.3%</td><td class="fav">+1.8 pp</td><td>93.8%</td><td class="fav">+0.3 pp</td></tr>
             </tbody>
           </table>
         </div>
@@ -474,6 +491,96 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
+    });
+  }
+})();
+</script>
+<!-- Modify filters modal -->
+<div class="mf-overlay" id="mf-overlay" hidden>
+  <div class="mf-modal" role="dialog" aria-modal="true" aria-labelledby="mf-title">
+    <div class="mf-head">
+      <div class="mf-title" id="mf-title">Modify filters</div>
+      <button type="button" class="mf-close" id="mf-x" aria-label="Close">&times;</button>
+    </div>
+    <div class="mf-body">
+      <div class="mf-col" data-col="Product">
+        <h3>Product</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Lyric</label>
+        <label class="mf-opt"><input type="checkbox"> Workforce Now</label>
+        <label class="mf-opt"><input type="checkbox"> Run Powered by ADP</label>
+        <label class="mf-opt"><input type="checkbox"> Vantage HCM</label>
+        <label class="mf-opt"><input type="checkbox"> TotalSource</label>
+      </div>
+      <div class="mf-col" data-col="Geography">
+        <h3>Geography</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Northeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Midwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> West</label>
+      </div>
+      <div class="mf-col" data-col="Platform">
+        <h3>Platform</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (multi-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (single-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Hosted</label>
+        <label class="mf-opt"><input type="checkbox" checked> Mobile app</label>
+        <label class="mf-opt"><input type="checkbox" checked> API / Integrations</label>
+      </div>
+      <div class="mf-col" data-col="Channel">
+        <h3>Channel</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Direct sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Inside sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Channel partners</label>
+        <label class="mf-opt"><input type="checkbox" checked> Digital / self-serve</label>
+        <label class="mf-opt"><input type="checkbox" checked> Existing-client cross-sell</label>
+      </div>
+    </div>
+    <div class="mf-foot">
+      <button type="button" class="btn btn-ghost" id="mf-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="mf-apply">Apply Filter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* Modify filters modal */
+  var mfOverlay = document.getElementById('mf-overlay');
+  var mfOpen = document.getElementById('mf-open');
+  function mfSync(col) {
+    var all = col.querySelector('.mf-allbox');
+    var opts = col.querySelectorAll('.mf-opt:not(.mf-all) input');
+    var n = col.querySelectorAll('.mf-opt:not(.mf-all) input:checked').length;
+    all.checked = false;
+    all.indeterminate = n > 0 && n < opts.length;
+  }
+  function mfShow(on) {
+    if (on) { mfOverlay.removeAttribute('hidden'); document.getElementById('mf-x').focus(); }
+    else { mfOverlay.setAttribute('hidden', ''); mfOpen.focus(); }
+  }
+  if (mfOverlay && mfOpen) {
+    var cols = mfOverlay.querySelectorAll('.mf-col');
+    cols.forEach(function (col) {
+      mfSync(col);
+      col.addEventListener('change', function (e) {
+        if (e.target.classList.contains('mf-allbox')) {
+          col.querySelectorAll('.mf-opt:not(.mf-all) input').forEach(function (cb) { cb.checked = e.target.checked; });
+        }
+        mfSync(col);
+      });
+    });
+    mfOpen.addEventListener('click', function (e) { e.preventDefault(); mfShow(true); });
+    document.getElementById('mf-x').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-cancel').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-apply').addEventListener('click', function () { mfShow(false); });
+    mfOverlay.addEventListener('click', function (e) { if (e.target === mfOverlay) mfShow(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mfOverlay.hasAttribute('hidden')) mfShow(false);
     });
   }
 })();
