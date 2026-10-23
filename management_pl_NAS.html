@@ -6,8 +6,8 @@
 <title>Management P&amp;L — NAS — ADP Project Polaris</title>
 <style>
   :root {
-    --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28;
-    --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0;
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
     --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
     --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
   }
@@ -20,7 +20,7 @@
   .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
   .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
   .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #6929C4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
 
   /* ── Shell ── */
   .shell { display: flex; flex: 1; overflow: hidden; }
@@ -144,12 +144,12 @@
   /* Right AI panel */
   .panel { width: var(--panel-w); background: #fff; border-left: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; }
   .panel-hdr { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
-  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#6929C4,#1192E8); flex: none; }
+  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#5b2fc0,#3f8fe0); flex: none; }
   .panel-title { font-size: 13px; font-weight: 700; }
   .panel-sub { font-size: 11px; color: var(--muted); }
   .panel-body { padding: 12px 14px; flex: 1; }
   .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
-  .ai-tag.draft { background: #e8daff; color: #6929C4; }
+  .ai-tag.draft { background: #e8daff; color: #5b2fc0; }
   .ai-tag.review { background: #fff3cd; color: #B28600; margin-left: 4px; }
   .panel-period { font-size: 11px; font-weight: 600; color: var(--muted); margin: 10px 0 8px; }
   .ai-headline { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
@@ -185,6 +185,7 @@
   .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
   @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -341,26 +342,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Income summary sales</td><td>24.3</td><td>22.5</td><td class="fav">+1.8</td><td class="fav">+8.0%</td><td>20.1</td><td class="fav">+20.9%</td><td>23.7</td><td class="fav">+2.5%</td></tr>
-              <tr><td>Retention %</td><td>94.1%</td><td>93.0%</td><td class="fav">+1.1 pp</td><td class="fav">+1.2%</td><td>92.3%</td><td class="fav">+1.8 pp</td><td>93.8%</td><td class="fav">+0.3 pp</td></tr>
-              <tr class="bold"><td>↓ Revenue</td><td>158.4</td><td>152.0</td><td class="fav">+6.4</td><td class="fav">+4.2%</td><td>139.5</td><td class="fav">+13.5%</td><td>154.9</td><td class="fav">+2.3%</td></tr>
-              <tr class="indent"><td>↓ Core K</td><td>118.6</td><td>113.0</td><td class="fav">+5.6 <span class="dot-fav"></span></td><td class="fav">+5.0%</td><td>104.2</td><td class="fav">+13.8%</td><td>116.1</td><td class="fav">+2.2%</td></tr>
-              <tr class="indent2"><td>Direct ↗</td><td>86.4</td><td>82.0</td><td class="fav">+4.4</td><td class="fav">+5.4%</td><td>75.8</td><td class="fav">+14.0%</td><td>84.5</td><td class="fav">+2.2%</td></tr>
-              <tr class="indent2"><td>Partner ↗</td><td>32.2</td><td>31.0</td><td class="fav">+1.2</td><td class="fav">+3.9%</td><td>28.4</td><td class="fav">+13.4%</td><td>31.6</td><td class="fav">+1.9%</td></tr>
-              <tr class="indent"><td>↓ Simple</td><td>39.8</td><td>39.0</td><td class="fav">+0.8</td><td class="fav">+2.1%</td><td>35.3</td><td class="fav">+12.7%</td><td>38.8</td><td class="fav">+2.6%</td></tr>
-              <tr class="indent2"><td>Direct ↗</td><td>30.5</td><td>29.5</td><td class="fav">+1.0</td><td class="fav">+3.4%</td><td>27.1</td><td class="fav">+12.5%</td><td>29.8</td><td class="fav">+2.3%</td></tr>
-              <tr class="indent2"><td>Partner ↗</td><td>9.3</td><td>9.5</td><td class="unf">−0.2</td><td class="unf">−2.1%</td><td>8.2</td><td class="fav">+13.4%</td><td>9.0</td><td class="fav">+3.3%</td></tr>
-              <tr><td>Field expense ↗</td><td>98.7</td><td>101.0</td><td class="fav">−2.3</td><td class="fav">−2.3%</td><td>91.4</td><td class="unf">+7.9%</td><td>97.2</td><td class="unf">+1.5%</td></tr>
-              <tr class="bold"><td>Field operating NOI</td><td>59.7</td><td>51.0</td><td class="fav">+8.7</td><td class="fav">+17.1%</td><td>48.1</td><td class="fav">+24.1%</td><td>57.7</td><td class="fav">+3.5%</td></tr>
-              <tr><td>Field operating NOI margin %</td><td>37.7%</td><td>33.6%</td><td class="fav">+4.1 pp</td><td class="fav">+12.2%</td><td>34.5%</td><td class="fav">+3.2 pp</td><td>37.3%</td><td class="fav">+0.4 pp</td></tr>
-              <tr><td>NDE</td><td>9.4</td><td>10.0</td><td class="fav">−0.6</td><td class="fav">−6.0%</td><td>8.8</td><td class="unf">+6.8%</td><td>9.4</td><td>—</td></tr>
-              <tr><td>Allocations</td><td>7.2</td><td>7.5</td><td class="fav">−0.3</td><td class="fav">−4.0%</td><td>6.6</td><td class="unf">+9.1%</td><td>7.1</td><td class="unf">+1.4%</td></tr>
-              <tr class="bold"><td>Total expenses</td><td>115.3</td><td>118.5</td><td class="fav">−3.2</td><td class="fav">−2.7%</td><td>106.8</td><td class="unf">+8.0%</td><td>113.7</td><td class="unf">+1.4%</td></tr>
-              <tr class="subtotal"><td>NOI</td><td>43.1</td><td>33.5</td><td class="fav">+9.6</td><td class="fav">+28.7%</td><td>32.7</td><td class="fav">+31.8%</td><td>41.2</td><td class="fav">+4.6%</td></tr>
-              <tr><td>NOI margin %</td><td>27.2%</td><td>22.0%</td><td class="fav">+5.2 pp</td><td class="fav">+23.6%</td><td>23.4%</td><td class="fav">+3.8 pp</td><td>26.6%</td><td class="fav">+0.6 pp</td></tr>
-              <tr><td>Clients (average)</td><td>58,140</td><td>56,500</td><td class="fav">+1,640</td><td class="fav">+2.9%</td><td>53,200</td><td class="fav">+9.3%</td><td>57,680</td><td class="fav">+0.8%</td></tr>
-              <tr><td>Headcount (ending) ↗</td><td>1,680</td><td>1,650</td><td class="fav">+30</td><td class="fav">+1.8%</td><td>1,540</td><td class="fav">+9.1%</td><td>1,665</td><td class="fav">+0.9%</td></tr>
-              <tr><td>FTE (average) ↗</td><td>1,645</td><td>1,620</td><td class="fav">+25</td><td class="fav">+1.5%</td><td>1,510</td><td class="fav">+8.9%</td><td>1,638</td><td class="fav">+0.4%</td></tr>
+              <tr><td>Income summary sales</td><td>38.7</td><td>34.0</td><td class="fav">+4.7</td><td class="fav">+13.8%</td><td>28.4</td><td class="fav">+36.3%</td><td>36.9</td><td class="fav">+4.9%</td></tr>
+              <tr><td>Retention %</td><td>95.8%</td><td>93.5%</td><td class="fav">+2.3 pp</td><td class="fav">+2.5%</td><td>91.7%</td><td class="fav">+4.1 pp</td><td>95.2%</td><td class="fav">+0.6 pp</td></tr>
+              <tr class="bold"><td>↓ Revenue</td><td>247.6</td><td>228.0</td><td class="fav">+19.6</td><td class="fav">+8.6%</td><td>197.3</td><td class="fav">+25.5%</td><td>240.1</td><td class="fav">+3.1%</td></tr>
+              <tr class="indent"><td>↓ Core K</td><td>188.4</td><td>172.0</td><td class="fav">+16.4 <span class="dot-fav"></span></td><td class="fav">+9.5%</td><td>150.6</td><td class="fav">+25.1%</td><td>182.7</td><td class="fav">+3.1%</td></tr>
+              <tr class="indent2"><td>Direct ↗</td><td>139.2</td><td>127.5</td><td class="fav">+11.7</td><td class="fav">+9.2%</td><td>111.0</td><td class="fav">+25.4%</td><td>135.0</td><td class="fav">+3.1%</td></tr>
+              <tr class="indent2"><td>Partner ↗</td><td>49.2</td><td>44.5</td><td class="fav">+4.7</td><td class="fav">+10.6%</td><td>39.6</td><td class="fav">+24.2%</td><td>47.7</td><td class="fav">+3.1%</td></tr>
+              <tr class="indent"><td>↓ Simple</td><td>59.2</td><td>56.0</td><td class="fav">+3.2</td><td class="fav">+5.7%</td><td>46.7</td><td class="fav">+26.8%</td><td>57.4</td><td class="fav">+3.1%</td></tr>
+              <tr class="indent2"><td>Direct ↗</td><td>44.8</td><td>42.0</td><td class="fav">+2.8</td><td class="fav">+6.7%</td><td>35.3</td><td class="fav">+26.9%</td><td>43.4</td><td class="fav">+3.2%</td></tr>
+              <tr class="indent2"><td>Partner ↗</td><td>14.4</td><td>14.0</td><td class="fav">+0.4</td><td class="fav">+2.9%</td><td>11.4</td><td class="fav">+26.3%</td><td>14.0</td><td class="fav">+2.9%</td></tr>
+              <tr><td>Field expense ↗</td><td>138.3</td><td>144.0</td><td class="fav">−5.7</td><td class="fav">−4.0%</td><td>122.5</td><td class="unf">+12.9%</td><td>136.8</td><td class="unf">+1.1%</td></tr>
+              <tr class="bold"><td>Field operating NOI</td><td>109.3</td><td>84.0</td><td class="fav">+25.3</td><td class="fav">+30.1%</td><td>74.8</td><td class="fav">+46.1%</td><td>103.3</td><td class="fav">+5.8%</td></tr>
+              <tr><td>Field operating NOI margin %</td><td>44.2%</td><td>36.8%</td><td class="fav">+7.4 pp</td><td class="fav">+20.1%</td><td>37.9%</td><td class="fav">+6.3 pp</td><td>43.0%</td><td class="fav">+1.2 pp</td></tr>
+              <tr><td>NDE</td><td>12.8</td><td>14.5</td><td class="fav">−1.7</td><td class="fav">−11.7%</td><td>11.4</td><td class="unf">+12.3%</td><td>12.9</td><td class="fav">−0.8%</td></tr>
+              <tr><td>Allocations</td><td>9.6</td><td>10.5</td><td class="fav">−0.9</td><td class="fav">−8.6%</td><td>8.3</td><td class="unf">+15.7%</td><td>9.5</td><td class="unf">+1.1%</td></tr>
+              <tr class="bold"><td>Total expenses</td><td>160.7</td><td>169.0</td><td class="fav">−8.3</td><td class="fav">−4.9%</td><td>142.2</td><td class="unf">+13.0%</td><td>159.2</td><td class="unf">+0.9%</td></tr>
+              <tr class="subtotal"><td>NOI</td><td>86.9</td><td>59.0</td><td class="fav">+27.9</td><td class="fav">+47.3%</td><td>55.1</td><td class="fav">+57.7%</td><td>80.9</td><td class="fav">+7.4%</td></tr>
+              <tr><td>NOI margin %</td><td>35.1%</td><td>25.9%</td><td class="fav">+9.2 pp</td><td class="fav">+35.5%</td><td>27.9%</td><td class="fav">+7.2 pp</td><td>33.7%</td><td class="fav">+1.4 pp</td></tr>
+              <tr><td>Clients (average)</td><td>84,320</td><td>79,000</td><td class="fav">+5,320</td><td class="fav">+6.7%</td><td>70,140</td><td class="fav">+20.2%</td><td>82,650</td><td class="fav">+2.0%</td></tr>
+              <tr><td>Headcount (ending) ↗</td><td>2,480</td><td>2,350</td><td class="fav">+130</td><td class="fav">+5.5%</td><td>2,110</td><td class="fav">+17.5%</td><td>2,430</td><td class="fav">+2.1%</td></tr>
+              <tr><td>FTE (average) ↗</td><td>2,417</td><td>2,300</td><td class="fav">+117</td><td class="fav">+5.1%</td><td>2,068</td><td class="fav">+16.9%</td><td>2,371</td><td class="fav">+1.9%</td></tr>
             </tbody>
           </table>
         </div>
@@ -409,10 +410,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Sales (income summary)</td><td>24.3</td><td>22.5</td><td class="fav">+1.8</td><td class="fav">+8.0%</td><td>20.1</td><td class="fav">+20.9%</td><td>23.7</td><td class="fav">+2.5%</td></tr>
-              <tr><td>Starts</td><td>19.2</td><td>17.5</td><td class="fav">+1.7</td><td class="fav">+9.7%</td><td>15.4</td><td class="fav">+24.7%</td><td>18.6</td><td class="fav">+3.2%</td></tr>
-              <tr><td>Losses · aggregate only</td><td>3.1</td><td>3.8</td><td class="fav">−0.7</td><td class="fav">−18.4%</td><td>4.4</td><td class="fav">−29.5%</td><td>3.4</td><td class="fav">−8.8%</td></tr>
-              <tr><td>Retention %</td><td>94.1%</td><td>93.0%</td><td class="fav">+1.1 pp</td><td class="fav">+1.2%</td><td>92.3%</td><td class="fav">+1.8 pp</td><td>93.8%</td><td class="fav">+0.3 pp</td></tr>
+              <tr><td>Sales (income summary)</td><td>38.7</td><td>34.0</td><td class="fav">+4.7</td><td class="fav">+13.8%</td><td>28.4</td><td class="fav">+36.3%</td><td>36.9</td><td class="fav">+4.9%</td></tr>
+              <tr><td>Starts</td><td>31.4</td><td>27.0</td><td class="fav">+4.4</td><td class="fav">+16.3%</td><td>22.1</td><td class="fav">+42.1%</td><td>29.8</td><td class="fav">+5.4%</td></tr>
+              <tr><td>Losses · aggregate only</td><td>2.6</td><td>4.2</td><td class="fav">−1.6</td><td class="fav">−38.1%</td><td>5.8</td><td class="fav">−55.2%</td><td>3.1</td><td class="fav">−16.1%</td></tr>
+              <tr><td>Retention %</td><td>95.8%</td><td>93.5%</td><td class="fav">+2.3 pp</td><td class="fav">+2.5%</td><td>91.7%</td><td class="fav">+4.1 pp</td><td>95.2%</td><td class="fav">+0.6 pp</td></tr>
             </tbody>
           </table>
         </div>

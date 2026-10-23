@@ -6,7 +6,7 @@
 <title>Sales (Income Summary)</title>
 <style>
   /* -- V2 Design System -- */
-  :root { --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28; --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
+  :root { --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f; --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
   /* Chrome */
@@ -15,7 +15,7 @@
   .chrome-logo { font-family:"Arial Black",Helvetica,Arial,sans-serif; font-weight:900; font-style:italic; color:var(--adp); font-size:15px; letter-spacing:-0.5px; margin-right:4px; }
   .chrome-r { display:flex; align-items:center; gap:18px; font-size:12px; color:var(--muted); }
   .chrome-r b { color:var(--navy); font-weight:600; }
-  .avatar { width:28px; height:28px; border-radius:50%; background:#6929C4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:#5b2fc0; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
   /* Shell */
   .shell { display:flex; flex:1; overflow:hidden; }
   /* Sidebar */
@@ -59,12 +59,12 @@
   /* Right panel */
   .panel { width:var(--panel-w); background:#fff; border-left:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; }
   .panel-hdr { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; }
-  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#6929C4,#1192E8); flex:none; }
+  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#5b2fc0,#3f8fe0); flex:none; }
   .panel-title { font-size:13px; font-weight:700; }
   .panel-sub { font-size:11px; color:var(--muted); }
   .panel-body { padding:12px 14px; flex:1; }
   .ai-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:10px; }
-  .ai-tag.draft { background:#e8daff; color:#6929C4; }
+  .ai-tag.draft { background:#e8daff; color:#5b2fc0; }
   .ai-tag.review { background:#fff3cd; color:#B28600; margin-left:4px; }
   .panel-period { font-size:11px; font-weight:600; color:var(--muted); margin:10px 0 8px; }
   .ai-headline { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.3; }
@@ -94,8 +94,8 @@
   td { padding: 5px 8px; text-align: right; border-bottom: 1px solid #e5e7eb; }
   th:first-child, td:first-child { text-align: left; }
   tr.total td { font-weight: 600; background: #f7f8fa; }
-  .up { color: #198038; }
-  .down { color: #FA4D56; }
+  .up { color: #2e7d32; }
+  .down { color: #c8322f; }
   .legend { font-size: 12px; color: #57606a; margin: 6px 0 4px; }
   .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
   .legend span.sw:first-child { margin-left: 0; }
@@ -103,10 +103,11 @@
   svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
   svg text.d { fill: #1f2328; }
   svg text.w { fill: #fff; font-size: 12px; font-weight: 600; }
-  svg text.g { fill: #198038; }
-  svg text.r { fill: #FA4D56; }
+  svg text.g { fill: #2e7d32; }
+  svg text.r { fill: #c8322f; }
   .ins { font-size: 13px; margin-top: 6px; }
 </style>
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <div class="chrome">
@@ -181,13 +182,13 @@
   </tbody>
 </table>
 
-<div class="legend"><span class="sw" style="background:#1192E8"></span>Sales<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year ($M)</div>
+<div class="legend"><span class="sw" style="background:#3f8fe0"></span>Sales<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#5b2fc0"></span>Last year ($M)</div>
 <svg viewBox="0 0 720 250" role="img" aria-label="Grouped bar chart of monthly sales vs plan and last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="153.3" x2="700" y2="153.3"/><line x1="50" y1="86.7" x2="700" y2="86.7"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="157">3</text><text x="44" y="91">6</text><text x="44" y="24">10</text></g>
-  <g fill="#1192E8"><rect x="62.2" y="83.3" width="28" height="136.7"/><rect x="170.5" y="71.7" width="28" height="148.3"/><rect x="278.9" y="46.7" width="28" height="173.3"/><rect x="387.2" y="68.3" width="28" height="151.7"/><rect x="495.5" y="50" width="28" height="170"/><rect x="603.9" y="36.7" width="28" height="183.3"/></g>
+  <g fill="#3f8fe0"><rect x="62.2" y="83.3" width="28" height="136.7"/><rect x="170.5" y="71.7" width="28" height="148.3"/><rect x="278.9" y="46.7" width="28" height="173.3"/><rect x="387.2" y="68.3" width="28" height="151.7"/><rect x="495.5" y="50" width="28" height="170"/><rect x="603.9" y="36.7" width="28" height="183.3"/></g>
   <g fill="#9ca3af"><rect x="90.2" y="78.3" width="28" height="141.7"/><rect x="198.5" y="66.7" width="28" height="153.3"/><rect x="306.9" y="53.3" width="28" height="166.7"/><rect x="415.2" y="60" width="28" height="160"/><rect x="523.5" y="53.3" width="28" height="166.7"/><rect x="631.9" y="46.7" width="28" height="173.3"/></g>
-  <g fill="#6929C4"><rect x="118.2" y="96.7" width="28" height="123.3"/><rect x="226.5" y="85" width="28" height="135"/><rect x="334.9" y="66.7" width="28" height="153.3"/><rect x="443.2" y="80" width="28" height="140"/><rect x="551.5" y="70" width="28" height="150"/><rect x="659.9" y="58.3" width="28" height="161.7"/></g>
+  <g fill="#5b2fc0"><rect x="118.2" y="96.7" width="28" height="123.3"/><rect x="226.5" y="85" width="28" height="135"/><rect x="334.9" y="66.7" width="28" height="153.3"/><rect x="443.2" y="80" width="28" height="140"/><rect x="551.5" y="70" width="28" height="150"/><rect x="659.9" y="58.3" width="28" height="161.7"/></g>
   <g text-anchor="middle">
     <text class="d" x="76.2" y="77">6.6</text><text class="d" x="184.5" y="65">7.1</text><text class="d" x="292.9" y="40">8.3</text><text class="d" x="401.2" y="62">7.3</text><text class="d" x="509.5" y="44">8.2</text><text class="d" x="617.9" y="30">8.8</text>
     <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
@@ -219,14 +220,14 @@
   </tbody>
 </table>
 
-<div class="legend"><span class="sw" style="background:#1192E8"></span>Units<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year (axis starts at 280)</div>
+<div class="legend"><span class="sw" style="background:#3f8fe0"></span>Units<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#5b2fc0"></span>Last year (axis starts at 280)</div>
 <svg viewBox="0 0 720 250" role="img" aria-label="Line chart of units sold vs plan and last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="180" x2="700" y2="180"/><line x1="50" y1="140" x2="700" y2="140"/><line x1="50" y1="100" x2="700" y2="100"/><line x1="50" y1="60" x2="700" y2="60"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">280</text><text x="44" y="184">320</text><text x="44" y="144">360</text><text x="44" y="104">400</text><text x="44" y="64">440</text><text x="44" y="24">480</text></g>
-  <polyline fill="none" stroke="#6929C4" stroke-width="2" points="104.2,196 212.5,172 320.8,124 429.2,156 537.5,128 645.8,100"/>
+  <polyline fill="none" stroke="#5b2fc0" stroke-width="2" points="104.2,196 212.5,172 320.8,124 429.2,156 537.5,128 645.8,100"/>
   <polyline fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 4" points="104.2,164 212.5,140 320.8,100 429.2,124 537.5,96 645.8,80"/>
-  <polyline fill="none" stroke="#1192E8" stroke-width="2" points="104.2,172 212.5,144 320.8,84 429.2,136 537.5,88 645.8,52"/>
-  <g fill="#1192E8"><circle cx="104.2" cy="172" r="3"/><circle cx="212.5" cy="144" r="3"/><circle cx="320.8" cy="84" r="3"/><circle cx="429.2" cy="136" r="3"/><circle cx="537.5" cy="88" r="3"/><circle cx="645.8" cy="52" r="3"/></g>
+  <polyline fill="none" stroke="#3f8fe0" stroke-width="2" points="104.2,172 212.5,144 320.8,84 429.2,136 537.5,88 645.8,52"/>
+  <g fill="#3f8fe0"><circle cx="104.2" cy="172" r="3"/><circle cx="212.5" cy="144" r="3"/><circle cx="320.8" cy="84" r="3"/><circle cx="429.2" cy="136" r="3"/><circle cx="537.5" cy="88" r="3"/><circle cx="645.8" cy="52" r="3"/></g>
   <g text-anchor="middle">
     <text class="d" x="104.2" y="164">328</text><text class="d" x="212.5" y="136">356</text><text class="d" x="320.8" y="76">416</text><text class="d" x="429.2" y="128">364</text><text class="d" x="537.5" y="80">412</text><text class="d" x="645.8" y="44">448</text>
     <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
@@ -257,13 +258,13 @@
   </tbody>
 </table>
 
-<div class="legend"><strong>Attach rate (% of units)</strong><span class="sw" style="background:#1192E8"></span>YTD<span class="sw" style="background:#6929C4"></span>LY</div>
+<div class="legend"><strong>Attach rate (% of units)</strong><span class="sw" style="background:#3f8fe0"></span>YTD<span class="sw" style="background:#5b2fc0"></span>LY</div>
 <svg viewBox="0 0 720 295" role="img" aria-label="Grouped bar chart of attach rate by pillar, YTD vs last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="150" y1="20" x2="150" y2="270"/><line x1="275" y1="20" x2="275" y2="270"/><line x1="400" y1="20" x2="400" y2="270"/><line x1="525" y1="20" x2="525" y2="270"/><line x1="650" y1="20" x2="650" y2="270"/></g>
   <g text-anchor="middle"><text x="150" y="287">0%</text><text x="275" y="287">25%</text><text x="400" y="287">50%</text><text x="525" y="287">75%</text><text x="650" y="287">100%</text></g>
   <g text-anchor="end"><text class="d" x="142" y="45">Payroll</text><text class="d" x="142" y="95">Time &amp; Attendance</text><text class="d" x="142" y="145">Talent</text><text class="d" x="142" y="195">Benefits Admin</text><text class="d" x="142" y="245">HR Advisory</text></g>
-  <g fill="#1192E8"><rect x="150" y="26" width="500" height="16"/><rect x="150" y="76" width="310" height="16"/><rect x="150" y="126" width="190" height="16"/><rect x="150" y="176" width="225" height="16"/><rect x="150" y="226" width="135" height="16"/></g>
-  <g fill="#6929C4"><rect x="150" y="44" width="500" height="16"/><rect x="150" y="94" width="290" height="16"/><rect x="150" y="144" width="165" height="16"/><rect x="150" y="194" width="220" height="16"/><rect x="150" y="244" width="120" height="16"/></g>
+  <g fill="#3f8fe0"><rect x="150" y="26" width="500" height="16"/><rect x="150" y="76" width="310" height="16"/><rect x="150" y="126" width="190" height="16"/><rect x="150" y="176" width="225" height="16"/><rect x="150" y="226" width="135" height="16"/></g>
+  <g fill="#5b2fc0"><rect x="150" y="44" width="500" height="16"/><rect x="150" y="94" width="290" height="16"/><rect x="150" y="144" width="165" height="16"/><rect x="150" y="194" width="220" height="16"/><rect x="150" y="244" width="120" height="16"/></g>
   <g>
     <text class="d" x="654" y="38">100%</text><text class="d" x="464" y="88">62%</text><text class="d" x="344" y="138">38%</text><text class="d" x="379" y="188">45%</text><text class="d" x="289" y="238">27%</text>
     <text class="d" x="654" y="56">100%</text><text class="d" x="444" y="106">58%</text><text class="d" x="319" y="156">33%</text><text class="d" x="374" y="206">44%</text><text class="d" x="274" y="256">24%</text>
@@ -284,7 +285,7 @@
   </tbody>
 </table>
 <svg viewBox="0 0 720 90" role="img" aria-label="Stacked bar of sales mix: new business, migration, additional business">
-  <rect x="50" y="24" width="325" height="40" fill="#1192E8"/><rect x="375" y="24" width="194.4" height="40" fill="#6929C4"/><rect x="569.4" y="24" width="130.6" height="40" fill="#9ca3af"/>
+  <rect x="50" y="24" width="325" height="40" fill="#3f8fe0"/><rect x="375" y="24" width="194.4" height="40" fill="#5b2fc0"/><rect x="569.4" y="24" width="130.6" height="40" fill="#9ca3af"/>
   <g text-anchor="middle"><text class="w" x="212.5" y="49">New Business 50.0%</text><text class="w" x="472.2" y="49">Migration 29.9%</text><text class="w" x="634.7" y="49">AB 20.1%</text></g>
 </svg>
 <div class="ins"><strong>Insight:</strong> New Business is half of sales and has the highest value per unit ($20.9K). Migration is nearly 30% of sales at the lowest value per unit.</div>
@@ -307,11 +308,11 @@
 <svg viewBox="0 0 720 250" role="img" aria-label="Waterfall chart from gross sales to net sales">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="153.3" x2="700" y2="153.3"/><line x1="50" y1="86.7" x2="700" y2="86.7"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">40</text><text x="44" y="157">44</text><text x="44" y="91">48</text><text x="44" y="24">52</text></g>
-  <rect x="80" y="52" width="70" height="168" fill="#1192E8"/>
-  <rect x="210" y="52" width="70" height="52" fill="#FA4D56"/>
-  <rect x="340" y="96" width="70" height="8" fill="#198038"/>
-  <rect x="470" y="96" width="70" height="20" fill="#FA4D56"/>
-  <rect x="600" y="116" width="70" height="104" fill="#1192E8"/>
+  <rect x="80" y="52" width="70" height="168" fill="#3f8fe0"/>
+  <rect x="210" y="52" width="70" height="52" fill="#c8322f"/>
+  <rect x="340" y="96" width="70" height="8" fill="#2e7d32"/>
+  <rect x="470" y="96" width="70" height="20" fill="#c8322f"/>
+  <rect x="600" y="116" width="70" height="104" fill="#3f8fe0"/>
   <g text-anchor="middle">
     <text class="d" x="115" y="46">50.1</text><text class="r" x="245" y="46">-3.1</text><text class="g" x="375" y="90">+0.5</text><text class="r" x="505" y="90">-1.2</text><text class="d" x="635" y="110">46.2</text>
     <text x="115" y="238">Gross Sales</text><text x="245" y="238">No-Start</text><text x="375" y="238">Re-Start</text><text x="505" y="238">Audit</text><text x="635" y="238">Net Sales</text>
@@ -331,14 +332,14 @@
     <tr class="total"><td>YTD</td><td>6.2%</td><td></td><td>5.7%</td><td>+0.4</td></tr>
   </tbody>
 </table>
-<div class="legend"><span class="sw" style="background:#1192E8"></span>% No-Start<span class="sw" style="background:#6929C4"></span>LY (axis starts at 4%)</div>
+<div class="legend"><span class="sw" style="background:#3f8fe0"></span>% No-Start<span class="sw" style="background:#5b2fc0"></span>LY (axis starts at 4%)</div>
 <svg viewBox="0 0 720 250" role="img" aria-label="Line chart of percent no-start by month vs last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">4%</text><text x="44" y="174">5%</text><text x="44" y="124">6%</text><text x="44" y="74">7%</text><text x="44" y="24">8%</text></g>
-  <polyline fill="none" stroke="#6929C4" stroke-width="2" points="104.2,145 212.5,135 320.8,130 429.2,110 537.5,120 645.8,115"/>
-  <polyline fill="none" stroke="#1192E8" stroke-width="2" points="104.2,130 212.5,125 320.8,120 429.2,35 537.5,80 645.8,85"/>
-  <g fill="#6929C4"><circle cx="104.2" cy="145" r="3"/><circle cx="212.5" cy="135" r="3"/><circle cx="320.8" cy="130" r="3"/><circle cx="429.2" cy="110" r="3"/><circle cx="537.5" cy="120" r="3"/><circle cx="645.8" cy="115" r="3"/></g>
-  <g fill="#1192E8"><circle cx="104.2" cy="130" r="3"/><circle cx="212.5" cy="125" r="3"/><circle cx="320.8" cy="120" r="3"/><circle cx="429.2" cy="35" r="3"/><circle cx="537.5" cy="80" r="3"/><circle cx="645.8" cy="85" r="3"/></g>
+  <polyline fill="none" stroke="#5b2fc0" stroke-width="2" points="104.2,145 212.5,135 320.8,130 429.2,110 537.5,120 645.8,115"/>
+  <polyline fill="none" stroke="#3f8fe0" stroke-width="2" points="104.2,130 212.5,125 320.8,120 429.2,35 537.5,80 645.8,85"/>
+  <g fill="#5b2fc0"><circle cx="104.2" cy="145" r="3"/><circle cx="212.5" cy="135" r="3"/><circle cx="320.8" cy="130" r="3"/><circle cx="429.2" cy="110" r="3"/><circle cx="537.5" cy="120" r="3"/><circle cx="645.8" cy="115" r="3"/></g>
+  <g fill="#3f8fe0"><circle cx="104.2" cy="130" r="3"/><circle cx="212.5" cy="125" r="3"/><circle cx="320.8" cy="120" r="3"/><circle cx="429.2" cy="35" r="3"/><circle cx="537.5" cy="80" r="3"/><circle cx="645.8" cy="85" r="3"/></g>
   <g text-anchor="middle">
     <text class="d" x="104.2" y="122">4.5</text><text class="d" x="212.5" y="117">4.6</text><text class="d" x="320.8" y="112">4.6</text><text class="d" x="429.2" y="27">6.0</text><text class="d" x="537.5" y="72">5.1</text><text class="d" x="645.8" y="77">5.0</text>
     <text x="104.2" y="159">4.2</text><text x="212.5" y="149">4.4</text><text x="320.8" y="144">4.5</text><text x="429.2" y="124">4.8</text><text x="537.5" y="134">4.6</text><text x="645.8" y="129">4.7</text>
@@ -361,13 +362,13 @@
     <tr class="total"><td>Total</td><td>79</td><td>70</td><td>+13.8%</td></tr>
   </tbody>
 </table>
-<div class="legend"><span class="sw" style="background:#1192E8"></span>Wins YTD<span class="sw" style="background:#6929C4"></span>Wins LY</div>
+<div class="legend"><span class="sw" style="background:#3f8fe0"></span>Wins YTD<span class="sw" style="background:#5b2fc0"></span>Wins LY</div>
 <svg viewBox="0 0 720 295" role="img" aria-label="Grouped bar chart of competitor wins, YTD vs last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="150" y1="20" x2="150" y2="270"/><line x1="275" y1="20" x2="275" y2="270"/><line x1="400" y1="20" x2="400" y2="270"/><line x1="525" y1="20" x2="525" y2="270"/><line x1="650" y1="20" x2="650" y2="270"/></g>
   <g text-anchor="middle"><text x="150" y="287">0</text><text x="275" y="287">8</text><text x="400" y="287">16</text><text x="525" y="287">24</text><text x="650" y="287">32</text></g>
   <g text-anchor="end"><text class="d" x="142" y="45">Competitor A</text><text class="d" x="142" y="95">Competitor B</text><text class="d" x="142" y="145">Competitor C</text><text class="d" x="142" y="195">Competitor D</text><text class="d" x="142" y="245">No competitor</text></g>
-  <g fill="#1192E8"><rect x="150" y="26" width="237.5" height="16"/><rect x="150" y="76" width="262.5" height="16"/><rect x="150" y="126" width="137.5" height="16"/><rect x="150" y="176" width="187.5" height="16"/><rect x="150" y="226" width="412.5" height="16"/></g>
-  <g fill="#6929C4"><rect x="150" y="44" width="212.5" height="16"/><rect x="150" y="94" width="225" height="16"/><rect x="150" y="144" width="150" height="16"/><rect x="150" y="194" width="137.5" height="16"/><rect x="150" y="244" width="362.5" height="16"/></g>
+  <g fill="#3f8fe0"><rect x="150" y="26" width="237.5" height="16"/><rect x="150" y="76" width="262.5" height="16"/><rect x="150" y="126" width="137.5" height="16"/><rect x="150" y="176" width="187.5" height="16"/><rect x="150" y="226" width="412.5" height="16"/></g>
+  <g fill="#5b2fc0"><rect x="150" y="44" width="212.5" height="16"/><rect x="150" y="94" width="225" height="16"/><rect x="150" y="144" width="150" height="16"/><rect x="150" y="194" width="137.5" height="16"/><rect x="150" y="244" width="362.5" height="16"/></g>
   <g>
     <text class="d" x="391.5" y="38">15</text><text class="d" x="416.5" y="88">17</text><text class="d" x="291.5" y="138">9</text><text class="d" x="341.5" y="188">12</text><text class="d" x="566.5" y="238">26</text>
     <text class="d" x="366.5" y="56">14</text><text class="d" x="379" y="106">14</text><text class="d" x="304" y="156">10</text><text class="d" x="291.5" y="206">9</text><text class="d" x="516.5" y="256">23</text>
@@ -386,12 +387,12 @@
     <tr class="total"><td>YTD</td><td>3.9</td><td>8.5%</td><td>7.9%</td><td>$1,687</td><td>$1,544</td><td>+9.3%</td></tr>
   </tbody>
 </table>
-<div class="legend"><strong>Setup sold as % of sales</strong><span class="sw" style="background:#1192E8"></span>This year<span class="sw" style="background:#6929C4"></span>LY</div>
+<div class="legend"><strong>Setup sold as % of sales</strong><span class="sw" style="background:#3f8fe0"></span>This year<span class="sw" style="background:#5b2fc0"></span>LY</div>
 <svg viewBox="0 0 720 250" role="img" aria-label="Bar chart of setup sold as percent of sales, this year vs last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">0%</text><text x="44" y="124">5%</text><text x="44" y="24">10%</text></g>
-  <g fill="#1192E8"><rect x="108.3" y="52" width="50" height="168"/><rect x="325" y="48" width="50" height="172"/><rect x="541.7" y="50" width="50" height="170"/></g>
-  <g fill="#6929C4"><rect x="158.3" y="66" width="50" height="154"/><rect x="375" y="58" width="50" height="162"/><rect x="591.7" y="62" width="50" height="158"/></g>
+  <g fill="#3f8fe0"><rect x="108.3" y="52" width="50" height="168"/><rect x="325" y="48" width="50" height="172"/><rect x="541.7" y="50" width="50" height="170"/></g>
+  <g fill="#5b2fc0"><rect x="158.3" y="66" width="50" height="154"/><rect x="375" y="58" width="50" height="162"/><rect x="591.7" y="62" width="50" height="158"/></g>
   <g text-anchor="middle">
     <text class="d" x="133.3" y="46">8.4%</text><text class="d" x="183.3" y="60">7.7%</text><text class="d" x="350" y="42">8.6%</text><text class="d" x="400" y="52">8.1%</text><text class="d" x="566.7" y="44">8.5%</text><text class="d" x="616.7" y="56">7.9%</text>
     <text x="158.3" y="238">Q1</text><text x="375" y="238">Q2</text><text x="591.7" y="238">YTD</text>
@@ -413,12 +414,12 @@
     <tr class="total"><td>Total</td><td>46.2</td><td>100.0%</td><td>2,324</td><td></td><td></td><td></td></tr>
   </tbody>
 </table>
-<div class="legend"><strong>Market share by segment</strong><span class="sw" style="background:#1192E8"></span>YTD<span class="sw" style="background:#6929C4"></span>LY</div>
+<div class="legend"><strong>Market share by segment</strong><span class="sw" style="background:#3f8fe0"></span>YTD<span class="sw" style="background:#5b2fc0"></span>LY</div>
 <svg viewBox="0 0 720 250" role="img" aria-label="Grouped bar chart of market share by employee-size segment, YTD vs last year">
   <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
   <g text-anchor="end"><text x="44" y="224">0%</text><text x="44" y="174">4%</text><text x="44" y="124">8%</text><text x="44" y="74">12%</text><text x="44" y="24">16%</text></g>
-  <g fill="#1192E8"><rect x="75" y="42.5" width="40" height="177.5"/><rect x="205" y="60" width="40" height="160"/><rect x="335" y="76.3" width="40" height="143.7"/><rect x="465" y="100" width="40" height="120"/><rect x="595" y="121.3" width="40" height="98.7"/></g>
-  <g fill="#6929C4"><rect x="115" y="46.3" width="40" height="173.7"/><rect x="245" y="63.8" width="40" height="156.2"/><rect x="375" y="77.5" width="40" height="142.5"/><rect x="505" y="96.3" width="40" height="123.7"/><rect x="635" y="127.5" width="40" height="92.5"/></g>
+  <g fill="#3f8fe0"><rect x="75" y="42.5" width="40" height="177.5"/><rect x="205" y="60" width="40" height="160"/><rect x="335" y="76.3" width="40" height="143.7"/><rect x="465" y="100" width="40" height="120"/><rect x="595" y="121.3" width="40" height="98.7"/></g>
+  <g fill="#5b2fc0"><rect x="115" y="46.3" width="40" height="173.7"/><rect x="245" y="63.8" width="40" height="156.2"/><rect x="375" y="77.5" width="40" height="142.5"/><rect x="505" y="96.3" width="40" height="123.7"/><rect x="635" y="127.5" width="40" height="92.5"/></g>
   <g text-anchor="middle">
     <text class="d" x="95" y="36">11.4</text><text class="d" x="135" y="40">11.1</text><text class="d" x="225" y="54">10.2</text><text class="d" x="265" y="58">10.0</text><text class="d" x="355" y="70">9.2</text><text class="d" x="395" y="71">9.1</text><text class="d" x="485" y="94">7.7</text><text class="d" x="525" y="90">7.9</text><text class="d" x="615" y="115">6.3</text><text class="d" x="655" y="121">5.9</text>
     <text x="115" y="238">1K – 3K</text><text x="245" y="238">3K – 5K</text><text x="375" y="238">5K – 10K</text><text x="505" y="238">10K – 15K</text><text x="635" y="238">15K+</text>
