@@ -35,6 +35,8 @@
   .sb-link:hover { background: var(--hover); color: var(--navy); }
   .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
   .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
   .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
   .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
@@ -186,20 +188,25 @@
   <!-- ── Left sidebar ── -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-name">NAS · Lyric</div>
+      <div class="sb-bu-name">ADP · Polaris</div>
       <div class="sb-bu-label">Close Review · September</div>
     </div>
-    <div class="sb-section">Close Review</div>
-    <a class="sb-link active" href="#">BU dashboard</a>
-    <a class="sb-link" href="management_pl_NAS.html">Management P&amp;L</a>
-    <a class="sb-link" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
-    <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NPI P&amp;L</a>
-    <div class="sb-section" style="margin-top:4px">Within Field Expense</div>
-    <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount and FTE</a>
-    <a class="sb-link sub" href="nas_cons_pl_ytd_detail.html">NPI: Base / Implementation</a>
+    <div class="sb-section">BU Close Review</div>
+    <a class="sb-link active" href="nas_dashboard.html">NAS dashboard</a>
+    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
+    <div class="sb-sublabel">Within Field Expense</div>
+    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
+    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
     <div class="sb-divider"></div>
-    <div class="sb-note">BU-scoped workspace.<br>Access roles pending validation.</div>
-    <a class="sb-ext" href="cfo_dashboard.html">Corporate CFO dashboard ↗</a>
+    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
+    <a class="sb-link sub" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate</div>
+    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
   </nav>
 
   <!-- ── Main ── -->
@@ -466,7 +473,7 @@
           <div><div class="bot-link-title">Management P&amp;L</div><div class="bot-link-sub">Revenue · sales · retention</div></div>
           <span style="color:var(--blue);font-size:16px">↗</span>
         </a>
-        <a class="bot-link" href="variance_dashboard.html">
+        <a class="bot-link" href="fe_pl_NAS.html">
           <div><div class="bot-link-title">Field Expense P&amp;L</div><div class="bot-link-sub">Expense · Headcount and FTE</div></div>
           <span style="color:var(--blue);font-size:16px">↗</span>
         </a>

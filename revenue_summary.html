@@ -28,6 +28,8 @@
   .sb-link:hover { background:var(--hover); color:var(--navy); }
   .sb-link.active { color:var(--navy); font-weight:600; border-left-color:var(--blue); background:#edf4ff; }
   .sb-link.sub { padding-left:28px; font-size:12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
   .sb-note { font-size:11px; color:var(--muted); padding:10px 16px; line-height:1.4; }
   .sb-ext { display:block; padding:6px 16px; font-size:12px; color:var(--blue); text-decoration:none; }
   .sb-ext:hover { text-decoration:underline; }
@@ -112,35 +114,27 @@
 
 <div class="shell">
 <nav class="sidebar" aria-label="Navigation">
-  <div class="sb-bu"><div class="sb-bu-name">ADP<br>Project Polaris</div><div class="sb-bu-label">September Close &#183; Day&nbsp;4</div></div>
-  <div class="sb-section">Close Review</div>
-  <a class="sb-link" href="cfo_dash_v2.html">BU Dashboard</a>
-  <a class="sb-link" href="BU_cfo_v2.html">Management P&amp;L</a>
-  <a class="sb-link" href="variance_dashboard.html">Field Expense P&amp;L</a>
-  <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount &amp; FTE</a>
-  <div class="sb-divider"></div>
-  <div class="sb-section">Financials</div>
-  <a class="sb-link" href="consolidated_mth_ytd.html">Cons. Month &amp; YTD</a>
-  <a class="sb-link" href="consolidated_qtrs.html">Cons. Quarters</a>
-  <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NAS Cons P&amp;L</a>
-  <a class="sb-link active" href="revenue_summary.html">Revenue Summary</a>
-  <a class="sb-link" href="sales_income_summary.html">Sales Summary</a>
-  <div class="sb-divider"></div>
-  <div class="sb-section">Analysis</div>
-  <a class="sb-link" href="pipeline_kpi_report.html">Pipeline KPIs</a>
-  <a class="sb-link" href="portfolio_view_fy27_cons_month.html">Portfolio View</a>
-  <a class="sb-link" href="processing_revenue.html">Processing Revenue</a>
-  <a class="sb-link" href="q1_roy_full_year_forecast.html">Q1 / ROY Forecast</a>
-  <a class="sb-link" href="tabular.html">Tabular</a>
-  <a class="sb-link" href="te_point_to_point.html">T&amp;E Point to Point</a>
-  <div class="sb-divider"></div>
-  <div class="sb-section">BU Landing Pages</div>
-  <a class="sb-link" href="nas_landing.html">NAS BU Landing</a>
-  <a class="sb-link" href="rs_landing.html">RS BU Landing</a>
-  <a class="sb-link" href="cfo_dashboard.html">Executive KPI Dashboard</a>
-  <div class="sb-divider"></div>
-  <a class="sb-ext" href="index.html">&larr; Index</a>
-</nav>
+    <div class="sb-bu">
+      <div class="sb-bu-name">ADP · Polaris</div>
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">BU Close Review</div>
+    <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
+    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
+    <div class="sb-sublabel">Within Field Expense</div>
+    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
+    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
+    <a class="sb-link sub" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate</div>
+    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
+  </nav>
 
 <main class="main">
 <div class="titlebar">
