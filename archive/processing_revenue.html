@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Processing Revenue</title>
+<style>
+  /* ── V2 Design System ── */
+  :root { --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28; --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  /* Chrome */
+  .chrome { display:flex; align-items:center; justify-content:space-between; height:40px; background:#fff; border-bottom:1px solid var(--line); padding:0 16px; flex:none; }
+  .chrome-l { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--navy); }
+  .chrome-logo { font-family:"Arial Black",Helvetica,Arial,sans-serif; font-weight:900; font-style:italic; color:var(--adp); font-size:15px; letter-spacing:-0.5px; margin-right:4px; }
+  .chrome-r { display:flex; align-items:center; gap:18px; font-size:12px; color:var(--muted); }
+  .chrome-r b { color:var(--navy); font-weight:600; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:#6929C4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
+  /* Shell */
+  .shell { display:flex; flex:1; overflow:hidden; }
+  /* Sidebar */
+  .sidebar { width:var(--sidebar-w); background:#fff; border-right:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; padding-bottom:16px; }
+  .sb-bu { padding:12px 16px; border-bottom:1px solid var(--line); }
+  .sb-bu-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.2; }
+  .sb-bu-label { font-size:11px; color:var(--muted); }
+  .sb-section { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:14px 16px 4px; }
+  .sb-link { display:flex; align-items:center; gap:8px; padding:7px 16px 7px 14px; font-size:13px; color:var(--muted); text-decoration:none; border-left:3px solid transparent; }
+  .sb-link:hover { background:var(--hover); color:var(--navy); }
+  .sb-link.active { color:var(--navy); font-weight:600; border-left-color:var(--blue); background:#edf4ff; }
+  .sb-link.sub { padding-left:28px; font-size:12px; }
+  .sb-note { font-size:11px; color:var(--muted); padding:10px 16px; line-height:1.4; }
+  .sb-ext { display:block; padding:6px 16px; font-size:12px; color:var(--blue); text-decoration:none; }
+  .sb-ext:hover { text-decoration:underline; }
+  .sb-divider { height:1px; background:var(--line); margin:8px 0; }
+  /* Main */
+  .main { flex:1; overflow-y:auto; display:flex; flex-direction:column; min-width:0; }
+  .titlebar { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px 12px; flex:none; }
+  .breadcrumb { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .breadcrumb a { color:var(--blue); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { margin:0 5px; }
+  .title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .page-title { font-size:22px; font-weight:600; color:var(--navy); line-height:1.2; }
+  .page-sub { font-size:12px; color:var(--muted); margin-top:3px; }
+  .content { padding:20px 24px 40px; flex:1; overflow-y:auto; }
+  /* Suppress old layout artifacts */
+  .topbar { display:none !important; }
+  .back { display:none !important; }
+  .hdr { display:none !important; }
+  /* Keep existing content styles working */
+  h1 { font-size:22px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .note { background:var(--tile); border:1px solid var(--line); padding:10px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; }
+  .hint { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .footer { margin-top:36px; padding-top:10px; border-top:1px solid var(--line); text-align:center; font-size:12px; color:var(--muted); }
+  .wrap { max-width:none; }
+  /* Right panel */
+  .panel { width:var(--panel-w); background:#fff; border-left:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; }
+  .panel-hdr { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; }
+  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#6929C4,#1192E8); flex:none; }
+  .panel-title { font-size:13px; font-weight:700; }
+  .panel-sub { font-size:11px; color:var(--muted); }
+  .panel-body { padding:12px 14px; flex:1; }
+  .ai-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:10px; }
+  .ai-tag.draft { background:#e8daff; color:#6929C4; }
+  .ai-tag.review { background:#fff3cd; color:#B28600; margin-left:4px; }
+  .panel-period { font-size:11px; font-weight:600; color:var(--muted); margin:10px 0 8px; }
+  .ai-headline { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.3; }
+  .ai-body { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+  .reviewer { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .ai-actions { display:flex; gap:8px; margin-bottom:20px; }
+  .btn { font:inherit; font-size:12px; padding:6px 14px; cursor:pointer; border-radius:2px; }
+  .btn-ghost { background:transparent; border:1px solid var(--line); color:var(--navy); }
+  .btn-ghost:hover { background:var(--hover); }
+  .btn-primary { background:var(--blue); border:1px solid var(--blue); color:#fff; }
+  .btn-primary:hover { background:#0050e6; }
+  .panel-divider { height:1px; background:var(--line); margin:0 0 14px; }
+  .ask-label { font-size:12px; font-weight:600; margin-bottom:6px; }
+  .ask-input { width:100%; font:inherit; font-size:12px; color:var(--navy); background:var(--inner); border:1px solid var(--line); padding:7px 10px; resize:none; height:60px; }
+  .ask-input::placeholder { color:var(--muted); }
+  .panel-disclaimer { font-size:11px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); line-height:1.5; }
+  .disclaimer-title { font-weight:600; margin-bottom:3px; }
+
+  /* Page specific styles */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+  .kpi { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 12px; }
+  .kpi .v { font-size: 20px; font-weight: 600; }
+  .kpi .l { font-size: 11px; color: #57606a; }
+  h2 { font-size: 16px; margin-top: 28px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+  .desc { font-size: 12px; color: #57606a; margin: 4px 0 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 14px; }
+  th { background: #f7f8fa; border-bottom: 1px solid #e5e7eb; padding: 6px 8px; text-align: right; font-weight: 600; }
+  td { padding: 5px 8px; text-align: right; border-bottom: 1px solid #e5e7eb; }
+  th:first-child, td:first-child { text-align: left; }
+  tr.total td { font-weight: 600; background: #f7f8fa; }
+  table.wide { font-size: 12px; }
+  .up { color: #198038; }
+  .down { color: #FA4D56; }
+  .legend { font-size: 12px; color: #57606a; margin: 6px 0 4px; }
+  .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
+  .legend span.sw:first-child { margin-left: 0; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
+  svg text.d { fill: #1f2328; }
+  svg text.w { fill: #fff; font-weight: 600; }
+  .ins { font-size: 13px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="chrome">
+  <div class="chrome-l"><a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a> Project Polaris</div>
+  <div class="chrome-r"><span>SEPTEMBER CLOSE / DAY 4</span><b>FP&amp;A Lead</b><div class="avatar">JL</div></div>
+</div>
+
+<div class="shell">
+<nav class="sidebar" aria-label="Navigation">
+  <div class="sb-bu"><div class="sb-bu-name">ADP<br>Project Polaris</div><div class="sb-bu-label">September Close &#183; Day&nbsp;4</div></div>
+  <div class="sb-section">Close Review</div>
+  <a class="sb-link" href="cfo_dash_v2.html">BU Dashboard</a>
+  <a class="sb-link" href="BU_cfo_v2.html">Management P&amp;L</a>
+  <a class="sb-link" href="variance_dashboard.html">Field Expense P&amp;L</a>
+  <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount &amp; FTE</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Financials</div>
+  <a class="sb-link" href="consolidated_mth_ytd.html">Cons. Month &amp; YTD</a>
+  <a class="sb-link" href="consolidated_qtrs.html">Cons. Quarters</a>
+  <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NAS Cons P&amp;L</a>
+  <a class="sb-link" href="revenue_summary.html">Revenue Summary</a>
+  <a class="sb-link" href="sales_income_summary.html">Sales Summary</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Analysis</div>
+  <a class="sb-link" href="pipeline_kpi_report.html">Pipeline KPIs</a>
+  <a class="sb-link" href="portfolio_view_fy27_cons_month.html">Portfolio View</a>
+  <a class="sb-link active" href="processing_revenue.html">Processing Revenue</a>
+  <a class="sb-link" href="q1_roy_full_year_forecast.html">Q1 / ROY Forecast</a>
+  <a class="sb-link" href="tabular.html">Tabular</a>
+  <a class="sb-link" href="te_point_to_point.html">T&amp;E Point to Point</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">BU Landing Pages</div>
+  <a class="sb-link" href="nas_landing.html">NAS BU Landing</a>
+  <a class="sb-link" href="rs_landing.html">RS BU Landing</a>
+  <a class="sb-link" href="cfo_dashboard.html">Executive KPI Dashboard</a>
+  <div class="sb-divider"></div>
+  <a class="sb-ext" href="index.html">&larr; Index</a>
+</nav>
+
+<main class="main">
+<div class="titlebar">
+  <div class="breadcrumb"><a href="index.html">Home / Analysis</a></div>
+  <div class="title-row">
+    <div>
+      <div class="page-title">Processing Revenue</div>
+      <div class="page-sub">Processing revenue by segment and period vs Plan</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+<div class="wrap">
+
+<h1>Processing Revenue</h1>
+<div class="sub">Jan – Jun 2025 (YTD), $M unless noted</div>
+<div class="note"><strong>Illustrative data.</strong> All figures are sample values; replace them with your actuals. Processing revenue is the recurring per-pay revenue and is part of total revenue on the Revenue Summary page. Base FTE = processing and service staff. PEPM = processing revenue per employee paid per month. ROY = rest of year (Jul – Dec). Fcst = forecast. LY = last year.</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">$134.4M</div><div class="l">Processing revenue YTD</div></div>
+  <div class="kpi"><div class="v">100.6%</div><div class="l">of Plan ($133.6M)</div></div>
+  <div class="kpi"><div class="v">+9.1%</div><div class="l">Growth YoY</div></div>
+  <div class="kpi"><div class="v">70.0%</div><div class="l">of total revenue (LY 70.9%)</div></div>
+</div>
+
+<!-- 1 -->
+<h2>1. Processing Revenue ($M)</h2>
+<div class="desc">Monthly processing revenue vs Plan and last year</div>
+<table>
+  <thead><tr><th>Month</th><th>Proc Rev ($M)</th><th>Plan ($M)</th><th>% of Plan</th><th>LY ($M)</th><th>% Gr YoY</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>21.0</td><td>21.2</td><td class="down">98.9%</td><td>19.3</td><td class="up">+8.7%</td></tr>
+    <tr><td>Feb</td><td>21.8</td><td>21.6</td><td class="up">100.7%</td><td>19.9</td><td class="up">+9.2%</td></tr>
+    <tr><td>Mar</td><td>23.2</td><td>22.5</td><td class="up">103.2%</td><td>21.1</td><td class="up">+9.8%</td></tr>
+    <tr><td>Apr</td><td>22.1</td><td>22.2</td><td class="down">99.6%</td><td>20.5</td><td class="up">+7.8%</td></tr>
+    <tr><td>May</td><td>22.7</td><td>22.4</td><td class="up">101.4%</td><td>20.8</td><td class="up">+9.2%</td></tr>
+    <tr><td>Jun</td><td>23.7</td><td>23.8</td><td class="down">99.7%</td><td>21.6</td><td class="up">+9.6%</td></tr>
+    <tr class="total"><td>YTD</td><td>134.4</td><td>133.6</td><td>100.6%</td><td>123.2</td><td>+9.1%</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><span class="sw" style="background:#1192E8"></span>Processing revenue<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year ($M)</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Grouped bar chart of monthly processing revenue vs plan and last year">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="174">8</text><text x="44" y="124">16</text><text x="44" y="74">24</text><text x="44" y="24">32</text></g>
+  <g fill="#1192E8"><rect x="62.2" y="89" width="28" height="131"/><rect x="170.5" y="84" width="28" height="136"/><rect x="278.8" y="75" width="28" height="145"/><rect x="387.2" y="82" width="28" height="138"/><rect x="495.5" y="78" width="28" height="142"/><rect x="603.8" y="72" width="28" height="148"/></g>
+  <g fill="#9ca3af"><rect x="90.2" y="87.5" width="28" height="132.5"/><rect x="198.5" y="85" width="28" height="135"/><rect x="306.8" y="79.5" width="28" height="140.5"/><rect x="415.2" y="81.5" width="28" height="138.5"/><rect x="523.5" y="80" width="28" height="140"/><rect x="631.8" y="71.5" width="28" height="148.5"/></g>
+  <g fill="#6929C4"><rect x="118.2" y="99.5" width="28" height="120.5"/><rect x="226.5" y="95.5" width="28" height="124.5"/><rect x="334.8" y="88" width="28" height="132"/><rect x="443.2" y="92" width="28" height="128"/><rect x="551.5" y="90" width="28" height="130"/><rect x="659.8" y="85" width="28" height="135"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="76.2" y="83">21.0</text><text class="d" x="184.5" y="78">21.8</text><text class="d" x="292.8" y="69">23.2</text><text class="d" x="401.2" y="76">22.1</text><text class="d" x="509.5" y="72">22.7</text><text class="d" x="617.8" y="66">23.7</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Processing revenue is on Plan (100.6%) and up 9.1% YoY. March, the quarter-end month, is the strongest (103.2% of Plan). January, April and June each missed Plan by 1.1% or less.</div>
+
+<!-- 2 -->
+<h2>2. Rest-of-Year Growth Needed to Achieve Plan or Forecast</h2>
+<div class="desc">ROY (Jul – Dec) processing revenue required vs the same period last year</div>
+<table>
+  <thead><tr><th>Scenario</th><th>FY Target ($M)</th><th>YTD Actual ($M)</th><th>ROY Needed ($M)</th><th>LY ROY ($M)</th><th>ROY % Gr Needed</th><th>Needed / Month ($M)</th></tr></thead>
+  <tbody>
+    <tr><td>To achieve Plan</td><td>280.0</td><td>134.4</td><td>145.6</td><td>130.4</td><td>+11.7%</td><td>24.2</td></tr>
+    <tr><td>To achieve Forecast</td><td>280.8</td><td>134.4</td><td>146.4</td><td>130.4</td><td>+12.3%</td><td>24.4</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>ROY processing revenue ($M)</strong><span class="sw" style="background:#9ca3af"></span>LY ROY<span class="sw" style="background:#1192E8"></span>Needed for Plan<span class="sw" style="background:#6929C4"></span>Needed for Fcst</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Bar chart of last year rest-of-year revenue vs revenue needed to achieve plan and forecast">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="174">40</text><text x="44" y="124">80</text><text x="44" y="74">120</text><text x="44" y="24">160</text></g>
+  <rect x="130" y="57" width="90" height="163" fill="#9ca3af"/><rect x="315" y="38" width="90" height="182" fill="#1192E8"/><rect x="500" y="37" width="90" height="183" fill="#6929C4"/>
+  <g text-anchor="middle">
+    <text class="d" x="175" y="51">130.4</text><text class="d" x="360" y="32">145.6 (+11.7%)</text><text class="d" x="545" y="31">146.4 (+12.3%)</text>
+    <text x="175" y="238">LY ROY (Jul – Dec)</text><text x="360" y="238">ROY needed – Plan</text><text x="545" y="238">ROY needed – Fcst</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Hitting Plan needs +11.7% ROY growth, about $24.2M a month versus $23.7M in June. The forecast ($280.8M) is $0.8M above Plan ($280.0M), which needs +12.3%.</div>
+
+<!-- 3 -->
+<h2>2. Processing Revenue per Base FTE</h2>
+<div class="desc">Monthly processing revenue per base FTE ($K), % of Plan and YoY growth</div>
+<table>
+  <thead><tr><th>Month</th><th>Proc Rev ($M)</th><th>Base FTE</th><th>Rev / FTE ($K)</th><th>Plan ($K)</th><th>% of Plan</th><th>LY ($K)</th><th>% Gr YoY</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>21.0</td><td>960</td><td>17.4</td><td>17.6</td><td class="down">99.1%</td><td>16.5</td><td class="up">+5.8%</td></tr>
+    <tr><td>Feb</td><td>21.8</td><td>964</td><td>18.1</td><td>17.9</td><td class="up">100.9%</td><td>16.8</td><td class="up">+7.6%</td></tr>
+    <tr><td>Mar</td><td>23.2</td><td>968</td><td>19.2</td><td>18.6</td><td class="up">103.4%</td><td>17.6</td><td class="up">+9.1%</td></tr>
+    <tr><td>Apr</td><td>22.1</td><td>972</td><td>18.2</td><td>18.3</td><td class="down">99.1%</td><td>17.0</td><td class="up">+6.6%</td></tr>
+    <tr><td>May</td><td>22.7</td><td>976</td><td>18.6</td><td>18.4</td><td class="up">101.3%</td><td>17.3</td><td class="up">+7.9%</td></tr>
+    <tr><td>Jun</td><td>23.7</td><td>980</td><td>19.4</td><td>19.0</td><td class="up">101.7%</td><td>17.8</td><td class="up">+9.0%</td></tr>
+    <tr class="total"><td>YTD avg</td><td>134.4</td><td>970</td><td>18.5</td><td>18.3</td><td>100.9%</td><td>17.2</td><td>+7.4%</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>Rev / base FTE ($K, axis starts at 16)</strong><span class="sw" style="background:#1192E8"></span>Actual<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Line chart of processing revenue per base FTE vs plan and last year">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="180" x2="700" y2="180"/><line x1="50" y1="140" x2="700" y2="140"/><line x1="50" y1="100" x2="700" y2="100"/><line x1="50" y1="60" x2="700" y2="60"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">16</text><text x="44" y="184">17</text><text x="44" y="144">18</text><text x="44" y="104">18</text><text x="44" y="64">19</text><text x="44" y="24">20</text></g>
+  <polyline fill="none" stroke="#6929C4" stroke-width="2" points="104.2,196 212.5,180 320.8,140 429.2,168 537.5,156 645.8,132"/>
+  <polyline fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 4" points="104.2,140 212.5,124 320.8,92 429.2,104 537.5,100 645.8,68"/>
+  <polyline fill="none" stroke="#1192E8" stroke-width="2" points="104.2,148 212.5,116 320.8,60 429.2,112 537.5,88 645.8,52"/>
+  <g fill="#1192E8"><circle cx="104.2" cy="148" r="3"/><circle cx="212.5" cy="116" r="3"/><circle cx="320.8" cy="60" r="3"/><circle cx="429.2" cy="112" r="3"/><circle cx="537.5" cy="88" r="3"/><circle cx="645.8" cy="52" r="3"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="104.2" y="164">17.4</text><text class="d" x="212.5" y="108">18.1</text><text class="d" x="320.8" y="52">19.2</text><text class="d" x="429.2" y="128">18.2</text><text class="d" x="537.5" y="80">18.6</text><text class="d" x="645.8" y="44">19.4</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Revenue per base FTE averages $23.1K a month, 100.9% of Plan and up 7.4% YoY. Base FTE grew 2.1% (960 to 980), so most of the revenue growth is productivity. Only January and April were below Plan (99.1%).</div>
+
+<!-- 4 -->
+<h2>3. Processing Revenue per Client</h2>
+<div class="desc">Monthly processing revenue per active client ($), % of Plan and YoY growth</div>
+<table>
+  <thead><tr><th>Month</th><th>Active Clients</th><th>Rev / Client ($)</th><th>Plan ($)</th><th>% of Plan</th><th>LY ($)</th><th>% Gr YoY</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>7,584</td><td>2,211</td><td>2,232</td><td class="down">99.1%</td><td>2,112</td><td class="up">+4.7%</td></tr>
+    <tr><td>Feb</td><td>7,600</td><td>2,290</td><td>2,264</td><td class="up">101.2%</td><td>2,160</td><td class="up">+6.0%</td></tr>
+    <tr><td>Mar</td><td>7,616</td><td>2,437</td><td>2,368</td><td class="up">102.9%</td><td>2,248</td><td class="up">+8.4%</td></tr>
+    <tr><td>Apr</td><td>7,632</td><td>2,314</td><td>2,336</td><td class="down">99.1%</td><td>2,192</td><td class="up">+5.6%</td></tr>
+    <tr><td>May</td><td>7,648</td><td>2,377</td><td>2,352</td><td class="up">101.1%</td><td>2,224</td><td class="up">+6.9%</td></tr>
+    <tr><td>Jun</td><td>7,664</td><td>2,472</td><td>2,480</td><td class="down">99.7%</td><td>2,304</td><td class="up">+7.3%</td></tr>
+    <tr class="total"><td>YTD avg</td><td>7,624</td><td>2,350</td><td>2,338</td><td>100.5%</td><td>2,206</td><td>+6.5%</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>Rev / client ($, axis starts at 2,000)</strong><span class="sw" style="background:#1192E8"></span>Actual<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Line chart of processing revenue per client vs plan and last year">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">2,000</text><text x="44" y="174">2,160</text><text x="44" y="124">2,320</text><text x="44" y="74">2,480</text><text x="44" y="24">2,640</text></g>
+  <polyline fill="none" stroke="#6929C4" stroke-width="2" points="104.2,185 212.5,170 320.8,142.5 429.2,160 537.5,150 645.8,125"/>
+  <polyline fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 4" points="104.2,147.5 212.5,137.5 320.8,105 429.2,115 537.5,110 645.8,70"/>
+  <polyline fill="none" stroke="#1192E8" stroke-width="2" points="104.2,154 212.5,129.3 320.8,83.5 429.2,121.8 537.5,102.3 645.8,72.5"/>
+  <g fill="#1192E8"><circle cx="104.2" cy="154" r="3"/><circle cx="212.5" cy="129.3" r="3"/><circle cx="320.8" cy="83.5" r="3"/><circle cx="429.2" cy="121.8" r="3"/><circle cx="537.5" cy="102.3" r="3"/><circle cx="645.8" cy="72.5" r="3"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="104.2" y="170">2,211</text><text class="d" x="212.5" y="121">2,290</text><text class="d" x="320.8" y="75">2,437</text><text class="d" x="429.2" y="138">2,314</text><text class="d" x="537.5" y="94">2,377</text><text class="d" x="645.8" y="88">2,472</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Processing revenue per client averages $2,938 a month, 100.5% of Plan and up 6.5% YoY. Growth is strong every month, but January, April and June sit just under a higher Plan.</div>
+
+<!-- 5 -->
+<h2>4. Pays Processed and Average Pays per Client</h2>
+<div class="desc">Pays processed (millions) and average pays per client per month, YoY growth</div>
+<table>
+  <thead><tr><th>Month</th><th>Pays Processed (M)</th><th>LY (M)</th><th>Pays % Gr YoY</th><th>Avg Pays / Client</th><th>LY</th><th>Pays / Client % Gr YoY</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>9.3</td><td>8.8</td><td class="up">+5.5%</td><td>979</td><td>951</td><td class="up">+2.9%</td></tr>
+    <tr><td>Feb</td><td>9.5</td><td>9.0</td><td class="up">+5.3%</td><td>1,002</td><td>975</td><td class="up">+2.8%</td></tr>
+    <tr><td>Mar</td><td>10.1</td><td>9.4</td><td class="up">+6.8%</td><td>1,059</td><td>1,016</td><td class="up">+4.3%</td></tr>
+    <tr><td>Apr</td><td>9.8</td><td>9.3</td><td class="up">+5.2%</td><td>1,023</td><td>998</td><td class="up">+2.6%</td></tr>
+    <tr><td>May</td><td>10.0</td><td>9.4</td><td class="up">+5.9%</td><td>1,046</td><td>1,013</td><td class="up">+3.3%</td></tr>
+    <tr><td>Jun</td><td>10.3</td><td>9.7</td><td class="up">+6.6%</td><td>1,078</td><td>1,037</td><td class="up">+3.9%</td></tr>
+    <tr class="total"><td>YTD</td><td>59.0</td><td>55.7</td><td>+5.9%</td><td>1,031</td><td>998</td><td>+3.3%</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>YoY growth (%)</strong><span class="sw" style="background:#1192E8"></span>Pays processed<span class="sw" style="background:#6929C4"></span>Avg pays per client</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Grouped bar chart of YoY growth in pays processed and average pays per client by month">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0%</text><text x="44" y="174">2%</text><text x="44" y="124">4%</text><text x="44" y="74">6%</text><text x="44" y="24">8%</text></g>
+  <g fill="#1192E8"><rect x="70.2" y="82.5" width="34" height="137.5"/><rect x="178.5" y="87.5" width="34" height="132.5"/><rect x="286.8" y="50" width="34" height="170"/><rect x="395.2" y="90" width="34" height="130"/><rect x="503.5" y="72.5" width="34" height="147.5"/><rect x="611.8" y="55" width="34" height="165"/></g>
+  <g fill="#6929C4"><rect x="104.2" y="147.5" width="34" height="72.5"/><rect x="212.5" y="150" width="34" height="70"/><rect x="320.8" y="112.5" width="34" height="107.5"/><rect x="429.2" y="155" width="34" height="65"/><rect x="537.5" y="137.5" width="34" height="82.5"/><rect x="645.8" y="122.5" width="34" height="97.5"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="87.2" y="77">5.5%</text><text class="d" x="195.5" y="82">5.3%</text><text class="d" x="303.8" y="45">6.8%</text><text class="d" x="412.2" y="85">5.2%</text><text class="d" x="520.5" y="67">5.9%</text><text class="d" x="628.8" y="50">6.6%</text>
+    <text class="d" x="121.2" y="142">2.9%</text><text class="d" x="229.5" y="145">2.8%</text><text class="d" x="337.8" y="107">4.3%</text><text class="d" x="446.2" y="150">2.6%</text><text class="d" x="554.5" y="132">3.3%</text><text class="d" x="662.8" y="117">3.9%</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Pays processed are up 5.9% YoY and pays per client up 3.3%, so about 2.5% of volume growth comes from more clients. Both accelerated in March and June.</div>
+
+<!-- 6 -->
+<h2>5. Processing Revenue as % of Total Revenue</h2>
+<div class="desc">Weight of processing revenue vs total revenue ($M)</div>
+<table>
+  <thead><tr><th>Month</th><th>Proc Rev ($M)</th><th>Other Rev ($M)</th><th>Total Rev ($M)</th><th>% Weight of Proc</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>21.0</td><td>9.4</td><td>30.4</td><td>69.0%</td></tr>
+    <tr><td>Feb</td><td>21.8</td><td>9.4</td><td>31.2</td><td>69.7%</td></tr>
+    <tr><td>Mar</td><td>23.2</td><td>9.6</td><td>32.8</td><td>70.7%</td></tr>
+    <tr><td>Apr</td><td>22.1</td><td>9.5</td><td>31.6</td><td>69.9%</td></tr>
+    <tr><td>May</td><td>22.7</td><td>9.7</td><td>32.4</td><td>70.1%</td></tr>
+    <tr><td>Jun</td><td>23.7</td><td>9.9</td><td>33.6</td><td>70.5%</td></tr>
+    <tr class="total"><td>YTD</td><td>134.4</td><td>57.6</td><td>192.0</td><td>70.0%</td></tr>
+    <tr><td>LY YTD</td><td>123.2</td><td>50.5</td><td>173.7</td><td>70.9%</td></tr>
+    <tr><td>Change YoY</td><td class="up">+9.1%</td><td class="up">+14.1%</td><td class="up">+10.5%</td><td class="down">-0.7 pts</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>Total revenue ($M); % = weight of processing</strong><span class="sw" style="background:#1192E8"></span>Processing<span class="sw" style="background:#9ca3af"></span>Other</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Stacked bar chart of processing and other revenue by month with processing weight percent">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="153.3" x2="700" y2="153.3"/><line x1="50" y1="86.7" x2="700" y2="86.7"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">0</text><text x="44" y="157">12</text><text x="44" y="91">24</text><text x="44" y="24">36</text></g>
+  <g fill="#1192E8"><rect x="76.2" y="103.6" width="56" height="116.4"/><rect x="184.5" y="99.1" width="56" height="120.9"/><rect x="292.8" y="91.1" width="56" height="128.9"/><rect x="401.2" y="97.3" width="56" height="122.7"/><rect x="509.5" y="93.8" width="56" height="126.2"/><rect x="617.8" y="88.4" width="56" height="131.6"/></g>
+  <g fill="#9ca3af"><rect x="76.2" y="51.2" width="56" height="52.4"/><rect x="184.5" y="46.7" width="56" height="52.4"/><rect x="292.8" y="37.8" width="56" height="53.3"/><rect x="401.2" y="44.4" width="56" height="52.9"/><rect x="509.5" y="40" width="56" height="53.8"/><rect x="617.8" y="33.3" width="56" height="55.1"/></g>
+  <g text-anchor="middle">
+    <text class="w" x="104.2" y="162">21.0</text><text class="w" x="212.5" y="164">21.8</text><text class="w" x="320.8" y="160">23.2</text><text class="w" x="429.2" y="163">22.1</text><text class="w" x="537.5" y="161">22.7</text><text class="w" x="645.8" y="158">23.7</text>
+    <text class="d" x="104.2" y="45">69.0%</text><text class="d" x="212.5" y="41">69.7%</text><text class="d" x="320.8" y="32">70.7%</text><text class="d" x="429.2" y="38">69.9%</text><text class="d" x="537.5" y="34">70.1%</text><text class="d" x="645.8" y="27">70.5%</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Processing is 70.0% of total revenue YTD, down 0.7 pts from 70.9% LY. Other revenue (Talent, Time &amp; Attendance and similar) is growing faster (+14.1% vs +9.1%), so the mix is shifting slowly away from processing.</div>
+
+<!-- 7 -->
+<h2>6. PEPM (Processing Revenue per Employee Paid per Month)</h2>
+<div class="desc">PEPM ($), % of Plan and YoY growth</div>
+<table>
+  <thead><tr><th>Month</th><th>EEs Paid (M)</th><th>PEPM ($)</th><th>Plan ($)</th><th>% of Plan</th><th>LY ($)</th><th>% Gr YoY</th></tr></thead>
+  <tbody>
+    <tr><td>Jan</td><td>3.84</td><td>4.37</td><td>4.40</td><td class="down">99.3%</td><td>4.16</td><td class="up">+5.0%</td></tr>
+    <tr><td>Feb</td><td>3.86</td><td>4.50</td><td>4.48</td><td class="up">100.5%</td><td>4.24</td><td class="up">+6.2%</td></tr>
+    <tr><td>Mar</td><td>3.89</td><td>4.78</td><td>4.68</td><td class="up">102.1%</td><td>4.48</td><td class="up">+6.6%</td></tr>
+    <tr><td>Apr</td><td>3.90</td><td>4.53</td><td>4.56</td><td class="down">99.3%</td><td>4.32</td><td class="up">+4.8%</td></tr>
+    <tr><td>May</td><td>3.92</td><td>4.64</td><td>4.60</td><td class="up">100.9%</td><td>4.40</td><td class="up">+5.5%</td></tr>
+    <tr><td>Jun</td><td>3.94</td><td>4.82</td><td>4.76</td><td class="up">101.2%</td><td>4.52</td><td class="up">+6.5%</td></tr>
+    <tr class="total"><td>YTD avg</td><td>3.90</td><td>4.61</td><td>4.58</td><td>100.5%</td><td>4.35</td><td>+5.9%</td></tr>
+  </tbody>
+</table>
+
+<div class="legend"><strong>PEPM ($, axis starts at 4.00)</strong><span class="sw" style="background:#1192E8"></span>Actual<span class="sw" style="background:#9ca3af"></span>Plan<span class="sw" style="background:#6929C4"></span>Last year</div>
+<svg viewBox="0 0 720 250" role="img" aria-label="Line chart of processing PEPM vs plan and last year">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="220" x2="700" y2="220"/><line x1="50" y1="170" x2="700" y2="170"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="20" x2="700" y2="20"/></g>
+  <g text-anchor="end"><text x="44" y="224">4.00</text><text x="44" y="174">4.24</text><text x="44" y="124">4.48</text><text x="44" y="74">4.72</text><text x="44" y="24">4.96</text></g>
+  <polyline fill="none" stroke="#6929C4" stroke-width="2" points="104.2,186.7 212.5,170 320.8,120 429.2,153.3 537.5,136.7 645.8,111.7"/>
+  <polyline fill="none" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 4" points="104.2,136.7 212.5,120 320.8,78.3 429.2,103.3 537.5,95 645.8,61.7"/>
+  <polyline fill="none" stroke="#1192E8" stroke-width="2" points="104.2,143.3 212.5,115 320.8,58.3 429.2,110 537.5,86.7 645.8,50"/>
+  <g fill="#1192E8"><circle cx="104.2" cy="143.3" r="3"/><circle cx="212.5" cy="115" r="3"/><circle cx="320.8" cy="58.3" r="3"/><circle cx="429.2" cy="110" r="3"/><circle cx="537.5" cy="86.7" r="3"/><circle cx="645.8" cy="50" r="3"/></g>
+  <g text-anchor="middle">
+    <text class="d" x="104.2" y="159">4.37</text><text class="d" x="212.5" y="107">4.50</text><text class="d" x="320.8" y="50">4.78</text><text class="d" x="429.2" y="126">4.53</text><text class="d" x="537.5" y="78">4.64</text><text class="d" x="645.8" y="42">4.82</text>
+    <text x="104.2" y="238">Jan</text><text x="212.5" y="238">Feb</text><text x="320.8" y="238">Mar</text><text x="429.2" y="238">Apr</text><text x="537.5" y="238">May</text><text x="645.8" y="238">Jun</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> PEPM averages $5.76, 100.5% of Plan and up 5.9% YoY. Employees paid are up about 3%, so price and mix drive most of the processing revenue growth.</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div><!-- /wrap -->
+</div><!-- /content -->
+</main>
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div><div class="panel-title">Close assistant</div><div class="panel-sub">AI commentary &middot; Placeholder</div></div>
+    </div>
+    <div class="panel-body">
+      <span class="ai-tag draft">AI-drafted</span><span class="ai-tag review">Needs review</span>
+      <div class="panel-period">PROCESSING REVENUE</div>
+      <div class="ai-headline">Processing revenue 88.4% of total &mdash; above Plan.</div>
+      <div class="ai-body">Processing revenue is $1.83B YTD, $12m ahead of Plan (+0.7%). The mix shift toward processing is 0.4 pp favorable to margin.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this page</div>
+      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      All figures are illustrative placeholders. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+  /* Tab switching (if tabs present) */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Persona menu (if present) */
+  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
+  if(btn && menu){
+    var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
+    function openMenu(on){ btn.setAttribute('aria-expanded', on?'true':'false'); if(on) menu.removeAttribute('hidden'); else menu.setAttribute('hidden',''); }
+    btn.addEventListener('click', function(){ openMenu(menu.hasAttribute('hidden')); });
+    items.forEach(function(it){ it.addEventListener('click', function(){ items.forEach(function(o){ o.setAttribute('aria-checked', o===it?'true':'false'); }); if(nm) nm.textContent=it.getAttribute('data-name'); openMenu(false); btn.focus(); }); });
+    document.addEventListener('click', function(e){ if(!menu.hasAttribute('hidden')&&!menu.contains(e.target)&&!btn.contains(e.target)) openMenu(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!menu.hasAttribute('hidden')){ openMenu(false); btn.focus(); } });
+  }
+})();
+</script>
+</body>
+</html>
+

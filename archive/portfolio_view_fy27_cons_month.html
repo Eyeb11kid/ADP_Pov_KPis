@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio View FY27 Cons - Month</title>
+<style>
+  /* -- V2 Design System -- */
+  :root { --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28; --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  /* Chrome */
+  .chrome { display:flex; align-items:center; justify-content:space-between; height:40px; background:#fff; border-bottom:1px solid var(--line); padding:0 16px; flex:none; }
+  .chrome-l { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--navy); }
+  .chrome-logo { font-family:"Arial Black",Helvetica,Arial,sans-serif; font-weight:900; font-style:italic; color:var(--adp); font-size:15px; letter-spacing:-0.5px; margin-right:4px; }
+  .chrome-r { display:flex; align-items:center; gap:18px; font-size:12px; color:var(--muted); }
+  .chrome-r b { color:var(--navy); font-weight:600; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:#6929C4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
+  /* Shell */
+  .shell { display:flex; flex:1; overflow:hidden; }
+  /* Sidebar */
+  .sidebar { width:var(--sidebar-w); background:#fff; border-right:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; padding-bottom:16px; }
+  .sb-bu { padding:12px 16px; border-bottom:1px solid var(--line); }
+  .sb-bu-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.2; }
+  .sb-bu-label { font-size:11px; color:var(--muted); }
+  .sb-section { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:14px 16px 4px; }
+  .sb-link { display:flex; align-items:center; gap:8px; padding:7px 16px 7px 14px; font-size:13px; color:var(--muted); text-decoration:none; border-left:3px solid transparent; }
+  .sb-link:hover { background:var(--hover); color:var(--navy); }
+  .sb-link.active { color:var(--navy); font-weight:600; border-left-color:var(--blue); background:#edf4ff; }
+  .sb-link.sub { padding-left:28px; font-size:12px; }
+  .sb-note { font-size:11px; color:var(--muted); padding:10px 16px; line-height:1.4; }
+  .sb-ext { display:block; padding:6px 16px; font-size:12px; color:var(--blue); text-decoration:none; }
+  .sb-ext:hover { text-decoration:underline; }
+  .sb-divider { height:1px; background:var(--line); margin:8px 0; }
+  /* Main */
+  .main { flex:1; overflow-y:auto; display:flex; flex-direction:column; min-width:0; }
+  .titlebar { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px 12px; flex:none; }
+  .breadcrumb { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .breadcrumb a { color:var(--blue); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { margin:0 5px; }
+  .title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .page-title { font-size:22px; font-weight:600; color:var(--navy); line-height:1.2; }
+  .page-sub { font-size:12px; color:var(--muted); margin-top:3px; }
+  .content { padding:20px 24px 40px; flex:1; overflow-y:auto; }
+  /* Suppress old layout artifacts */
+  .topbar { display:none !important; }
+  .back { display:none !important; }
+  .hdr { display:none !important; }
+  /* Keep existing content styles working */
+  h1 { font-size:22px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .note { background:var(--tile); border:1px solid var(--line); padding:10px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; }
+  .hint { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .footer { margin-top:36px; padding-top:10px; border-top:1px solid var(--line); text-align:center; font-size:12px; color:var(--muted); }
+  .wrap { max-width:none; }
+  /* Right panel */
+  .panel { width:var(--panel-w); background:#fff; border-left:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; }
+  .panel-hdr { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; }
+  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#6929C4,#1192E8); flex:none; }
+  .panel-title { font-size:13px; font-weight:700; }
+  .panel-sub { font-size:11px; color:var(--muted); }
+  .panel-body { padding:12px 14px; flex:1; }
+  .ai-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:10px; }
+  .ai-tag.draft { background:#e8daff; color:#6929C4; }
+  .ai-tag.review { background:#fff3cd; color:#B28600; margin-left:4px; }
+  .panel-period { font-size:11px; font-weight:600; color:var(--muted); margin:10px 0 8px; }
+  .ai-headline { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.3; }
+  .ai-body { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+  .reviewer { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .ai-actions { display:flex; gap:8px; margin-bottom:20px; }
+  .btn { font:inherit; font-size:12px; padding:6px 14px; cursor:pointer; border-radius:2px; }
+  .btn-ghost { background:transparent; border:1px solid var(--line); color:var(--navy); }
+  .btn-ghost:hover { background:var(--hover); }
+  .btn-primary { background:var(--blue); border:1px solid var(--blue); color:#fff; }
+  .btn-primary:hover { background:#0050e6; }
+  .panel-divider { height:1px; background:var(--line); margin:0 0 14px; }
+  .ask-label { font-size:12px; font-weight:600; margin-bottom:6px; }
+  .ask-input { width:100%; font:inherit; font-size:12px; color:var(--navy); background:var(--inner); border:1px solid var(--line); padding:7px 10px; resize:none; height:60px; }
+  .ask-input::placeholder { color:var(--muted); }
+  .panel-disclaimer { font-size:11px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); line-height:1.5; }
+  .disclaimer-title { font-weight:600; margin-bottom:3px; }
+
+  h2 { font-size: 15px; margin: 22px 0 6px; }
+  .scroll { overflow-x: auto; border: 1px solid #e5e7eb; }
+  table { border-collapse: separate; border-spacing: 0; font-size: 12px; white-space: nowrap; min-width: 2300px; width: 100%; }
+  th, td { padding: 3px 10px; text-align: right; border-bottom: 1px solid #f0f1f3; background: #fff; }
+  thead tr.grp th { background: #e1e5ec; font-weight: 700; text-align: center; border-left: 6px solid #fff; border-bottom: 1px solid #1f2328; border-top: 1px solid #1f2328; }
+  thead tr.grp th:first-child { text-align: left; border-left: 0; }
+  thead tr.cols th { background: #fff; font-weight: 700; border-bottom: 2px solid #1f2328; }
+  th.g, td.g { border-left: 6px solid #fff; box-shadow: inset 1px 0 0 #d0d7de; }
+  th:first-child, td:first-child { position: sticky; left: 0; text-align: left; min-width: 120px; border-right: 1px solid #e5e7eb; z-index: 1; }
+  thead th:first-child { z-index: 2; }
+  tbody tr.d td:first-child { padding-left: 18px; }
+  tr.sub td { border-top: 1px solid #1f2328; }
+  tr.tot td { font-weight: 700; border-top: 1px solid #1f2328; border-bottom: 2px solid #1f2328; background: #e1e5ec; }
+  tr.sp td { height: 12px; padding: 0; border-bottom: 0; }
+  tbody tr.d:hover td, tbody tr.sub:hover td { background: #eef4fc; }
+  tbody tr.tot:hover td { background: #cfdcf0; }
+  td.ch, th.ch { box-shadow: inset 2px 0 0 #1192E8, inset -2px 0 0 #1192E8; }
+  .ch.ct { box-shadow: inset 2px 0 0 #1192E8, inset -2px 0 0 #1192E8, inset 0 2px 0 #1192E8; }
+  .ch.cb { box-shadow: inset 2px 0 0 #1192E8, inset -2px 0 0 #1192E8, inset 0 -2px 0 #1192E8; }
+  tbody tr:hover td.ch { background: #dbe8fa; }
+</style>
+</head>
+<body>
+<div class="chrome">
+  <div class="chrome-l"><a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a> Project Polaris</div>
+  <div class="chrome-r"><span>SEPTEMBER CLOSE / DAY 4</span><b>FP&amp;A Lead</b><div class="avatar">JL</div></div>
+</div>
+
+<div class="shell">
+<nav class="sidebar" aria-label="Navigation">
+  <div class="sb-bu"><div class="sb-bu-name">ADP<br>Project Polaris</div><div class="sb-bu-label">September Close &#183; Day&nbsp;4</div></div>
+  <div class="sb-section">Close Review</div>
+  <a class="sb-link" href="cfo_dash_v2.html">BU Dashboard</a>
+  <a class="sb-link" href="BU_cfo_v2.html">Management P&amp;L</a>
+  <a class="sb-link" href="variance_dashboard.html">Field Expense P&amp;L</a>
+  <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount &amp; FTE</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Financials</div>
+  <a class="sb-link" href="consolidated_mth_ytd.html">Cons. Month &amp; YTD</a>
+  <a class="sb-link" href="consolidated_qtrs.html">Cons. Quarters</a>
+  <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NAS Cons P&amp;L</a>
+  <a class="sb-link" href="revenue_summary.html">Revenue Summary</a>
+  <a class="sb-link" href="sales_income_summary.html">Sales Summary</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Analysis</div>
+  <a class="sb-link" href="pipeline_kpi_report.html">Pipeline KPIs</a>
+  <a class="sb-link active" href="portfolio_view_fy27_cons_month.html">Portfolio View</a>
+  <a class="sb-link" href="processing_revenue.html">Processing Revenue</a>
+  <a class="sb-link" href="q1_roy_full_year_forecast.html">Q1 / ROY Forecast</a>
+  <a class="sb-link" href="tabular.html">Tabular</a>
+  <a class="sb-link" href="te_point_to_point.html">T&amp;E Point to Point</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">BU Landing Pages</div>
+  <a class="sb-link" href="nas_landing.html">NAS BU Landing</a>
+  <a class="sb-link" href="rs_landing.html">RS BU Landing</a>
+  <a class="sb-link" href="cfo_dashboard.html">Executive KPI Dashboard</a>
+  <div class="sb-divider"></div>
+  <a class="sb-ext" href="index.html">&larr; Index</a>
+</nav>
+
+<main class="main">
+<div class="titlebar">
+  <div class="breadcrumb"><a href="index.html">Home / Analysis</a></div>
+  <div class="title-row">
+    <div>
+      <div class="page-title">Portfolio View FY27 &mdash; Cons Month</div>
+      <div class="page-sub">FY27 consolidated monthly portfolio view by segment</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+<div class="wrap">
+
+<h1>Portfolio View FY27 Cons - Month</h1>
+<div class="note"><strong>Illustrative data.</strong> All figures and owner names are sample values for demonstration only, not actuals. Totals may differ from the sum of their parts by rounding. Var Pl = variance vs Plan; Var LY = variance vs last year; Fcst = forecast; Gr = growth. Negative values show in red.</div>
+<div class="hint">Scroll sideways to see all columns; the row labels stay in place. Hover a row to highlight it, and hover a column to outline it in blue.</div>
+
+<h2>Sales, Starts, Losses, Processing Revenue, Retention %, HC and FTEs</h2>
+<div class="scroll">
+<table id="t1">
+<thead>
+<tr class="grp"><th>Sep</th><th colspan="5">Sales</th><th colspan="5" class="g">Starts</th><th colspan="5" class="g">Losses</th><th colspan="5" class="g">Processing Revenue</th><th colspan="5" class="g">Retention %</th><th colspan="5" class="g">HC</th><th colspan="5" class="g">FTEs</th></tr>
+<tr class="cols"><th>Pillar</th><th data-c="1">Sep</th><th data-c="2">vFC</th><th data-c="3">vPlan</th><th data-c="4">vLY</th><th data-c="5">Gr%</th><th data-c="6" class="g">Sep</th><th data-c="7">vFC</th><th data-c="8">vPlan</th><th data-c="9">vLY</th><th data-c="10">Gr%</th><th data-c="11" class="g">Sep</th><th data-c="12">vFC</th><th data-c="13">vPlan</th><th data-c="14">vLY</th><th data-c="15">Gr%</th><th data-c="16" class="g">Sep</th><th data-c="17">vFC</th><th data-c="18">vPlan</th><th data-c="19">vLY</th><th data-c="20">Gr%</th><th data-c="21" class="g">Sep</th><th data-c="22">vFC</th><th data-c="23">vPlan</th><th data-c="24">vLY</th><th data-c="25">Gr Bps</th><th data-c="26" class="g">Sep</th><th data-c="27">vFC</th><th data-c="28">vPlan</th><th data-c="29">vLY</th><th data-c="30">Gr%</th><th data-c="31" class="g">Sep</th><th data-c="32">vFC</th><th data-c="33">vPlan</th><th data-c="34">vLY</th><th data-c="35">Gr%</th></tr>
+</thead>
+<tbody>
+<tr class="d"><td>Payroll</td><td data-c="1">5</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-2%</td><td data-c="6" class="g">1</td><td data-c="7">(2)</td><td data-c="8">(2)</td><td data-c="9">(1)</td><td data-c="10">-36%</td><td data-c="11" class="g">1</td><td data-c="12">2</td><td data-c="13">2</td><td data-c="14">(1)</td><td data-c="15">-40%</td><td data-c="16" class="g">22</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(1)</td><td data-c="20">-3%</td><td data-c="21" class="g">98.1%</td><td data-c="22">366</td><td data-c="23">366</td><td data-c="24"></td><td data-c="25">95</td><td data-c="26" class="g">441</td><td data-c="27">16</td><td data-c="28">16</td><td data-c="29">81</td><td data-c="30">22%</td><td data-c="31" class="g">443</td><td data-c="32">23</td><td data-c="33">23</td><td data-c="34">81</td><td data-c="35">22%</td></tr>
+<tr class="d"><td>TLM</td><td data-c="1">1</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(0)</td><td data-c="5">-36%</td><td data-c="6" class="g">1</td><td data-c="7">(1)</td><td data-c="8">(1)</td><td data-c="9">0</td><td data-c="10">39%</td><td data-c="11" class="g">1</td><td data-c="12">1</td><td data-c="13">1</td><td data-c="14">(0)</td><td data-c="15">-24%</td><td data-c="16" class="g">9</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">0</td><td data-c="20">0%</td><td data-c="21" class="g">93.0%</td><td data-c="22">550</td><td data-c="23">550</td><td data-c="24"></td><td data-c="25">176</td><td data-c="26" class="g">153</td><td data-c="27">2</td><td data-c="28">2</td><td data-c="29">6</td><td data-c="30">4%</td><td data-c="31" class="g">148</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">3</td><td data-c="35">2%</td></tr>
+<tr class="d"><td>Benefits</td><td data-c="1">0</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(1)</td><td data-c="5">-67%</td><td data-c="6" class="g">1</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">1</td><td data-c="10">230%</td><td data-c="11" class="g">1</td><td data-c="12">0</td><td data-c="13">0</td><td data-c="14">0</td><td data-c="15">178%</td><td data-c="16" class="g">8</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">(0)</td><td data-c="20">-2%</td><td data-c="21" class="g">92.4%</td><td data-c="22">50</td><td data-c="23">50</td><td data-c="24"></td><td data-c="25">(395)</td><td data-c="26" class="g">466</td><td data-c="27">1</td><td data-c="28">1</td><td data-c="29">(20)</td><td data-c="30">-4%</td><td data-c="31" class="g">508</td><td data-c="32">11</td><td data-c="33">11</td><td data-c="34">(38)</td><td data-c="35">-7%</td></tr>
+<tr class="sub"><td>HCM</td><td data-c="1">6</td><td data-c="2">(2)</td><td data-c="3">(2)</td><td data-c="4">(1)</td><td data-c="5">-16%</td><td data-c="6" class="g">2</td><td data-c="7">(3)</td><td data-c="8">(3)</td><td data-c="9">(0)</td><td data-c="10">-3%</td><td data-c="11" class="g">2</td><td data-c="12">2</td><td data-c="13">2</td><td data-c="14">(0)</td><td data-c="15">-13%</td><td data-c="16" class="g">39</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">0</td><td data-c="20">-2%</td><td data-c="21" class="g">96.5%</td><td data-c="22">348</td><td data-c="23">348</td><td data-c="24"></td><td data-c="25">38</td><td data-c="26" class="g">1,059</td><td data-c="27">18</td><td data-c="28">18</td><td data-c="29">67</td><td data-c="30">7%</td><td data-c="31" class="g">1,099</td><td data-c="32">35</td><td data-c="33">35</td><td data-c="34">35</td><td data-c="35">4%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>SASS</td><td data-c="1">0</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(1)</td><td data-c="5">-45%</td><td data-c="6" class="g">1</td><td data-c="7">1</td><td data-c="8">1</td><td data-c="9">0</td><td data-c="10">59%</td><td data-c="11" class="g">0</td><td data-c="12">(1)</td><td data-c="13">(1)</td><td data-c="14">(0)</td><td data-c="15">-25%</td><td data-c="16" class="g">6</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">1</td><td data-c="20">9%</td><td data-c="21" class="g">98.0%</td><td data-c="22">710</td><td data-c="23">710</td><td data-c="24"></td><td data-c="25">70</td><td data-c="26" class="g">99</td><td data-c="27">3</td><td data-c="28">3</td><td data-c="29">(11)</td><td data-c="30">-10%</td><td data-c="31" class="g">98</td><td data-c="32">0</td><td data-c="33">0</td><td data-c="34">(13)</td><td data-c="35">-12%</td></tr>
+<tr class="d"><td>RM</td><td data-c="1">0</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-99%</td><td data-c="6" class="g">0</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">(0)</td><td data-c="10">-31%</td><td data-c="11" class="g">0</td><td data-c="12">(0)</td><td data-c="13">(0)</td><td data-c="14">(0)</td><td data-c="15">-52%</td><td data-c="16" class="g">2</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">0</td><td data-c="20">5%</td><td data-c="21" class="g">87.7%</td><td data-c="22">(41)</td><td data-c="23">(41)</td><td data-c="24"></td><td data-c="25">NA</td><td data-c="26" class="g">39</td><td data-c="27">0</td><td data-c="28">0</td><td data-c="29">2</td><td data-c="30">7%</td><td data-c="31" class="g">38</td><td data-c="32">1</td><td data-c="33">1</td><td data-c="34">(2)</td><td data-c="35">-6%</td></tr>
+<tr class="d"><td>TM</td><td data-c="1">0</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(1)</td><td data-c="5">-93%</td><td data-c="6" class="g">0</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">(1)</td><td data-c="10">-59%</td><td data-c="11" class="g">0</td><td data-c="12">0</td><td data-c="13">0</td><td data-c="14">0</td><td data-c="15">-80%</td><td data-c="16" class="g">2</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(0)</td><td data-c="20">-3%</td><td data-c="21" class="g">97.1%</td><td data-c="22">136</td><td data-c="23">136</td><td data-c="24"></td><td data-c="25">NA</td><td data-c="26" class="g">27</td><td data-c="27">0</td><td data-c="28">0</td><td data-c="29">2</td><td data-c="30">10%</td><td data-c="31" class="g">25</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">2</td><td data-c="35">8%</td></tr>
+<tr class="d"><td>StandOut</td><td data-c="1">(0)</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-116%</td><td data-c="6" class="g">0</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">(0)</td><td data-c="10">-85%</td><td data-c="11" class="g">0</td><td data-c="12">(0)</td><td data-c="13">(0)</td><td data-c="14">0</td><td data-c="15">672%</td><td data-c="16" class="g">1</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">(0)</td><td data-c="20">-26%</td><td data-c="21" class="g">82.8%</td><td data-c="22">(704)</td><td data-c="23">(704)</td><td data-c="24"></td><td data-c="25">NA</td><td data-c="26" class="g">14</td><td data-c="27">2</td><td data-c="28">2</td><td data-c="29">(4)</td><td data-c="30">-22%</td><td data-c="31" class="g">15</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">(4)</td><td data-c="35">-22%</td></tr>
+<tr class="sub"><td>Talent</td><td data-c="1">0</td><td data-c="2">(2)</td><td data-c="3">(2)</td><td data-c="4">(2)</td><td data-c="5">-80%</td><td data-c="6" class="g">2</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">(1)</td><td data-c="10">-27%</td><td data-c="11" class="g">1</td><td data-c="12">1</td><td data-c="13">1</td><td data-c="14">(1)</td><td data-c="15">-47%</td><td data-c="16" class="g">10</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">0</td><td data-c="20">2%</td><td data-c="21" class="g">95.1%</td><td data-c="22">367</td><td data-c="23">367</td><td data-c="24"></td><td data-c="25">360</td><td data-c="26" class="g">180</td><td data-c="27">(1)</td><td data-c="28">(1)</td><td data-c="29">(10)</td><td data-c="30">-5%</td><td data-c="31" class="g">177</td><td data-c="32">6</td><td data-c="33">6</td><td data-c="34">(18)</td><td data-c="35">-9%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>COS</td><td data-c="1">4</td><td data-c="2">1</td><td data-c="3">1</td><td data-c="4">2</td><td data-c="5">68%</td><td data-c="6" class="g">2</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">2</td><td data-c="10">148%</td><td data-c="11" class="g">0</td><td data-c="12">(0)</td><td data-c="13">(0)</td><td data-c="14">0</td><td data-c="15">NA</td><td data-c="16" class="g">10</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">1</td><td data-c="20">8%</td><td data-c="21" class="g">98.1%</td><td data-c="22">(151)</td><td data-c="23">(151)</td><td data-c="24"></td><td data-c="25">(155)</td><td data-c="26" class="g">538</td><td data-c="27">2</td><td data-c="28">2</td><td data-c="29">40</td><td data-c="30">8%</td><td data-c="31" class="g">542</td><td data-c="32">11</td><td data-c="33">11</td><td data-c="34">32</td><td data-c="35">6%</td></tr>
+<tr class="d"><td>RPO</td><td data-c="1">1</td><td data-c="2">1</td><td data-c="3">1</td><td data-c="4">(0)</td><td data-c="5">-2%</td><td data-c="6" class="g">(0)</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">(1)</td><td data-c="10">-134%</td><td data-c="11" class="g">0</td><td data-c="12">0</td><td data-c="13">0</td><td data-c="14">0</td><td data-c="15">246%</td><td data-c="16" class="g">2</td><td data-c="17">(1)</td><td data-c="18">(1)</td><td data-c="19">(1)</td><td data-c="20">-16%</td><td data-c="21" class="g">90.8%</td><td data-c="22">(102)</td><td data-c="23">(102)</td><td data-c="24"></td><td data-c="25">(554)</td><td data-c="26" class="g">243</td><td data-c="27">(5)</td><td data-c="28">(5)</td><td data-c="29">(40)</td><td data-c="30">-14%</td><td data-c="31" class="g">242</td><td data-c="32">4</td><td data-c="33">4</td><td data-c="34">(46)</td><td data-c="35">-16%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>Other</td><td data-c="1">0</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-100%</td><td data-c="6" class="g">-</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">-</td><td data-c="10"></td><td data-c="11" class="g">-</td><td data-c="12">-</td><td data-c="13">-</td><td data-c="14">-</td><td data-c="15"></td><td data-c="16" class="g">0</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(0)</td><td data-c="20">-100%</td><td data-c="21" class="g">100.0%</td><td data-c="22">-</td><td data-c="23">-</td><td data-c="24"></td><td data-c="25">-</td><td data-c="26" class="g">377</td><td data-c="27">(7)</td><td data-c="28">(7)</td><td data-c="29">(42)</td><td data-c="30">-10%</td><td data-c="31" class="g">378</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">(36)</td><td data-c="35">-9%</td></tr>
+<tr class="d"><td>Implementation</td><td data-c="1">-</td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6" class="g">-</td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11" class="g">-</td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16" class="g">-</td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21" class="g"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26" class="g">1,160</td><td data-c="27">26</td><td data-c="28">26</td><td data-c="29">19</td><td data-c="30"></td><td data-c="31" class="g">1,143</td><td data-c="32">33</td><td data-c="33">33</td><td data-c="34">10</td><td data-c="35"></td></tr>
+<tr class="tot"><td>NAS Cons</td><td data-c="1">11</td><td data-c="2">(2)</td><td data-c="3">(2)</td><td data-c="4">(1)</td><td data-c="5">-6%</td><td data-c="6" class="g">6</td><td data-c="7">(3)</td><td data-c="8">(3)</td><td data-c="9">(0)</td><td data-c="10">-2%</td><td data-c="11" class="g">3</td><td data-c="12">2</td><td data-c="13">2</td><td data-c="14">(0)</td><td data-c="15">-10%</td><td data-c="16" class="g">62</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(0)</td><td data-c="20">-1%</td><td data-c="21" class="g">96.4%</td><td data-c="22">259</td><td data-c="23">259</td><td data-c="24"></td><td data-c="25">31</td><td data-c="26" class="g">3,557</td><td data-c="27">34</td><td data-c="28">34</td><td data-c="29">34</td><td data-c="30">1%</td><td data-c="31" class="g">3,581</td><td data-c="32">91</td><td data-c="33">91</td><td data-c="34">(11)</td><td data-c="35">0%</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Revenue, Controllable NOI, Expenses, NOI and Rev / FTE</h2>
+<div class="scroll">
+<table id="t2">
+<thead>
+<tr class="grp"><th>Sep</th><th colspan="5">Revenue</th><th colspan="5" class="g">Controllable NOI</th><th colspan="5" class="g">Controllable NOI %</th><th colspan="5" class="g">Controllable Expenses</th><th colspan="5" class="g">NOI</th><th colspan="5" class="g">NOI %</th><th colspan="5" class="g">Rev / FTE</th></tr>
+<tr class="cols"><th>Pillar</th><th data-c="1">Sep</th><th data-c="2">vFC</th><th data-c="3">vPlan</th><th data-c="4">vLY</th><th data-c="5">Gr%</th><th data-c="6" class="g">Sep</th><th data-c="7">vFC</th><th data-c="8">vPlan</th><th data-c="9">vLY</th><th data-c="10">Gr%</th><th data-c="11" class="g">Sep</th><th data-c="12">vFC</th><th data-c="13">vPlan</th><th data-c="14">vLY</th><th data-c="15">Gr Bps</th><th data-c="16" class="g">Sep</th><th data-c="17">vFC</th><th data-c="18">vPlan</th><th data-c="19">vLY</th><th data-c="20">Gr%</th><th data-c="21" class="g">Sep</th><th data-c="22">vFC</th><th data-c="23">vPlan</th><th data-c="24">vLY</th><th data-c="25">Gr%</th><th data-c="26" class="g">Sep</th><th data-c="27">vFC</th><th data-c="28">vPlan</th><th data-c="29">vLY</th><th data-c="30">Gr Bps</th><th data-c="31" class="g">Sep</th><th data-c="32">vFC</th><th data-c="33">vPlan</th><th data-c="34">vLY</th><th data-c="35">Gr%</th></tr>
+</thead>
+<tbody>
+<tr class="d"><td>Payroll</td><td data-c="1">26</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(0)</td><td data-c="5">-1%</td><td data-c="6" class="g">18</td><td data-c="7">(1)</td><td data-c="8">(1)</td><td data-c="9">(1)</td><td data-c="10">-2%</td><td data-c="11" class="g">74.3%</td><td data-c="12">(118)</td><td data-c="13">(118)</td><td data-c="14"></td><td data-c="15">(88)</td><td data-c="16" class="g">6</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">0</td><td data-c="20">3%</td><td data-c="21" class="g">18</td><td data-c="22">(1)</td><td data-c="23">(1)</td><td data-c="24">(1)</td><td data-c="25">-2%</td><td data-c="26" class="g">74.3%</td><td data-c="27">(118)</td><td data-c="28">(118)</td><td data-c="29"></td><td data-c="30">(88)</td><td data-c="31" class="g">591</td><td data-c="32">19</td><td data-c="33">19</td><td data-c="34">(139)</td><td data-c="35">-19%</td></tr>
+<tr class="d"><td>TLM</td><td data-c="1">10</td><td data-c="2">1</td><td data-c="3">1</td><td data-c="4">0</td><td data-c="5">2%</td><td data-c="6" class="g">6</td><td data-c="7">1</td><td data-c="8">1</td><td data-c="9">(0)</td><td data-c="10">-1%</td><td data-c="11" class="g">58.5%</td><td data-c="12">430</td><td data-c="13">430</td><td data-c="14"></td><td data-c="15">(116)</td><td data-c="16" class="g">4</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">0</td><td data-c="20">5%</td><td data-c="21" class="g">6</td><td data-c="22">1</td><td data-c="23">1</td><td data-c="24">(0)</td><td data-c="25">-1%</td><td data-c="26" class="g">58.5%</td><td data-c="27">430</td><td data-c="28">430</td><td data-c="29"></td><td data-c="30">(116)</td><td data-c="31" class="g">679</td><td data-c="32">38</td><td data-c="33">38</td><td data-c="34">(6)</td><td data-c="35">-1%</td></tr>
+<tr class="d"><td>Benefits</td><td data-c="1">9</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-2%</td><td data-c="6" class="g">4</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">1</td><td data-c="10">14%</td><td data-c="11" class="g">43.8%</td><td data-c="12">(21)</td><td data-c="13">(21)</td><td data-c="14"></td><td data-c="15">500</td><td data-c="16" class="g">5</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(1)</td><td data-c="20">-12%</td><td data-c="21" class="g">4</td><td data-c="22">(0)</td><td data-c="23">(0)</td><td data-c="24">1</td><td data-c="25">14%</td><td data-c="26" class="g">43.8%</td><td data-c="27">(21)</td><td data-c="28">(21)</td><td data-c="29"></td><td data-c="30">500</td><td data-c="31" class="g">175</td><td data-c="32">0</td><td data-c="33">0</td><td data-c="34">9</td><td data-c="35">5%</td></tr>
+<tr class="sub"><td>HCM</td><td data-c="1">43</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">(0)</td><td data-c="5">-1%</td><td data-c="6" class="g">28</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">(0)</td><td data-c="10">0%</td><td data-c="11" class="g">64.8%</td><td data-c="12">11</td><td data-c="13">11</td><td data-c="14"></td><td data-c="15">24</td><td data-c="16" class="g">15</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(0)</td><td data-c="20">-1%</td><td data-c="21" class="g">28</td><td data-c="22">(0)</td><td data-c="23">(0)</td><td data-c="24">(0)</td><td data-c="25">0%</td><td data-c="26" class="g">64.8%</td><td data-c="27">11</td><td data-c="28">11</td><td data-c="29"></td><td data-c="30">24</td><td data-c="31" class="g">410</td><td data-c="32">11</td><td data-c="33">11</td><td data-c="34">(21)</td><td data-c="35">-5%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>SASS</td><td data-c="1">6</td><td data-c="2">0</td><td data-c="3">0</td><td data-c="4">1</td><td data-c="5">9%</td><td data-c="6" class="g">2</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">0</td><td data-c="10">11%</td><td data-c="11" class="g">44.3%</td><td data-c="12">(202)</td><td data-c="13">(202)</td><td data-c="14"></td><td data-c="15">85</td><td data-c="16" class="g">3</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">0</td><td data-c="20">7%</td><td data-c="21" class="g">2</td><td data-c="22">0</td><td data-c="23">0</td><td data-c="24">0</td><td data-c="25">11%</td><td data-c="26" class="g">44.3%</td><td data-c="27">(202)</td><td data-c="28">(202)</td><td data-c="29"></td><td data-c="30">85</td><td data-c="31" class="g">563</td><td data-c="32">30</td><td data-c="33">30</td><td data-c="34">106</td><td data-c="35">23%</td></tr>
+<tr class="d"><td>RM</td><td data-c="1">2</td><td data-c="2">(0)</td><td data-c="3">(0)</td><td data-c="4">0</td><td data-c="5">4%</td><td data-c="6" class="g">2</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">0</td><td data-c="10">10%</td><td data-c="11" class="g">78.9%</td><td data-c="12">(30)</td><td data-c="13">(30)</td><td data-c="14"></td><td data-c="15">329</td><td data-c="16" class="g">0</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">(0)</td><td data-c="20">-13%</td><td data-c="21" class="g">2</td><td data-c="22">0</td><td data-c="23">(0)</td><td data-c="24">0</td><td data-c="25">10%</td><td data-c="26" class="g">78.9%</td><td data-c="27">(30)</td><td data-c="28">(30)</td><td data-c="29"></td><td data-c="30">329</td><td data-c="31" class="g">461</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">44</td><td data-c="35">11%</td></tr>
+<tr class="d"><td>TM</td><td data-c="1">2</td><td data-c="2">0</td><td data-c="3">0</td><td data-c="4">(0)</td><td data-c="5">-4%</td><td data-c="6" class="g">2</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">(0)</td><td data-c="10">-3%</td><td data-c="11" class="g">84.9%</td><td data-c="12">(94)</td><td data-c="13">(94)</td><td data-c="14"></td><td data-c="15">64</td><td data-c="16" class="g">0</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">(0)</td><td data-c="20">-9%</td><td data-c="21" class="g">2</td><td data-c="22">0</td><td data-c="23">0</td><td data-c="24">(0)</td><td data-c="25">-3%</td><td data-c="26" class="g">84.9%</td><td data-c="27">(94)</td><td data-c="28">(94)</td><td data-c="29"></td><td data-c="30">64</td><td data-c="31" class="g">926</td><td data-c="32">115</td><td data-c="33">115</td><td data-c="34">(114)</td><td data-c="35">-11%</td></tr>
+<tr class="d"><td>StandOut</td><td data-c="1">1</td><td data-c="2">0</td><td data-c="3">0</td><td data-c="4">(0)</td><td data-c="5">-24%</td><td data-c="6" class="g">0</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">(0)</td><td data-c="10">-33%</td><td data-c="11" class="g">47.2%</td><td data-c="12">931</td><td data-c="13">931</td><td data-c="14"></td><td data-c="15">(506)</td><td data-c="16" class="g">0</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">(0)</td><td data-c="20">-14%</td><td data-c="21" class="g">0</td><td data-c="22">0</td><td data-c="23">0</td><td data-c="24">(0)</td><td data-c="25">-33%</td><td data-c="26" class="g">47.2%</td><td data-c="27">931</td><td data-c="28">931</td><td data-c="29"></td><td data-c="30">(506)</td><td data-c="31" class="g">435</td><td data-c="32">74</td><td data-c="33">74</td><td data-c="34">(10)</td><td data-c="35">-2%</td></tr>
+<tr class="sub"><td>Talent</td><td data-c="1">10</td><td data-c="2">0</td><td data-c="3">0</td><td data-c="4">0</td><td data-c="5">2%</td><td data-c="6" class="g">6</td><td data-c="7">0</td><td data-c="8">0</td><td data-c="9">0</td><td data-c="10">3%</td><td data-c="11" class="g">59.5%</td><td data-c="12">(101)</td><td data-c="13">(101)</td><td data-c="14"></td><td data-c="15">30</td><td data-c="16" class="g">4</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">0</td><td data-c="20">1%</td><td data-c="21" class="g">6</td><td data-c="22">0</td><td data-c="23">0</td><td data-c="24">0</td><td data-c="25">3%</td><td data-c="26" class="g">59.5%</td><td data-c="27">(101)</td><td data-c="28">(101)</td><td data-c="29"></td><td data-c="30">30</td><td data-c="31" class="g">581</td><td data-c="32">38</td><td data-c="33">38</td><td data-c="34">65</td><td data-c="35">13%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>COS</td><td data-c="1">10</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">0</td><td data-c="5">2%</td><td data-c="6" class="g">6</td><td data-c="7">(1)</td><td data-c="8">(1)</td><td data-c="9">(0)</td><td data-c="10">-4%</td><td data-c="11" class="g">61.3%</td><td data-c="12">(562)</td><td data-c="13">(562)</td><td data-c="14"></td><td data-c="15">(294)</td><td data-c="16" class="g">4</td><td data-c="17">(1)</td><td data-c="18">(1)</td><td data-c="19">1</td><td data-c="20">13%</td><td data-c="21" class="g">6</td><td data-c="22">(1)</td><td data-c="23">(1)</td><td data-c="24">(0)</td><td data-c="25">-4%</td><td data-c="26" class="g">61.3%</td><td data-c="27">(562)</td><td data-c="28">(562)</td><td data-c="29"></td><td data-c="30">(294)</td><td data-c="31" class="g">194</td><td data-c="32">(9)</td><td data-c="33">(9)</td><td data-c="34">(8)</td><td data-c="35">-4%</td></tr>
+<tr class="d"><td>RPO</td><td data-c="1">2</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(1)</td><td data-c="5">-16%</td><td data-c="6" class="g">1</td><td data-c="7">(0)</td><td data-c="8">(0)</td><td data-c="9">0</td><td data-c="10">6%</td><td data-c="11" class="g">19.7%</td><td data-c="12">(747)</td><td data-c="13">(747)</td><td data-c="14"></td><td data-c="15">332</td><td data-c="16" class="g">2</td><td data-c="17">0</td><td data-c="18">0</td><td data-c="19">(1)</td><td data-c="20">-20%</td><td data-c="21" class="g">1</td><td data-c="22">(0)</td><td data-c="23">(0)</td><td data-c="24">0</td><td data-c="25">6%</td><td data-c="26" class="g">19.7%</td><td data-c="27">(747)</td><td data-c="28">(747)</td><td data-c="29"></td><td data-c="30">332</td><td data-c="31" class="g">111</td><td data-c="32">(20)</td><td data-c="33">(20)</td><td data-c="34">(0)</td><td data-c="35">0%</td></tr>
+<tr class="sp"><td></td><td data-c="1"></td><td data-c="2"></td><td data-c="3"></td><td data-c="4"></td><td data-c="5"></td><td data-c="6"></td><td data-c="7"></td><td data-c="8"></td><td data-c="9"></td><td data-c="10"></td><td data-c="11"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21"></td><td data-c="22"></td><td data-c="23"></td><td data-c="24"></td><td data-c="25"></td><td data-c="26"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30"></td><td data-c="31"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>Other</td><td data-c="1">0</td><td data-c="2">0</td><td data-c="3">0</td><td data-c="4">(0)</td><td data-c="5">-100%</td><td data-c="6" class="g">(6)</td><td data-c="7">(1)</td><td data-c="8">(1)</td><td data-c="9">(2)</td><td data-c="10">-34%</td><td data-c="11" class="g"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15">-</td><td data-c="16" class="g">6</td><td data-c="17">(1)</td><td data-c="18">(1)</td><td data-c="19">2</td><td data-c="20">34%</td><td data-c="21" class="g">(6)</td><td data-c="22">(1)</td><td data-c="23">(1)</td><td data-c="24">(2)</td><td data-c="25">-34%</td><td data-c="26" class="g"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30">-</td><td data-c="31" class="g">1,819</td><td data-c="32">(15)</td><td data-c="33">(15)</td><td data-c="34">150</td><td data-c="35">9%</td></tr>
+<tr class="d"><td>Implementation</td><td data-c="1">-</td><td data-c="2">-</td><td data-c="3">-</td><td data-c="4">-</td><td data-c="5"></td><td data-c="6" class="g">(12)</td><td data-c="7">1</td><td data-c="8">1</td><td data-c="9">(0)</td><td data-c="10">0%</td><td data-c="11" class="g"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16" class="g">12</td><td data-c="17">1</td><td data-c="18">1</td><td data-c="19">0</td><td data-c="20">0%</td><td data-c="21" class="g">(12)</td><td data-c="22">1</td><td data-c="23">1</td><td data-c="24">(0)</td><td data-c="25">0%</td><td data-c="26" class="g"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30">-</td><td data-c="31" class="g">51</td><td data-c="32">(24)</td><td data-c="33">(24)</td><td data-c="34">(2)</td><td data-c="35">-3%</td></tr>
+<tr class="d"><td>Shared Services</td><td data-c="1">-</td><td data-c="2">-</td><td data-c="3">-</td><td data-c="4">-</td><td data-c="5"></td><td data-c="6" class="g"></td><td data-c="7">-</td><td data-c="8">-</td><td data-c="9">-</td><td data-c="10"></td><td data-c="11" class="g"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16" class="g"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21" class="g">(33)</td><td data-c="22">(0)</td><td data-c="23">(0)</td><td data-c="24">(1)</td><td data-c="25">-4%</td><td data-c="26" class="g"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30">-</td><td data-c="31" class="g"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>NDE</td><td data-c="1">-</td><td data-c="2">-</td><td data-c="3">-</td><td data-c="4">-</td><td data-c="5"></td><td data-c="6" class="g"></td><td data-c="7">-</td><td data-c="8">-</td><td data-c="9">-</td><td data-c="10"></td><td data-c="11" class="g"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16" class="g"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21" class="g">(9)</td><td data-c="22">1</td><td data-c="23">1</td><td data-c="24">1</td><td data-c="25">12%</td><td data-c="26" class="g"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30">-</td><td data-c="31" class="g"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="d"><td>Acq. / Amort</td><td data-c="1">-</td><td data-c="2">-</td><td data-c="3">-</td><td data-c="4">-</td><td data-c="5"></td><td data-c="6" class="g"></td><td data-c="7">-</td><td data-c="8">-</td><td data-c="9">-</td><td data-c="10"></td><td data-c="11" class="g"></td><td data-c="12"></td><td data-c="13"></td><td data-c="14"></td><td data-c="15"></td><td data-c="16" class="g"></td><td data-c="17"></td><td data-c="18"></td><td data-c="19"></td><td data-c="20"></td><td data-c="21" class="g">-</td><td data-c="22">-</td><td data-c="23">-</td><td data-c="24">-</td><td data-c="25"></td><td data-c="26" class="g"></td><td data-c="27"></td><td data-c="28"></td><td data-c="29"></td><td data-c="30">-</td><td data-c="31" class="g"></td><td data-c="32"></td><td data-c="33"></td><td data-c="34"></td><td data-c="35"></td></tr>
+<tr class="tot"><td>NAS Cons</td><td data-c="1">66</td><td data-c="2">(1)</td><td data-c="3">(1)</td><td data-c="4">(0)</td><td data-c="5">-1%</td><td data-c="6" class="g">22</td><td data-c="7">(2)</td><td data-c="8">(2)</td><td data-c="9">(2)</td><td data-c="10">-7%</td><td data-c="11" class="g">33.8%</td><td data-c="12">(104)</td><td data-c="13">(104)</td><td data-c="14"></td><td data-c="15">(190)</td><td data-c="16" class="g">44</td><td data-c="17">(0)</td><td data-c="18">(0)</td><td data-c="19">2</td><td data-c="20">3%</td><td data-c="21" class="g">(19)</td><td data-c="22">(1)</td><td data-c="23">(1)</td><td data-c="24">(2)</td><td data-c="25">-10%</td><td data-c="26" class="g">-28.9%</td><td data-c="27">(160)</td><td data-c="28">(160)</td><td data-c="29"></td><td data-c="30">(214)</td><td data-c="31" class="g">192</td><td data-c="32">2</td><td data-c="33">2</td><td data-c="34">(0)</td><td data-c="35">0%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div><!-- /wrap -->
+<script>
+(function () {
+  function hook(t) {
+    function clearCol() {
+      var on = t.querySelectorAll('.ch');
+      for (var i = 0; i < on.length; i++) on[i].classList.remove('ch', 'ct', 'cb');
+    }
+    t.addEventListener('mouseover', function (e) {
+      var el = e.target.closest ? e.target.closest('[data-c]') : null;
+      clearCol();
+      if (!el) return;
+      var list = t.querySelectorAll('[data-c="' + el.getAttribute('data-c') + '"]');
+      for (var i = 0; i < list.length; i++) list[i].classList.add('ch');
+      list[0].classList.add('ct');
+      list[list.length - 1].classList.add('cb');
+    });
+    t.addEventListener('mouseleave', clearCol);
+  }
+  hook(document.getElementById('t1'));
+  hook(document.getElementById('t2'));
+})();
+</script>
+</div><!-- /content -->
+</main>
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div><div class="panel-title">Close assistant</div><div class="panel-sub">AI commentary &middot; Placeholder</div></div>
+    </div>
+    <div class="panel-body">
+      <span class="ai-tag draft">AI-drafted</span><span class="ai-tag review">Needs review</span>
+      <div class="panel-period">PORTFOLIO / FY27</div>
+      <div class="ai-headline">Portfolio revenue mix stable through Q1.</div>
+      <div class="ai-body">NAS represents 62% of total revenue, RS 37%, in line with Plan. Processing revenue is 88.4% of total, 0.4 pp above Plan.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this page</div>
+      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      All figures are illustrative placeholders. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+  /* Tab switching (if tabs present) */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Persona menu (if present) */
+  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
+  if(btn && menu){
+    var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
+    function openMenu(on){ btn.setAttribute('aria-expanded', on?'true':'false'); if(on) menu.removeAttribute('hidden'); else menu.setAttribute('hidden',''); }
+    btn.addEventListener('click', function(){ openMenu(menu.hasAttribute('hidden')); });
+    items.forEach(function(it){ it.addEventListener('click', function(){ items.forEach(function(o){ o.setAttribute('aria-checked', o===it?'true':'false'); }); if(nm) nm.textContent=it.getAttribute('data-name'); openMenu(false); btn.focus(); }); });
+    document.addEventListener('click', function(e){ if(!menu.hasAttribute('hidden')&&!menu.contains(e.target)&&!btn.contains(e.target)) openMenu(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!menu.hasAttribute('hidden')){ openMenu(false); btn.focus(); } });
+  }
+})();
+</script>
+</body>
+</html>
+

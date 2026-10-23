@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual vs Plan Variance Dashboard</title>
+<style>
+  /* -- V2 Design System -- */
+  :root { --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28; --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  /* Chrome */
+  .chrome { display:flex; align-items:center; justify-content:space-between; height:40px; background:#fff; border-bottom:1px solid var(--line); padding:0 16px; flex:none; }
+  .chrome-l { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--navy); }
+  .chrome-logo { font-family:"Arial Black",Helvetica,Arial,sans-serif; font-weight:900; font-style:italic; color:var(--adp); font-size:15px; letter-spacing:-0.5px; margin-right:4px; }
+  .chrome-r { display:flex; align-items:center; gap:18px; font-size:12px; color:var(--muted); }
+  .chrome-r b { color:var(--navy); font-weight:600; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:#6929C4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
+  /* Shell */
+  .shell { display:flex; flex:1; overflow:hidden; }
+  /* Sidebar */
+  .sidebar { width:var(--sidebar-w); background:#fff; border-right:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; padding-bottom:16px; }
+  .sb-bu { padding:12px 16px; border-bottom:1px solid var(--line); }
+  .sb-bu-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.2; }
+  .sb-bu-label { font-size:11px; color:var(--muted); }
+  .sb-section { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:14px 16px 4px; }
+  .sb-link { display:flex; align-items:center; gap:8px; padding:7px 16px 7px 14px; font-size:13px; color:var(--muted); text-decoration:none; border-left:3px solid transparent; }
+  .sb-link:hover { background:var(--hover); color:var(--navy); }
+  .sb-link.active { color:var(--navy); font-weight:600; border-left-color:var(--blue); background:#edf4ff; }
+  .sb-link.sub { padding-left:28px; font-size:12px; }
+  .sb-note { font-size:11px; color:var(--muted); padding:10px 16px; line-height:1.4; }
+  .sb-ext { display:block; padding:6px 16px; font-size:12px; color:var(--blue); text-decoration:none; }
+  .sb-ext:hover { text-decoration:underline; }
+  .sb-divider { height:1px; background:var(--line); margin:8px 0; }
+  /* Main */
+  .main { flex:1; overflow-y:auto; display:flex; flex-direction:column; min-width:0; }
+  .titlebar { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px 12px; flex:none; }
+  .breadcrumb { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .breadcrumb a { color:var(--blue); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { margin:0 5px; }
+  .title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .page-title { font-size:22px; font-weight:600; color:var(--navy); line-height:1.2; }
+  .page-sub { font-size:12px; color:var(--muted); margin-top:3px; }
+  .content { padding:20px 24px 40px; flex:1; overflow-y:auto; }
+  /* Suppress old layout artifacts */
+  .topbar { display:none !important; }
+  .back { display:none !important; }
+  .hdr { display:none !important; }
+  /* Keep existing content styles working */
+  h1 { font-size:22px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .note { background:var(--tile); border:1px solid var(--line); padding:10px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; }
+  .hint { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .footer { margin-top:36px; padding-top:10px; border-top:1px solid var(--line); text-align:center; font-size:12px; color:var(--muted); }
+  .wrap { max-width:none; }
+  /* Right panel */
+  .panel { width:var(--panel-w); background:#fff; border-left:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; }
+  .panel-hdr { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; }
+  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#6929C4,#1192E8); flex:none; }
+  .panel-title { font-size:13px; font-weight:700; }
+  .panel-sub { font-size:11px; color:var(--muted); }
+  .panel-body { padding:12px 14px; flex:1; }
+  .ai-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:10px; }
+  .ai-tag.draft { background:#e8daff; color:#6929C4; }
+  .ai-tag.review { background:#fff3cd; color:#B28600; margin-left:4px; }
+  .panel-period { font-size:11px; font-weight:600; color:var(--muted); margin:10px 0 8px; }
+  .ai-headline { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.3; }
+  .ai-body { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+  .reviewer { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .ai-actions { display:flex; gap:8px; margin-bottom:20px; }
+  .btn { font:inherit; font-size:12px; padding:6px 14px; cursor:pointer; border-radius:2px; }
+  .btn-ghost { background:transparent; border:1px solid var(--line); color:var(--navy); }
+  .btn-ghost:hover { background:var(--hover); }
+  .btn-primary { background:var(--blue); border:1px solid var(--blue); color:#fff; }
+  .btn-primary:hover { background:#0050e6; }
+  .panel-divider { height:1px; background:var(--line); margin:0 0 14px; }
+  .ask-label { font-size:12px; font-weight:600; margin-bottom:6px; }
+  .ask-input { width:100%; font:inherit; font-size:12px; color:var(--navy); background:var(--inner); border:1px solid var(--line); padding:7px 10px; resize:none; height:60px; }
+  .ask-input::placeholder { color:var(--muted); }
+  .panel-disclaimer { font-size:11px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); line-height:1.5; }
+  .disclaimer-title { font-weight:600; margin-bottom:3px; }
+
+  .chips { display: flex; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .chip { border: 1px solid #e5e7eb; background: #f7f8fa; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  h2 { font-size: 16px; margin-top: 26px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-bottom: 10px; }
+  .desc { font-size: 12px; color: #57606a; margin: -4px 0 10px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .card { background: #f7f8fa; border: 1px solid #e5e7eb; border-left: 4px solid #9ca3af; padding: 10px 12px; }
+  .card.fav { border-left-color: #198038; }
+  .card.unfav { border-left-color: #FA4D56; }
+  .nm { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .val { font-size: 22px; font-weight: 600; line-height: 1.3; margin-top: 6px; }
+  .pl { font-size: 12px; color: #57606a; }
+  .vr { font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .fav .vr { color: #198038; }
+  .unfav .vr { color: #FA4D56; }
+  .flat .vr { color: #57606a; }
+  .legend { font-size: 12px; color: #57606a; margin: 6px 0 4px; }
+  .legend span.sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 12px; vertical-align: middle; }
+  .legend span.sw:first-child { margin-left: 0; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 11px; fill: #57606a; }
+  svg text.d { fill: #1f2328; }
+  svg text.g { fill: #198038; }
+  svg text.r { fill: #FA4D56; }
+  .ins { font-size: 13px; margin-top: 6px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="chrome">
+  <div class="chrome-l"><a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a> Project Polaris</div>
+  <div class="chrome-r"><span>SEPTEMBER CLOSE / DAY 4</span><b>FP&amp;A Lead</b><div class="avatar">JL</div></div>
+</div>
+
+<div class="shell">
+<nav class="sidebar" aria-label="Navigation">
+  <div class="sb-bu"><div class="sb-bu-name">ADP<br>Project Polaris</div><div class="sb-bu-label">September Close &#183; Day&nbsp;4</div></div>
+  <div class="sb-section">Close Review</div>
+  <a class="sb-link" href="cfo_dash_v2.html">BU Dashboard</a>
+  <a class="sb-link" href="BU_cfo_v2.html">Management P&amp;L</a>
+  <a class="sb-link active" href="variance_dashboard.html">Field Expense P&amp;L</a>
+  <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount &amp; FTE</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Financials</div>
+  <a class="sb-link" href="consolidated_mth_ytd.html">Cons. Month &amp; YTD</a>
+  <a class="sb-link" href="consolidated_qtrs.html">Cons. Quarters</a>
+  <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NAS Cons P&amp;L</a>
+  <a class="sb-link" href="revenue_summary.html">Revenue Summary</a>
+  <a class="sb-link" href="sales_income_summary.html">Sales Summary</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Analysis</div>
+  <a class="sb-link" href="pipeline_kpi_report.html">Pipeline KPIs</a>
+  <a class="sb-link" href="portfolio_view_fy27_cons_month.html">Portfolio View</a>
+  <a class="sb-link" href="processing_revenue.html">Processing Revenue</a>
+  <a class="sb-link" href="q1_roy_full_year_forecast.html">Q1 / ROY Forecast</a>
+  <a class="sb-link" href="tabular.html">Tabular</a>
+  <a class="sb-link" href="te_point_to_point.html">T&amp;E Point to Point</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">BU Landing Pages</div>
+  <a class="sb-link" href="nas_landing.html">NAS BU Landing</a>
+  <a class="sb-link" href="rs_landing.html">RS BU Landing</a>
+  <a class="sb-link" href="cfo_dashboard.html">Executive KPI Dashboard</a>
+  <div class="sb-divider"></div>
+  <a class="sb-ext" href="index.html">&larr; Index</a>
+</nav>
+
+<main class="main">
+<div class="titlebar">
+  <div class="breadcrumb"><a href="index.html">Home / Close Review</a></div>
+  <div class="title-row">
+    <div>
+      <div class="page-title">Variance Dashboard</div>
+      <div class="page-sub">Actual vs Plan variance by line item and segment</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+<div class="wrap">
+
+<h1>Actual vs Plan Variance Dashboard</h1>
+<div class="sub">YTD September FY27 · $M unless noted · variance shown as Favorable / (Unfavorable) vs Plan</div>
+<div class="note"><strong>Illustrative data.</strong> All figures are sample values for demonstration only, not actuals. Plan is derived from the variances shown. Expenses and headcount are favorable when below Plan. Basis-point variances come from unrounded values.</div>
+
+<div class="chips">
+  <div class="chip" style="color:#198038">10 favorable</div>
+  <div class="chip" style="color:#FA4D56">2 unfavorable</div>
+  <div class="chip" style="color:#57606a">2 on Plan</div>
+</div>
+
+<h2>Revenue</h2>
+<div class="grid">
+  <div class="card unfav"><div class="nm">Income summary sales</div><div class="val">$18M</div><div class="pl">Plan $24M</div><div class="vr">($6M) unfav · -26.7%</div></div>
+  <div class="card fav"><div class="nm">Retention %</div><div class="val">95.1%</div><div class="pl">Plan 94.2%</div><div class="vr">+90 bps fav</div></div>
+  <div class="card fav"><div class="nm">Revenue</div><div class="val">$202M</div><div class="pl">Plan $200M</div><div class="vr">+$2M fav · +0.8%</div></div>
+  <div class="card unfav"><div class="nm">Clients (average)</div><div class="val">7,624</div><div class="pl">Plan 7,648</div><div class="vr">(24) unfav · -0.3%</div></div>
+</div>
+
+<h2>Expense</h2>
+<div class="grid">
+  <div class="card flat"><div class="nm">Field expense</div><div class="val">$133M</div><div class="pl">Plan $133M</div><div class="vr">$0M on Plan</div></div>
+  <div class="card fav"><div class="nm">NDE</div><div class="val">$20M</div><div class="pl">Plan $22M</div><div class="vr">+$2M fav · +7.4%</div></div>
+  <div class="card flat"><div class="nm">Allocations</div><div class="val">$98M</div><div class="pl">Plan $98M</div><div class="vr">$0M on Plan</div></div>
+  <div class="card fav"><div class="nm">Total expenses</div><div class="val">$250M</div><div class="pl">Plan $252M</div><div class="vr">+$2M fav · +0.6%</div></div>
+</div>
+
+<h2>Profit</h2>
+<div class="grid">
+  <div class="card fav"><div class="nm">Field operating NOI</div><div class="val">$69M</div><div class="pl">Plan $67M</div><div class="vr">+$2M fav · +2.4%</div></div>
+  <div class="card fav"><div class="nm">Field operating NOI %</div><div class="val">34.1%</div><div class="pl">Plan 33.6%</div><div class="vr">+53 bps fav</div></div>
+  <div class="card fav"><div class="nm">NOI</div><div class="val">($49M)</div><div class="pl">Plan ($52M)</div><div class="vr">+$3M fav · +6.2%</div></div>
+  <div class="card fav"><div class="nm">NOI margin %</div><div class="val">(24.1%)</div><div class="pl">Plan (25.8%)</div><div class="vr">+173 bps fav</div></div>
+</div>
+
+<h2>People</h2>
+<div class="grid">
+  <div class="card fav"><div class="nm">Headcount (ending)</div><div class="val">3,557</div><div class="pl">Plan 3,590</div><div class="vr">+34 fav · +0.9%</div></div>
+  <div class="card fav"><div class="nm">FTE (average)</div><div class="val">3,590</div><div class="pl">Plan 3,650</div><div class="vr">+60 fav · +1.6%</div></div>
+</div>
+
+<h2>Variance vs Plan by Metric</h2>
+<div class="desc">% variance, favorable to the right of the line (the % metrics, retention, Field operating NOI % and NOI margin, are in basis points in the cards above)</div>
+<div class="legend"><span class="sw" style="background:#198038"></span>Favorable<span class="sw" style="background:#FA4D56"></span>Unfavorable</div>
+<svg viewBox="0 0 720 325" role="img" aria-label="Diverging bar chart of percent variance to plan by metric">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="160" y1="8" x2="160" y2="296"/><line x1="295" y1="8" x2="295" y2="296"/><line x1="430" y1="8" x2="430" y2="296"/><line x1="700" y1="8" x2="700" y2="296"/></g>
+  <line x1="565" y1="8" x2="565" y2="296" stroke="#57606a" stroke-width="1"/>
+  <g text-anchor="middle"><text x="160" y="314">-30%</text><text x="295" y="314">-20%</text><text x="430" y="314">-10%</text><text x="565" y="314">0%</text><text x="700" y="314">+10%</text></g>
+  <g text-anchor="end" class="d">
+    <text class="d" x="152" y="26">Income summary sales</text><text class="d" x="152" y="52">Revenue</text><text class="d" x="152" y="78">Clients (average)</text><text class="d" x="152" y="104">Field expense</text>
+    <text class="d" x="152" y="130">NDE</text><text class="d" x="152" y="156">Allocations</text><text class="d" x="152" y="182">Total expenses</text><text class="d" x="152" y="208">Field operating NOI</text>
+    <text class="d" x="152" y="234">NOI</text><text class="d" x="152" y="260">Headcount (ending)</text><text class="d" x="152" y="286">FTE (average)</text>
+  </g>
+  <rect x="204.5" y="14" width="360.5" height="16" fill="#FA4D56"/>
+  <rect x="565" y="40" width="10.8" height="16" fill="#198038"/>
+  <rect x="560.9" y="66" width="4.1" height="16" fill="#FA4D56"/>
+  <rect x="565" y="118" width="99.9" height="16" fill="#198038"/>
+  <rect x="565" y="170" width="8.1" height="16" fill="#198038"/>
+  <rect x="565" y="196" width="32.4" height="16" fill="#198038"/>
+  <rect x="565" y="222" width="83.7" height="16" fill="#198038"/>
+  <rect x="565" y="248" width="12.2" height="16" fill="#198038"/>
+  <rect x="565" y="274" width="21.6" height="16" fill="#198038"/>
+  <g>
+    <text class="d" text-anchor="end" x="200.5" y="26">-26.7%</text>
+    <text class="d" x="579.8" y="52">+0.8%</text>
+    <text class="d" text-anchor="end" x="556.9" y="78">-0.3%</text>
+    <text class="d" x="571" y="104">0.0%</text>
+    <text class="d" x="668.9" y="130">+7.4%</text>
+    <text class="d" x="571" y="156">0.0%</text>
+    <text class="d" x="577.1" y="182">+0.6%</text>
+    <text class="d" x="601.4" y="208">+2.4%</text>
+    <text class="d" x="652.7" y="234">+6.2%</text>
+    <text class="d" x="581.2" y="260">+0.9%</text>
+    <text class="d" x="590.6" y="286">+1.6%</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Income summary sales is the one large miss, at 73% of Plan (-26.7%). Every cost and profit line is on or better than Plan, led by NDE (+7.4%) and NOI (+6.2%). Clients is slightly under Plan (-0.3%).</div>
+
+<h2>Revenue to NOI Bridge</h2>
+<div class="desc">Actual $M, with the variance vs Plan under each step</div>
+<svg viewBox="0 0 720 265" role="img" aria-label="Waterfall chart from revenue to NOI with variance to plan under each step">
+  <g stroke="#e5e7eb" stroke-width="1"><line x1="50" y1="20" x2="700" y2="20"/><line x1="50" y1="70" x2="700" y2="70"/><line x1="50" y1="120" x2="700" y2="120"/><line x1="50" y1="220" x2="700" y2="220"/></g>
+  <line x1="50" y1="170" x2="700" y2="170" stroke="#57606a" stroke-width="1"/>
+  <g text-anchor="end"><text x="44" y="24">240</text><text x="44" y="74">160</text><text x="44" y="124">80</text><text x="44" y="174">0</text><text x="44" y="224">-80</text></g>
+  <g stroke="#9ca3af" stroke-width="1" stroke-dasharray="3 3"><line x1="170" y1="44" x2="220" y2="44"/><line x1="300" y1="127" x2="350" y2="127"/><line x1="430" y1="188" x2="480" y2="188"/><line x1="560" y1="200.5" x2="610" y2="200.5"/></g>
+  <rect x="90" y="44" width="80" height="126" fill="#1192E8"/>
+  <rect x="220" y="44" width="80" height="83" fill="#9ca3af"/>
+  <rect x="350" y="127" width="80" height="61" fill="#9ca3af"/>
+  <rect x="480" y="188" width="80" height="12.5" fill="#9ca3af"/>
+  <rect x="610" y="170" width="80" height="30.5" fill="#6929C4"/>
+  <g text-anchor="middle">
+    <text class="d" x="130" y="38">202</text><text class="d" x="260" y="38">(133)</text><text class="d" x="390" y="121">(98)</text><text class="d" x="520" y="182">(20)</text><text class="d" x="650" y="214">(49)</text>
+    <text x="130" y="238">Revenue</text><text x="260" y="238">Field expense</text><text x="390" y="238">Allocations</text><text x="520" y="238">NDE</text><text x="650" y="238">NOI</text>
+    <text class="g" x="130" y="255">+2 vs Plan</text><text x="260" y="255">0 vs Plan</text><text x="390" y="255">0 vs Plan</text><text class="g" x="520" y="255">+2 vs Plan</text><text class="g" x="650" y="255">+3 vs Plan</text>
+  </g>
+</svg>
+<div class="ins"><strong>Insight:</strong> Revenue of $202M less $250M of total expenses leaves NOI of ($49M), $3M better than Plan. The improvement is the $2M revenue lead plus $2M of lower NDE; Field expense and Allocations are exactly on Plan.</div>
+
+<div class="footer">Made with IBM Bob</div>
+</div><!-- /wrap -->
+</div><!-- /content -->
+</main>
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div><div class="panel-title">Close assistant</div><div class="panel-sub">AI commentary &middot; Placeholder</div></div>
+    </div>
+    <div class="panel-body">
+      <span class="ai-tag draft">AI-drafted</span><span class="ai-tag review">Needs review</span>
+      <div class="panel-period">VARIANCE / SEPTEMBER</div>
+      <div class="ai-headline">Revenue and NOI variances favorable; expense slightly above Plan.</div>
+      <div class="ai-body">Revenue is $4.0m favorable (+0.8%). Field expense is $1.0m unfavorable (+1.3%). Net NOI variance is $3.0m favorable (+7.7%). No significant one-time items.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this page</div>
+      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      All figures are illustrative placeholders. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+  /* Tab switching (if tabs present) */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Persona menu (if present) */
+  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
+  if(btn && menu){
+    var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
+    function openMenu(on){ btn.setAttribute('aria-expanded', on?'true':'false'); if(on) menu.removeAttribute('hidden'); else menu.setAttribute('hidden',''); }
+    btn.addEventListener('click', function(){ openMenu(menu.hasAttribute('hidden')); });
+    items.forEach(function(it){ it.addEventListener('click', function(){ items.forEach(function(o){ o.setAttribute('aria-checked', o===it?'true':'false'); }); if(nm) nm.textContent=it.getAttribute('data-name'); openMenu(false); btn.focus(); }); });
+    document.addEventListener('click', function(e){ if(!menu.hasAttribute('hidden')&&!menu.contains(e.target)&&!btn.contains(e.target)) openMenu(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!menu.hasAttribute('hidden')){ openMenu(false); btn.focus(); } });
+  }
+})();
+</script>
+</body>
+</html>
+

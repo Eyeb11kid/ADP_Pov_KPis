@@ -39,16 +39,19 @@
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
   .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
   .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
-  .content { padding: 20px 24px 40px; flex: 1; overflow-y: auto; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 2px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+  .content { padding: 0 20px 32px; flex: 1; }
   .wrap { max-width: none; }
+  .footer { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--muted); }
   /* Dashboard content styles */
-  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
-  .head h1 { font-size: 20px; font-weight: 600; color: var(--navy); }
-  .head .sub { color: var(--muted); font-size: 12px; }
-  .note { background: var(--tile); border: 1px solid var(--line); border-left: 4px solid #1192E8; padding: 8px 14px; font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .note { background: var(--tile); border: 1px solid var(--line); border-left: 4px solid #1192E8; padding: 8px 14px; font-size: 12px; color: var(--muted); margin: 14px 0; }
   .up { color: var(--green); font-weight: 600; }
   .dn { color: var(--red); font-weight: 600; }
   .kcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
@@ -76,10 +79,11 @@
   .tip { position: fixed; z-index: 10; pointer-events: none; background: #012749; color: #fff; font-size: 12px; line-height: 1.4; padding: 5px 9px; white-space: nowrap; opacity: 0; }
   .tip.on { opacity: 1; }
   .cfrw { --t-bg:#fff; --t-head:#f4f4f4; --t-gbg:#161616; --t-gfg:#fff; --t-gsep:#fff; --t-hline:#161616; --t-line:#f0f1f3; --t-side:#e0e0e0; --t-dash:#9ca3af; --t-secbg:#edf4ff; --t-secfg:#161616; --t-secline:#0f62fe; --t-subbg:#f4f4f4; --t-totbg:#e1e5ec; --t-totline:#161616; --t-hrow:#eef4fc; --t-hsub:#dbe8fa; --t-htot:#cfdcf0; --t-chbg:#dbe8fa; --t-acc:#0f62fe; --t-neg:#da1e28; --t-fg:#161616; --t-mut:#525252; }
-  .cfrp { margin-bottom: 14px; }
+  .panel.cfrp { margin-bottom: 14px; padding: 0; }
+  .panel.cfrp > h2 { padding: 13px 16px 2px; margin-bottom: 0; }
   .cfrw { color: var(--t-fg); }
-  .cfrw .t-hint { font-size: 11px; color: var(--t-mut); margin-bottom: 6px; font-style: italic; }
-  .cfrw .t-scroll { overflow: auto; max-height: 76vh; border: 1px solid var(--t-side); }
+  .cfrw .t-hint { font-size: 11px; color: var(--t-mut); padding: 0 16px 10px; }
+  .cfrw .t-scroll { overflow: auto; max-height: 76vh; border: 1px solid var(--t-side); border-width: 1px 0 0; }
   .cfrw table { border-collapse: separate; border-spacing: 0; font-size: 12px; white-space: nowrap; min-width: 7200px; width: 100%; }
   .cfrw th, .cfrw td { padding: 3px 10px; text-align: right; border-bottom: 1px solid var(--t-line); background: var(--t-bg); }
   .cfrw thead th { height: 26px; position: sticky; z-index: 3; }
@@ -182,20 +186,23 @@
 
   <main class="main">
     <div class="titlebar">
-      <div class="breadcrumb">Corporate CFO dashboard</div>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Corporate CFO</div>
       <div class="title-row">
         <div>
-          <div class="page-title">Corporate CFO Dashboard</div>
-          <div class="page-sub">Company-wide KPIs &middot; Revenue, NOI, Headcount, Sales &middot; September close</div>
+          <div class="page-title">Corporate CFO dashboard</div>
+          <div class="page-sub">Company-wide KPIs &middot; Revenue, NOI, Headcount, Sales &middot; YTD $M unless noted &middot; variances Favorable / (Unfavorable)</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="pill-select">ADP 4-4-5</div>
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div class="illustrative">Illustrative &middot; definitions pending validation</div>
         </div>
       </div>
     </div>
 
     <div class="content">
       <div class="wrap">
-<div class="wrap">
 
-<div class="head"><h1>CFO Dashboard</h1><div class="sub">YTD · $M unless noted · variances Favorable / (Unfavorable)</div></div>
 <div class="note"><strong>Illustrative data.</strong> All figures are sample values for demonstration only, not actuals. The revenue mix, expense mix and NOI bridge each add up to Revenue, Expense and NOI, and the NAS and RS tabs add up to the company Revenue card; the SBS, ES and MAS tabs are separate views. NNB = net new business; Fcst = forecast; LY = last year.</div>
 
 <div class="kcards">
@@ -232,7 +239,8 @@
   <div class="kcard" style="--c:#012749"><div class="top"><div><div class="lab">Headcount</div><div class="val">3,847</div></div><div class="ico"><svg width="22" height="20" viewBox="0 0 22 20"><circle cx="8" cy="6" r="3.5" fill="#fff"/><path d="M1 18c0-4 3-6 7-6s7 2 7 6z" fill="#fff"/><circle cx="16" cy="7" r="2.6" fill="#fff" opacity=".8"/></svg></div></div>
     <div class="mid"><span>vs LY <span class="up">+1% &#9650;</span></span><svg viewBox="0 0 112 36"><polyline points="1.0,21.0 11.0,17.0 21.0,19.0 31.0,15.0 41.0,20.0 51.0,16.0 61.0,18.0 71.0,13.0 81.0,17.0 91.0,11.0 101.0,14.0 111.0,7.0 " fill="none" stroke="#012749" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 </svg></div>
-    <div class="vars"><div>Plan Var<b>+58</b></div><div>Fcst Var<b>+24</b></div></div></div>  <div class="kcard" style="--c:#009D9A"><div class="top"><div><div class="lab">Sales Performance</div><div class="val">$23.5M</div></div><div class="ico"><svg width="22" height="20" viewBox="0 0 22 20"><polyline points="2,15 8,9 12,13 20,4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><polyline points="14,4 20,4 20,10" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg></div></div>
+    <div class="vars"><div>Plan Var<b>+58</b></div><div>Fcst Var<b>+24</b></div></div></div>
+  <div class="kcard" style="--c:#009D9A"><div class="top"><div><div class="lab">Sales Performance</div><div class="val">$23.5M</div></div><div class="ico"><svg width="22" height="20" viewBox="0 0 22 20"><polyline points="2,15 8,9 12,13 20,4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><polyline points="14,4 20,4 20,10" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg></div></div>
     <div class="mid"><span>vs LY <span class="up">+57% &#9650;</span></span><svg viewBox="0 0 112 36"><polyline points="1.0,25.0 11.0,23.0 21.0,24.0 31.0,20.0 41.0,21.0 51.0,17.0 61.0,19.0 71.0,13.0 81.0,15.0 91.0,9.0 101.0,10.0 111.0,5.0 " fill="none" stroke="#009D9A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 </svg></div>
     <div class="vars"><div>Plan Var<b>+$1.4M</b></div><div>Fcst Var<b>+$6.0M</b></div></div></div>
@@ -589,7 +597,43 @@
 </div>
 
 <div class="footer">Made with IBM Bob</div>
-</div>
+      </div><!-- /wrap -->
+    </div><!-- /content -->
+  </main>
+
+  <aside class="ai-panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div>
+        <div class="panel-title">Close assistant</div>
+        <div class="panel-sub">AI commentary &middot; Placeholder</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <span class="ai-tag draft">AI-drafted</span>
+        <span class="ai-tag review">Needs review</span>
+      </div>
+      <div class="panel-period">CORPORATE / SEPTEMBER</div>
+      <div class="ai-headline">Revenue and Sales both outperforming Plan.</div>
+      <div class="ai-body">Revenue is $0.981B YTD, $12.5m above Plan. Sales performance is $23.5m, up 57% vs prior year. NOI of $404.4m is $1.5m above Plan.<br><br>NAS contributes +$2.6m of NOI vs plan; RS is -$1.1m vs plan.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this page</div>
+      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      All figures are illustrative placeholders. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
 <div class="tip" id="tip" role="tooltip"></div>
 <script>
 (function () {
@@ -674,461 +718,6 @@
       else if (e.key === 'End') n = tabs[tabs.length - 1];
       if (n) { e.preventDefault(); select(n, true); }
     });
-  });
-})();
-</script>
-<script>
-(function () {
-  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
-  if (!btn || !menu) return;
-  var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
-  function open(on, focusFirst) {
-    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
-    if (on) { menu.removeAttribute('hidden'); if (focusFirst) { var c = menu.querySelector('[aria-checked="true"]') || items[0]; c.focus(); } }
-    else menu.setAttribute('hidden', '');
-  }
-  btn.addEventListener('click', function () { open(menu.hasAttribute('hidden'), false); });
-  btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); open(true, true); } });
-  items.forEach(function (it, i) {
-    it.addEventListener('click', function () {
-      items.forEach(function (o) { o.setAttribute('aria-checked', o === it ? 'true' : 'false'); });
-      nm.textContent = it.getAttribute('data-name');
-      open(false, false); btn.focus();
-    });
-    it.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
-    });
-  });
-  document.addEventListener('click', function (e) { if (!menu.hasAttribute('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) open(false, false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hasAttribute('hidden')) { open(false, false); btn.focus(); } });
-})();
-</script>
-
-<script>
-(function () {
-  /* ── BU dropdown toggle ── */
-  var buBtn = document.getElementById('bu-btn');
-  var buMenu = document.getElementById('bu-menu');
-  if (buBtn && buMenu) {
-    function openBu(on) {
-      buBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
-      if (on) buMenu.removeAttribute('hidden'); else buMenu.setAttribute('hidden', '');
-    }
-    buBtn.addEventListener('click', function () { openBu(buMenu.hasAttribute('hidden')); });
-    document.addEventListener('click', function (e) {
-      if (!buMenu.hasAttribute('hidden') && !buMenu.contains(e.target) && !buBtn.contains(e.target)) openBu(false);
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
-    });
-  }
-})();
-</script>
-<script>
-(function () {
-  /* ── Region filter: animate data update on region select ── */
-  var regionSel = document.querySelector('select[aria-label="Region"]');
-  if (!regionSel) return;
-
-  var MULT = {
-    'All regions': 1.000,
-    'Americas':    0.872,
-    'APAC':        0.541,
-    'Canada':      0.318,
-    'EMEA':        0.743,
-    'LATAM':       0.214
-  };
-  var JITTER = {
-    'All regions': [1.000, 1.000, 1.000, 1.000],
-    'Americas':    [0.872, 0.891, 0.856, 0.908],
-    'APAC':        [0.541, 0.528, 0.563, 0.519],
-    'Canada':      [0.318, 0.334, 0.302, 0.341],
-    'EMEA':        [0.743, 0.761, 0.728, 0.779],
-    'LATAM':       [0.214, 0.228, 0.201, 0.237]
-  };
-
-  var style = document.createElement('style');
-  style.textContent =
-    '.wrap{transition:opacity .18s ease,transform .18s ease;}' +
-    '.wrap.rf-out{opacity:0;transform:translateY(3px);}' +
-    '.wrap.rf-in{opacity:1;transform:translateY(0);}';
-  document.head.appendChild(style);
-
-  function snapText(sel) {
-    var els = document.querySelectorAll(sel), snap = [];
-    for (var i = 0; i < els.length; i++) snap.push({ el: els[i], orig: els[i].textContent });
-    return snap;
-  }
-  function snapRects() {
-    var rects = document.querySelectorAll('svg rect[height]'), snap = [];
-    for (var i = 0; i < rects.length; i++) {
-      var r = rects[i];
-      snap.push({ el: r, origH: parseFloat(r.getAttribute('height')), origY: parseFloat(r.getAttribute('y')) });
-    }
-    return snap;
-  }
-  function snapPolylines() {
-    var pls = document.querySelectorAll('svg polyline'), snap = [];
-    for (var i = 0; i < pls.length; i++) snap.push({ el: pls[i], orig: pls[i].getAttribute('points') });
-    return snap;
-  }
-  function snapSvgText() {
-    var texts = document.querySelectorAll('svg text'), snap = [];
-    for (var i = 0; i < texts.length; i++) {
-      var v = texts[i].textContent.trim();
-      if (/^[\$\(]?[\d,]+\.?\d*[BMK%\)]?$/.test(v)) snap.push({ el: texts[i], orig: v });
-    }
-    return snap;
-  }
-  function snapTableCells() {
-    var tds = document.querySelectorAll('td'), snap = [];
-    for (var i = 0; i < tds.length; i++) {
-      var v = tds[i].textContent.trim();
-      if (/^[\(]?[\d,]+\.?\d*[\)]?$/.test(v)) snap.push({ el: tds[i], orig: v });
-    }
-    return snap;
-  }
-
-  var vals = snapText('.val'), varBolds = snapText('.vars b');
-  var rects = snapRects(), plines = snapPolylines();
-  var svgTexts = snapSvgText(), tableCells = snapTableCells();
-
-  function scaleNumStr(str, m) {
-    var neg = str.charAt(0) === '(' && str.slice(-1) === ')';
-    var inner = neg ? str.slice(1, -1) : str;
-    var prefix = inner.charAt(0) === '$' ? (inner = inner.slice(1), '$') : '';
-    var suffMatch = inner.match(/([BMK%]+)$/), suffix = suffMatch ? (inner = inner.slice(0, -suffMatch[1].length), suffMatch[1]) : '';
-    var n = parseFloat(inner.replace(/,/g, ''));
-    if (isNaN(n)) return str;
-    var scaled = n * m;
-    var fmt = suffix === 'B' ? scaled.toFixed(3) : Math.abs(scaled) >= 1000 ? scaled.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : scaled.toFixed(1);
-    var result = prefix + fmt + suffix;
-    return neg ? '(' + result + ')' : result;
-  }
-  function scalePoints(pts, m) {
-    return pts.trim().replace(/(\d+\.?\d*),(\d+\.?\d*)/g, function (_, x, y) {
-      var dist = 36 - parseFloat(y);
-      return x + ',' + Math.max(1, 36 - dist * m).toFixed(1);
-    });
-  }
-
-  function applyRegion(region) {
-    var j = JITTER[region] || JITTER['All regions'];
-    var baseM = MULT[region] || 1;
-    for (var i = 0; i < vals.length; i++) vals[i].el.textContent = scaleNumStr(vals[i].orig, j[i % j.length]);
-    for (var i = 0; i < varBolds.length; i++) varBolds[i].el.textContent = scaleNumStr(varBolds[i].orig, j[i % j.length]);
-    for (var i = 0; i < rects.length; i++) {
-      var r = rects[i], newH = Math.max(1, r.origH * baseM), newY = r.origY + (r.origH - newH);
-      r.el.setAttribute('height', newH.toFixed(1));
-      r.el.setAttribute('y', newY.toFixed(1));
-    }
-    for (var i = 0; i < plines.length; i++) plines[i].el.setAttribute('points', scalePoints(plines[i].orig, baseM));
-    for (var i = 0; i < svgTexts.length; i++) svgTexts[i].el.textContent = scaleNumStr(svgTexts[i].orig, j[i % j.length]);
-    for (var i = 0; i < tableCells.length; i++) tableCells[i].el.textContent = scaleNumStr(tableCells[i].orig, j[i % j.length]);
-  }
-
-  var wrap = document.querySelector('.wrap');
-  regionSel.addEventListener('change', function () {
-    var region = regionSel.options[regionSel.selectedIndex].text;
-    if (!wrap) { applyRegion(region); return; }
-    wrap.classList.add('rf-out');
-    setTimeout(function () {
-      applyRegion(region);
-      wrap.classList.remove('rf-out');
-      wrap.classList.add('rf-in');
-      setTimeout(function () { wrap.classList.remove('rf-in'); }, 200);
-    }, 180);
-  });
-})();
-</script>
-
-
-      </div><!-- /wrap -->
-    </div><!-- /content -->
-  </main>
-
-  <aside class="ai-panel" aria-label="Close assistant">
-    <div class="panel-hdr">
-      <div class="panel-icon"></div>
-      <div>
-        <div class="panel-title">Close assistant</div>
-        <div class="panel-sub">AI commentary &middot; Placeholder</div>
-      </div>
-    </div>
-    <div class="panel-body">
-      <div>
-        <span class="ai-tag draft">AI-drafted</span>
-        <span class="ai-tag review">Needs review</span>
-      </div>
-      <div class="panel-period">CORPORATE / SEPTEMBER</div>
-      <div class="ai-headline">Revenue and Sales both outperforming Plan.</div>
-      <div class="ai-body">Revenue is $0.981B YTD, $12.5m above Plan. Sales performance is $23.5m, up 57% vs prior year. NOI of $404.4m is $1.5m above Plan.<br><br>NAS contributes +$2.6m of NOI vs plan; RS is -$1.1m vs plan.</div>
-      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
-      <div class="ai-actions">
-        <button class="btn btn-ghost">Edit draft</button>
-        <button class="btn btn-primary">Mark reviewed</button>
-      </div>
-      <div class="panel-divider"></div>
-      <div class="ask-label">Ask about this page</div>
-      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
-    </div>
-    <div class="panel-disclaimer">
-      <div class="disclaimer-title">Review before publishing</div>
-      All figures are illustrative placeholders. No certified definitions are implied.
-    </div>
-  </aside>
-
-</div><!-- /shell -->
-
-<script>
-(function () {
-  var tip = document.getElementById('tip');
-  function show(el, x, y) {
-    tip.textContent = el.getAttribute('data-tip');
-    tip.classList.add('on');
-    var w = tip.offsetWidth, h = tip.offsetHeight;
-    var left = Math.min(Math.max(8, x - w / 2), window.innerWidth - w - 8);
-    var top = y - h - 12; if (top < 8) top = y + 18;
-    tip.style.left = left + 'px'; tip.style.top = top + 'px';
-  }
-  function hide() { tip.classList.remove('on'); }
-  var nodes = document.querySelectorAll('.nd');
-  for (var i = 0; i < nodes.length; i++) {
-    (function (n) {
-      n.addEventListener('mouseenter', function (e) { show(n, e.clientX, e.clientY); });
-      n.addEventListener('mousemove', function (e) { show(n, e.clientX, e.clientY); });
-      n.addEventListener('mouseleave', hide);
-      n.addEventListener('focus', function () { var r = n.getBoundingClientRect(); show(n, r.left + r.width / 2, r.top); });
-      n.addEventListener('blur', hide);
-    })(nodes[i]);
-  }
-})();
-</script>
-<script>
-(function () {
-  var t = document.getElementById('cfr');
-  var hr = t.tHead.rows[t.tHead.rows.length - 1];
-  var last = -1;
-  function skip(r) { return r.classList.contains('t-sec') || r.classList.contains('t-sp'); }
-  function clearCol() {
-    var on = t.querySelectorAll('.t-ch');
-    for (var i = 0; i < on.length; i++) on[i].classList.remove('t-ch', 't-ct', 't-cb');
-    last = -1;
-  }
-  function setCol(idx) {
-    if (idx === last) return;
-    clearCol();
-    if (idx < 1) return;
-    last = idx;
-    var rows = t.tBodies[0].rows, lastCell = null;
-    hr.cells[idx].classList.add('t-ch', 't-ct');
-    for (var i = 0; i < rows.length; i++) {
-      if (skip(rows[i])) continue;
-      rows[i].cells[idx].classList.add('t-ch');
-      lastCell = rows[i].cells[idx];
-    }
-    if (lastCell) lastCell.classList.add('t-cb');
-  }
-  t.addEventListener('mouseover', function (e) {
-    var el = e.target.closest ? e.target.closest('td,th') : null;
-    var row = el ? el.parentNode : null;
-    if (!el || (row.parentNode === t.tHead && row !== hr) || skip(row)) { clearCol(); return; }
-    setCol(el.cellIndex);
-  });
-  t.addEventListener('mouseleave', clearCol);
-})();
-</script>
-<script>
-(function () {
-  var list = document.querySelector('.tabs');
-  if (!list) return;
-  var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
-  function select(t, focus) {
-    for (var i = 0; i < tabs.length; i++) {
-      var on = tabs[i] === t;
-      tabs[i].setAttribute('aria-selected', on ? 'true' : 'false');
-      tabs[i].tabIndex = on ? 0 : -1;
-      var p = document.getElementById(tabs[i].getAttribute('aria-controls'));
-      if (on) p.removeAttribute('hidden'); else p.setAttribute('hidden', '');
-    }
-    if (focus) t.focus();
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(t, false); });
-    t.addEventListener('keydown', function (e) {
-      var n = null;
-      if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
-      else if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
-      else if (e.key === 'Home') n = tabs[0];
-      else if (e.key === 'End') n = tabs[tabs.length - 1];
-      if (n) { e.preventDefault(); select(n, true); }
-    });
-  });
-})();
-</script>
-<script>
-(function () {
-  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
-  if (!btn || !menu) return;
-  var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
-  function open(on, focusFirst) {
-    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
-    if (on) { menu.removeAttribute('hidden'); if (focusFirst) { var c = menu.querySelector('[aria-checked="true"]') || items[0]; c.focus(); } }
-    else menu.setAttribute('hidden', '');
-  }
-  btn.addEventListener('click', function () { open(menu.hasAttribute('hidden'), false); });
-  btn.addEventListener('keydown', function (e) { if (e.key === 'ArrowDown') { e.preventDefault(); open(true, true); } });
-  items.forEach(function (it, i) {
-    it.addEventListener('click', function () {
-      items.forEach(function (o) { o.setAttribute('aria-checked', o === it ? 'true' : 'false'); });
-      nm.textContent = it.getAttribute('data-name');
-      open(false, false); btn.focus();
-    });
-    it.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
-    });
-  });
-  document.addEventListener('click', function (e) { if (!menu.hasAttribute('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) open(false, false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hasAttribute('hidden')) { open(false, false); btn.focus(); } });
-})();
-</script>
-
-<script>
-(function () {
-  /* ── BU dropdown toggle ── */
-  var buBtn = document.getElementById('bu-btn');
-  var buMenu = document.getElementById('bu-menu');
-  if (buBtn && buMenu) {
-    function openBu(on) {
-      buBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
-      if (on) buMenu.removeAttribute('hidden'); else buMenu.setAttribute('hidden', '');
-    }
-    buBtn.addEventListener('click', function () { openBu(buMenu.hasAttribute('hidden')); });
-    document.addEventListener('click', function (e) {
-      if (!buMenu.hasAttribute('hidden') && !buMenu.contains(e.target) && !buBtn.contains(e.target)) openBu(false);
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
-    });
-  }
-})();
-</script>
-<script>
-(function () {
-  /* ── Region filter: animate data update on region select ── */
-  var regionSel = document.querySelector('select[aria-label="Region"]');
-  if (!regionSel) return;
-
-  var MULT = {
-    'All regions': 1.000,
-    'Americas':    0.872,
-    'APAC':        0.541,
-    'Canada':      0.318,
-    'EMEA':        0.743,
-    'LATAM':       0.214
-  };
-  var JITTER = {
-    'All regions': [1.000, 1.000, 1.000, 1.000],
-    'Americas':    [0.872, 0.891, 0.856, 0.908],
-    'APAC':        [0.541, 0.528, 0.563, 0.519],
-    'Canada':      [0.318, 0.334, 0.302, 0.341],
-    'EMEA':        [0.743, 0.761, 0.728, 0.779],
-    'LATAM':       [0.214, 0.228, 0.201, 0.237]
-  };
-
-  var style = document.createElement('style');
-  style.textContent =
-    '.wrap{transition:opacity .18s ease,transform .18s ease;}' +
-    '.wrap.rf-out{opacity:0;transform:translateY(3px);}' +
-    '.wrap.rf-in{opacity:1;transform:translateY(0);}';
-  document.head.appendChild(style);
-
-  function snapText(sel) {
-    var els = document.querySelectorAll(sel), snap = [];
-    for (var i = 0; i < els.length; i++) snap.push({ el: els[i], orig: els[i].textContent });
-    return snap;
-  }
-  function snapRects() {
-    var rects = document.querySelectorAll('svg rect[height]'), snap = [];
-    for (var i = 0; i < rects.length; i++) {
-      var r = rects[i];
-      snap.push({ el: r, origH: parseFloat(r.getAttribute('height')), origY: parseFloat(r.getAttribute('y')) });
-    }
-    return snap;
-  }
-  function snapPolylines() {
-    var pls = document.querySelectorAll('svg polyline'), snap = [];
-    for (var i = 0; i < pls.length; i++) snap.push({ el: pls[i], orig: pls[i].getAttribute('points') });
-    return snap;
-  }
-  function snapSvgText() {
-    var texts = document.querySelectorAll('svg text'), snap = [];
-    for (var i = 0; i < texts.length; i++) {
-      var v = texts[i].textContent.trim();
-      if (/^[\$\(]?[\d,]+\.?\d*[BMK%\)]?$/.test(v)) snap.push({ el: texts[i], orig: v });
-    }
-    return snap;
-  }
-  function snapTableCells() {
-    var tds = document.querySelectorAll('td'), snap = [];
-    for (var i = 0; i < tds.length; i++) {
-      var v = tds[i].textContent.trim();
-      if (/^[\(]?[\d,]+\.?\d*[\)]?$/.test(v)) snap.push({ el: tds[i], orig: v });
-    }
-    return snap;
-  }
-
-  var vals = snapText('.val'), varBolds = snapText('.vars b');
-  var rects = snapRects(), plines = snapPolylines();
-  var svgTexts = snapSvgText(), tableCells = snapTableCells();
-
-  function scaleNumStr(str, m) {
-    var neg = str.charAt(0) === '(' && str.slice(-1) === ')';
-    var inner = neg ? str.slice(1, -1) : str;
-    var prefix = inner.charAt(0) === '$' ? (inner = inner.slice(1), '$') : '';
-    var suffMatch = inner.match(/([BMK%]+)$/), suffix = suffMatch ? (inner = inner.slice(0, -suffMatch[1].length), suffMatch[1]) : '';
-    var n = parseFloat(inner.replace(/,/g, ''));
-    if (isNaN(n)) return str;
-    var scaled = n * m;
-    var fmt = suffix === 'B' ? scaled.toFixed(3) : Math.abs(scaled) >= 1000 ? scaled.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : scaled.toFixed(1);
-    var result = prefix + fmt + suffix;
-    return neg ? '(' + result + ')' : result;
-  }
-  function scalePoints(pts, m) {
-    return pts.trim().replace(/(\d+\.?\d*),(\d+\.?\d*)/g, function (_, x, y) {
-      var dist = 36 - parseFloat(y);
-      return x + ',' + Math.max(1, 36 - dist * m).toFixed(1);
-    });
-  }
-
-  function applyRegion(region) {
-    var j = JITTER[region] || JITTER['All regions'];
-    var baseM = MULT[region] || 1;
-    for (var i = 0; i < vals.length; i++) vals[i].el.textContent = scaleNumStr(vals[i].orig, j[i % j.length]);
-    for (var i = 0; i < varBolds.length; i++) varBolds[i].el.textContent = scaleNumStr(varBolds[i].orig, j[i % j.length]);
-    for (var i = 0; i < rects.length; i++) {
-      var r = rects[i], newH = Math.max(1, r.origH * baseM), newY = r.origY + (r.origH - newH);
-      r.el.setAttribute('height', newH.toFixed(1));
-      r.el.setAttribute('y', newY.toFixed(1));
-    }
-    for (var i = 0; i < plines.length; i++) plines[i].el.setAttribute('points', scalePoints(plines[i].orig, baseM));
-    for (var i = 0; i < svgTexts.length; i++) svgTexts[i].el.textContent = scaleNumStr(svgTexts[i].orig, j[i % j.length]);
-    for (var i = 0; i < tableCells.length; i++) tableCells[i].el.textContent = scaleNumStr(tableCells[i].orig, j[i % j.length]);
-  }
-
-  var wrap = document.querySelector('.wrap');
-  regionSel.addEventListener('change', function () {
-    var region = regionSel.options[regionSel.selectedIndex].text;
-    if (!wrap) { applyRegion(region); return; }
-    wrap.classList.add('rf-out');
-    setTimeout(function () {
-      applyRegion(region);
-      wrap.classList.remove('rf-out');
-      wrap.classList.add('rf-in');
-      setTimeout(function () { wrap.classList.remove('rf-in'); }, 200);
-    }, 180);
   });
 })();
 </script>
