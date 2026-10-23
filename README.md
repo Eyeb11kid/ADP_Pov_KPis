@@ -1,5 +1,4 @@
 ![ADP](images/ADP-logo.png)
-
 Sales pipeline KPI report for the ADP POV (proof of value).
 
 - `index.html` – landing page linking to the report

@@ -3,101 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADP POV KPIs</title>
+<title>ADP Project Polaris — POV</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
-  .wrap { max-width: 1060px; margin: 0 auto; }
-  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
-  .persona { position: sticky; top: 20px; background: #f7f8fa; border: 1px solid #e5e7eb; border-top: 4px solid #6929C4; padding: 16px 16px 18px; text-align: center; }
-  .persona .pic { fill: #6929C4; }
-  .persona h2 { font-size: 16px; color: #012749; margin: 6px 0 2px; }
-  .persona p { font-size: 12px; color: #57606a; margin-bottom: 12px; }
-  .persona .thumb { display: block; border: 1px solid #e5e7eb; background: #fff; margin-bottom: 14px; }
-  .persona .thumb:hover { border-color: #1192E8; }
-  .persona .psel { display: inline-block; background: #6929C4; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 32px; border-radius: 4px; }
-  .persona .psel:hover { opacity: .85; }
-  .persona a:focus-visible { outline: 2px solid #1192E8; outline-offset: 2px; }
-  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .persona { position: static; order: -1; } }
+  .wrap { max-width: 1280px; margin: 0 auto; }
   h1 { font-size: 22px; }
   .sub { color: #57606a; font-size: 13px; margin-bottom: 24px; }
-  ul { list-style: none; }
-  li a { display: block; background: #f7f8fa; border: 1px solid #e5e7eb; padding: 12px 16px; text-decoration: none; color: #1f2328; }
-  li a:hover { border-color: #1192E8; }
-  li a.hl { background: #e5f0fb; border-color: #1192E8; border-left: 4px solid #002D9C; }
-  li.grp { margin-top: 22px; }
-  li.grp hr { border: 0; border-top: 1px solid #e5e7eb; margin-bottom: 12px; }
-  li.grp h2 { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #57606a; }
-  li a strong { display: block; color: #002D9C; font-size: 15px; }
-  li a span { font-size: 12px; color: #57606a; }
+  .scroll { overflow-x: auto; }
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); min-width: 1000px; }
+  .cell { padding: 0 8px; display: flex; }
+  .card { background: #f7f8fa; border: 1px solid #e5e7eb; border-top: 4px solid #002D9C; padding: 16px 14px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .card.l2 { border-top-color: #6929C4; }
+  .card.l3 { border-top-color: #009D9A; }
+  .ic { fill: #002D9C; }
+  .l2 .ic { fill: #6929C4; }
+  .l3 .ic { fill: #009D9A; }
+  .card h2 { font-size: 16px; margin: 8px 0 4px; color: #012749; }
+  .card p { font-size: 12px; color: #57606a; margin-bottom: 14px; flex: 1; }
+  .sel { background: #002D9C; color: #fff; border: 0; border-radius: 4px; font: inherit; font-size: 13px; padding: 6px 28px; cursor: pointer; display: inline-block; text-decoration: none; }
+  .l2 .sel { background: #6929C4; }
+  .l3 .sel { background: #009D9A; }
+  .sel:hover { opacity: .85; }
+  .sel:focus-visible { outline: 2px solid #1192E8; outline-offset: 2px; }
+  .cn { height: 44px; }
+  .g5 { display: grid; grid-template-columns: repeat(5, 1fr); height: 100%; }
+  .g5 > div { position: relative; }
+  .g5 i { position: absolute; background: #57606a; }
+  .g5 i.u { left: calc(50% - 1px); width: 2px; top: 0; height: 50%; }
+  .g5 i.d { left: calc(50% - 1px); width: 2px; top: 50%; bottom: 0; }
+  .g5 i.l { top: calc(50% - 1px); height: 2px; left: 0; width: 50%; }
+  .g5 i.r { top: calc(50% - 1px); height: 2px; left: 50%; width: 50%; }
   .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
-  .hdr { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; max-width: 1640px; margin: 0 auto 16px; padding: 6px 16px; background: #fff; border-bottom: 1px solid #e0e0e0; }
-  .logo { display: inline-flex; align-items: center; text-decoration: none; }
-  .hdr-r { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
-  .fld { display: flex; flex-direction: column; font-size: 11px; color: #555; }
-  .fld select { font: inherit; font-size: 13px; height: 34px; min-width: 150px; padding: 0 10px; background: #f7f8fa; border: 0; border-bottom: 1px solid #aaa; cursor: pointer; }
-  .acct { position: relative; }
-  .acct-btn { display: flex; align-items: center; gap: 8px; font: inherit; background: transparent; border: 0; padding: 4px 10px; cursor: pointer; text-align: left; }
-  .acct-btn:hover { background: #f1f6fd; }
-  .acct-lbl { display: flex; flex-direction: column; line-height: 1.2; font-size: 13px; font-weight: 600; }
-  .acct-lbl small { font-size: 11px; font-weight: 400; color: #777; }
-  .acct-menu { position: absolute; right: 0; top: 100%; z-index: 30; min-width: 270px; background: #fff; border: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,.2); padding: 4px 0; }
-  .acct-menu[hidden] { display: none; }
-  .acct-h { font-size: 11px; color: #777; padding: 6px 14px 4px; text-transform: uppercase; letter-spacing: .04em; }
-  .pers { display: flex; align-items: center; gap: 10px; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; cursor: pointer; text-align: left; }
-  .pers:hover { background: #f1f6fd; }
-  .pers[aria-checked="true"] { border-left-color: #0f62fe; font-weight: 600; }
-  .av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; color: #fff; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>ADP POV KPIs</h1>
-  <div class="sub">Reports</div>
-  <div class="layout">
-  <ul>
-    <li><a class="hl" href="executive_kpi_dashboard.html"><strong>CFO Dashboard</strong><span>Wide-screen dashboard: revenue, NOI, margin, NNB, headcount, sales, mixes, NOI bridge and variance scorecard</span></a></li>
-    <li style="margin-top:10px"><a href="consolidated_qtrs.html"><strong>Consolidated Financial Results - Quarters</strong><span>Wide table: FY26 actual, FY27 plan and actual/forecast by quarter, with variances vs prior forecast and FY26 and growth</span></a></li>
-    <li class="grp" role="presentation"><hr><h2>Tabular Data</h2></li>
-    <li style="margin-top:10px"><a href="consolidated_mth_ytd.html"><strong>Consolidated Financial Results - Month &amp; YTD</strong><span>Wide table: each month, quarter-to-date and Sep YTD, with actual or forecast, plan, prior forecast, last year and variances</span></a></li>
-    <li style="margin-top:10px"><a href="variance_dashboard.html"><strong>Actual vs Plan Variance Dashboard</strong><span>Metric cards for revenue, expense, profit and people with variance to Plan, plus a revenue to NOI bridge</span></a></li>
-    <li style="margin-top:10px"><a href="executive_kpi_dashboard.html"><strong>KPD Executive Summary KPI</strong><span>Executive summary of the headline KPIs: revenue, NOI, margin, NNB, headcount and sales vs Plan</span></a></li>
-    <li class="grp" role="presentation"><hr><h2>Draft</h2></li>
-    <li style="margin-top:10px"><a href="pipeline_kpi_report.html"><strong>Sales pipeline</strong><span>Pipeline value, win/loss by competitor, days in pipe, net new pipeline</span></a></li>
-    <li style="margin-top:10px"><a href="sales_income_summary.html"><strong>Sales (Income Summary)</strong><span>Sales vs plan, units, gross to net, competitor wins, setup sold, market share</span></a></li>
-    <li style="margin-top:10px"><a href="revenue_summary.html"><strong>Revenue Summary</strong><span>Revenue by category vs plan, ROY growth needed, revenue per FTE and per client</span></a></li>
-    <li style="margin-top:10px"><a href="processing_revenue.html"><strong>Processing Revenue</strong><span>Processing revenue vs plan, ROY growth needed, per FTE and per client, pays processed, PEPM</span></a></li>
-    <li style="margin-top:10px"><a href="tabular.html"><strong>Tabular</strong><span>Horizontally scrolling table: Trad, Lyric and All-in by Sep, YTD, Oct, rest of year, full year and history</span></a></li>
-    <li style="margin-top:10px"><a href="q1_roy_full_year_forecast.html"><strong>NAS P&amp;L Summary - September FY27</strong><span>Horizontally scrolling table: GES sales, retention, revenue, expense, NOI and FTEs vs Plan and last year</span></a></li>
-    <li style="margin-top:10px"><a href="te_point_to_point.html"><strong>T&amp;E - Point to Point</strong><span>Horizontally scrolling table: T&amp;E by owner for Trad, Lyric and all-in, month, YTD, ROY, full year and history</span></a></li>
-    <li style="margin-top:10px"><a href="nas_cons_pl_ytd_detail.html"><strong>NAS Cons P&amp;L Summary YTD - Detail</strong><span>Horizontally scrolling table: Sep, YTD Sep, ROY and full year, with revenue, expense, NOI, FTEs and memo lines</span></a></li>
-    <li style="margin-top:10px"><a href="portfolio_view_fy27_cons_month.html"><strong>Portfolio View FY27 Cons - Month</strong><span>Horizontally scrolling tables: sales, starts, losses, retention, HC, FTEs, revenue, NOI and expenses by pillar</span></a></li>
-    <li style="margin-top:10px"><a href="persona_branching.html"><strong>Persona Branching</strong><span>Flow of persona cards: CFO Dashboard, BU CFO - NAS and RS, then the reports for each</span></a></li>
-    <li style="margin-top:10px"><a href="cfo_dashboard_light.html"><strong>CFO Dashboard - Light (Carbon)</strong><span>Copy of the CFO Dashboard in the IBM Carbon White theme</span></a></li>
-    <li style="margin-top:10px"><a href="cfo_dashboard_dark.html"><strong>CFO Dashboard - Dark (Carbon)</strong><span>Copy of the CFO Dashboard in the IBM Carbon Gray 100 theme</span></a></li>
-  </ul>
-  <aside class="persona">
-    <svg class="pic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg>
-    <h2>Select your persona</h2>
-    <p>Pick a persona to branch to the reports that fit your role.</p>
-    <a class="thumb" href="persona_branching.html" aria-label="Preview of the Persona Branching page">
-      <svg viewBox="0 0 200 130" width="100%" role="img" aria-label="Small preview of the Persona Branching page: one card, two cards, then five cards joined by lines">
-        <rect x="0.5" y="0.5" width="199" height="129" fill="#fff" stroke="#e5e7eb"/>
-        <rect x="70" y="8" width="60" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="70" y="8" width="60" height="3" fill="#002D9C"/><circle cx="100" cy="19" r="3" fill="#002D9C"/><rect x="88" y="25" width="24" height="3" fill="#002D9C"/>
-        <g stroke="#57606a" stroke-width="1" fill="none"><path d="M100 34V41M50 41H150M50 41V46M150 41V46"/><path d="M100 72V79M20 79H180M20 79V84M60 79V84M100 79V84M140 79V84M180 79V84"/></g>
-        <path d="M100 72V79" stroke="#57606a"/>
-        <rect x="30" y="46" width="40" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="30" y="46" width="40" height="3" fill="#6929C4"/><circle cx="50" cy="57" r="3" fill="#6929C4"/><rect x="42" y="63" width="16" height="3" fill="#6929C4"/>
-        <rect x="130" y="46" width="40" height="26" fill="#f7f8fa" stroke="#e5e7eb"/><rect x="130" y="46" width="40" height="3" fill="#6929C4"/><circle cx="150" cy="57" r="3" fill="#6929C4"/><rect x="142" y="63" width="16" height="3" fill="#6929C4"/>
-        <path d="M50 72V79" stroke="#57606a"/><path d="M150 72V79" stroke="#57606a"/>
-        <g fill="#f7f8fa" stroke="#e5e7eb"><rect x="4" y="84" width="32" height="26"/><rect x="44" y="84" width="32" height="26"/><rect x="84" y="84" width="32" height="26"/><rect x="124" y="84" width="32" height="26"/><rect x="164" y="84" width="32" height="26"/></g>
-        <g fill="#009D9A"><rect x="4" y="84" width="32" height="3"/><rect x="44" y="84" width="32" height="3"/><rect x="84" y="84" width="32" height="3"/><rect x="124" y="84" width="32" height="3"/><rect x="164" y="84" width="32" height="3"/><circle cx="20" cy="95" r="3"/><circle cx="60" cy="95" r="3"/><circle cx="100" cy="95" r="3"/><circle cx="140" cy="95" r="3"/><circle cx="180" cy="95" r="3"/><rect x="13" y="101" width="14" height="3"/><rect x="53" y="101" width="14" height="3"/><rect x="93" y="101" width="14" height="3"/><rect x="133" y="101" width="14" height="3"/><rect x="173" y="101" width="14" height="3"/></g>
-        <text x="100" y="124" text-anchor="middle" style="font-size:8px;fill:#57606a">Persona Branching</text>
-      </svg>
-    </a>
-    <a class="psel" href="persona_branching.html">Select</a>
-  </aside>
-  </div>
-  <div class="footer">Made with IBM Bob</div>
+
+<h1>ADP Project Polaris</h1>
+<div class="sub">Choose a persona, then select the report to open</div>
+
+<div class="scroll">
+<div class="flow">
+
+<!-- Row 1: BU CFO level -->
+<div class="cell" style="grid-column:2"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - NAS</h2><p>Business unit view for the NAS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><a class="sel" href="nas_dashboard.html">Select</a></div></div>
+<div class="cell" style="grid-column:4"><div class="card l2"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>BU CFO - RS</h2><p>Business unit view for the RS CFO: P&amp;L, sales, retention and headcount versus Plan.</p><a class="sel" href="rs_dashboard.html">Select</a></div></div>
+
+<!-- Connector row 1→2 -->
+<div class="cn" style="grid-column:1/-1"><div class="g5"><div><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="u"></i><i class="l"></i><i class="r"></i><i class="d"></i></div><div><i class="l"></i><i class="d"></i></div></div></div>
+
+<!-- Row 2: Report cards -->
+<div class="cell" style="grid-column:1"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Management P&amp;L</h2><p>Summary P&amp;L by segment: revenue, expense and Adj EBIT versus Plan and last year.</p><a class="sel" href="management_pl_NAS.html">Select</a></div></div>
+<div class="cell" style="grid-column:2"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Field Expense P&amp;L</h2><p>Field operating expense by line and business unit, with variance to Plan.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:3"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>NPI P&amp;L</h2><p>P&amp;L for new product introductions: revenue, cost and contribution to date.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:4"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Revenue Drivers</h2><p>Volume, price and mix drivers behind revenue growth, with ROY growth needed.</p><button type="button" class="sel">Select</button></div></div>
+<div class="cell" style="grid-column:5"><div class="card l3"><svg class="ic" viewBox="0 0 48 48" width="44" height="44" role="img" aria-label="Person icon"><circle cx="24" cy="16" r="9"/><path d="M6 44c0-10 8-17 18-17s18 7 18 17z"/></svg><h2>Headcount FTE</h2><p>Ending headcount and average FTEs by function versus Plan.</p><button type="button" class="sel">Select</button></div></div>
+
+</div>
+</div>
+
+<div class="footer">Made with IBM Bob</div>
 </div>
 </body>
 </html>

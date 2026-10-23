@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Headcount &amp; FTE — RS — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28;
+    --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── Top chrome ── */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #6929C4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* ── Shell ── */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .sb-bu-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+
+  /* ── Main ── */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+
+  /* Title bar */
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+  /* BU dropdown */
+  .bu-wrap { position: relative; }
+  .bu-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .bu-btn:hover, .bu-btn[aria-expanded="true"] { background: var(--hover); }
+  .bu-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .bu-menu { position: absolute; right: 0; top: 100%; z-index: 50; min-width: 170px; background: var(--tile); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.15); padding: 4px 0; margin-top: 2px; }
+  .bu-menu[hidden] { display: none; }
+  .bu-item { display: flex; align-items: center; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; text-align: left; text-decoration: none; color: var(--navy); cursor: pointer; }
+  .bu-item:hover { background: #edf4ff; }
+  .bu-item.bu-on { font-weight: 700; border-left-color: var(--blue); color: var(--blue); cursor: default; }
+  .bu-item.bu-dim { color: #b0b0b0; cursor: not-allowed; pointer-events: none; }
+
+  /* Filter bar */
+  .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .fb-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .fb-toggle { display: flex; }
+  .fb-toggle button { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--inner); color: var(--muted); cursor: pointer; }
+  .fb-toggle button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .fb-toggle button:first-child { border-radius: 3px 0 0 3px; }
+  .fb-toggle button:last-child { border-radius: 0 3px 3px 0; }
+  .fb-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; background: var(--navy); color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; cursor: pointer; }
+  .fb-link { font-size: 12px; color: var(--blue); text-decoration: none; cursor: pointer; }
+  .fb-link:hover { text-decoration: underline; }
+  .fb-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* Content */
+  .content { padding: 0 20px 32px; flex: 1; }
+
+  /* Headline banner */
+  .banner { background: var(--tile); border: 1px solid var(--line); margin: 16px 0 0; padding: 14px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+  .banner-headline { font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+  .banner-sub { font-size: 12px; color: var(--muted); }
+  .banner-ytd { text-align: right; flex: none; }
+  .banner-ytd-val { font-size: 26px; font-weight: 600; color: var(--navy); }
+  .banner-ytd-var { font-size: 12px; font-weight: 600; margin-top: 2px; }
+  .banner-ytd-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+
+  /* KPI strip */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); background: var(--tile); margin: 14px 0 0; }
+  .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; }
+  .kpi:last-child { border-right: 0; }
+  .kpi-val { font-size: 26px; font-weight: 600; color: var(--navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 11px; }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* Charts row */
+  .charts { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 12px; margin: 14px 0 0; }
+  .chart-tile { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; }
+  .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .legend { display: flex; gap: 14px; margin-bottom: 8px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+  /* Section tile */
+  .section { background: var(--tile); border: 1px solid var(--line); margin: 14px 0 0; }
+  .section-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 13px 16px 4px; }
+  .section-title { font-size: 13px; font-weight: 700; }
+  .section-sub { font-size: 11px; color: var(--muted); padding: 0 16px 10px; }
+  .export-link { font-size: 12px; color: var(--blue); text-decoration: none; flex: none; }
+
+  /* Drill tabs */
+  .drill-tabs { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 2px solid var(--line); }
+  .drill-tabs-l { display: flex; }
+  .dtab { font: inherit; font-size: 12px; font-weight: 600; padding: 8px 14px; border: 0; background: transparent; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .dtab:hover { color: var(--navy); }
+  .dtab.on { color: var(--blue); border-bottom-color: var(--blue); }
+  .drill-toggle { font-size: 11px; color: var(--blue); background: #edf4ff; border: 1px solid #c0d6ff; padding: 3px 10px; cursor: pointer; white-space: nowrap; }
+
+  /* Tables */
+  .tbl-wrap { overflow-x: auto; }
+  table.pl { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+  table.pl th { text-align: right; font-size: 11px; font-weight: 600; color: var(--muted); padding: 7px 10px; background: var(--inner); border-bottom: 2px solid var(--line); }
+  table.pl th:first-child { text-align: left; min-width: 200px; white-space: normal; position: sticky; left: 0; background: var(--inner); }
+  table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  table.pl td:first-child { text-align: left; position: sticky; left: 0; background: var(--tile); }
+  table.pl tr:hover td { background: var(--hover); }
+  table.pl tr:hover td:first-child { background: var(--hover); }
+  table.pl tr.bold > td { font-weight: 700; }
+  table.pl tr.subtotal > td { font-weight: 700; background: #f0f4ff; border-top: 2px solid var(--line); }
+  table.pl tr.subtotal:hover > td { background: #e4ecff; }
+  table.pl tr.indent td:first-child { padding-left: 24px; color: var(--muted); }
+  table.pl tr.group-hd > td { font-size: 11px; font-weight: 700; color: var(--muted); background: var(--inner); padding: 6px 10px 4px; border-bottom: 0; }
+  .tbl-note { font-size: 11px; color: var(--muted); padding: 7px 16px 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+
+  /* Row discussion */
+  .row-disc { margin: 0 16px 14px; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 10px; }
+  .disc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none; margin-top: 1px; }
+  .disc-body { flex: 1; min-width: 0; }
+  .disc-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .disc-meta b { color: var(--navy); }
+  .disc-meta .disc-tag { color: var(--red); font-weight: 600; }
+  .disc-msg { font-size: 12px; color: var(--navy); }
+  .disc-info { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .disc-reply { font-size: 12px; color: var(--blue); text-decoration: none; margin-left: auto; flex: none; align-self: flex-start; padding-top: 1px; }
+
+  /* Right AI panel */
+  .panel { width: var(--panel-w); background: #fff; border-left: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; }
+  .panel-hdr { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#6929C4,#1192E8); flex: none; }
+  .panel-title { font-size: 13px; font-weight: 700; }
+  .panel-sub { font-size: 11px; color: var(--muted); }
+  .panel-body { padding: 12px 14px; flex: 1; }
+  .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+  .ai-tag.draft { background: #e8daff; color: #6929C4; }
+  .ai-tag.review { background: #fff3cd; color: #B28600; margin-left: 4px; }
+  .panel-period { font-size: 11px; font-weight: 600; color: var(--muted); margin: 10px 0 8px; }
+  .ai-headline { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+  .ai-body { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .reviewer { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .ai-actions { display: flex; gap: 8px; margin-bottom: 20px; }
+  .btn { font: inherit; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 2px; }
+  .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--navy); }
+  .btn-ghost:hover { background: var(--hover); }
+  .btn-primary { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
+  .btn-primary:hover { background: #0050e6; }
+  .panel-divider { height: 1px; background: var(--line); margin: 0 0 14px; }
+  .ask-label { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .ask-input { width: 100%; font: inherit; font-size: 12px; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 7px 10px; resize: none; height: 80px; }
+  .ask-input::placeholder { color: var(--muted); }
+  .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
+  .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ── Top chrome ── -->
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a>
+    Project Polaris
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>FP&amp;A Lead</b>
+    <div class="avatar">JL</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Left sidebar ── -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-name">RS</div>
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">Close Review</div>
+    <a class="sb-link" href="rs_dashboard.html">BU dashboard</a>
+    <a class="sb-link" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-section" style="margin-top:4px">Within Field Expense</div>
+    <a class="sb-link sub active" href="#">&#x21B3; Headcount and FTE</a>
+    <a class="sb-link sub" href="te_point_to_point.html">&#x21B3; T&amp;E point to point</a>
+    <div class="sb-divider"></div>
+    <div class="sb-note">BU-scoped workspace.<br>Access roles pending validation.</div>
+    <a class="sb-ext" href="cfo_dashboard.html">Corporate CFO dashboard ↗</a>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Title bar -->
+    <div class="titlebar">
+      <div class="breadcrumb">
+        <a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>
+        <a href="rs_dashboard.html">RS dashboard</a><span>/</span>
+        <a href="fe_pl_RS.html">Field Expense P&amp;L</a><span>/</span>
+        Headcount &amp; FTE
+      </div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">Headcount &amp; FTE</div>
+          <div class="page-sub">Where is headcount running above or below plan, and which functions drive the variance?</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="bu-wrap">
+            <button type="button" class="bu-btn" id="bu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Select business unit">Business unit &nbsp;<b id="bu-label">RS</b>&nbsp;<svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+            <div class="bu-menu" id="bu-menu" hidden role="menu">
+              <a    class="bu-item"        role="menuitem" href="payroll_drill.html">NAS</a>
+              <span class="bu-item bu-on"  role="menuitem" aria-current="true">RS</span>
+              <div style="height:1px;background:#e0e0e0;margin:4px 0"></div>
+              <span class="bu-item bu-dim" role="menuitem">ES</span>
+              <span class="bu-item bu-dim" role="menuitem">SBS</span>
+              <span class="bu-item bu-dim" role="menuitem">MAS</span>
+              <span class="bu-item bu-dim" role="menuitem">AOS</span>
+              <span class="bu-item bu-dim" role="menuitem">PEO</span>
+              <span class="bu-item bu-dim" role="menuitem">TS</span>
+              <span class="bu-item bu-dim" role="menuitem">HRO</span>
+              <span class="bu-item bu-dim" role="menuitem">ADPIA</span>
+            </div>
+          </div>
+          <div class="pill-select">ADP 4-4-5</div>
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div class="illustrative">Illustrative · definitions pending validation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filterbar">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;font-weight:600;color:var(--muted)">Compare</span>
+        <div class="pill-select" style="font-size:12px">Plan&nbsp;<svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </div>
+      <span style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">Period</button><button>YTD</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">Ending HC</button><button>Avg FTE</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-chip">Function: All RS</div>
+      <div class="fb-chip">Geography: All</div>
+      <a class="fb-link">Modify filters</a>
+      <a class="fb-link">Clear all</a>
+      <span class="fb-note">Carried across reports</span>
+    </div>
+    <div style="padding:5px 20px;background:#fff;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);font-style:italic;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (Lyric only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
+
+    <div class="content">
+
+      <!-- Headline banner -->
+      <div class="banner">
+        <div>
+          <div class="banner-label">September Headcount / RS</div>
+          <div class="banner-headline">+8 above plan, concentrated in Client Services.</div>
+          <div class="banner-sub">Client Services +5 · Implementation +4 · Sales −1 · All other functions on plan</div>
+        </div>
+        <div class="banner-ytd">
+          <div class="banner-ytd-label">Voluntary attrition rate · RS</div>
+          <div class="banner-ytd-val">7.8%</div>
+          <div class="banner-ytd-var" style="color:var(--green)">−0.4 pp vs plan · favorable</div>
+        </div>
+      </div>
+
+      <!-- KPI strip -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-val">680</div>
+          <div class="kpi-label">Ending headcount</div>
+          <div class="kpi-var"><span class="unf">+8</span> / <span class="unf">+1.2% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">668</div>
+          <div class="kpi-label">Average FTE</div>
+          <div class="kpi-var"><span class="unf">+6</span> / <span class="unf">+0.9% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">34</div>
+          <div class="kpi-label">Open requisitions</div>
+          <div class="kpi-var"><span class="unf">+6</span> / <span class="unf">+21.4% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">7.8%</div>
+          <div class="kpi-label">Voluntary attrition</div>
+          <div class="kpi-var"><span class="fav">−0.4 pp</span> / <span class="fav">better than plan</span></div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts">
+
+        <!-- HC vs plan by function waterfall -->
+        <div class="chart-tile">
+          <div class="chart-title">Headcount vs plan · by function</div>
+          <div class="chart-sub">Ending headcount delta vs plan · September</div>
+          <div class="legend">
+            <span><i style="background:#da1e28"></i> Over plan</span>
+            <span><i style="background:#198038"></i> Under plan</span>
+            <span><i style="background:#c0c7d3"></i> On plan</span>
+          </div>
+          <svg viewBox="0 0 280 160" width="100%" role="img" aria-label="Headcount variance vs plan by function">
+            <line x1="44" y1="20" x2="272" y2="20" stroke="#e0e0e0"/>
+            <line x1="44" y1="60" x2="272" y2="60" stroke="#e0e0e0"/>
+            <line x1="44" y1="100" x2="272" y2="100" stroke="#e0e0e0"/>
+            <line x1="44" y1="120" x2="272" y2="120" stroke="#e0e0e0"/>
+            <text x="38" y="23"  text-anchor="end" font-size="9" fill="#525252">+8</text>
+            <text x="38" y="63"  text-anchor="end" font-size="9" fill="#525252">+4</text>
+            <text x="38" y="103" text-anchor="end" font-size="9" fill="#525252">0</text>
+            <text x="38" y="123" text-anchor="end" font-size="9" fill="#525252">−2</text>
+            <!-- Client Services +5 -->
+            <rect x="52" y="47"  width="32" height="73" fill="#da1e28"/>
+            <text x="68" y="43"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+5</text>
+            <text x="68" y="142" text-anchor="middle" font-size="9" fill="#525252">Client</text>
+            <!-- Impl +4 -->
+            <rect x="100" y="60" width="32" height="40" fill="#da1e28"/>
+            <text x="116" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+4</text>
+            <text x="116" y="142" text-anchor="middle" font-size="9" fill="#525252">Impl</text>
+            <!-- Finance 0 -->
+            <rect x="148" y="98" width="32" height="4" fill="#c0c7d3"/>
+            <text x="164" y="95" text-anchor="middle" font-size="9" fill="#525252">0</text>
+            <text x="164" y="142" text-anchor="middle" font-size="9" fill="#525252">Finance</text>
+            <!-- Sales −1 -->
+            <rect x="196" y="100" width="32" height="9" fill="#198038"/>
+            <text x="212" y="96" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">−1</text>
+            <text x="212" y="142" text-anchor="middle" font-size="9" fill="#525252">Sales</text>
+            <!-- Total +8 -->
+            <rect x="236" y="20"  width="32" height="80" fill="#da1e28" opacity=".5"/>
+            <rect x="236" y="20"  width="32" height="80" fill="none" stroke="#da1e28" stroke-width="1.5"/>
+            <text x="252" y="16"  text-anchor="middle" font-size="9" font-weight="700" fill="#da1e28">+8</text>
+            <text x="252" y="142" text-anchor="middle" font-size="9" fill="#525252">Total</text>
+          </svg>
+        </div>
+
+        <!-- HC split by function group -->
+        <div class="chart-tile">
+          <div class="chart-title">FTE split · by function group</div>
+          <div class="chart-sub">Average FTE · September period</div>
+          <div class="legend">
+            <span><i style="background:#1192E8"></i> Actual</span>
+            <span><i style="background:#c0c7d3"></i> Plan</span>
+          </div>
+          <svg viewBox="0 0 200 160" width="100%" role="img" aria-label="FTE by function group bar chart">
+            <line x1="30" y1="15" x2="192" y2="15" stroke="#e0e0e0"/>
+            <line x1="30" y1="55" x2="192" y2="55" stroke="#e0e0e0"/>
+            <line x1="30" y1="95" x2="192" y2="95" stroke="#e0e0e0"/>
+            <line x1="30" y1="120" x2="192" y2="120" stroke="#e0e0e0"/>
+            <text x="26" y="18"  text-anchor="end" font-size="8" fill="#525252">280</text>
+            <text x="26" y="58"  text-anchor="end" font-size="8" fill="#525252">190</text>
+            <text x="26" y="98"  text-anchor="end" font-size="8" fill="#525252">100</text>
+            <text x="26" y="123" text-anchor="end" font-size="8" fill="#525252">0</text>
+            <!-- Client Svcs actual 212, plan 208 — scale 280=105px; 212=79.5, 208=78 -->
+            <rect x="38" y="40.5" width="18" height="79.5" fill="#1192E8"/>
+            <rect x="58" y="42"   width="18" height="78"   fill="#c0c7d3"/>
+            <text x="57"  y="122" text-anchor="middle" font-size="7" fill="#525252">Client</text>
+            <text x="47"  y="37"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">212</text>
+            <text x="67"  y="39"  text-anchor="middle" font-size="8" fill="#525252">208</text>
+            <!-- Impl actual 156, plan 153 — 156=58.5, 153=57.4 -->
+            <rect x="86" y="61.5" width="18" height="58.5" fill="#1192E8"/>
+            <rect x="106" y="62.6" width="18" height="57.4" fill="#c0c7d3"/>
+            <text x="105" y="122" text-anchor="middle" font-size="7" fill="#525252">Impl</text>
+            <text x="95"  y="58"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">156</text>
+            <text x="115" y="59"  text-anchor="middle" font-size="8" fill="#525252">153</text>
+            <!-- Sales actual 138, plan 139 — 138=51.75, 139=52.1 -->
+            <rect x="134" y="68.25" width="18" height="51.75" fill="#1192E8"/>
+            <rect x="154" y="67.9"  width="18" height="52.1"  fill="#c0c7d3"/>
+            <text x="153" y="122" text-anchor="middle" font-size="7" fill="#525252">Sales</text>
+            <text x="143" y="65"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">138</text>
+            <text x="163" y="65"  text-anchor="middle" font-size="8" fill="#525252">139</text>
+          </svg>
+        </div>
+
+        <!-- Monthly headcount trend -->
+        <div class="chart-tile">
+          <div class="chart-title">Monthly headcount trend</div>
+          <div class="chart-sub">Ending headcount · September close</div>
+          <div class="legend">
+            <span><i style="background:#1192E8"></i> Actual</span>
+            <span><i style="background:#888"></i> Plan</span>
+            <span><i style="background:#6929C4"></i> Prior year</span>
+          </div>
+          <svg viewBox="0 0 300 140" width="100%" role="img" aria-label="Monthly headcount trend">
+            <line x1="30" y1="15" x2="292" y2="15" stroke="#e0e0e0"/>
+            <line x1="30" y1="45" x2="292" y2="45" stroke="#e0e0e0"/>
+            <line x1="30" y1="75" x2="292" y2="75" stroke="#e0e0e0"/>
+            <line x1="30" y1="105" x2="292" y2="105" stroke="#e0e0e0"/>
+            <text x="26" y="18"  text-anchor="end" font-size="8" fill="#525252">695</text>
+            <text x="26" y="48"  text-anchor="end" font-size="8" fill="#525252">680</text>
+            <text x="26" y="78"  text-anchor="end" font-size="8" fill="#525252">665</text>
+            <text x="26" y="108" text-anchor="end" font-size="8" fill="#525252">648</text>
+            <polyline points="34,74 144,68 254,63" fill="none" stroke="#1192E8" stroke-width="2.2" stroke-linejoin="round"/>
+            <polyline points="34,76 144,70 254,68 292,67" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
+            <polyline points="34,94 144,88 254,84" fill="none" stroke="#6929C4" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="258" y="59" font-size="8" fill="#1192E8" font-weight="700">680</text>
+            <text x="258" y="65" font-size="8" fill="#888">672</text>
+            <text x="258" y="81" font-size="8" fill="#6929C4">655</text>
+            <text x="34"  y="118" text-anchor="middle" font-size="8" fill="#525252">Jul</text>
+            <text x="144" y="118" text-anchor="middle" font-size="8" fill="#525252">Aug</text>
+            <text x="254" y="118" text-anchor="middle" font-size="8" fill="#525252">Sep</text>
+          </svg>
+        </div>
+
+      </div><!-- /charts -->
+
+      <!-- HC & FTE by function table -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">Headcount &amp; FTE · function drill</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">Ending headcount and average FTE · Actual vs plan and prior year · Illustrative</div>
+
+        <!-- Sub-tabs -->
+        <div class="drill-tabs">
+          <div class="drill-tabs-l">
+            <button class="dtab on" data-dtab="function">Function</button>
+            <button class="dtab" data-dtab="geography">Geography</button>
+            <button class="dtab" data-dtab="grade">Grade band</button>
+          </div>
+          <button class="drill-toggle">Ending HC · All RS</button>
+        </div>
+
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Function</th>
+                <th>HC Actual</th>
+                <th>HC Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>HC prior year</th>
+                <th>Δ vs PY</th>
+                <th>FTE Actual</th>
+                <th>FTE Plan</th>
+                <th>FTE Δ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold"><td>Client Services</td><td>216</td><td>211</td><td class="unf">+5</td><td class="unf">+2.4%</td><td>204</td><td class="unf">+5.9%</td><td>212</td><td>208</td><td class="unf">+4</td></tr>
+              <tr class="bold"><td>Implementation</td><td>158</td><td>154</td><td class="unf">+4</td><td class="unf">+2.6%</td><td>148</td><td class="unf">+6.8%</td><td>156</td><td>153</td><td class="unf">+3</td></tr>
+              <tr class="bold"><td>Sales</td><td>138</td><td>139</td><td class="fav">−1</td><td class="fav">−0.7%</td><td>142</td><td class="fav">−2.8%</td><td>138</td><td>139</td><td class="fav">−1</td></tr>
+              <tr class="bold"><td>Finance &amp; Operations</td><td>72</td><td>72</td><td>—</td><td>—</td><td>70</td><td class="unf">+2.9%</td><td>72</td><td>72</td><td>—</td></tr>
+              <tr class="bold"><td>Technology</td><td>58</td><td>58</td><td>—</td><td>—</td><td>56</td><td class="unf">+3.6%</td><td>58</td><td>58</td><td>—</td></tr>
+              <tr class="bold"><td>Other / shared</td><td>38</td><td>38</td><td>—</td><td>—</td><td>35</td><td class="unf">+8.6%</td><td>32</td><td>32</td><td>—</td></tr>
+              <tr class="subtotal"><td>Total RS</td><td>680</td><td>672</td><td class="unf">+8</td><td class="unf">+1.2%</td><td>655</td><td class="unf">+3.8%</td><td>668</td><td>662</td><td class="unf">+6</td></tr>
+              <tr class="group-hd"><td colspan="10">Workforce metrics</td></tr>
+              <tr><td>Voluntary attrition %</td><td>7.8%</td><td>8.2%</td><td class="fav">−0.4 pp</td><td class="fav">—</td><td>8.8%</td><td class="fav">−1.0 pp</td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td>Open requisitions</td><td>34</td><td>28</td><td class="unf">+6</td><td class="unf">+21.4%</td><td>22</td><td class="unf">+54.5%</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">
+          <span>Ending headcount excludes temps · FTE is average for the period · No platform split for RS</span>
+          <a class="export-link" href="#">View by grade band ↗</a>
+        </div>
+
+        <!-- Row discussion -->
+        <div class="row-disc">
+          <div class="disc-avatar">JL</div>
+          <div class="disc-body">
+            <div class="disc-meta">
+              ● <b>Row discussion</b> &nbsp;
+              <span class="disc-tag">Client Services · Δ vs plan: +5 HC</span>
+              &nbsp;·&nbsp; Static collaboration state
+            </div>
+            <div class="disc-msg">@Sam Torres — +5 in Client Services includes 3 backfills from Q2 attrition and 2 net-new roles. Confirm whether open reqs (34) include these backfills before we close the commentary.</div>
+            <div class="disc-info">Jordan Lee · FP&amp;A Lead · 1 colleague tagged · Separate from AI variance commentary</div>
+          </div>
+          <a class="disc-reply" href="#">Reply</a>
+        </div>
+
+      </div><!-- /section -->
+
+      <!-- Attrition & open reqs -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">Attrition &amp; open requisitions</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">Rates and counts · Illustrative · voluntary attrition annualised</div>
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Actual</th>
+                <th>Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>Prior year</th>
+                <th>Δ vs PY</th>
+                <th>Prior period</th>
+                <th>Δ vs PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Voluntary attrition %</td><td>7.8%</td><td>8.2%</td><td class="fav">−0.4 pp</td><td class="fav">−4.9%</td><td>8.8%</td><td class="fav">−1.0 pp</td><td>7.9%</td><td class="fav">−0.1 pp</td></tr>
+              <tr><td>Involuntary attrition %</td><td>1.2%</td><td>1.4%</td><td class="fav">−0.2 pp</td><td class="fav">−14.3%</td><td>1.5%</td><td class="fav">−0.3 pp</td><td>1.3%</td><td class="fav">−0.1 pp</td></tr>
+              <tr><td>Open requisitions</td><td>34</td><td>28</td><td class="unf">+6</td><td class="unf">+21.4%</td><td>22</td><td class="unf">+54.5%</td><td>30</td><td class="unf">+13.3%</td></tr>
+              <tr><td>Time-to-fill (days, avg)</td><td>36</td><td>34</td><td class="unf">+2</td><td class="unf">+5.9%</td><td>40</td><td class="fav">−10.0%</td><td>34</td><td class="unf">+5.9%</td></tr>
+              <tr><td>Internal transfers</td><td>8</td><td>7</td><td class="unf">+1</td><td class="unf">+14.3%</td><td>6</td><td class="unf">+33.3%</td><td>8</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">
+          <span>All figures illustrative. Attrition is annualised from the period rate. Open requisitions as of close date.</span>
+        </div>
+      </div><!-- /section -->
+
+    </div><!-- /content -->
+  </main>
+
+  <!-- ── Right AI panel ── -->
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div>
+        <div class="panel-title">Close assistant</div>
+        <div class="panel-sub">AI commentary · Placeholder</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <span class="ai-tag draft">AI-drafted</span>
+        <span class="ai-tag review">Needs review</span>
+      </div>
+      <div class="panel-period">RS / SEPTEMBER / HEADCOUNT &amp; FTE</div>
+      <div class="ai-headline">Headcount +8 above plan, led by Client Services.</div>
+      <div class="ai-body">Ending headcount is 680, +8 vs plan (+1.2%). Client Services accounts for +5 and Implementation +4; Sales is −1, partially offsetting. Average FTE is 668 vs plan 662 (+6).<br><br>Voluntary attrition of 7.8% is 0.4 pp better than plan (8.2%), a favorable indicator for future run-rate. Open requisitions of 34 are +6 above plan — Client Services backfills require owner confirmation before commentary is finalised.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this analysis</div>
+      <textarea class="ask-input" placeholder="Ask a question…"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      Static concept only. Commentary and Q&amp;A are illustrative placeholders, not generated close results. Headcount definitions and FTE methodology remain under validation. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function () {
+  /* Drill sub-tabs */
+  var dtabs = document.querySelectorAll('.dtab');
+  dtabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      dtabs.forEach(function (t) { t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Filter bar toggles */
+  document.querySelectorAll('.fb-toggle').forEach(function (grp) {
+    grp.querySelectorAll('button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        grp.querySelectorAll('button').forEach(function (b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+      });
+    });
+  });
+  /* BU dropdown */
+  var buBtn = document.getElementById('bu-btn');
+  var buMenu = document.getElementById('bu-menu');
+  if (buBtn && buMenu) {
+    function openBu(on) {
+      buBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) buMenu.removeAttribute('hidden'); else buMenu.setAttribute('hidden', '');
+    }
+    buBtn.addEventListener('click', function () { openBu(buMenu.hasAttribute('hidden')); });
+    document.addEventListener('click', function (e) {
+      if (!buMenu.hasAttribute('hidden') && !buMenu.contains(e.target) && !buBtn.contains(e.target)) openBu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
+    });
+  }
+})();
+</script>
+</body>
+</html>

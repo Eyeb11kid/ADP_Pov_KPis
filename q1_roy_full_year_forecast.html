@@ -5,16 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAS P&amp;L Summary - September FY27</title>
 <style>
+  /* -- V2 Design System -- */
+  :root { --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28; --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0; --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8; --adp:#E8222F; --sidebar-w:220px; --panel-w:300px; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #1f2328; background: #fff; padding: 32px 20px; }
-  .wrap { max-width: 1100px; margin: 0 auto; }
-  .topbar { max-width: 1100px; margin: -12px auto 20px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
-  .back { display: inline-block; background: #002D9C; color: #fff; text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
-  .back:hover { background: #012749; }
-  h1 { font-size: 22px; }
-  .sub { color: #57606a; font-size: 13px; margin-bottom: 16px; }
-  .note { background: #f7f8fa; border: 1px solid #e5e7eb; padding: 10px 14px; font-size: 12px; color: #57606a; margin-bottom: 14px; }
-  .hint { font-size: 12px; color: #57606a; margin-bottom: 6px; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  /* Chrome */
+  .chrome { display:flex; align-items:center; justify-content:space-between; height:40px; background:#fff; border-bottom:1px solid var(--line); padding:0 16px; flex:none; }
+  .chrome-l { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--navy); }
+  .chrome-logo { font-family:"Arial Black",Helvetica,Arial,sans-serif; font-weight:900; font-style:italic; color:var(--adp); font-size:15px; letter-spacing:-0.5px; margin-right:4px; }
+  .chrome-r { display:flex; align-items:center; gap:18px; font-size:12px; color:var(--muted); }
+  .chrome-r b { color:var(--navy); font-weight:600; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:#6929C4; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex:none; }
+  /* Shell */
+  .shell { display:flex; flex:1; overflow:hidden; }
+  /* Sidebar */
+  .sidebar { width:var(--sidebar-w); background:#fff; border-right:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; padding-bottom:16px; }
+  .sb-bu { padding:12px 16px; border-bottom:1px solid var(--line); }
+  .sb-bu-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.2; }
+  .sb-bu-label { font-size:11px; color:var(--muted); }
+  .sb-section { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:14px 16px 4px; }
+  .sb-link { display:flex; align-items:center; gap:8px; padding:7px 16px 7px 14px; font-size:13px; color:var(--muted); text-decoration:none; border-left:3px solid transparent; }
+  .sb-link:hover { background:var(--hover); color:var(--navy); }
+  .sb-link.active { color:var(--navy); font-weight:600; border-left-color:var(--blue); background:#edf4ff; }
+  .sb-link.sub { padding-left:28px; font-size:12px; }
+  .sb-note { font-size:11px; color:var(--muted); padding:10px 16px; line-height:1.4; }
+  .sb-ext { display:block; padding:6px 16px; font-size:12px; color:var(--blue); text-decoration:none; }
+  .sb-ext:hover { text-decoration:underline; }
+  .sb-divider { height:1px; background:var(--line); margin:8px 0; }
+  /* Main */
+  .main { flex:1; overflow-y:auto; display:flex; flex-direction:column; min-width:0; }
+  .titlebar { background:#fff; border-bottom:1px solid var(--line); padding:10px 20px 12px; flex:none; }
+  .breadcrumb { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .breadcrumb a { color:var(--blue); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { margin:0 5px; }
+  .title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .page-title { font-size:22px; font-weight:600; color:var(--navy); line-height:1.2; }
+  .page-sub { font-size:12px; color:var(--muted); margin-top:3px; }
+  .content { padding:20px 24px 40px; flex:1; overflow-y:auto; }
+  /* Suppress old layout artifacts */
+  .topbar { display:none !important; }
+  .back { display:none !important; }
+  .hdr { display:none !important; }
+  /* Keep existing content styles working */
+  h1 { font-size:22px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .note { background:var(--tile); border:1px solid var(--line); padding:10px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; }
+  .hint { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .footer { margin-top:36px; padding-top:10px; border-top:1px solid var(--line); text-align:center; font-size:12px; color:var(--muted); }
+  .wrap { max-width:none; }
+  /* Right panel */
+  .panel { width:var(--panel-w); background:#fff; border-left:1px solid var(--line); flex:none; display:flex; flex-direction:column; overflow-y:auto; }
+  .panel-hdr { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; }
+  .panel-icon { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#6929C4,#1192E8); flex:none; }
+  .panel-title { font-size:13px; font-weight:700; }
+  .panel-sub { font-size:11px; color:var(--muted); }
+  .panel-body { padding:12px 14px; flex:1; }
+  .ai-tag { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 8px; border-radius:10px; }
+  .ai-tag.draft { background:#e8daff; color:#6929C4; }
+  .ai-tag.review { background:#fff3cd; color:#B28600; margin-left:4px; }
+  .panel-period { font-size:11px; font-weight:600; color:var(--muted); margin:10px 0 8px; }
+  .ai-headline { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.3; }
+  .ai-body { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+  .reviewer { font-size:11px; color:var(--muted); margin-bottom:12px; }
+  .ai-actions { display:flex; gap:8px; margin-bottom:20px; }
+  .btn { font:inherit; font-size:12px; padding:6px 14px; cursor:pointer; border-radius:2px; }
+  .btn-ghost { background:transparent; border:1px solid var(--line); color:var(--navy); }
+  .btn-ghost:hover { background:var(--hover); }
+  .btn-primary { background:var(--blue); border:1px solid var(--blue); color:#fff; }
+  .btn-primary:hover { background:#0050e6; }
+  .panel-divider { height:1px; background:var(--line); margin:0 0 14px; }
+  .ask-label { font-size:12px; font-weight:600; margin-bottom:6px; }
+  .ask-input { width:100%; font:inherit; font-size:12px; color:var(--navy); background:var(--inner); border:1px solid var(--line); padding:7px 10px; resize:none; height:60px; }
+  .ask-input::placeholder { color:var(--muted); }
+  .panel-disclaimer { font-size:11px; color:var(--muted); padding:10px 14px; border-top:1px solid var(--line); line-height:1.5; }
+  .disclaimer-title { font-weight:600; margin-bottom:3px; }
+
   .scroll { overflow-x: auto; border: 1px solid #e5e7eb; }
   table { border-collapse: separate; border-spacing: 0; font-size: 13px; white-space: nowrap; min-width: 1300px; width: 100%; }
   th, td { padding: 6px 14px; text-align: right; border-bottom: 1px solid #f0f1f3; background: #fff; }
@@ -35,44 +101,58 @@
   td.grn { color: #198038; font-style: italic; }
   td.pink { background: #fde8e8; }
   tbody tr:hover td.pink { background: #fbd5d5; }
-  .footer { margin-top: 36px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #57606a; }
-  .hdr { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; max-width: 1640px; margin: 0 auto 16px; padding: 6px 16px; background: #fff; border-bottom: 1px solid #e0e0e0; }
-  .logo { display: inline-flex; align-items: center; text-decoration: none; }
-  .hdr-r { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
-  .fld { display: flex; flex-direction: column; font-size: 11px; color: #555; }
-  .fld select { font: inherit; font-size: 13px; height: 34px; min-width: 150px; padding: 0 10px; background: #f7f8fa; border: 0; border-bottom: 1px solid #aaa; cursor: pointer; }
-  .acct { position: relative; }
-  .acct-btn { display: flex; align-items: center; gap: 8px; font: inherit; background: transparent; border: 0; padding: 4px 10px; cursor: pointer; text-align: left; }
-  .acct-btn:hover { background: #f1f6fd; }
-  .acct-lbl { display: flex; flex-direction: column; line-height: 1.2; font-size: 13px; font-weight: 600; }
-  .acct-lbl small { font-size: 11px; font-weight: 400; color: #777; }
-  .acct-menu { position: absolute; right: 0; top: 100%; z-index: 30; min-width: 270px; background: #fff; border: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,.2); padding: 4px 0; }
-  .acct-menu[hidden] { display: none; }
-  .acct-h { font-size: 11px; color: #777; padding: 6px 14px 4px; text-transform: uppercase; letter-spacing: .04em; }
-  .pers { display: flex; align-items: center; gap: 10px; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; cursor: pointer; text-align: left; }
-  .pers:hover { background: #f1f6fd; }
-  .pers[aria-checked="true"] { border-left-color: #0f62fe; font-weight: 600; }
-  .av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; color: #fff; }
 </style>
 </head>
 <body>
-<header class="hdr">
-  <a class="logo" href="index.html" aria-label="ADP - back to the index page"><span style="font-family:'Arial Black',Helvetica,Arial,sans-serif;font-size:1.6rem;font-weight:900;font-style:italic;color:#E8222F;letter-spacing:-0.5px;">ADP<sup style="font-size:0.45em;font-style:normal;vertical-align:super;">&reg;</sup></span></a>
-  <div class="hdr-r">
-    <label class="fld"><span>Product</span><select aria-label="Product"><option>All products</option><option>Product 1 (FPO)</option><option>Product 2 (FPO)</option><option>Product 3 (FPO)</option><option>Product 4 (FPO)</option><option>Product 5 (FPO)</option></select></label>
-    <label class="fld"><span>Region</span><select aria-label="Region"><option>All regions</option><option>Americas</option><option>APAC</option><option>Canada</option><option>EMEA</option><option>LATAM</option></select></label>
-    <div class="acct">
-      <button type="button" class="acct-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg><span class="acct-lbl"><small>Account</small><span id="acct-name">Charles</span></span><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
-      <div class="acct-menu" id="acct-menu" role="menu" aria-label="Switch persona" hidden>
-        <div class="acct-h">Personas</div>
-        <button type="button" class="pers" role="menuitemradio" aria-checked="true" data-name="Charles"><span class="av" style="background:#A56EFF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Charles - BU CFO</b></span></button>
-        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Sebastian"><span class="av" style="background:#009D9A"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Sebastian - FP&amp;A Analyst</b></span></button>
-        <button type="button" class="pers" role="menuitemradio" aria-checked="false" data-name="Diane"><span class="av" style="background:#EE5396"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c0-5 3.8-8 8.5-8s8.5 3 8.5 8z" fill="currentColor"/></svg></span><span class="pt"><b>Diane - Financial Analyst</b></span></button>
-      </div>
+<div class="chrome">
+  <div class="chrome-l"><a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a> Project Polaris</div>
+  <div class="chrome-r"><span>SEPTEMBER CLOSE / DAY 4</span><b>FP&amp;A Lead</b><div class="avatar">JL</div></div>
+</div>
+
+<div class="shell">
+<nav class="sidebar" aria-label="Navigation">
+  <div class="sb-bu"><div class="sb-bu-name">ADP<br>Project Polaris</div><div class="sb-bu-label">September Close &#183; Day&nbsp;4</div></div>
+  <div class="sb-section">Close Review</div>
+  <a class="sb-link" href="cfo_dash_v2.html">BU Dashboard</a>
+  <a class="sb-link" href="BU_cfo_v2.html">Management P&amp;L</a>
+  <a class="sb-link" href="variance_dashboard.html">Field Expense P&amp;L</a>
+  <a class="sb-link sub" href="payroll_drill.html">&#x21B3; Headcount &amp; FTE</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Financials</div>
+  <a class="sb-link" href="consolidated_mth_ytd.html">Cons. Month &amp; YTD</a>
+  <a class="sb-link" href="consolidated_qtrs.html">Cons. Quarters</a>
+  <a class="sb-link" href="nas_cons_pl_ytd_detail.html">NAS Cons P&amp;L</a>
+  <a class="sb-link" href="revenue_summary.html">Revenue Summary</a>
+  <a class="sb-link" href="sales_income_summary.html">Sales Summary</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">Analysis</div>
+  <a class="sb-link" href="pipeline_kpi_report.html">Pipeline KPIs</a>
+  <a class="sb-link" href="portfolio_view_fy27_cons_month.html">Portfolio View</a>
+  <a class="sb-link" href="processing_revenue.html">Processing Revenue</a>
+  <a class="sb-link active" href="q1_roy_full_year_forecast.html">Q1 / ROY Forecast</a>
+  <a class="sb-link" href="tabular.html">Tabular</a>
+  <a class="sb-link" href="te_point_to_point.html">T&amp;E Point to Point</a>
+  <div class="sb-divider"></div>
+  <div class="sb-section">BU Landing Pages</div>
+  <a class="sb-link" href="nas_landing.html">NAS BU Landing</a>
+  <a class="sb-link" href="rs_landing.html">RS BU Landing</a>
+  <a class="sb-link" href="cfo_dashboard.html">Executive KPI Dashboard</a>
+  <div class="sb-divider"></div>
+  <a class="sb-ext" href="index.html">&larr; Index</a>
+</nav>
+
+<main class="main">
+<div class="titlebar">
+  <div class="breadcrumb"><a href="index.html">Home / Analysis</a></div>
+  <div class="title-row">
+    <div>
+      <div class="page-title">NAS P&amp;L &mdash; September FY27</div>
+      <div class="page-sub">NAS P&amp;L summary and full-year forecast through September</div>
     </div>
   </div>
-</header>
-<div class="topbar"><a class="back" href="index.html">&larr; Back to index</a></div>
+</div>
+
+<div class="content">
 <div class="wrap">
 
 <h1>NAS P&amp;L Summary - September FY27</h1>
@@ -109,6 +189,58 @@
 </div>
 
 <div class="footer">Made with IBM Bob</div>
-</div>
+</div><!-- /wrap -->
+</div><!-- /content -->
+</main>
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div><div class="panel-title">Close assistant</div><div class="panel-sub">AI commentary &middot; Placeholder</div></div>
+    </div>
+    <div class="panel-body">
+      <span class="ai-tag draft">AI-drafted</span><span class="ai-tag review">Needs review</span>
+      <div class="panel-period">NAS / FY27 FORECAST</div>
+      <div class="ai-headline">Full-year Revenue forecast lifted $18m on Q1 strength.</div>
+      <div class="ai-body">Q1 Revenue beat of $14.2m drives a $18m lift to the full-year forecast. ROY Revenue forecast is $1,678m, implying 3.1% growth in Q2&ndash;Q4.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this page</div>
+      <textarea class="ask-input" placeholder="Ask a question&hellip;"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      All figures are illustrative placeholders. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+  /* Tab switching (if tabs present) */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Persona menu (if present) */
+  var btn = document.getElementById('acct-btn'), menu = document.getElementById('acct-menu'), nm = document.getElementById('acct-name');
+  if(btn && menu){
+    var items = Array.prototype.slice.call(menu.querySelectorAll('.pers'));
+    function openMenu(on){ btn.setAttribute('aria-expanded', on?'true':'false'); if(on) menu.removeAttribute('hidden'); else menu.setAttribute('hidden',''); }
+    btn.addEventListener('click', function(){ openMenu(menu.hasAttribute('hidden')); });
+    items.forEach(function(it){ it.addEventListener('click', function(){ items.forEach(function(o){ o.setAttribute('aria-checked', o===it?'true':'false'); }); if(nm) nm.textContent=it.getAttribute('data-name'); openMenu(false); btn.focus(); }); });
+    document.addEventListener('click', function(e){ if(!menu.hasAttribute('hidden')&&!menu.contains(e.target)&&!btn.contains(e.target)) openMenu(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!menu.hasAttribute('hidden')){ openMenu(false); btn.focus(); } });
+  }
+})();
+</script>
 </body>
 </html>
+
