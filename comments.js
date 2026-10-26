@@ -1,8 +1,7 @@
 /* Page and component comments for the Polaris pages.
    Add with: <script src="comments.js"></script> before </body>.
-   Storage: browser localStorage, optionally mirrored to a CSV file the user links from the
-   comments panel (Chrome/Edge), or exported/imported as CSV. To share comments between
-   viewers at the same time, replace load() and save() with calls to a server API. */
+   Storage: browser localStorage. To share comments between viewers at the same time,
+   replace load() and save() with calls to a server API. */
 (function () {
   'use strict';
 
@@ -30,7 +29,6 @@
   }
   function save(d) {
     try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { return false; }
-    scheduleWrite();
     return true;
   }
 
@@ -104,8 +102,6 @@
     '.cm-scope button{flex:1;font:inherit;font-size:12px;padding:5px 8px;border:1px solid #e0e0e0;background:#f4f4f4;color:#525252;cursor:pointer}',
     '.cm-scope button+button{border-left:0}',
     '.cm-scope button[aria-pressed="true"]{background:#161616;border-color:#161616;color:#fff}',
-    '.cm-io{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid #e0e0e0}',
-    '.cm-io-msg{flex-basis:100%;font-size:11px;line-height:1.4;color:#525252}',
     '.cm-tabs{display:flex;border-bottom:1px solid #e0e0e0}',
     '.cm-tabs button{flex:1;font:inherit;font-size:12px;height:34px;background:transparent;color:#525252;border:0;border-bottom:2px solid transparent;cursor:pointer}',
     '.cm-tabs button[aria-selected="true"]{color:#161616;font-weight:600;border-bottom-color:#0f62fe}',
@@ -169,13 +165,6 @@
     scopeBar.appendChild(b);
   });
 
-  var linkBtn = h('button', { type: 'button', class: 'cm-btn', text: 'Link CSV file' });
-  var exportBtn = h('button', { type: 'button', class: 'cm-btn', text: 'Export CSV' });
-  var importBtn = h('button', { type: 'button', class: 'cm-btn', text: 'Import CSV' });
-  var fileIn = h('input', { type: 'file', accept: '.csv,text/csv', hidden: '', 'aria-label': 'Choose a comments CSV file to import' });
-  var ioMsg = h('div', { class: 'cm-io-msg', role: 'status' });
-  var ioBar = h('div', { class: 'cm-io' }, [linkBtn, exportBtn, importBtn, fileIn, ioMsg]);
-
   var tabs = h('div', { class: 'cm-tabs', role: 'tablist' });
   var tabBtns = {};
   [['open', 'Open'], ['resolved', 'Resolved'], ['all', 'All']].forEach(function (t) {
@@ -190,7 +179,7 @@
   var closeBtn = h('button', { type: 'button', class: 'cm-x', 'aria-label': 'Close comments', text: '\u00d7' });
   var drawer = h('div', { class: 'cm-drawer', 'data-cm': '', role: 'dialog', 'aria-label': 'Comments', hidden: '' }, [
     h('div', { class: 'cm-head' }, [titleEl, closeBtn]),
-    form, scopeBar, ioBar, tabs, list
+    form, scopeBar, tabs, list
   ]);
 
   var banner = h('div', { class: 'cm-banner', 'data-cm': '', hidden: '' });
@@ -342,236 +331,6 @@
     render();
   }
 
-  /* ---------- CSV storage: link a file, or export / import ---------- */
-  var COLS = ['id', 'page', 'name', 'comment', 'created', 'status', 'resolved', 'selector', 'label'];
-  var MAX_FILE = 2 * 1024 * 1024; // 2 MB
-  var MAX_ROWS = 5000;
-  var FSA = typeof window.showSaveFilePicker === 'function';
-  var CSV_TYPES = [{ description: 'Comments CSV', accept: { 'text/csv': ['.csv'] } }];
-  var fsHandle = null;
-  var fsReady = false; // a file is linked and we have permission to write it
-  var writeTimer = null;
-
-  function setMsg(s) { ioMsg.textContent = s; }
-
-  function csvCell(v) {
-    var s = v == null ? '' : String(v);
-    if (/^'*[=+\-@\t\r]/.test(s)) s = "'" + s; // stop spreadsheets running a cell as a formula
-    return '"' + s.replace(/"/g, '""') + '"';
-  }
-  function csvUnescape(s) { return /^'+[=+\-@\t\r]/.test(s) ? s.slice(1) : s; }
-  function isoOf(ms) { try { return new Date(ms).toISOString(); } catch (e) { return ''; } }
-
-  function toCsv(d) {
-    var lines = [COLS.join(',')];
-    d.items.slice().sort(function (a, b) { return a.n - b.n; }).forEach(function (c) {
-      lines.push([c.n, c.page, c.name, c.text, isoOf(c.at), c.status, c.resolvedAt ? isoOf(c.resolvedAt) : '', c.sel || '', c.label || ''].map(csvCell).join(','));
-    });
-    return '\ufeff' + lines.join('\r\n') + '\r\n';
-  }
-
-  function parseCsv(t) {
-    if (t.charCodeAt(0) === 0xFEFF) t = t.slice(1);
-    var rows = [], row = [], f = '', q = false;
-    for (var i = 0; i < t.length; i++) {
-      var ch = t.charAt(i);
-      if (q) {
-        if (ch === '"') { if (t.charAt(i + 1) === '"') { f += '"'; i++; } else q = false; }
-        else f += ch;
-      } else if (ch === '"') q = true;
-      else if (ch === ',') { row.push(f); f = ''; }
-      else if (ch === '\n' || ch === '\r') {
-        if (ch === '\r' && t.charAt(i + 1) === '\n') i++;
-        row.push(f); f = ''; rows.push(row); row = [];
-        if (rows.length > MAX_ROWS + 1) return rows;
-      } else f += ch;
-    }
-    if (f !== '' || row.length) { row.push(f); rows.push(row); }
-    return rows;
-  }
-
-  // Rebuild every row from known fields only, with type and length checks
-  function cleanItem(c) {
-    var name = String(c.name || '').trim(), text = String(c.text || '').trim(), page = String(c.page || '');
-    if (!/^[A-Za-z0-9_.\-]{1,100}$/.test(page) || !name || !text || name.length > MAX_NAME || text.length > MAX_TEXT) return null;
-    var status = c.status === 'resolved' ? 'resolved' : 'open';
-    var at = isFinite(c.at) && c.at > 0 && c.at < 8.64e15 ? c.at : Date.now();
-    var ra = isFinite(c.resolvedAt) && c.resolvedAt > 0 && c.resolvedAt < 8.64e15 ? c.resolvedAt : null;
-    return {
-      n: c.n > 0 && c.n < 1e9 && Math.floor(c.n) === c.n ? c.n : 0,
-      page: page, name: name, text: text, at: at,
-      sel: typeof c.sel === 'string' && c.sel.length <= 500 ? c.sel : null,
-      label: typeof c.label === 'string' ? c.label.slice(0, 100) : null,
-      status: status, resolvedAt: status === 'resolved' ? ra : null
-    };
-  }
-
-  // Returns {items, bad} or null if the text is not a Polaris comments CSV
-  function fromCsv(text) {
-    var rows = parseCsv(text).filter(function (r) { return !(r.length === 1 && r[0] === ''); });
-    if (!rows.length) return { items: [], bad: 0 };
-    if (rows.length > MAX_ROWS + 1) return null;
-    var idx = Object.create(null);
-    rows[0].forEach(function (name, i) { idx[name.trim().toLowerCase()] = i; });
-    if (idx.page === undefined || idx.name === undefined || idx.comment === undefined) return null;
-    function cell(r, k) { return idx[k] === undefined ? '' : csvUnescape(String(r[idx[k]] || '')); }
-    var out = [];
-    rows.slice(1).forEach(function (r) {
-      var c = cleanItem({
-        n: parseInt(cell(r, 'id'), 10), page: cell(r, 'page').trim(), name: cell(r, 'name'), text: cell(r, 'comment'),
-        at: Date.parse(cell(r, 'created')), status: cell(r, 'status').trim().toLowerCase(),
-        resolvedAt: Date.parse(cell(r, 'resolved')), sel: cell(r, 'selector') || null, label: cell(r, 'label') || null
-      });
-      if (c) out.push(c);
-    });
-    return { items: out, bad: rows.length - 1 - out.length };
-  }
-
-  // Adds items that are not already present (same page, time, name and text). Returns how many were added.
-  function mergeItems(d, list) {
-    var seen = Object.create(null), used = Object.create(null), added = 0;
-    function key(c) { return c.page + '|' + c.at + '|' + c.name + '|' + c.text; }
-    d.items.forEach(function (x) { seen[key(x)] = true; used[x.n] = true; });
-    list.forEach(function (c) {
-      if (seen[key(c)]) return;
-      seen[key(c)] = true;
-      if (!c.n || used[c.n]) { do { d.seq += 1; } while (used[d.seq]); c.n = d.seq; }
-      used[c.n] = true;
-      if (c.n > d.seq) d.seq = c.n;
-      d.items.push(c); added += 1;
-    });
-    return added;
-  }
-
-  function exportCsv() {
-    var d = load();
-    var blob = new Blob([toCsv(d)], { type: 'text/csv;charset=utf-8' });
-    var url = URL.createObjectURL(blob);
-    var a = h('a', { href: url, download: 'polaris-comments.csv' });
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-    setMsg('Exported ' + d.items.length + ' comment(s) to polaris-comments.csv.');
-  }
-
-  function importFile(file) {
-    if (!file) return;
-    if (file.size > MAX_FILE) { setMsg('File is too large (max 2 MB).'); return; }
-    var reader = new FileReader();
-    reader.onerror = function () { setMsg('Could not read that file.'); };
-    reader.onload = function () {
-      var res = fromCsv(String(reader.result));
-      if (!res) { setMsg('That file is not a Polaris comments CSV.'); return; }
-      var d = load(), added = mergeItems(d, res.items);
-      if (!save(d)) { setMsg('Could not save. Browser storage may be full or disabled.'); return; }
-      setMsg('Imported ' + added + ' new comment(s); skipped ' + (res.items.length - added + res.bad) + ' duplicate or invalid.');
-      render();
-    };
-    reader.readAsText(file);
-  }
-
-  /* Linked file (File System Access API). The handle is kept in IndexedDB so the link survives reloads. */
-  function idbOpen() {
-    return new Promise(function (res, rej) {
-      var r = indexedDB.open('polaris-comments-fs', 1);
-      r.onupgradeneeded = function () { r.result.createObjectStore('h'); };
-      r.onsuccess = function () { res(r.result); };
-      r.onerror = function () { rej(r.error); };
-    });
-  }
-  function idbGet() {
-    return idbOpen().then(function (db) {
-      return new Promise(function (res, rej) {
-        var q = db.transaction('h').objectStore('h').get('csv');
-        q.onsuccess = function () { res(q.result || null); };
-        q.onerror = function () { rej(q.error); };
-      });
-    }).catch(function () { return null; });
-  }
-  function idbPut(v) {
-    return idbOpen().then(function (db) {
-      return new Promise(function (res, rej) {
-        var tx = db.transaction('h', 'readwrite');
-        tx.objectStore('h').put(v, 'csv');
-        tx.oncomplete = res;
-        tx.onerror = function () { rej(tx.error); };
-      });
-    }).catch(function () { return null; });
-  }
-
-  function updateIo() {
-    linkBtn.hidden = !FSA;
-    linkBtn.textContent = !fsHandle ? 'Link CSV file' : fsReady ? 'CSV: ' + fsHandle.name : 'Reconnect CSV';
-  }
-
-  function scheduleWrite() {
-    if (!fsHandle || !fsReady) return;
-    clearTimeout(writeTimer);
-    writeTimer = setTimeout(writeNow, 300);
-  }
-  function writeNow() {
-    if (!fsHandle || !fsReady) return;
-    var target = fsHandle;
-    target.createWritable().then(function (w) {
-      return w.write(new Blob([toCsv(load())], { type: 'text/csv' })).then(function () { return w.close(); });
-    }).then(function () {
-      setMsg('Saved to ' + target.name + ' at ' + new Date().toLocaleTimeString() + '.');
-    }).catch(function () {
-      fsReady = false; updateIo();
-      setMsg('Could not write to the CSV file. Click "Reconnect CSV" to try again.');
-    });
-  }
-
-  // Load what is in the linked file into this browser, then write the merged result back
-  function syncFromFile() {
-    return fsHandle.getFile().then(function (f) {
-      if (f.size > MAX_FILE) throw new Error('too large');
-      return f.text();
-    }).then(function (text) {
-      var res = fromCsv(text);
-      if (!res) {
-        fsHandle = null; fsReady = false; idbPut(null); updateIo();
-        setMsg('That file is not a Polaris comments CSV, so it was left unchanged and not linked.');
-        return;
-      }
-      fsReady = true;
-      var d = load(), added = mergeItems(d, res.items);
-      save(d);
-      updateIo(); render();
-      setMsg('Linked to ' + fsHandle.name + '. ' + (added ? 'Loaded ' + added + ' comment(s) from it. ' : '') + 'Changes now save to it automatically.');
-    }).catch(function () {
-      fsReady = false; updateIo();
-      setMsg('Could not read the CSV file. Click "Reconnect CSV" or choose the file again.');
-    });
-  }
-
-  function onLink() {
-    if (fsHandle && !fsReady) {
-      fsHandle.requestPermission({ mode: 'readwrite' }).then(function (p) {
-        if (p === 'granted') return syncFromFile();
-        setMsg('Permission was not granted.');
-      }).catch(function () { fsHandle = null; updateIo(); setMsg('Could not reconnect. Choose the file again.'); });
-      return;
-    }
-    window.showSaveFilePicker({ suggestedName: 'polaris-comments.csv', types: CSV_TYPES }).then(function (hd) {
-      fsHandle = hd; fsReady = false;
-      return idbPut(hd).then(syncFromFile);
-    }).catch(function (e) { if (!e || e.name !== 'AbortError') setMsg('Could not open that file.'); });
-  }
-
-  function initFile() {
-    updateIo();
-    if (!FSA) { setMsg('This browser cannot link a file. Use Export CSV and Import CSV to back up and restore.'); return; }
-    setMsg('Link a CSV file to keep comments across file updates and browsers. To reload an existing file, pick it in the dialog.');
-    idbGet().then(function (hd) {
-      if (!hd || typeof hd.queryPermission !== 'function') return;
-      fsHandle = hd; updateIo();
-      return hd.queryPermission({ mode: 'readwrite' }).then(function (p) {
-        if (p === 'granted') return syncFromFile();
-        setMsg('Click "Reconnect CSV" to keep saving to ' + hd.name + '.');
-      });
-    }).catch(function () { /* ignore */ });
-  }
-
   /* ---------- drawer + pick mode ---------- */
   function openDrawer() { drawer.hidden = false; fab.hidden = true; render(); }
   function closeDrawer() { drawer.hidden = true; fab.hidden = false; }
@@ -622,10 +381,6 @@
   cancelPick.addEventListener('click', function () { stopPick(true); });
   pageBtn.addEventListener('click', function () { target = null; render(); });
   saveBtn.addEventListener('click', onSave);
-  linkBtn.addEventListener('click', onLink);
-  exportBtn.addEventListener('click', exportCsv);
-  importBtn.addEventListener('click', function () { fileIn.value = ''; fileIn.click(); });
-  fileIn.addEventListener('change', function () { importFile(fileIn.files && fileIn.files[0]); });
   window.addEventListener('storage', function (e) { if (e.key === KEY) render(); });
 
   // Arrive from the "All site comments" list: open that comment on this page
@@ -640,6 +395,5 @@
   window.addEventListener('hashchange', openFromHash);
 
   render();
-  initFile();
   openFromHash();
 })();
