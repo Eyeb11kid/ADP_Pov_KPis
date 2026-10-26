@@ -86,10 +86,13 @@
 
   /* KPI strip */
   .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-bottom: 1px solid var(--line); background: var(--tile); margin-bottom: 0; }
-  .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; }
+  .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; display: flex; flex-direction: column; }
+  .kpi-row { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .kpi-row b { font-weight: 600; color: var(--navy); }
+  .kpi .kpi-drill { margin-top: auto; padding-top: 8px; }
   .kpi:last-child { border-right: 0; }
   .kpi-val { font-size: 28px; font-weight: 600; color: var(--navy); line-height: 1.1; margin-bottom: 4px; }
-  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
   .kpi-var { font-size: 11px; }
   .kpi-var .fav { color: var(--green); font-weight: 600; }
   .kpi-var .unf { color: var(--red); font-weight: 600; }
@@ -294,145 +297,153 @@
       <!-- KPI strip -->
       <div class="kpis">
         <div class="kpi">
-          <div class="kpi-val">$84.0m</div>
-          <div class="kpi-label">Revenue</div>
-          <div class="kpi-var"><span class="unf">−$2.0m</span> / <span class="unf">−2.3% vs plan</span></div>
+          <div class="kpi-label">Sales</div>
+          <div class="kpi-val">$18.6m</div>
+          <div class="kpi-var"><span class="fav">+$0.6m vs plan</span></div>
+          <div class="kpi-var"><span class="fav">+6.3% vs PY</span></div>
+          <div class="kpi-row"><span>Starts</span><b>$15.2m</b></div>
+          <div class="kpi-row"><span>Losses</span><b>$9.8m</b></div>
+          <div class="kpi-row"><span>Net new business</span><b>$5.4m</b></div>
           <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
         </div>
         <div class="kpi">
-          <div class="kpi-val">$24.0m</div>
-          <div class="kpi-label">Field NOI</div>
-          <div class="kpi-var"><span class="unf">−$1.0m</span> / <span class="unf">−4.0% vs plan</span></div>
+          <div class="kpi-label">Retention</div>
+          <div class="kpi-val">92.4%</div>
+          <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
+          <div class="kpi-var"><span class="fav">+0.2 pp vs PY</span></div>
+          <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Revenue</div>
+          <div class="kpi-val">$120.0m</div>
+          <div class="kpi-var"><span class="fav">+$4.0m vs plan</span></div>
+          <div class="kpi-var"><span class="fav">+5.3% vs PY</span></div>
+          <div class="kpi-row"><span>Processing</span><b>$104.0m</b></div>
+          <div class="kpi-row"><span>Non-processing</span><b>$16.0m</b></div>
+          <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">NOI</div>
+          <div class="kpi-val">$28.0m</div>
+          <div class="kpi-var"><span class="fav">+$3.5m vs plan</span></div>
+          <div class="kpi-var"><span class="fav">+7.7% vs PY</span></div>
+          <div class="kpi-row"><span>Margin</span><b>23.3%</b></div>
           <a class="kpi-drill" href="fe_pl_NAS.html">Field Expense P&amp;L ↗</a>
         </div>
         <div class="kpi">
-          <div class="kpi-val">$12.4m</div>
-          <div class="kpi-label">Sales</div>
-          <div class="kpi-var"><span class="unf">−$0.6m</span> / <span class="unf">−4.6% vs plan</span></div>
+          <div class="kpi-label">Clients (average)</div>
+          <div class="kpi-val">61,500</div>
+          <div class="kpi-var"><span class="fav">+300 vs plan</span></div>
+          <div class="kpi-var"><span class="fav">+2.4% vs PY</span></div>
           <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
-        </div>
-        <div class="kpi">
-          <div class="kpi-val">95.2%</div>
-          <div class="kpi-label">Retention</div>
-          <div class="kpi-var"><span class="unf">−0.3 pp</span> / <span class="unf">−0.3% vs plan</span></div>
-          <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
-        </div>
-        <div class="kpi">
-          <div class="kpi-val">860</div>
-          <div class="kpi-label">Headcount</div>
-          <div class="kpi-var"><span class="fav">+10</span> / <span class="fav">+1.2% vs plan</span></div>
-          <a class="kpi-drill" href="payroll_drill.html">Field Expense · HC &amp; FTE ↗</a>
         </div>
       </div>
 
       <!-- Charts -->
       <div class="charts">
 
-        <!-- Waterfall: Field NOI plan to actual -->
+        <!-- NOI bridge vs plan -->
         <div class="chart-tile">
-          <div class="chart-title">Field NOI · plan to actual</div>
-          <div class="chart-sub">USD m · Revenue less field expense</div>
-          <div class="legend">
-            <span><i style="background:#3f8fe0"></i> Total</span>
-            <span><i style="background:#2e7d32"></i> Favorable</span>
-            <span><i style="background:#c8322f"></i> Unfavorable</span>
-          </div>
-          <svg viewBox="0 0 260 160" width="100%" role="img" aria-label="Field NOI waterfall: plan to actual">
-            <line x1="44" y1="20" x2="256" y2="20" stroke="#e0e0e0"/>
-            <line x1="44" y1="58" x2="256" y2="58" stroke="#e0e0e0"/>
-            <line x1="44" y1="96" x2="256" y2="96" stroke="#e0e0e0"/>
-            <line x1="44" y1="125" x2="256" y2="125" stroke="#e0e0e0"/>
-            <text x="38" y="23" text-anchor="end" font-size="9" fill="#525252">30</text>
-            <text x="38" y="61" text-anchor="end" font-size="9" fill="#525252">25</text>
-            <text x="38" y="99" text-anchor="end" font-size="9" fill="#525252">15</text>
-            <text x="38" y="128" text-anchor="end" font-size="9" fill="#525252">0</text>
-            <!-- Plan bar: 25 -->
-            <rect x="50" y="48.6" width="40" height="76.4" fill="#3f8fe0"/>
-            <text x="70" y="45" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">25.0</text>
-            <text x="70" y="140" text-anchor="middle" font-size="9" fill="#525252">Plan</text>
-            <line x1="90" y1="48.6" x2="110" y2="48.6" stroke="#aaa" stroke-dasharray="3 2"/>
-            <!-- Revenue unfav: -2.0 -->
-            <rect x="110" y="48.6" width="40" height="16" fill="#c8322f"/>
-            <text x="130" y="45" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">−2.0</text>
-            <text x="130" y="140" text-anchor="middle" font-size="9" fill="#525252">Revenue</text>
-            <line x1="150" y1="64.6" x2="170" y2="64.6" stroke="#aaa" stroke-dasharray="3 2"/>
-            <!-- Expense fav: +1.0 -->
-            <rect x="170" y="56.6" width="40" height="8" fill="#2e7d32"/>
-            <text x="190" y="53" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+1.0</text>
-            <text x="190" y="140" text-anchor="middle" font-size="9" fill="#525252">Expense</text>
-            <line x1="210" y1="56.6" x2="220" y2="56.6" stroke="#aaa" stroke-dasharray="3 2"/>
-            <!-- Actual bar: 24 -->
-            <rect x="216" y="56.6" width="40" height="68.4" fill="#3f8fe0"/>
-            <text x="236" y="53" text-anchor="middle" font-size="9" font-weight="700" fill="#161616">24.0</text>
-            <text x="236" y="140" text-anchor="middle" font-size="9" fill="#525252">Actual</text>
+          <div class="chart-title">NOI bridge vs plan, $m</div>
+          <div class="chart-sub">Axis starts at $20m</div>
+          <svg viewBox="0 0 300 150" width="100%" role="img" aria-label="NOI bridge vs plan: plan 24.5, revenue plus 4.0, field expense minus 1.0, NDE plus 0.5, allocations 0.0, actual 28.0">
+            <line x1="10" y1="118" x2="290" y2="118" stroke="#e4e3de"/>
+            <!-- connectors -->
+            <g stroke="#a8a8a8" stroke-dasharray="3 2">
+              <line x1="51"  y1="73" x2="67"  y2="73"/>
+              <line x1="97"  y1="33" x2="113" y2="33"/>
+              <line x1="143" y1="43" x2="159" y2="43"/>
+              <line x1="189" y1="38" x2="205" y2="38"/>
+              <line x1="235" y1="38" x2="251" y2="38"/>
+            </g>
+            <!-- Plan 24.5 -->
+            <rect x="21"  y="73" width="30" height="45" fill="#a8a8a8"/>
+            <!-- Revenue +4.0 -->
+            <rect x="67"  y="33" width="30" height="40" fill="#2e7d32"/>
+            <!-- Field expense -1.0 -->
+            <rect x="113" y="33" width="30" height="10" fill="#c8322f"/>
+            <!-- NDE +0.5 -->
+            <rect x="159" y="38" width="30" height="5"  fill="#2e7d32"/>
+            <!-- Allocations 0.0 -->
+            <line x1="205" y1="38" x2="235" y2="38" stroke="#5f5f5f" stroke-width="2"/>
+            <!-- Actual 28.0 -->
+            <rect x="251" y="38" width="30" height="80" fill="#3f8fe0"/>
+            <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
+              <text x="36"  y="68">24.5</text>
+              <text x="82"  y="28">+4.0</text>
+              <text x="128" y="28">−1.0</text>
+              <text x="174" y="33">+0.5</text>
+              <text x="220" y="33">0.0</text>
+              <text x="266" y="33">28.0</text>
+            </g>
+            <g text-anchor="middle" font-size="13" fill="#5f5f5f">
+              <text x="36"  y="134">Plan</text>
+              <text x="82"  y="134">Rev</text>
+              <text x="128" y="134">Field</text>
+              <text x="174" y="134">NDE</text>
+              <text x="220" y="134">Alloc</text>
+              <text x="266" y="134">Act</text>
+            </g>
           </svg>
         </div>
 
-        <!-- Revenue by product: Pillar A and B -->
+        <!-- Revenue by category -->
         <div class="chart-tile">
-          <div class="chart-title">Revenue by product</div>
-          <div class="chart-sub">USD m · Illustrative Lyric pillar labels</div>
+          <div class="chart-title">Revenue by category, $m</div>
           <div class="legend">
             <span><i style="background:#3f8fe0"></i> Actual</span>
-            <span><i style="background:#9fc5ee"></i> Plan</span>
+            <span><i style="background:#a8a8a8"></i> Plan</span>
           </div>
-          <svg viewBox="0 0 200 140" width="100%" role="img" aria-label="Revenue by product grouped bar">
-            <line x1="30" y1="10" x2="196" y2="10" stroke="#e0e0e0"/>
-            <line x1="30" y1="45" x2="196" y2="45" stroke="#e0e0e0"/>
-            <line x1="30" y1="80" x2="196" y2="80" stroke="#e0e0e0"/>
-            <line x1="30" y1="100" x2="196" y2="100" stroke="#e0e0e0"/>
-            <text x="26" y="48" text-anchor="end" font-size="8" fill="#525252">60</text>
-            <text x="26" y="83" text-anchor="end" font-size="8" fill="#525252">30</text>
-            <text x="26" y="103" text-anchor="end" font-size="8" fill="#525252">0</text>
-            <!-- Pillar A: Actual 54, Plan 55 → scale: 100=90px -->
-            <rect x="42" y="10.5" width="22" height="89.5" fill="#3f8fe0"/>
-            <rect x="66" y="8.8" width="22" height="91.2" fill="#9fc5ee"/>
-            <text x="64" y="110" text-anchor="middle" font-size="8" fill="#525252">Pillar A*</text>
-            <text x="53" y="8" text-anchor="middle" font-size="8" fill="#161616" font-weight="700">54</text>
-            <text x="77" y="6" text-anchor="middle" font-size="8" fill="#525252">55</text>
-            <!-- Pillar B: Actual 39, Plan 31 -->
-            <rect x="128" y="35" width="22" height="65" fill="#3f8fe0"/>
-            <rect x="152" y="53.5" width="22" height="46.5" fill="#9fc5ee"/>
-            <text x="151" y="110" text-anchor="middle" font-size="8" fill="#525252">Pillar B*</text>
-            <text x="139" y="32" text-anchor="middle" font-size="8" fill="#161616" font-weight="700">39</text>
-            <text x="163" y="51" text-anchor="middle" font-size="8" fill="#525252">31</text>
+          <svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Revenue by category, actual vs plan: Asset 70 vs 67, Hard dollar 34 vs 33, Other 16 vs 16">
+            <line x1="10" y1="118" x2="290" y2="118" stroke="#e4e3de"/>
+            <!-- Asset: actual 70, plan 67 -->
+            <rect x="30"  y="34"   width="24" height="84"   fill="#3f8fe0"/>
+            <rect x="56"  y="37.6" width="24" height="80.4" fill="#a8a8a8"/>
+            <!-- Hard dollar: actual 34, plan 33 -->
+            <rect x="125" y="77.2" width="24" height="40.8" fill="#3f8fe0"/>
+            <rect x="151" y="78.4" width="24" height="39.6" fill="#a8a8a8"/>
+            <!-- Other: actual 16, plan 16 -->
+            <rect x="220" y="98.8" width="24" height="19.2" fill="#3f8fe0"/>
+            <rect x="246" y="98.8" width="24" height="19.2" fill="#a8a8a8"/>
+            <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
+              <text x="55"  y="29">70</text>
+              <text x="150" y="72">34</text>
+              <text x="245" y="94">16</text>
+            </g>
+            <g text-anchor="middle" font-size="13" fill="#5f5f5f">
+              <text x="55"  y="134">Asset</text>
+              <text x="150" y="134">Hard dollar</text>
+              <text x="245" y="134">Other</text>
+            </g>
           </svg>
         </div>
 
-        <!-- Monthly revenue trend -->
+        <!-- Revenue vs last year -->
         <div class="chart-tile">
-          <div class="chart-title">Monthly revenue trend</div>
-          <div class="chart-sub">USD m · ADP 4-4-5 periods · September close</div>
-          <div class="legend">
-            <span><i style="background:#3f8fe0"></i> Actual</span>
-            <span><i style="background:#888;border:1px dashed #888"></i> Plan</span>
-            <span><i style="background:#5b2fc0"></i> Prior year</span>
-          </div>
-          <svg viewBox="0 0 300 140" width="100%" role="img" aria-label="Monthly revenue trend">
-            <line x1="30" y1="15" x2="292" y2="15" stroke="#e0e0e0"/>
-            <line x1="30" y1="45" x2="292" y2="45" stroke="#e0e0e0"/>
-            <line x1="30" y1="75" x2="292" y2="75" stroke="#e0e0e0"/>
-            <line x1="30" y1="105" x2="292" y2="105" stroke="#e0e0e0"/>
-            <text x="26" y="18"  text-anchor="end" font-size="8" fill="#525252">89</text>
-            <text x="26" y="48"  text-anchor="end" font-size="8" fill="#525252">84</text>
-            <text x="26" y="78"  text-anchor="end" font-size="8" fill="#525252">78</text>
-            <text x="26" y="108" text-anchor="end" font-size="8" fill="#525252">60</text>
-            <!-- Actual line — trending down slightly -->
-            <polyline points="34,52 144,47 254,45" fill="none" stroke="#3f8fe0" stroke-width="2.2" stroke-linejoin="round"/>
-            <!-- Plan line (dashed) — flat -->
-            <polyline points="34,42 144,40 254,38 292,36" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
-            <!-- Prior year -->
-            <polyline points="34,70 144,65 254,62" fill="none" stroke="#5b2fc0" stroke-width="1.5" stroke-linejoin="round"/>
-            <text x="258" y="43" font-size="8" fill="#3f8fe0" font-weight="700">86</text>
-            <text x="258" y="36" font-size="8" fill="#888">84</text>
-            <text x="258" y="60" font-size="8" fill="#5b2fc0">78</text>
-            <text x="34"  y="118" text-anchor="middle" font-size="8" fill="#525252">Jul</text>
-            <text x="144" y="118" text-anchor="middle" font-size="8" fill="#525252">Aug</text>
-            <text x="254" y="118" text-anchor="middle" font-size="8" fill="#525252">Sep</text>
+          <div class="chart-title">Revenue vs last year, $m</div>
+          <div class="chart-sub">Axis starts at $100m</div>
+          <svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Revenue vs last year, July to September: FY27 117.2, 118.6, 120.0; FY26 111.0, 112.6, 114.0">
+            <line x1="10" y1="118" x2="290" y2="118" stroke="#e4e3de"/>
+            <!-- FY26 -->
+            <polyline points="40,71.3 130,64.5 220,58.5" fill="none" stroke="#8d8d8d" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
+            <circle cx="220" cy="58.5" r="3" fill="#8d8d8d"/>
+            <!-- FY27 -->
+            <polyline points="40,44.9 130,39 220,33" fill="none" stroke="#3f8fe0" stroke-width="2.4" stroke-linejoin="round"/>
+            <circle cx="220" cy="33" r="3.5" fill="#3f8fe0"/>
+            <g font-size="14">
+              <text x="228" y="38" fill="#1a1a1a" font-weight="700">FY27 120</text>
+              <text x="228" y="63" fill="#5f5f5f">FY26 114</text>
+            </g>
+            <g text-anchor="middle" font-size="13" fill="#5f5f5f">
+              <text x="40"  y="134">Jul</text>
+              <text x="130" y="134">Aug</text>
+              <text x="220" y="134">Sep</text>
+            </g>
           </svg>
         </div>
 
       </div><!-- /charts -->
+
 
       <!-- P&L table -->
       <div class="section">
@@ -440,46 +451,38 @@
           <div class="section-title">Management-view P&amp;L summary</div>
           <a class="export-link" href="#">Export ↓</a>
         </div>
-        <div class="section-sub">September period vs plan · YTD context through September · All figures illustrative</div>
+        <div class="section-sub">September, $m · Actual vs plan and prior year · Illustrative</div>
         <div class="tbl-wrap">
           <table class="pl">
             <thead>
               <tr>
-                <th>Financial line / units</th>
+                <th>September, $m</th>
                 <th>Actual</th>
-                <th>Plan</th>
-                <th>Δ vs plan</th>
-                <th>Δ %</th>
-                <th>YTD actual</th>
-                <th>YTD Δ %</th>
+                <th>vs plan</th>
+                <th>%</th>
+                <th>vs PY</th>
+                <th>%</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Income summary sales ↗</td><td>12.4</td><td>13.0</td><td class="unf">−0.6</td><td class="unf">−4.6%</td><td>35.4</td><td class="unf">−4.3%</td></tr>
-              <tr><td>Retention % ↗</td><td>95.2%</td><td>95.5%</td><td class="unf">−0.3 pp</td><td class="unf">−0.3%</td><td>95.3%</td><td class="unf">−0.2%</td></tr>
-              <tr class="bold"><td>Revenue ↗</td><td>84.0</td><td>86.0</td><td class="unf">−2.0</td><td class="unf">−2.3%</td><td>240.0</td><td class="unf">−2.4%</td></tr>
-              <tr><td>Field expense ↗</td><td>60.0</td><td>61.0</td><td class="fav">−1.0</td><td class="fav">−1.6%</td><td>174.0</td><td class="fav">−1.7%</td></tr>
-              <tr class="bold"><td>Field operating NOI</td><td>24.0</td><td>25.0</td><td class="unf">−1.0</td><td class="unf">−4.0%</td><td>66.0</td><td class="unf">−4.3%</td></tr>
-              <tr><td>Field operating NOI margin %</td><td>28.6%</td><td>29.1%</td><td class="unf">−0.5 pp</td><td class="unf">−1.7%</td><td>27.5%</td><td class="unf">−2.0%</td></tr>
-              <tr><td>NDE</td><td>4.0</td><td>4.0</td><td>—</td><td>—</td><td>12.0</td><td>—</td></tr>
-              <tr><td>Allocations</td><td>3.0</td><td>3.0</td><td>—</td><td>—</td><td>9.0</td><td>—</td></tr>
-              <tr class="bold"><td>Total expenses</td><td>67.0</td><td>68.0</td><td class="fav">−1.0</td><td class="fav">−1.5%</td><td>193.0</td><td class="fav">−1.5%</td></tr>
-              <tr class="bold"><td>NOI</td><td>17.0</td><td>18.0</td><td class="unf">−1.0</td><td class="unf">−5.6%</td><td>45.0</td><td class="unf">−6.3%</td></tr>
-              <tr><td>NOI margin %</td><td>20.2%</td><td>20.9%</td><td class="unf">−0.7 pp</td><td class="unf">−3.3%</td><td>18.8%</td><td class="unf">−3.9%</td></tr>
-              <tr><td>Clients (average)</td><td>4,200</td><td>4,250</td><td class="unf">−50</td><td class="unf">−1.2%</td><td>4,180</td><td class="unf">−1.2%</td></tr>
-              <tr><td>Headcount (ending) ↗</td><td>860</td><td>850</td><td class="fav">+10</td><td class="fav">+1.2%</td><td>860</td><td class="fav">+1.2%</td></tr>
-              <tr><td>FTE (average) ↗</td><td>842</td><td>835</td><td class="fav">+7</td><td class="fav">+0.8%</td><td>838</td><td class="fav">+0.7%</td></tr>
+              <tr class="bold"><td>Revenue ↗</td><td>120.0</td><td class="fav">+4.0</td><td class="fav">+3.4%</td><td class="fav">+6.0</td><td class="fav">+5.3%</td></tr>
+              <tr><td>Field expense ↗</td><td>78.0</td><td class="unf">−1.0</td><td class="unf">−1.3%</td><td class="unf">−3.0</td><td class="unf">−4.0%</td></tr>
+              <tr class="bold"><td>Field NOI</td><td>42.0</td><td class="fav">+3.0</td><td class="fav">+7.7%</td><td class="fav">+3.0</td><td class="fav">+7.7%</td></tr>
+              <tr><td>NDE</td><td>8.0</td><td class="fav">+0.5</td><td class="fav">+5.9%</td><td class="unf">−0.5</td><td class="unf">−6.7%</td></tr>
+              <tr><td>Shared service allocations</td><td>6.0</td><td>0.0</td><td>0.0%</td><td class="unf">−0.5</td><td class="unf">−9.1%</td></tr>
+              <tr class="bold"><td>NOI</td><td>28.0</td><td class="fav">+3.5</td><td class="fav">+14.3%</td><td class="fav">+2.0</td><td class="fav">+7.7%</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="tbl-foot">Period: revenue −2.3%; YTD: −2.4%. Expense discipline offsets $1.0m of the September revenue gap.</div>
+
+        <div class="tbl-foot">Revenue is $4.0m above plan and 5.3% above prior year. Field expense is $1.0m over plan; NOI lands $3.5m above plan.</div>
 
         <!-- Row discussion -->
         <div class="row-disc">
           <div class="disc-avatar">MC</div>
           <div class="disc-body">
-            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span style="color:var(--blue)">Revenue / −$2.0m</span> &nbsp;·&nbsp; Static collaboration state</div>
-            <div class="disc-msg">@Maya Chen — Review the Lyric revenue gap before sign-off.</div>
+            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span style="color:var(--blue)">Revenue / +$4.0m</span> &nbsp;·&nbsp; Static collaboration state</div>
+            <div class="disc-msg">@Maya Chen — Confirm the asset revenue upside before sign-off.</div>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">Row discussion · Static</div>
           </div>
           <a class="disc-reply" href="#">Reply</a>
@@ -523,8 +526,8 @@
         <span class="ai-tag review">Needs review</span>
       </div>
       <div class="panel-period">NAS / SEPTEMBER / PERIOD</div>
-      <div class="ai-headline">Revenue below plan; cost offsets soften NOI impact.</div>
-      <div class="ai-body">Revenue of $84.0m is $2.0m below plan (−2.3%). Field expense is $1.0m favorable, partially offsetting the revenue shortfall. Field NOI closes at $24.0m, $1.0m below plan.<br><br>YTD revenue is $240.0m vs $246.0m plan (−2.4%). Retention of 95.2% is 0.3 pp below plan.</div>
+      <div class="ai-headline">Revenue above plan, led by asset revenue; NOI $3.5m ahead.</div>
+      <div class="ai-body">Revenue is $4.0m above plan and 5.3% above last year, led by asset revenue. NOI lands $3.5m above plan.<br><br>Field expense is $1.0m over plan, offset by the revenue upside. Retention of 92.4% is 0.4 pp above plan.</div>
       <div class="reviewer">Reviewer: FP&amp;A Lead</div>
       <div class="ai-actions">
         <button class="btn btn-ghost">Edit draft</button>
