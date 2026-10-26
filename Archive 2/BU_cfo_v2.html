@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management P&L — RS BU — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28;
+    --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── Top chrome ── */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #6929C4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* ── Shell ── */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-name { font-size: 18px; font-weight: 700; color: var(--navy); line-height: 1.1; }
+  .sb-bu-label { font-size: 11px; color: var(--muted); }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link .sb-ico { width: 16px; height: 16px; flex: none; opacity: .5; }
+  .sb-link.active .sb-ico { opacity: 1; }
+  .sb-link.sub { padding-left: 24px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
+  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+
+  /* ── Main ── */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+
+  /* Title bar */
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 2px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* Filter bar */
+  .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .fb-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .fb-toggle { display: flex; }
+  .fb-toggle button { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--inner); color: var(--muted); cursor: pointer; }
+  .fb-toggle button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .fb-toggle button:first-child { border-radius: 3px 0 0 3px; }
+  .fb-toggle button:last-child { border-radius: 0 3px 3px 0; }
+  .fb-chip { font-size: 11px; font-weight: 600; background: var(--navy); color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
+  .fb-link { font-size: 12px; color: var(--blue); text-decoration: none; cursor: pointer; }
+  .fb-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* Content */
+  .content { padding: 0 0 32px; flex: 1; }
+
+  /* Hero strip */
+  .hero { background: var(--tile); border-bottom: 1px solid var(--line); padding: 16px 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .hero-l { flex: 1; min-width: 0; }
+  .hero-period { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+  .hero-headline { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+  .hero-sub { font-size: 12px; color: var(--muted); }
+  .hero-r { text-align: right; flex: none; }
+  .hero-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .hero-val { font-size: 26px; font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 3px; }
+  .hero-var { font-size: 12px; }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* Section wrapper */
+  .section { background: var(--tile); border: 1px solid var(--line); margin: 14px 20px 0; }
+  .section-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 13px 16px 0; }
+  .section-title { font-size: 13px; font-weight: 700; }
+  .section-sub { font-size: 11px; color: var(--muted); padding: 2px 16px 10px; }
+  .export-link { font-size: 12px; color: var(--blue); text-decoration: none; flex: none; }
+
+  /* Tabs */
+  .tabs { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 0 16px; }
+  .tab-list { display: flex; gap: 0; }
+  .tab { font: inherit; font-size: 13px; padding: 9px 16px; background: transparent; border: 0; border-bottom: 3px solid transparent; color: var(--muted); cursor: pointer; }
+  .tab.on { color: var(--navy); font-weight: 600; border-bottom-color: var(--blue); }
+  .tab:hover:not(.on) { background: var(--hover); }
+  .tab-pill { font-size: 11px; color: var(--blue); background: #edf4ff; border: 1px solid #c0d8ff; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
+
+  /* P&L table */
+  .tbl-wrap { overflow-x: auto; }
+  table.pl { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+  table.pl th { text-align: right; font-size: 11px; font-weight: 600; color: var(--muted); padding: 7px 10px; background: var(--inner); border-bottom: 2px solid var(--line); }
+  table.pl th:first-child { text-align: left; min-width: 200px; white-space: normal; }
+  table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  table.pl td:first-child { text-align: left; }
+  table.pl tr.bold > td { font-weight: 700; }
+  table.pl tr.sub > td:first-child { padding-left: 24px; color: var(--blue); font-weight: 400; }
+  table.pl tr.sub2 > td:first-child { padding-left: 38px; font-size: 11px; color: var(--muted); }
+  table.pl tr:hover td { background: var(--hover); }
+  table.pl .dot-green { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-left: 4px; vertical-align: middle; }
+  .tbl-foot { font-size: 11px; color: var(--muted); padding: 8px 16px; border-top: 1px solid var(--line); }
+  .tbl-view-link { float: right; color: var(--blue); text-decoration: none; }
+  .tbl-view-link:hover { text-decoration: underline; }
+
+  /* Row discussion */
+  .row-disc { margin: 0 16px 14px; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 10px; }
+  .disc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none; margin-top: 1px; }
+  .disc-body { flex: 1; min-width: 0; }
+  .disc-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .disc-meta b { color: var(--navy); }
+  .disc-msg { font-size: 12px; color: var(--navy); }
+  .disc-reply { font-size: 12px; color: var(--blue); text-decoration: none; margin-left: auto; flex: none; align-self: center; }
+
+  /* Revenue drivers section */
+  .drivers-sub { font-size: 11px; color: var(--muted); padding: 3px 16px 10px; }
+
+  /* Right AI panel */
+  .panel { width: var(--panel-w); background: #fff; border-left: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; }
+  .panel-hdr { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#6929C4,#1192E8); flex: none; }
+  .panel-title { font-size: 13px; font-weight: 700; }
+  .panel-sub { font-size: 11px; color: var(--muted); }
+  .panel-body { padding: 12px 14px; flex: 1; }
+  .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+  .ai-tag.draft { background: #e8daff; color: #6929C4; }
+  .ai-tag.review { background: #fff3cd; color: #B28600; margin-left: 4px; }
+  .panel-period { font-size: 11px; font-weight: 600; color: var(--muted); margin: 10px 0 8px; }
+  .ai-headline { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+  .ai-body { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .reviewer { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .ai-actions { display: flex; gap: 8px; margin-bottom: 20px; }
+  .btn { font: inherit; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 2px; }
+  .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--navy); }
+  .btn-ghost:hover { background: var(--hover); }
+  .btn-primary { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
+  .btn-primary:hover { background: #0050e6; }
+  .panel-divider { height: 1px; background: var(--line); margin: 0 0 14px; }
+  .ask-label { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .ask-input { width: 100%; font: inherit; font-size: 12px; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 7px 10px; resize: none; height: 60px; }
+  .ask-input::placeholder { color: var(--muted); }
+  .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
+  .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
+  /* Modify filters modal */
+  .mf-overlay { position: fixed; inset: 0; background: rgba(22,22,22,.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .mf-overlay[hidden] { display: none; }
+  .mf-modal { background: #fff; width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; border: 1px solid var(--line); }
+  .mf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .mf-title { font-size: 15px; font-weight: 600; }
+  .mf-close { font: inherit; font-size: 20px; line-height: 1; width: 28px; height: 28px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .mf-close:hover { background: var(--hover); color: var(--navy); }
+  .mf-body { display: grid; grid-template-columns: repeat(4, 1fr); overflow-y: auto; }
+  .mf-col { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 0; min-width: 0; }
+  .mf-col:last-child { border-right: 0; }
+  .mf-col h3 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .mf-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; cursor: pointer; }
+  .mf-opt input { accent-color: var(--blue); width: 14px; height: 14px; flex: none; margin: 0; }
+  .mf-opt.mf-all { font-weight: 600; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
+  @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<!-- ── Top chrome ── -->
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a>
+    Project Polaris
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>FP&amp;A Lead</b>
+    <div class="avatar">JL</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Left sidebar ── -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-name">ADP · Polaris</div>
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">BU Close Review</div>
+    <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
+    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
+    <div class="sb-sublabel">Within Field Expense</div>
+    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
+    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
+    <a class="sb-link sub active" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate</div>
+    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <a class="sb-link sub" href="sec_report.html">SEC</a>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Title bar -->
+    <div class="titlebar">
+      <div class="breadcrumb">
+        <a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>
+        <a href="rs_dashboard.html">RS dashboard</a><span>/</span>
+        Management P&amp;L
+      </div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">Management P&amp;L</div>
+          <div class="page-sub">Which products and channels drive the revenue variance?</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="pill-select">Business unit &nbsp;<b>RS</b>&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div class="pill-select">ADP 4-4-5</div>
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filterbar">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;font-weight:600;color:var(--muted)">Compare</span>
+        <div class="pill-select" style="font-size:12px">Plan&nbsp;<svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </div>
+      <span style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">Period</button><button>YTD</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">$ + %</button><button>% only</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-chip">Product: All RS</div>
+      <div class="fb-chip" style="background:#525252">Geography: All</div>
+      <div class="fb-chip" style="background:#525252">Platform: All</div>
+      <div class="fb-chip" style="background:#525252">Sales channel: All</div>
+      <a class="fb-link" id="mf-open" href="#" role="button" aria-haspopup="dialog">Modify filters</a>
+      <a class="fb-link">Clear all</a>
+      <span class="fb-note">Carried across reports</span>
+    </div>
+
+    <div class="content">
+      <div class="fb-note" style="padding:8px 20px;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (sync only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
+
+      <!-- Hero strip -->
+      <div class="hero">
+        <div class="hero-l">
+          <div class="hero-period">September Revenue / RS</div>
+          <div class="hero-headline">$4.0m above plan, led by Direct channels.</div>
+          <div class="hero-sub">Core K +$2.0m · Simple +$2.0m. Direct contributes $3.0m; Partner contributes $1.0m.</div>
+        </div>
+        <div class="hero-r">
+          <div class="hero-label">YTD revenue through September</div>
+          <div class="hero-val">$350.0m</div>
+          <div class="hero-var"><span class="fav">+$8.0m / +2.3% vs plan</span></div>
+        </div>
+      </div>
+
+      <!-- Management P&L revenue drill section -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">Management P&amp;L · revenue drill</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">USD m unless noted · Actual · comparator · Percentage-point deltas for rate metrics</div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab-list">
+            <button class="tab on">Product</button>
+            <button class="tab">Channel</button>
+            <button class="tab">Geography</button>
+            <button class="tab">Platform</button>
+          </div>
+          <span class="tab-pill">Revenue expanded · Product · Channel</span>
+        </div>
+
+        <!-- Table -->
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Financial line / product</th>
+                <th>Actual</th>
+                <th>Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>Prior year</th>
+                <th>Δ vs PY</th>
+                <th>Prior period</th>
+                <th>Δ vs PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Income summary sales</td><td>18.6</td><td>18.0</td><td class="fav">+0.6</td><td class="fav">+3.3%</td><td>17.2</td><td class="fav">+8.1%</td><td>18.2</td><td class="fav">+2.2%</td></tr>
+              <tr><td>Retention %</td><td>92.4%</td><td>92.0%</td><td class="fav">+0.4 pp</td><td class="fav">+0.4%</td><td>91.6%</td><td class="fav">+8.8 pp</td><td>92.2%</td><td class="fav">+0.2 pp</td></tr>
+              <tr class="bold"><td>↓ Revenue</td><td>120.0</td><td>116.0</td><td class="fav">+4.0</td><td class="fav">+3.4%</td><td>110.0</td><td class="fav">+9.1%</td><td>118.0</td><td class="fav">+1.7%</td></tr>
+              <tr class="sub"><td>↓ Core K</td><td>90.0</td><td>88.0</td><td class="fav">+2.0 <span class="dot-green"></span></td><td class="fav">+2.3%</td><td>83.0</td><td class="fav">+8.4%</td><td>89.0</td><td class="fav">+1.1%</td></tr>
+              <tr class="sub2"><td>Direct ↗</td><td>65.0</td><td>63.5</td><td class="fav">+1.5</td><td class="fav">+2.4%</td><td>60.0</td><td class="fav">+8.3%</td><td>64.0</td><td class="fav">+1.6%</td></tr>
+              <tr class="sub2"><td>Partner ↗</td><td>25.0</td><td>24.5</td><td class="fav">+0.5</td><td class="fav">+2.0%</td><td>23.0</td><td class="fav">+8.7%</td><td>25.0</td><td>—</td></tr>
+              <tr class="sub"><td>↓ Simple</td><td>30.0</td><td>28.0</td><td class="fav">+2.0</td><td class="fav">+7.1%</td><td>27.0</td><td class="fav">+11.1%</td><td>29.0</td><td class="fav">+3.4%</td></tr>
+              <tr class="sub2"><td>Direct ↗</td><td>23.0</td><td>21.5</td><td class="fav">+1.5</td><td class="fav">+7.0%</td><td>21.0</td><td class="fav">+9.5%</td><td>22.5</td><td class="fav">+2.2%</td></tr>
+              <tr class="sub2"><td>Partner ↗</td><td>7.0</td><td>6.5</td><td class="fav">+0.5</td><td class="fav">+7.7%</td><td>6.0</td><td class="fav">+16.7%</td><td>6.5</td><td class="fav">+7.7%</td></tr>
+              <tr><td>Field expense ↗</td><td>78.0</td><td>77.0</td><td class="unf">+1.0</td><td class="unf">+1.3%</td><td>74.0</td><td class="unf">+5.4%</td><td>77.0</td><td class="unf">+1.3%</td></tr>
+              <tr class="bold"><td>Field operating NOI</td><td>42.0</td><td>39.0</td><td class="fav">+3.0</td><td class="fav">+7.7%</td><td>36.0</td><td class="fav">+16.7%</td><td>41.0</td><td class="fav">+2.4%</td></tr>
+              <tr><td>Field operating NOI margin %</td><td>35.0%</td><td>33.6%</td><td class="fav">+1.4 pp</td><td class="fav">+4.1%</td><td>32.7%</td><td class="fav">+2.3 pp</td><td>34.7%</td><td class="fav">+0.3 pp</td></tr>
+              <tr><td>NDE</td><td>8.0</td><td>8.0</td><td>—</td><td>—</td><td>7.5</td><td class="fav">+6.7%</td><td>8.0</td><td>—</td></tr>
+              <tr><td>Allocations</td><td>6.0</td><td>6.0</td><td>—</td><td>—</td><td>5.5</td><td class="fav">+9.1%</td><td>6.0</td><td>—</td></tr>
+              <tr class="bold"><td>Total expenses</td><td>92.0</td><td>91.0</td><td class="unf">+1.0</td><td class="unf">+1.1%</td><td>87.0</td><td class="unf">+5.7%</td><td>91.0</td><td class="unf">+1.1%</td></tr>
+              <tr class="bold"><td>NOI</td><td>28.0</td><td>25.0</td><td class="fav">+3.0</td><td class="fav">+12.0%</td><td>23.0</td><td class="fav">+21.7%</td><td>27.0</td><td class="fav">+3.7%</td></tr>
+              <tr><td>NOI margin %</td><td>23.3%</td><td>21.6%</td><td class="fav">+1.8 pp</td><td class="fav">+8.3%</td><td>20.9%</td><td class="fav">+2.4 pp</td><td>22.9%</td><td class="fav">+0.5 pp</td></tr>
+              <tr><td>Clients (average)</td><td>42,600</td><td>42,200</td><td class="fav">+400</td><td class="fav">+0.9%</td><td>41,000</td><td class="fav">+3.9%</td><td>42,460</td><td class="fav">+0.3%</td></tr>
+              <tr><td>Headcount (ending) ↗</td><td>1,240</td><td>1,250</td><td class="unf">−10</td><td class="unf">−0.8%</td><td>1,200</td><td class="fav">+3.3%</td><td>1,235</td><td class="fav">+0.4%</td></tr>
+              <tr><td>FTE (average) ↗</td><td>1,218</td><td>1,230</td><td class="unf">−12</td><td class="unf">−1.0%</td><td>1,180</td><td class="fav">+3.2%</td><td>1,210</td><td class="fav">+0.7%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-foot">
+          ↗ Product/channel rows continue to transaction detail · No RS client-level loss detail
+          <a class="tbl-view-link" href="#">View Core K transactions ↗</a>
+        </div>
+
+        <!-- Row discussion -->
+        <div class="row-disc">
+          <div class="disc-avatar">JL</div>
+          <div class="disc-body">
+            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span style="color:var(--blue)">Core K · Δ vs plan: +$2.0m</span> &nbsp;·&nbsp; Static collaboration state</div>
+            <div class="disc-msg">@Maya Chen — Please validate the $1.5m Direct contribution before we finalize the Core K commentary.</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">Jordan Lee · FP&amp;A Lead · 1 colleague tagged · Separate from AI variance commentary</div>
+          </div>
+          <a class="disc-reply" href="#">Reply</a>
+        </div>
+
+      </div><!-- /section -->
+
+      <!-- Revenue drivers -->
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-hdr">
+          <div class="section-title">Revenue drivers</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="drivers-sub">Sales and starts in USD m · Losses shown as positive lost revenue; lower is favorable · Illustrative</div>
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>Actual</th>
+                <th>Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>Prior year</th>
+                <th>Δ vs PY</th>
+                <th>Prior period</th>
+                <th>Δ vs PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Sales (income summary)</td><td>18.6</td><td>18.0</td><td class="fav">+0.6</td><td class="fav">+3.3%</td><td>17.2</td><td class="fav">+8.1%</td><td>18.2</td><td class="fav">+2.2%</td></tr>
+              <tr><td>Starts</td><td>14.0</td><td>13.0</td><td class="fav">+1.0</td><td class="fav">+7.7%</td><td>12.0</td><td class="fav">+16.7%</td><td>13.5</td><td class="fav">+3.7%</td></tr>
+              <tr><td>Losses · aggregate only</td><td>3.0</td><td>4.0</td><td class="fav">−0.2</td><td class="fav">−5.0%</td><td>4.2</td><td class="fav">−9.5%</td><td>4.0</td><td class="fav">−5.0%</td></tr>
+              <tr><td>Retention %</td><td>92.4%</td><td>92.0%</td><td class="fav">+0.4 pp</td><td class="fav">+0.4%</td><td>91.6%</td><td class="fav">+8.8 pp</td><td>92.2%</td><td class="fav">+0.2 pp</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-foot" style="margin-top:0;border-top:1px solid var(--line)">All figures illustrative. Drivers are supporting measures, not an additive revenue bridge. Headcount and FTE continue beneath Field Expense P&amp;L. No individual employee or RS client loss detail is included.</div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+
+  <!-- ── Right AI panel ── -->
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div>
+        <div class="panel-title">Close assistant</div>
+        <div class="panel-sub">AI commentary · Placeholder</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <span class="ai-tag draft">AI-drafted</span>
+        <span class="ai-tag review">Needs review</span>
+      </div>
+      <div class="panel-period">RS / SEPTEMBER / REVENUE</div>
+      <div class="ai-headline">Core K and Direct lead the revenue upside.</div>
+      <div class="ai-body">Revenue is $120.0m, $4.0m above plan (+3.4%). Core K and Simple each contribute $2.0m of upside. Direct contributes $3.0m and Partner $1.0m.<br><br>Retention is 92.4%, 0.4 pp above plan. Starts are $1.0m above plan; losses are $0.2m lower than plan.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this analysis</div>
+      <textarea class="ask-input" placeholder="Ask a question…"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      Field NOI revenue basis and KPI prioritization remain under validation. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function () {
+  /* Tab switching */
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+})();
+</script>
+<!-- Modify filters modal -->
+<div class="mf-overlay" id="mf-overlay" hidden>
+  <div class="mf-modal" role="dialog" aria-modal="true" aria-labelledby="mf-title">
+    <div class="mf-head">
+      <div class="mf-title" id="mf-title">Modify filters</div>
+      <button type="button" class="mf-close" id="mf-x" aria-label="Close">&times;</button>
+    </div>
+    <div class="mf-body">
+      <div class="mf-col" data-col="Product">
+        <h3>Product</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Lyric</label>
+        <label class="mf-opt"><input type="checkbox"> Workforce Now</label>
+        <label class="mf-opt"><input type="checkbox"> Run Powered by ADP</label>
+        <label class="mf-opt"><input type="checkbox"> Vantage HCM</label>
+        <label class="mf-opt"><input type="checkbox"> TotalSource</label>
+      </div>
+      <div class="mf-col" data-col="Geography">
+        <h3>Geography</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Northeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Midwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> West</label>
+      </div>
+      <div class="mf-col" data-col="Platform">
+        <h3>Platform</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (multi-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Cloud (single-tenant)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Hosted</label>
+        <label class="mf-opt"><input type="checkbox" checked> Mobile app</label>
+        <label class="mf-opt"><input type="checkbox" checked> API / Integrations</label>
+      </div>
+      <div class="mf-col" data-col="Channel">
+        <h3>Channel</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Direct sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Inside sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Channel partners</label>
+        <label class="mf-opt"><input type="checkbox" checked> Digital / self-serve</label>
+        <label class="mf-opt"><input type="checkbox" checked> Existing-client cross-sell</label>
+      </div>
+    </div>
+    <div class="mf-foot">
+      <button type="button" class="btn btn-ghost" id="mf-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="mf-apply">Apply Filter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* Modify filters modal */
+  var mfOverlay = document.getElementById('mf-overlay');
+  var mfOpen = document.getElementById('mf-open');
+  function mfSync(col) {
+    var all = col.querySelector('.mf-allbox');
+    var opts = col.querySelectorAll('.mf-opt:not(.mf-all) input');
+    var n = col.querySelectorAll('.mf-opt:not(.mf-all) input:checked').length;
+    all.checked = false;
+    all.indeterminate = n > 0 && n < opts.length;
+  }
+  function mfShow(on) {
+    if (on) { mfOverlay.removeAttribute('hidden'); document.getElementById('mf-x').focus(); }
+    else { mfOverlay.setAttribute('hidden', ''); mfOpen.focus(); }
+  }
+  if (mfOverlay && mfOpen) {
+    var cols = mfOverlay.querySelectorAll('.mf-col');
+    cols.forEach(function (col) {
+      mfSync(col);
+      col.addEventListener('change', function (e) {
+        if (e.target.classList.contains('mf-allbox')) {
+          col.querySelectorAll('.mf-opt:not(.mf-all) input').forEach(function (cb) { cb.checked = e.target.checked; });
+        }
+        mfSync(col);
+      });
+    });
+    mfOpen.addEventListener('click', function (e) { e.preventDefault(); mfShow(true); });
+    document.getElementById('mf-x').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-cancel').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-apply').addEventListener('click', function () { mfShow(false); });
+    mfOverlay.addEventListener('click', function (e) { if (e.target === mfOverlay) mfShow(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mfOverlay.hasAttribute('hidden')) mfShow(false);
+    });
+  }
+})();
+</script>
+<script src="comments.js"></script>
+</body>
+</html>

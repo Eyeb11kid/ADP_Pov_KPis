@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEC Report — ADP Project Polaris</title>
+<style>
+    :root {
+    --blue:#0f62fe; --navy:#161616; --green:#198038; --red:#da1e28;
+    --teal:#009D9A; --purple:#6929C4; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #6929C4; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .sb-bu-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
+  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 2px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+  .content { padding: 0 20px 32px; flex: 1; }
+  .wrap { max-width: none; }
+  .footer { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--muted); }
+
+  .sec-doc { background: #fff; border: 1px solid var(--line); max-width: 960px; margin: 20px auto 0; padding: 36px 48px 40px; font-family: Georgia, "Times New Roman", serif; color: #000; font-size: 13px; line-height: 1.55; }
+  .sec-doc .form-top { text-align: center; border-bottom: 2px solid #000; padding-bottom: 14px; margin-bottom: 18px; }
+  .sec-doc .form-top .agency { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+  .sec-doc .form-top .form { font-size: 24px; font-weight: 700; margin: 6px 0 2px; }
+  .sec-doc .form-top .sub { font-size: 12px; font-style: italic; }
+  .sec-doc .form-top .reg { font-size: 18px; font-weight: 700; margin-top: 12px; }
+  .sec-doc .cover { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 12px; }
+  .sec-doc .cover td { border: 1px solid #000; padding: 5px 8px; vertical-align: top; }
+  .sec-doc .cover td.k { width: 36%; font-weight: 700; background: #f2f2f2; }
+  .sec-doc h2 { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; border-bottom: 1px solid #000; padding-bottom: 3px; margin: 26px 0 10px; }
+  .sec-doc h3 { font-size: 13px; font-weight: 700; margin: 16px 0 6px; }
+  .sec-doc p { margin-bottom: 9px; text-align: justify; }
+  .sec-doc .toc { margin: 0 0 6px 18px; font-size: 12px; }
+  .sec-doc .toc li { margin-bottom: 2px; }
+  .sec-doc .toc a { color: #000; text-decoration: none; }
+  .sec-doc .toc a:hover { text-decoration: underline; }
+  .sec-doc .fs { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .sec-doc .fs th { border-top: 2px solid #000; border-bottom: 1px solid #000; padding: 4px 8px; text-align: right; font-weight: 700; }
+  .sec-doc .fs th:first-child { text-align: left; }
+  .sec-doc .fs td { padding: 3px 8px; text-align: right; border-bottom: 1px dotted #bbb; }
+  .sec-doc .fs td:first-child { text-align: left; }
+  .sec-doc .fs td.ind { padding-left: 24px; }
+  .sec-doc .fs tr.sec td { font-weight: 700; background: #f2f2f2; border-bottom: 1px solid #000; text-align: left; }
+  .sec-doc .fs tr.sub td { font-weight: 700; }
+  .sec-doc .fs tr.tot td { font-weight: 700; border-top: 1px solid #000; border-bottom: 3px double #000; }
+  .sec-doc .src { font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  .sec-doc .fn { font-size: 11px; margin-top: 8px; }
+  .sec-doc .fn p { margin-bottom: 4px; }
+  .sec-doc .sig td { padding: 18px 8px 4px; border: 0; border-top: 1px solid #000; font-size: 12px; width: 50%; }
+  .draft-banner { max-width: 960px; margin: 14px auto 0; background: var(--tile); border: 1px solid var(--line); border-left: 4px solid #B28600; padding: 8px 14px; font-size: 12px; color: var(--muted); font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; }
+  @media (max-width: 760px) { .sec-doc { padding: 20px 16px; } }
+  @media print { .chrome, .sidebar, .titlebar, .draft-banner, .footer { display: none; } .sec-doc { border: 0; margin: 0; padding: 0; } }
+</style>
+</head>
+<body>
+
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a>
+    Project Polaris
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>FP&amp;A Lead</b>
+    <div class="avatar">JL</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-name">ADP · Polaris</div>
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">BU Close Review</div>
+    <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
+    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
+    <div class="sb-sublabel">Within Field Expense</div>
+    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
+    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
+    <a class="sb-link sub" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate</div>
+    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <a class="sb-link sub active" href="sec_report.html">SEC</a>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
+  </nav>
+
+  <main class="main">
+    <div class="titlebar">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>SEC</div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">SEC report</div>
+          <div class="page-sub">Form 10-K style financial report &middot; Automatic Data Processing, Inc. &middot; $ in millions unless noted</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="pill-select">ADP 4-4-5</div>
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="draft-banner"><strong>Draft layout, not for filing.</strong> This page presents the Consolidated Financial Results figures from the CFO Dashboard in SEC Form 10-K order. The prior-period column is FY26 actual. Items that are not in the dashboard data (income taxes, net earnings, EPS, balance sheet, cash flows) are not shown.</div>
+
+      <article class="sec-doc">
+
+        <div class="form-top">
+          <div class="agency">United States Securities and Exchange Commission &middot; Washington, D.C. 20549</div>
+          <div class="form">FORM 10-K</div>
+          <div class="sub">Annual report pursuant to Section 13 or 15(d) of the Securities Exchange Act of 1934</div>
+          <div class="reg">AUTOMATIC DATA PROCESSING, INC.</div>
+        </div>
+
+        <table class="cover">
+          <tr><td class="k">Fiscal year</td><td>Fiscal 2027 (ADP 4-4-5 calendar), financial data through the September close</td></tr>
+          <tr><td class="k">Commission file number</td><td>1-5397</td></tr>
+          <tr><td class="k">Reportable segments</td><td>Employer Services; PEO Services; Other</td></tr>
+          <tr><td class="k">Basis of presentation</td><td>Management financial results; Adjusted EBIT is a non-GAAP measure (see Item 7)</td></tr>
+        </table>
+
+        <h2>Table of contents</h2>
+        <ol class="toc">
+          <li><a href="#item7">Item 7. Management&rsquo;s Discussion and Analysis of Financial Condition and Results of Operations</a></li>
+          <li><a href="#item7a">Segment results and Adjusted EBIT (non-GAAP)</a></li>
+          <li><a href="#item8">Item 8. Financial Statements and Supplementary Data: Revenues by service line</a></li>
+          <li><a href="#kpi">Key operating metrics</a></li>
+          <li><a href="#fls">Forward-looking statements</a></li>
+        </ol>
+
+        <h2 id="item7">Item 7. Management&rsquo;s discussion and analysis</h2>
+        <h3>Overview</h3>
+        <p>Total revenues for the period were $6,161.2 million, an increase of $469.7 million, or 8.3%, compared with $5,691.5 million in the prior fiscal year. Employer Services revenues were $4,752.9 million (up 8.2%) and PEO Services revenues were $1,333.9 million (up 8.8%). Revenues include $179.0 million of interest on client funds, a decrease of 3.6% from $185.6 million. Excluding client funds interest, revenues increased 8.7%.</p>
+        <p>Total costs and expenses were $4,781.2 million, an increase of 6.9%, which is below the rate of revenue growth. Adjusted EBIT was $1,380.0 million, an increase of $163.0 million, or 13.4%, and Adjusted EBIT margin expanded 102 basis points to 22.4%.</p>
+        <h3>Results of operations</h3>
+        <p>Employer Services Adjusted EBIT increased 11.4% to $1,416.4 million, and its margin increased 86 basis points to 29.8%. PEO Services Adjusted EBIT increased 16.1% to $184.2 million, and its margin increased 87 basis points to 13.8%. Non-distributed expense of $222.4 million, which is deducted in arriving at consolidated Adjusted EBIT, increased 3.7%.</p>
+        <p>New business bookings were $424.8 million in Employer Services and $73.4 million in PEO Services, increases of 8.6% and 9.9%. Starts of $298.1 million exceeded losses of $160.3 million, producing net new business of $137.8 million compared with $115.8 million in the prior fiscal year. Client revenue retention was 91.8% in Employer Services and 89.1% in PEO Services. Average worksite employees were 795 thousand, up 6.6%.</p>
+
+        <h2 id="item7a">Segment results and Adjusted EBIT (non-GAAP)</h2>
+        <div class="src">Table 1. Segment results, fiscal year to date through September</div>
+        <table class="fs">
+<thead><tr><th>Segment results ($ in millions)</th><th>FY27</th><th>FY26</th><th>$ / unit change</th><th>% change</th></tr></thead>
+<tbody>
+<tr class="sec"><td colspan="5">Revenues</td></tr>
+<tr class=""><td class="ind">Employer Services</td><td>$4,752.9</td><td>$4,394.7</td><td>358.2</td><td>8.2%</td></tr>
+<tr class=""><td class="ind">PEO Services</td><td>1,333.9</td><td>1,225.7</td><td>108.2</td><td>8.8%</td></tr>
+<tr class=""><td class="ind">Other</td><td>74.4</td><td>71.1</td><td>3.3</td><td>4.6%</td></tr>
+<tr class="tot"><td>Total revenues</td><td>$6,161.2</td><td>$5,691.5</td><td>469.7</td><td>8.3%</td></tr>
+<tr class="sec"><td colspan="5">Costs and expenses</td></tr>
+<tr class=""><td class="ind">Employer Services</td><td>$3,336.5</td><td>$3,122.8</td><td>213.7</td><td>6.8%</td></tr>
+<tr class=""><td class="ind">PEO Services</td><td>1,149.7</td><td>1,067.1</td><td>82.6</td><td>7.7%</td></tr>
+<tr class=""><td class="ind">Other</td><td>72.6</td><td>70.1</td><td>2.5</td><td>3.6%</td></tr>
+<tr class=""><td class="ind">Non-distributed expense (NDE)</td><td>222.4</td><td>214.5</td><td>7.9</td><td>3.7%</td></tr>
+<tr class="tot"><td>Total costs and expenses</td><td>$4,781.2</td><td>$4,474.5</td><td>306.7</td><td>6.9%</td></tr>
+<tr class="sec"><td colspan="5">Adjusted EBIT (non-GAAP)</td></tr>
+<tr class=""><td class="ind">Employer Services</td><td>$1,416.4</td><td>$1,271.9</td><td>144.5</td><td>11.4%</td></tr>
+<tr class=""><td class="ind">PEO Services</td><td>184.2</td><td>158.6</td><td>25.6</td><td>16.1%</td></tr>
+<tr class=""><td class="ind">Other</td><td>1.8</td><td>1.0</td><td>0.8</td><td>80.0%</td></tr>
+<tr class=""><td class="ind">Less: non-distributed expense</td><td>(222.4)</td><td>(214.5)</td><td>(7.9)</td><td>3.7%</td></tr>
+<tr class="tot"><td>Adjusted EBIT</td><td>$1,380.0</td><td>$1,217.0</td><td>163.0</td><td>13.4%</td></tr>
+<tr><td class="ind">Adjusted EBIT margin</td><td>22.4%</td><td>21.4%</td><td>102 bps</td><td>&mdash;</td></tr>
+<tr><td class="ind">Employer Services margin</td><td>29.8%</td><td>28.9%</td><td>86 bps</td><td>&mdash;</td></tr>
+<tr><td class="ind">PEO Services margin</td><td>13.8%</td><td>12.9%</td><td>87 bps</td><td>&mdash;</td></tr>
+</tbody>
+
+        </table>
+        <div class="fn">
+          <p>Adjusted EBIT is a non-GAAP financial measure. It is the sum of segment Adjusted EBIT less non-distributed expense. It should not be considered in isolation or as a substitute for earnings before income taxes or net earnings determined under U.S. GAAP. A reconciliation to the most directly comparable GAAP measure is required before this measure is published in a filing.</p>
+          <p>Margins are the segment Adjusted EBIT divided by segment revenues; the consolidated margin is divided by total revenues. Changes in margin are shown in basis points.</p>
+        </div>
+
+        <h2 id="item8">Item 8. Financial statements and supplementary data</h2>
+        <h3>Revenues by service line</h3>
+        <div class="src">Table 2. Disaggregation of revenues, fiscal year to date through September</div>
+        <table class="fs">
+<thead><tr><th>Revenues by service line ($ in millions)</th><th>FY27</th><th>FY26</th><th>$ / unit change</th><th>% change</th></tr></thead>
+<tbody>
+<tr class="sec"><td colspan="5">Employer Services</td></tr>
+<tr class=""><td class="ind">Small Business Services (SBS)</td><td>969.6</td><td>904.1</td><td>65.5</td><td>7.2%</td></tr>
+<tr class=""><td class="ind">Integrated Solutions (IS)</td><td>782.8</td><td>734.0</td><td>48.8</td><td>6.6%</td></tr>
+<tr class=""><td class="ind">Retirement Services (RS)</td><td>675.0</td><td>620.1</td><td>54.9</td><td>8.9%</td></tr>
+<tr class=""><td class="ind">WorkMarket</td><td>39.6</td><td>35.3</td><td>4.3</td><td>12.2%</td></tr>
+<tr class=""><td class="ind">Business Process Outsourcing (BPO)</td><td>247.7</td><td>238.1</td><td>9.6</td><td>4.0%</td></tr>
+<tr class=""><td class="ind">Major Account Services (MAS)</td><td>347.9</td><td>318.4</td><td>29.5</td><td>9.3%</td></tr>
+<tr class=""><td class="ind">Canada</td><td>293.7</td><td>273.1</td><td>20.6</td><td>7.5%</td></tr>
+<tr class=""><td class="ind">National Account Services (NAS)</td><td>620.7</td><td>570.6</td><td>50.1</td><td>8.8%</td></tr>
+<tr class=""><td class="ind">Enterprise Solutions International (ESI)</td><td>340.7</td><td>308.4</td><td>32.3</td><td>10.5%</td></tr>
+<tr class=""><td class="ind">Client Solutions (CoSo)</td><td>161.8</td><td>142.5</td><td>19.3</td><td>13.5%</td></tr>
+<tr class=""><td class="ind">Workforce Software</td><td>172.7</td><td>154.9</td><td>17.8</td><td>11.5%</td></tr>
+<tr class=""><td class="ind">ES Group / Other</td><td>100.7</td><td>95.2</td><td>5.5</td><td>5.8%</td></tr>
+<tr class="tot"><td>Total Employer Services</td><td>$4,752.9</td><td>$4,394.7</td><td>358.2</td><td>8.2%</td></tr>
+<tr class="sec"><td colspan="5">PEO Services</td></tr>
+<tr class=""><td class="ind">Benefits (ZMPT pass-through)</td><td>956.8</td><td>878.8</td><td>78.0</td><td>8.9%</td></tr>
+<tr class=""><td class="ind">Workers&rsquo; compensation</td><td>71.2</td><td>66.5</td><td>4.7</td><td>7.1%</td></tr>
+<tr class=""><td class="ind">State unemployment insurance</td><td>39.6</td><td>37.8</td><td>1.8</td><td>4.8%</td></tr>
+<tr class=""><td class="ind">Administration / other</td><td>266.3</td><td>242.6</td><td>23.7</td><td>9.8%</td></tr>
+<tr class="tot"><td>Total PEO Services</td><td>$1,333.9</td><td>$1,225.7</td><td>108.2</td><td>8.8%</td></tr>
+<tr class=""><td class="ind">Other</td><td>74.4</td><td>71.1</td><td>3.3</td><td>4.6%</td></tr>
+<tr class="tot"><td>Total revenues</td><td>$6,161.2</td><td>$5,691.5</td><td>469.7</td><td>8.3%</td></tr>
+<tr class=""><td class="ind">Memo: client funds interest revenue (included above)</td><td>179.0</td><td>185.6</td><td>(6.6)</td><td>(3.6%)</td></tr>
+<tr class=""><td class="ind">Memo: revenues excluding client funds interest</td><td>5,982.2</td><td>5,505.9</td><td>476.3</td><td>8.7%</td></tr>
+</tbody>
+
+        </table>
+        <div class="fn">
+          <p>PEO Services revenues include benefits pass-through revenues (ZMPT). PEO Services revenues excluding ZMPT were $377.1 million, up 8.7% from $346.9 million.</p>
+        </div>
+
+        <h2 id="kpi">Key operating metrics</h2>
+        <div class="src">Table 3. Operating metrics, fiscal year to date through September</div>
+        <table class="fs">
+<thead><tr><th>Key operating metrics</th><th>FY27</th><th>FY26</th><th>$ / unit change</th><th>% change</th></tr></thead>
+<tbody>
+<tr class=""><td class="ind">New business bookings &mdash; Employer Services ($M)</td><td>424.8</td><td>391.3</td><td>33.5</td><td>8.6%</td></tr>
+<tr class=""><td class="ind">New business bookings &mdash; PEO Services ($M)</td><td>73.4</td><td>66.8</td><td>6.6</td><td>9.9%</td></tr>
+<tr class=""><td class="ind">Starts ($M)</td><td>298.1</td><td>279.6</td><td>18.5</td><td>6.6%</td></tr>
+<tr class=""><td class="ind">Losses ($M)</td><td>160.3</td><td>163.8</td><td>(3.5)</td><td>(2.1%)</td></tr>
+<tr class="sub"><td class="ind">Net new business ($M)</td><td>137.8</td><td>115.8</td><td>22.0</td><td>19.0%</td></tr>
+<tr><td class="ind">Client revenue retention &mdash; Employer Services</td><td>91.8%</td><td>91.6%</td><td>15 bps</td><td>&mdash;</td></tr>
+<tr><td class="ind">Client revenue retention &mdash; PEO Services</td><td>89.1%</td><td>88.9%</td><td>15 bps</td><td>&mdash;</td></tr>
+<tr class=""><td class="ind">Average worksite employees (thousands)</td><td>795</td><td>746</td><td>49</td><td>6.6%</td></tr>
+<tr class=""><td class="ind">Total full-time equivalents (FTEs)</td><td>64,592</td><td>63,344</td><td>1,248</td><td>2.0%</td></tr>
+</tbody>
+
+        </table>
+        <div class="fn">
+          <p>Net new business is starts less losses. Client revenue retention changes are shown in basis points. Total FTEs include traditional, offshore and nearshore, overtime and contingent staff.</p>
+        </div>
+
+        <h2 id="fls">Forward-looking statements</h2>
+        <p>This document contains forward-looking statements that involve risks and uncertainties, including statements about expected revenues, margins, bookings and retention. Actual results may differ materially from those anticipated. Readers should not place undue reliance on forward-looking statements, which speak only as of the date of this document.</p>
+
+        <table class="cover sig" style="margin-top:28px">
+          <tr class="sig"><td>Prepared by: Financial Planning &amp; Analysis</td><td>Reviewed by: Chief Financial Officer</td></tr>
+        </table>
+
+      </article>
+
+      <div class="footer">Made with IBM Bob</div>
+    </div>
+  </main>
+</div>
+
+<script src="comments.js"></script>
+</body>
+</html>

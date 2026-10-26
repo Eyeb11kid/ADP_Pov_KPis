@@ -68,6 +68,8 @@
   .bu-item:hover { background: #edf4ff; }
   .bu-item.bu-on { font-weight: 700; border-left-color: var(--blue); color: var(--blue); cursor: default; }
   .bu-item.bu-dim { color: #b0b0b0; cursor: not-allowed; pointer-events: none; }
+  .cmp-menu { left: 0; right: auto; }
+  #ai-body { white-space: pre-line; }
 
   /* Filter bar */
   .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
@@ -92,6 +94,7 @@
   .kpi .kpi-drill { margin-top: auto; padding-top: 8px; }
   .kpi:last-child { border-right: 0; }
   .kpi-val { font-size: 28px; font-weight: 600; color: var(--navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi:hover .kpi-val { font-weight: 700; }
   .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
   .kpi-var { font-size: 11px; }
   .kpi-var .fav { color: var(--green); font-weight: 600; }
@@ -103,6 +106,10 @@
   .charts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 20px; }
   .chart-tile { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; }
   .chart-tile svg { display: block; width: 100%; height: auto; flex: 1; min-height: 0; }
+  .tipt { cursor: pointer; }
+  .tipt:hover, .tipt:focus { stroke: #1a1a1a; stroke-width: 1.5; outline: none; }
+  .chart-tip { position: fixed; z-index: 1500; pointer-events: none; background: #1a1a1a; color: #fff; font-size: 12px; line-height: 1.4; padding: 5px 9px; white-space: nowrap; opacity: 0; transition: opacity .1s; }
+  .chart-tip.on { opacity: 1; }
   .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
   .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
   .legend { display: flex; gap: 14px; margin-bottom: 8px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
@@ -246,7 +253,7 @@
       <div class="title-row">
         <div>
           <div class="page-title">NAS business unit dashboard</div>
-          <div class="page-sub">Lyric only · September close executive summary · Close Day 4</div>
+          <div class="page-sub" id="page-sub">Lyric only · September close executive summary · Close Day 4</div>
         </div>
         <div class="title-ctrls">
           <div class="bu-wrap">
@@ -275,13 +282,21 @@
     <div class="filterbar">
       <div style="display:flex;align-items:center;gap:6px">
         <span style="font-size:12px;font-weight:600;color:var(--muted)">Compare</span>
-        <div class="pill-select" style="font-size:12px">Plan&nbsp;<svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <div class="bu-wrap">
+          <button type="button" class="bu-btn" id="cmp-btn" aria-haspopup="true" aria-expanded="false" aria-label="Select comparison">
+            <span id="cmp-label">Plan</span>&nbsp;<svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+          <div class="bu-menu cmp-menu" id="cmp-menu" hidden role="menu">
+            <button type="button" class="bu-item bu-on" role="menuitem" data-v="plan">Plan</button>
+            <button type="button" class="bu-item" role="menuitem" data-v="pva">Plan vs Actual</button>
+          </div>
+        </div>
       </div>
-      <span style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
+      <span id="cmp-note" style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
       <div class="fb-sep"></div>
-      <div class="fb-toggle"><button class="on">Period</button><button>YTD</button></div>
+      <div class="fb-toggle" id="tg-range"><button type="button" class="on" data-v="period" aria-pressed="true">Period</button><button type="button" data-v="ytd" aria-pressed="false">YTD</button></div>
       <div class="fb-sep"></div>
-      <div class="fb-toggle"><button class="on">$ + %</button><button>% only</button></div>
+      <div class="fb-toggle" id="tg-fmt"><button type="button" class="on" data-v="both" aria-pressed="true">$ + %</button><button type="button" data-v="pct" aria-pressed="false">% only</button></div>
       <div class="fb-sep"></div>
       <div class="fb-chip">Product: Lyric</div>
       <div class="fb-chip" style="background:#525252">Geography: All</div>
@@ -297,7 +312,7 @@
 
       <!-- KPI strip -->
       <div class="kpis">
-        <div class="kpi">
+        <div class="kpi" id="kpi-sales">
           <div class="kpi-label">Sales</div>
           <div class="kpi-val">$18.6m</div>
           <div class="kpi-var"><span class="fav">+$0.6m vs plan</span></div>
@@ -307,14 +322,14 @@
           <div class="kpi-row"><span>Net new business</span><b>$5.4m</b></div>
           <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
         </div>
-        <div class="kpi">
+        <div class="kpi" id="kpi-ret">
           <div class="kpi-label">Retention</div>
           <div class="kpi-val">92.4%</div>
           <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
           <div class="kpi-var"><span class="fav">+0.2 pp vs PY</span></div>
           <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
         </div>
-        <div class="kpi">
+        <div class="kpi" id="kpi-rev">
           <div class="kpi-label">Revenue</div>
           <div class="kpi-val">$120.0m</div>
           <div class="kpi-var"><span class="fav">+$4.0m vs plan</span></div>
@@ -323,7 +338,7 @@
           <div class="kpi-row"><span>Non-processing</span><b>$16.0m</b></div>
           <a class="kpi-drill" href="management_pl_NAS.html">Management P&amp;L ↗</a>
         </div>
-        <div class="kpi">
+        <div class="kpi" id="kpi-noi">
           <div class="kpi-label">NOI</div>
           <div class="kpi-val">$28.0m</div>
           <div class="kpi-var"><span class="fav">+$3.5m vs plan</span></div>
@@ -331,7 +346,7 @@
           <div class="kpi-row"><span>Margin</span><b>23.3%</b></div>
           <a class="kpi-drill" href="fe_pl_NAS.html">Field Expense P&amp;L ↗</a>
         </div>
-        <div class="kpi">
+        <div class="kpi" id="kpi-cli">
           <div class="kpi-label">Clients (average)</div>
           <div class="kpi-val">61,500</div>
           <div class="kpi-var"><span class="fav">+300 vs plan</span></div>
@@ -345,9 +360,9 @@
 
         <!-- NOI bridge vs plan -->
         <div class="chart-tile">
-          <div class="chart-title">NOI bridge vs plan, $m</div>
-          <div class="chart-sub">Axis starts at $20m</div>
-          <svg viewBox="0 0 300 210" role="img" aria-label="NOI bridge vs plan: plan 24.5, revenue plus 4.0, field expense minus 1.0, NDE plus 0.5, allocations 0.0, actual 28.0">
+          <div class="chart-title" id="ct-bridge">NOI bridge vs plan, $m</div>
+          <div class="chart-sub" id="cs-bridge">Axis starts at $20m</div>
+          <svg id="svg-bridge" viewBox="0 0 300 210" role="group" aria-label="NOI bridge vs plan: plan 24.5, revenue plus 4.0, field expense minus 1.0, NDE plus 0.5, allocations 0.0, actual 28.0">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- connectors -->
             <g stroke="#a8a8a8" stroke-dasharray="3 2">
@@ -358,17 +373,18 @@
               <line x1="235" y1="58"  x2="251" y2="58"/>
             </g>
             <!-- Plan 24.5 -->
-            <rect x="21"  y="107" width="30" height="63" fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Plan NOI: $24.5m" aria-label="Plan NOI: $24.5m" x="21"  y="107" width="30" height="63" fill="#a8a8a8"/>
             <!-- Revenue +4.0 -->
-            <rect x="67"  y="51"  width="30" height="56" fill="#2e7d32"/>
+            <rect class="tipt" tabindex="0" data-tip="Revenue: +$4.0m vs plan" aria-label="Revenue: +$4.0m vs plan" x="67"  y="51"  width="30" height="56" fill="#2e7d32"/>
             <!-- Field expense -1.0 -->
-            <rect x="113" y="51"  width="30" height="14" fill="#c8322f"/>
+            <rect class="tipt" tabindex="0" data-tip="Field expense: −$1.0m vs plan" aria-label="Field expense: minus $1.0m vs plan" x="113" y="51"  width="30" height="14" fill="#c8322f"/>
             <!-- NDE +0.5 -->
-            <rect x="159" y="58"  width="30" height="7"  fill="#2e7d32"/>
+            <rect class="tipt" tabindex="0" data-tip="NDE: +$0.5m vs plan" aria-label="NDE: +$0.5m vs plan" x="159" y="58"  width="30" height="7"  fill="#2e7d32"/>
             <!-- Allocations 0.0 -->
             <line x1="205" y1="58" x2="235" y2="58" stroke="#5f5f5f" stroke-width="2"/>
+            <rect class="tipt" tabindex="0" data-tip="Allocations: $0.0m vs plan" aria-label="Allocations: $0.0m vs plan" x="205" y="50" width="30" height="16" fill="transparent"/>
             <!-- Actual 28.0 -->
-            <rect x="251" y="58"  width="30" height="112" fill="#3f8fe0"/>
+            <rect class="tipt" tabindex="0" data-tip="Actual NOI: $28.0m" aria-label="Actual NOI: $28.0m" x="251" y="58"  width="30" height="112" fill="#3f8fe0"/>
             <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
               <text x="36"  y="101">24.5</text>
               <text x="82"  y="45">+4.0</text>
@@ -390,22 +406,22 @@
 
         <!-- Revenue by category -->
         <div class="chart-tile">
-          <div class="chart-title">Revenue by category, $m</div>
+          <div class="chart-title" id="ct-cat">Revenue by category, $m</div>
           <div class="legend">
             <span><i style="background:#3f8fe0"></i> Actual</span>
             <span><i style="background:#a8a8a8"></i> Plan</span>
           </div>
-          <svg viewBox="0 0 300 210" role="img" aria-label="Revenue by category, actual vs plan: Asset 70 vs 67, Hard dollar 34 vs 33, Other 16 vs 16">
+          <svg id="svg-cat" viewBox="0 0 300 210" role="group" aria-label="Revenue by category, actual vs plan: Asset 70 vs 67, Hard dollar 34 vs 33, Other 16 vs 16">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- Asset: actual 70, plan 67 -->
-            <rect x="30"  y="37"    width="24" height="133"   fill="#3f8fe0"/>
-            <rect x="56"  y="42.7"  width="24" height="127.3" fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Asset · Actual: $70m" aria-label="Asset, actual: $70m" x="30"  y="37"    width="24" height="133"   fill="#3f8fe0"/>
+            <rect class="tipt" tabindex="0" data-tip="Asset · Plan: $67m" aria-label="Asset, plan: $67m" x="56"  y="42.7"  width="24" height="127.3" fill="#a8a8a8"/>
             <!-- Hard dollar: actual 34, plan 33 -->
-            <rect x="125" y="105.4" width="24" height="64.6"  fill="#3f8fe0"/>
-            <rect x="151" y="107.3" width="24" height="62.7"  fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Actual: $34m" aria-label="Hard dollar, actual: $34m" x="125" y="105.4" width="24" height="64.6"  fill="#3f8fe0"/>
+            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Plan: $33m" aria-label="Hard dollar, plan: $33m" x="151" y="107.3" width="24" height="62.7"  fill="#a8a8a8"/>
             <!-- Other: actual 16, plan 16 -->
-            <rect x="220" y="139.6" width="24" height="30.4"  fill="#3f8fe0"/>
-            <rect x="246" y="139.6" width="24" height="30.4"  fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Other · Actual: $16m" aria-label="Other, actual: $16m" x="220" y="139.6" width="24" height="30.4"  fill="#3f8fe0"/>
+            <rect class="tipt" tabindex="0" data-tip="Other · Plan: $16m" aria-label="Other, plan: $16m" x="246" y="139.6" width="24" height="30.4"  fill="#a8a8a8"/>
             <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
               <text x="55"  y="31">70</text>
               <text x="150" y="99">34</text>
@@ -421,16 +437,20 @@
 
         <!-- Revenue vs last year -->
         <div class="chart-tile">
-          <div class="chart-title">Revenue vs last year, $m</div>
-          <div class="chart-sub">Axis starts at $105m</div>
-          <svg viewBox="0 0 300 210" role="img" aria-label="Revenue vs last year, July to September: FY27 117.2, 118.6, 120.0; FY26 111.0, 112.6, 114.0">
+          <div class="chart-title" id="ct-line">Revenue vs last year, $m</div>
+          <div class="chart-sub" id="cs-line">Axis starts at $105m</div>
+          <svg id="svg-line" viewBox="0 0 300 210" role="group" aria-label="Revenue vs last year, July to September: FY27 117.2, 118.6, 120.0; FY26 111.0, 112.6, 114.0">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- FY26 -->
             <polyline points="40,114 130,99.1 220,84" fill="none" stroke="#8d8d8d" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
-            <circle cx="220" cy="84" r="3" fill="#8d8d8d"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Jul: $111.0m" aria-label="FY26, July: $111.0m" cx="40"  cy="114"  r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Aug: $112.6m" aria-label="FY26, August: $112.6m" cx="130" cy="99.1" r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Sep: $114.0m" aria-label="FY26, September: $114.0m" cx="220" cy="84"  r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
             <!-- FY27 -->
             <polyline points="40,56.2 130,43.1 220,30" fill="none" stroke="#3f8fe0" stroke-width="2.4" stroke-linejoin="round"/>
-            <circle cx="220" cy="30" r="3.5" fill="#3f8fe0"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Jul: $117.2m" aria-label="FY27, July: $117.2m" cx="40"  cy="56.2" r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Aug: $118.6m" aria-label="FY27, August: $118.6m" cx="130" cy="43.1" r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Sep: $120.0m" aria-label="FY27, September: $120.0m" cx="220" cy="30"   r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
             <g font-size="14">
               <text x="228" y="35" fill="#1a1a1a" font-weight="700">FY27 120</text>
               <text x="228" y="89" fill="#5f5f5f">FY26 114</text>
@@ -453,9 +473,9 @@
           <div class="section-title">Management-view P&amp;L summary</div>
           <a class="export-link" href="#">Export ↓</a>
         </div>
-        <div class="section-sub">September, $m · Actual vs plan and prior year · Illustrative</div>
+        <div class="section-sub" id="pl-sub">September, $m · Actual vs plan and prior year · Illustrative</div>
         <div class="tbl-wrap">
-          <table class="pl">
+          <table class="pl" id="pl-table">
             <thead>
               <tr>
                 <th>September, $m</th>
@@ -477,14 +497,14 @@
           </table>
         </div>
 
-        <div class="tbl-foot">Revenue is $4.0m above plan and 5.3% above prior year. Field expense is $1.0m over plan; NOI lands $3.5m above plan.</div>
+        <div class="tbl-foot" id="pl-foot">Revenue is $4.0m above plan and 5.3% above prior year. Field expense is $1.0m over plan; NOI lands $3.5m above plan.</div>
 
         <!-- Row discussion -->
         <div class="row-disc">
           <div class="disc-avatar">MC</div>
           <div class="disc-body">
-            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span style="color:var(--blue)">Revenue / +$4.0m</span> &nbsp;·&nbsp; Static collaboration state</div>
-            <div class="disc-msg">@Maya Chen — Confirm the asset revenue upside before sign-off.</div>
+            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span id="disc-ref" style="color:var(--blue)">Revenue / +$3.4m</span> &nbsp;·&nbsp; Static collaboration state</div>
+            <div class="disc-msg">@Maya Chen — Confirm the hard dollar revenue upside before sign-off.</div>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">Row discussion · Static</div>
           </div>
           <a class="disc-reply" href="#">Reply</a>
@@ -527,9 +547,9 @@
         <span class="ai-tag draft">AI-drafted</span>
         <span class="ai-tag review">Needs review</span>
       </div>
-      <div class="panel-period">NAS / SEPTEMBER / PERIOD</div>
-      <div class="ai-headline">Revenue above plan, led by asset revenue; NOI $3.5m ahead.</div>
-      <div class="ai-body">Revenue is $4.0m above plan and 5.3% above last year, led by asset revenue. NOI lands $3.5m above plan.<br><br>Field expense is $1.0m over plan, offset by the revenue upside. Retention of 92.4% is 0.4 pp above plan.</div>
+      <div class="panel-period" id="ai-period">NAS / SEPTEMBER / PERIOD</div>
+      <div class="ai-headline" id="ai-head">Revenue above plan, led by hard dollar revenue; NOI $0.4m ahead.</div>
+      <div class="ai-body" id="ai-body">Revenue is $3.4m above plan and 5.8% above last year, led by hard dollar revenue. NOI lands $0.4m above plan.<br><br>Field expense is $2.6m over plan, partly offsetting the revenue upside. Sales are $1.2m below plan and retention of 91.6% is 0.5 pp below plan.</div>
       <div class="reviewer">Reviewer: FP&amp;A Lead</div>
       <div class="ai-actions">
         <button class="btn btn-ghost">Edit draft</button>
@@ -664,6 +684,387 @@
   }
 })();
 </script>
+<div class="chart-tip" id="chart-tip" role="tooltip"></div>
+<script>
+(function () {
+  var tip = document.getElementById('chart-tip');
+  if (!tip) return;
+  function place(x, y) {
+    var w = tip.offsetWidth, hgt = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x - w / 2), window.innerWidth - w - 8);
+    var top = y - hgt - 12;
+    if (top < 8) top = y + 18;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function show(el, x, y) {
+    tip.textContent = el.getAttribute('data-tip');
+    tip.classList.add('on');
+    place(x, y);
+  }
+  function hide() { tip.classList.remove('on'); }
+  document.addEventListener('mouseover', function (e) {
+    var el = e.target.closest && e.target.closest('[data-tip]');
+    if (el) show(el, e.clientX, e.clientY);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (tip.classList.contains('on')) place(e.clientX, e.clientY);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest && e.target.closest('[data-tip]')) hide();
+  });
+  document.addEventListener('focusin', function (e) {
+    var el = e.target.closest && e.target.closest('[data-tip]');
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    show(el, r.left + r.width / 2, r.top);
+  });
+  document.addEventListener('focusout', hide);
+})();
+</script>
+<script>
+/* Filter bar: Compare (Plan / Plan vs Actual), Period / YTD, $ + % / % only.
+   All figures are illustrative; YTD, plan and monthly values are invented but tie arithmetically. */
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var $ = function (id) { return document.getElementById(id); };
+  var st = { cmp: 'plan', range: 'period', fmt: 'both' };
+
+  /* ---------- data ---------- */
+  var M = { fy27: [127.0, 129.0, 131.4], fy26: [120.6, 122.4, 124.2], plan: [124.5, 126.0, 128.0] };
+  var MONTHS = ['Jul', 'Aug', 'Sep'];
+  function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+  function cum(a) { var s = 0; return a.map(function (v) { s += v; return s; }); }
+  var DATA = {
+    period: {
+      name: 'September', ytd: false,
+      rev: { a: 131.4, p: 128.0, y: 124.2 }, fe: { a: 84.6, p: 82.0, y: 81.0 },
+      nde: { a: 9.1, p: 9.0, y: 8.4 }, al: { a: 6.8, p: 6.5, y: 6.2 },
+      cat: [['Asset', 61.3, 60.5], ['Hard dollar', 39.2, 37.2], ['Service fees', 19.6, 19.8], ['Other', 11.3, 10.5]],
+      sales: { a: 21.3, p: 22.5, y: 19.8, starts: 17.9, losses: 11.2 },
+      ret: { a: 91.6, p: 92.1, y: 91.9 }, cli: { a: 58900, p: 59300, y: 57100 }, proc: 112.7
+    },
+    ytd: {
+      name: 'YTD (Jul–Sep)', ytd: true,
+      rev: { a: sum(M.fy27), p: sum(M.plan), y: sum(M.fy26) }, fe: { a: 250.9, p: 245.5, y: 241.0 },
+      nde: { a: 27.0, p: 27.0, y: 25.2 }, al: { a: 20.1, p: 19.5, y: 18.6 },
+      cat: [['Asset', 181.0, 178.0], ['Hard dollar', 117.0, 111.5], ['Service fees', 58.4, 58.9], ['Other', 31.0, 30.1]],
+      sales: { a: 60.9, p: 64.5, y: 57.0, starts: 50.4, losses: 31.6 },
+      ret: { a: 91.8, p: 92.1, y: 92.0 }, cli: { a: 58700, p: 59100, y: 56900 }, proc: 328.0
+    }
+  };
+
+  /* ---------- formatting (favourable = positive) ---------- */
+  function r1(n) { return Math.round(n * 10) / 10; }
+  function num(n) { return r1(n).toFixed(1); }
+  function sgn(n) { var v = r1(n); return v === 0 ? '0.0' : (v > 0 ? '+' : '−') + Math.abs(v).toFixed(1); }
+  function usd(n) { return '$' + num(n) + 'm'; }
+  function sUsd(n) { var v = r1(n); return v === 0 ? '$0.0m' : (v > 0 ? '+' : '−') + '$' + Math.abs(v).toFixed(1) + 'm'; }
+  function pc(n) { return num(n) + '%'; }
+  function sPc(n) { return sgn(n) + '%'; }
+  function cls(n) { var v = r1(n); return v > 0 ? 'fav' : (v < 0 ? 'unf' : ''); }
+  function int(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function sInt(n) { var v = Math.round(n); return v === 0 ? '0' : (v > 0 ? '+' : '−') + int(Math.abs(v)); }
+  function plain(v) { return v === Math.round(v) ? String(v) : v.toFixed(1); }
+
+  /* ---------- DOM helpers ---------- */
+  function el(tag, c, text) { var e = document.createElement(tag); if (c) e.className = c; if (text != null) e.textContent = text; return e; }
+  function S(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  function tipShape(tag, attrs, tip, aria, parent) {
+    attrs['class'] = 'tipt'; attrs.tabindex = '0'; attrs['data-tip'] = tip; attrs['aria-label'] = aria || tip;
+    return S(tag, attrs, parent);
+  }
+  function label(parent, x, y, s, attrs) {
+    attrs.x = x; attrs.y = y; attrs['text-anchor'] = attrs['text-anchor'] || 'middle';
+    var t = S('text', attrs, parent); t.textContent = s; return t;
+  }
+
+  /* ---------- P&L model ---------- */
+  function line(a, p, y, exp) {
+    var dp = exp ? p - a : a - p, dy = exp ? y - a : a - y;
+    return { a: a, p: p, y: y, dp: dp, pp: dp / Math.abs(p) * 100, dy: dy, py: dy / Math.abs(y) * 100 };
+  }
+  function pl(d) {
+    var rev = line(d.rev.a, d.rev.p, d.rev.y, false);
+    var fe = line(d.fe.a, d.fe.p, d.fe.y, true);
+    var fnoi = line(rev.a - fe.a, rev.p - fe.p, rev.y - fe.y, false);
+    var nde = line(d.nde.a, d.nde.p, d.nde.y, true);
+    var al = line(d.al.a, d.al.p, d.al.y, true);
+    var noi = line(fnoi.a - nde.a - al.a, fnoi.p - nde.p - al.p, fnoi.y - nde.y - al.y, false);
+    return { rev: rev, fe: fe, fnoi: fnoi, nde: nde, al: al, noi: noi };
+  }
+
+  /* ---------- KPI cards ---------- */
+  function kpiCard(id, name, kind, v, rows, pct, pva) {
+    var card = $(id), drill = card.querySelector('.kpi-drill');
+    Array.prototype.slice.call(card.children).forEach(function (c) { if (c !== drill) card.removeChild(c); });
+    function add(n) { card.insertBefore(n, drill); }
+    var dp = v.a - v.p, pP = dp / v.p * 100, pY = (v.a - v.y) / v.y * 100;
+    var val, v1, v2, c1, c2 = cls(v.a - v.y), plan;
+    if (kind === 'usd') {
+      val = pct ? sPc(pP) : usd(v.a);
+      v1 = pct ? 'vs plan' : sUsd(dp) + ' vs plan';
+      v2 = sPc(pY) + ' vs PY';
+      plan = pct ? ['Actual / plan', pc(v.a / v.p * 100)] : ['Plan', usd(v.p)];
+    } else if (kind === 'pp') {
+      val = v.a.toFixed(1) + '%';
+      v1 = sgn(dp) + ' pp vs plan';
+      v2 = sgn(v.a - v.y) + ' pp vs PY';
+      plan = ['Plan', v.p.toFixed(1) + '%'];
+    } else {
+      val = int(v.a);
+      v1 = (pct ? sPc(pP) : sInt(dp)) + ' vs plan';
+      v2 = sPc(pY) + ' vs PY';
+      plan = ['Plan', int(v.p)];
+    }
+    c1 = cls(dp);
+    add(el('div', 'kpi-label', name));
+    add(el('div', 'kpi-val', val));
+    [[v1, c1], [v2, c2]].forEach(function (x) {
+      var d = el('div', 'kpi-var'); d.appendChild(el('span', x[1], x[0])); add(d);
+    });
+    var all = (pva ? [plan] : []).concat(rows);
+    all.forEach(function (r) {
+      var d = el('div', 'kpi-row'); d.appendChild(el('span', null, r[0])); d.appendChild(el('b', null, r[1])); add(d);
+    });
+  }
+  function renderKpis(d, P, pct, pva) {
+    var s = d.sales;
+    kpiCard('kpi-sales', 'Sales', 'usd', s, pct ? [] :
+      [['Starts', usd(s.starts)], ['Losses', usd(s.losses)], ['Net new business', usd(s.starts - s.losses)]], pct, pva);
+    kpiCard('kpi-ret', 'Retention', 'pp', d.ret, [], pct, pva);
+    var nonProc = P.rev.a - d.proc;
+    kpiCard('kpi-rev', 'Revenue', 'usd', P.rev, pct ?
+      [['Processing', pc(d.proc / P.rev.a * 100)], ['Non-processing', pc(nonProc / P.rev.a * 100)]] :
+      [['Processing', usd(d.proc)], ['Non-processing', usd(nonProc)]], pct, pva);
+    kpiCard('kpi-noi', 'NOI', 'usd', P.noi, [['Margin', pc(P.noi.a / P.rev.a * 100)]], pct, pva);
+    kpiCard('kpi-cli', 'Clients (average)', 'count', d.cli, [], pct, pva);
+  }
+
+  /* ---------- charts ---------- */
+  function renderBridge(d, P, pct) {
+    var svg = $('svg-bridge'); clear(svg);
+    var planNoi = P.noi.p;
+    var f = pct ? function (v) { return v / planNoi * 100; } : function (v) { return v; };
+    var deltas = [P.rev.dp, P.fe.dp, P.nde.dp, P.al.dp].map(f);
+    var names = ['Revenue', 'Field expense', 'NDE', 'Allocations'], shorts = ['Rev', 'Field', 'NDE', 'Alloc'];
+    var start = f(planNoi), end = f(P.noi.a), levels = [start], run = start;
+    deltas.forEach(function (x) { run += x; levels.push(run); });
+    var all = levels.concat([end]), lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+    var base = Math.floor((lo - (hi - lo) * 1.1) / 5) * 5, k = 118 / (hi - base);
+    function y(v) { return 170 - (v - base) * k; }
+    var xs = [21, 67, 113, 159, 205, 251], fs = pct ? '11' : '13';
+    var sMoney = function (v) { return pct ? sPc(v) : sUsd(v); };
+    S('line', { x1: 10, y1: 170, x2: 290, y2: 170, stroke: '#e4e3de' }, svg);
+    var cg = S('g', { stroke: '#a8a8a8', 'stroke-dasharray': '3 2' }, svg);
+    for (var i = 0; i < 5; i++) S('line', { x1: xs[i] + 30, y1: y(levels[i]), x2: xs[i + 1], y2: y(levels[i]) }, cg);
+    var lab = { 'font-size': fs, 'font-weight': '700', fill: '#1a1a1a' }, parts = [];
+    function copy(o) { var c = {}; Object.keys(o).forEach(function (k2) { c[k2] = o[k2]; }); return c; }
+    var planTip = pct ? 'Plan NOI: 100.0% (base)' : 'Plan NOI: ' + usd(start);
+    tipShape('rect', { x: xs[0], y: y(start), width: 30, height: 170 - y(start), fill: '#a8a8a8' }, planTip, null, svg);
+    label(svg, xs[0] + 15, y(start) - 6, pct ? pc(start) : num(start), copy(lab));
+    parts.push('plan ' + (pct ? pc(start) : num(start)));
+    deltas.forEach(function (dv, j) {
+      var s0 = levels[j], e0 = levels[j + 1], top = y(Math.max(s0, e0)), x = xs[j + 1];
+      var tip = names[j] + ': ' + sMoney(dv) + ' vs plan';
+      if (r1(dv) === 0) {
+        S('line', { x1: x, y1: y(s0), x2: x + 30, y2: y(s0), stroke: '#5f5f5f', 'stroke-width': 2 }, svg);
+        tipShape('rect', { x: x, y: y(s0) - 8, width: 30, height: 16, fill: 'transparent' }, tip, null, svg);
+      } else {
+        tipShape('rect', { x: x, y: top, width: 30, height: Math.abs(y(s0) - y(e0)), fill: e0 > s0 ? '#2e7d32' : '#c8322f' }, tip, null, svg);
+      }
+      label(svg, x + 15, top - 6, sgn(dv) + (pct ? '%' : ''), copy(lab));
+      parts.push(names[j].toLowerCase() + ' ' + sgn(dv) + (pct ? '%' : ''));
+    });
+    tipShape('rect', { x: xs[5], y: y(end), width: 30, height: 170 - y(end), fill: '#3f8fe0' },
+      pct ? 'Actual NOI: ' + pc(end) + ' of plan' : 'Actual NOI: ' + usd(end), null, svg);
+    label(svg, xs[5] + 15, y(end) - 6, pct ? pc(end) : num(end), copy(lab));
+    parts.push('actual ' + (pct ? pc(end) : num(end)));
+    var cats = ['Plan'].concat(shorts, ['Act']);
+    cats.forEach(function (c, j) { label(svg, xs[j] + 15, 192, c, { 'font-size': 13, fill: '#5f5f5f' }); });
+    svg.setAttribute('aria-label', 'NOI bridge vs plan: ' + parts.join(', '));
+    $('ct-bridge').textContent = (d.ytd ? 'YTD NOI' : 'NOI') + ' bridge vs plan, ' + (pct ? '% of plan NOI' : '$m');
+    $('cs-bridge').textContent = 'Axis starts at ' + (pct ? base + '%' : '$' + base + 'm');
+  }
+
+  function renderCat(d, pct) {
+    var svg = $('svg-cat'); clear(svg);
+    var ta = sum(d.cat.map(function (c) { return c[1]; })), tp = sum(d.cat.map(function (c) { return c[2]; }));
+    var rows = d.cat.map(function (c) { return { n: c[0], a: pct ? c[1] / ta * 100 : c[1], p: pct ? c[2] / tp * 100 : c[2] }; });
+    var max = Math.max.apply(null, rows.map(function (r) { return Math.max(r.a, r.p); })), k = 150 / max;
+    var parts = [], x0 = 88;
+    var show = function (v) { return pct ? pc(v) : '$' + plain(v) + 'm'; };
+    /* horizontal bars: one row per category, actual above plan */
+    S('line', { x1: x0, y1: 6, x2: x0, y2: 190, stroke: '#e4e3de' }, svg);
+    rows.forEach(function (r, i) {
+      var y0 = 14 + i * 44, wa = r.a * k, wp = r.p * k, suffix = pct ? ' of revenue' : '';
+      tipShape('rect', { x: x0, y: y0, width: wa, height: 14, fill: '#3f8fe0' }, r.n + ' · Actual: ' + show(r.a) + suffix, null, svg);
+      tipShape('rect', { x: x0, y: y0 + 16, width: wp, height: 14, fill: '#a8a8a8' }, r.n + ' · Plan: ' + show(r.p) + suffix, null, svg);
+      label(svg, x0 - 6, y0 + 21, r.n, { 'font-size': 12, fill: '#5f5f5f', 'text-anchor': 'end' });
+      label(svg, x0 + wa + 5, y0 + 12, pct ? pc(r.a) : plain(r.a), { 'font-size': 12, 'font-weight': '700', fill: '#1a1a1a', 'text-anchor': 'start' });
+      parts.push(r.n + ' ' + (pct ? pc(r.a) : plain(r.a)) + ' vs ' + (pct ? pc(r.p) : plain(r.p)));
+    });
+    svg.setAttribute('aria-label', 'Revenue by category, actual vs plan: ' + parts.join(', '));
+    $('ct-cat').textContent = (d.ytd ? 'YTD revenue' : 'Revenue') + ' by category, ' + (pct ? '% of revenue' : '$m');
+  }
+
+  function renderLine(d, pct, pva) {
+    var svg = $('svg-line'); clear(svg);
+    var ytd = d.ytd, series = [];
+    var fy27 = ytd ? cum(M.fy27) : M.fy27, fy26 = ytd ? cum(M.fy26) : M.fy26, plan = ytd ? cum(M.plan) : M.plan;
+    var xs = [40, 130, 220];
+    if (pct) {
+      series.push({ n: 'vs PY', short: 'PY', v: fy27.map(function (v, i) { return (v / fy26[i] - 1) * 100; }), col: '#3f8fe0', w: 2.4, r: 5.5 });
+      if (pva) series.push({ n: 'vs plan', short: 'Plan', v: fy27.map(function (v, i) { return (v / plan[i] - 1) * 100; }), col: '#5b2fc0', w: 2, r: 5, dash: '5 3' });
+    } else {
+      series.push({ n: 'FY26', short: 'FY26', v: fy26, col: '#8d8d8d', w: 1.8, r: 5, dash: '2 3' });
+      if (pva) series.push({ n: 'Plan', short: 'Plan', v: plan, col: '#5b2fc0', w: 2, r: 5, dash: '5 3' });
+      series.push({ n: 'FY27', short: 'FY27', v: fy27, col: '#3f8fe0', w: 2.4, r: 5.5 });
+    }
+    var vals = [].concat.apply([], series.map(function (s) { return s.v; }));
+    var mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals);
+    var base = pct ? 0 : Math.floor((mn - (mx - mn) * 0.3) / 5) * 5, k = 140 / (mx - base);
+    function y(v) { return 170 - (v - base) * k; }
+    S('line', { x1: 10, y1: 170, x2: 290, y2: 170, stroke: '#e4e3de' }, svg);
+    var parts = [];
+    /* shaded area under the main line (FY27, or growth vs PY in % mode) */
+    var main = pct ? series[0] : series[series.length - 1];
+    S('polygon', { points: xs[0] + ',170 ' + main.v.map(function (v, i) { return xs[i] + ',' + y(v).toFixed(1); }).join(' ') + ' ' + xs[2] + ',170', fill: '#3f8fe0', 'fill-opacity': '0.12' }, svg);
+
+    /* end-of-line labels: keep at least 17px apart so close series don't overlap */
+    var order = series.slice().sort(function (a, b) { return b.v[2] - a.v[2]; });
+    order.forEach(function (s, i) {
+      s.ly = y(s.v[2]) + 5;
+      if (i > 0 && s.ly < order[i - 1].ly + 17) s.ly = order[i - 1].ly + 17;
+    });
+    series.forEach(function (s) {
+      var attrs = { points: s.v.map(function (v, i) { return xs[i] + ',' + y(v).toFixed(1); }).join(' '), fill: 'none', stroke: s.col, 'stroke-width': s.w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+      if (s.dash) attrs['stroke-dasharray'] = s.dash;
+      S('polyline', attrs, svg);
+      s.v.forEach(function (v, i) {
+        var shown = pct ? sPc(v) : usd(v), when = MONTHS[i] + (ytd ? ' YTD' : '');
+        tipShape('circle', { cx: xs[i], cy: y(v).toFixed(1), r: s.r, fill: s.col, stroke: '#fff', 'stroke-width': 1.5 }, s.n + ' · ' + when + ': ' + shown, null, svg);
+      });
+      var last = s.v[2];
+      label(svg, 228, s.ly, s.short + ' ' + (pct ? sPc(last) : Math.round(last)),
+        { 'text-anchor': 'start', 'font-size': pct ? 12 : 14, fill: s.n === 'FY27' || s.n === 'vs PY' ? '#1a1a1a' : '#5f5f5f', 'font-weight': s.n === 'FY27' || s.n === 'vs PY' ? '700' : '400' });
+      parts.push(s.n + ' ' + s.v.map(function (v) { return pct ? sPc(v) : num(v); }).join(', '));
+    });
+    MONTHS.forEach(function (m, i) { label(svg, xs[i], 192, m, { 'font-size': 13, fill: '#5f5f5f' }); });
+    svg.setAttribute('aria-label', 'Revenue vs last year, July to September: ' + parts.join('; '));
+    var t = pct ? (ytd ? 'Cumulative revenue growth, %' : 'Revenue growth vs last year, %')
+                : (ytd ? 'Cumulative revenue vs last year' : 'Revenue vs last year') + (pva ? ' and plan' : '') + ', $m';
+    $('ct-line').textContent = t;
+    $('cs-line').textContent = 'Axis starts at ' + (pct ? '0%' : '$' + base + 'm');
+  }
+
+  /* ---------- table ---------- */
+  function renderTable(d, P, pct, pva) {
+    var table = $('pl-table'), thead = table.tHead, tbody = table.tBodies[0];
+    var denomA = P.rev.a, denomP = P.rev.p;
+    var cols = [{ h: 'Actual', f: function (r) { return { t: pct ? pc(r.a / denomA * 100) : num(r.a) }; } }];
+    if (pva) cols.push({ h: 'Plan', f: function (r) { return { t: pct ? pc(r.p / denomP * 100) : num(r.p) }; } });
+    cols.push({ h: pct ? 'vs plan %' : 'vs plan', f: function (r) { return pct ? { t: sPc(r.pp), c: cls(r.pp) } : { t: sgn(r.dp), c: cls(r.dp) }; } });
+    if (!pct) cols.push({ h: '%', f: function (r) { return { t: sPc(r.pp), c: cls(r.pp) }; } });
+    cols.push({ h: pct ? 'vs PY %' : 'vs PY', f: function (r) { return pct ? { t: sPc(r.py), c: cls(r.py) } : { t: sgn(r.dy), c: cls(r.dy) }; } });
+    if (!pct) cols.push({ h: '%', f: function (r) { return { t: sPc(r.py), c: cls(r.py) }; } });
+    clear(thead); clear(tbody);
+    var hr = el('tr'); hr.appendChild(el('th', null, d.name + ', ' + (pct ? '%' : '$m')));
+    cols.forEach(function (c) { hr.appendChild(el('th', null, c.h)); });
+    thead.appendChild(hr);
+    [['rev', 'Revenue ↗', 1], ['fe', 'Field expense ↗', 0], ['fnoi', 'Field NOI', 1], ['nde', 'NDE', 0], ['al', 'Shared service allocations', 0], ['noi', 'NOI', 1]].forEach(function (row) {
+      var r = P[row[0]], tr = el('tr', row[2] ? 'bold' : '');
+      tr.appendChild(el('td', null, row[1]));
+      cols.forEach(function (c) { var o = c.f(r); tr.appendChild(el('td', o.c || '', o.t)); });
+      tbody.appendChild(tr);
+    });
+    $('pl-sub').textContent = d.name + ', ' + (pct ? '% · Actual as % of revenue; variance % vs plan and prior year' : '$m · Actual ' + (pva ? 'and plan, with variance to plan and prior year' : 'vs plan and prior year')) + ' · Illustrative';
+  }
+
+  /* ---------- narrative ---------- */
+  function renderText(d, P, pct) {
+    function amt(l) { return pct ? pc(Math.abs(l.pp)) : usd(Math.abs(l.dp)); }
+    var rev = P.rev, fe = P.fe, noi = P.noi;
+    var revDir = rev.dp >= 0 ? 'above' : 'below', pyDir = rev.py >= 0 ? 'above' : 'below';
+    var feDir = fe.dp < 0 ? 'over' : 'under', noiDir = noi.dp >= 0 ? 'above' : 'below';
+    var rr = d.ret.a - d.ret.p, rDir = rr >= 0 ? 'above' : 'below';
+    var sd = d.sales.a - d.sales.p, sDir = sd >= 0 ? 'above' : 'below', sAmt = pct ? pc(Math.abs(sd / d.sales.p * 100)) : usd(Math.abs(sd));
+    $('pl-foot').textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
+      ' prior year. Field expense is ' + amt(fe) + ' ' + feDir + ' plan; NOI lands ' + amt(noi) + ' ' + noiDir + ' plan.';
+    $('disc-ref').textContent = 'Revenue / ' + (pct ? sPc(rev.pp) : sUsd(rev.dp));
+    $('ai-period').textContent = 'NAS / SEPTEMBER / ' + (d.ytd ? 'YTD' : 'PERIOD');
+    $('ai-head').textContent = 'Revenue ' + revDir + ' plan' + (d.ytd ? ' year to date' : '') + ', led by hard dollar revenue; NOI ' + amt(noi) + ' ' + (noi.dp >= 0 ? 'ahead' : 'behind') + '.';
+    $('ai-body').textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
+      ' last year, led by hard dollar revenue. NOI lands ' + amt(noi) + ' ' + noiDir + ' plan.\n\nField expense is ' + amt(fe) + ' ' + feDir +
+      ' plan, partly offsetting the revenue upside. Sales are ' + sAmt + ' ' + sDir + ' plan and retention of ' + d.ret.a.toFixed(1) + '% is ' + Math.abs(rr).toFixed(1) + ' pp ' + rDir + ' plan.';
+    $('page-sub').textContent = 'Lyric only · September close executive summary' + (d.ytd ? ' · YTD Jul–Sep' : '') + ' · Close Day 4';
+  }
+
+  function render() {
+    var d = DATA[st.range], P = pl(d), pct = st.fmt === 'pct', pva = st.cmp === 'pva';
+    renderKpis(d, P, pct, pva);
+    renderBridge(d, P, pct);
+    renderCat(d, pct);
+    renderLine(d, pct, pva);
+    renderTable(d, P, pct, pva);
+    renderText(d, P, pct);
+  }
+
+  /* ---------- controls ---------- */
+  var cBtn = $('cmp-btn'), cMenu = $('cmp-menu');
+  function openMenu(on) {
+    cBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on) cMenu.removeAttribute('hidden'); else cMenu.setAttribute('hidden', '');
+  }
+  function syncControls() {
+    $('cmp-label').textContent = st.cmp === 'pva' ? 'Plan vs Actual' : 'Plan';
+    Array.prototype.forEach.call(cMenu.querySelectorAll('.bu-item'), function (b) {
+      var on = b.getAttribute('data-v') === st.cmp;
+      b.classList.toggle('bu-on', on);
+      if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    [['tg-range', 'range'], ['tg-fmt', 'fmt']].forEach(function (g) {
+      Array.prototype.forEach.call($(g[0]).querySelectorAll('button'), function (b) {
+        var on = b.getAttribute('data-v') === st[g[1]];
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    });
+  }
+  cBtn.addEventListener('click', function () { openMenu(cMenu.hasAttribute('hidden')); });
+  cMenu.addEventListener('click', function (e) {
+    var b = e.target.closest('.bu-item');
+    if (!b) return;
+    st.cmp = b.getAttribute('data-v');
+    openMenu(false); cBtn.focus(); syncControls(); render();
+  });
+  document.addEventListener('click', function (e) {
+    if (!cMenu.hasAttribute('hidden') && !cMenu.contains(e.target) && !cBtn.contains(e.target)) openMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !cMenu.hasAttribute('hidden')) { openMenu(false); cBtn.focus(); }
+  });
+  [['tg-range', 'range'], ['tg-fmt', 'fmt']].forEach(function (g) {
+    $(g[0]).addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      st[g[1]] = b.getAttribute('data-v');
+      syncControls(); render();
+    });
+  });
+
+  syncControls();
+  render();
+})();
+</script>
+
 <script src="comments.js"></script>
 </body>
 </html>
