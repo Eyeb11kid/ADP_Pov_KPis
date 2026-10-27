@@ -104,6 +104,7 @@
 
   /* Charts row */
   .charts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 20px; }
+  .charts.two { grid-template-columns: 1fr 1fr; }
   .chart-tile { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; }
   .chart-tile svg { display: block; width: 100%; height: auto; flex: 1; min-height: 0; }
   .tipt { cursor: pointer; }
@@ -338,7 +339,7 @@
       <div class="fb-sep"></div>
       <div class="fb-toggle" id="tg-fmt"><button type="button" class="on" data-v="both" aria-pressed="true">$ + %</button><button type="button" data-v="pct" aria-pressed="false">% only</button></div>
       <div class="fb-sep"></div>
-      <div class="fb-chip">Product: All RS</div>
+      <div class="fb-chip">Product: All</div>
       <div class="fb-chip" style="background:#525252">Geography: All</div>
       <div class="fb-chip" style="background:#525252">Platform: All</div>
       <div class="fb-chip" style="background:#525252">Sales channel: All</div>
@@ -505,6 +506,20 @@
 
       </div><!-- /charts -->
 
+      <!-- Sales by segment -->
+      <div class="charts two">
+        <div class="chart-tile">
+          <div class="chart-title" id="ct-segd">Sales mix by segment</div>
+          <div class="chart-sub" id="cs-segd">Share of total sales</div>
+          <svg id="svg-segd" viewBox="0 0 300 210" role="group" aria-label="Sales mix by segment"></svg>
+        </div>
+        <div class="chart-tile">
+          <div class="chart-title" id="ct-segb">Sales by segment, $m</div>
+          <div class="chart-sub" id="cs-segb">By segment</div>
+          <svg id="svg-segb" viewBox="0 0 300 210" role="group" aria-label="Sales by segment"></svg>
+        </div>
+      </div><!-- /charts two -->
+
 
 
       <!-- P&L table -->
@@ -617,11 +632,15 @@
       <div class="mf-col" data-col="Product">
         <h3>Product</h3>
         <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
-        <label class="mf-opt"><input type="checkbox" checked> Lyric</label>
-        <label class="mf-opt"><input type="checkbox"> Workforce Now</label>
-        <label class="mf-opt"><input type="checkbox"> Run Powered by ADP</label>
-        <label class="mf-opt"><input type="checkbox"> Vantage HCM</label>
-        <label class="mf-opt"><input type="checkbox"> TotalSource</label>
+        <label class="mf-opt"><input type="checkbox" checked> 401K Small</label>
+        <label class="mf-opt"><input type="checkbox" checked> 401K Mid</label>
+        <label class="mf-opt"><input type="checkbox" checked> 401K Large</label>
+        <label class="mf-opt"><input type="checkbox" checked> Custom (Core K)</label>
+        <label class="mf-opt"><input type="checkbox" checked> Simple</label>
+        <label class="mf-opt"><input type="checkbox" checked> SEP</label>
+        <label class="mf-opt"><input type="checkbox" checked> EDC</label>
+        <label class="mf-opt"><input type="checkbox" checked> Easy Pay</label>
+        <label class="mf-opt"><input type="checkbox" checked> All other</label>
       </div>
       <div class="mf-col" data-col="Geography">
         <h3>Geography</h3>
@@ -807,7 +826,8 @@
       rev: { a: 120.0, p: 116.0, y: 114.0 }, fe: { a: 78.0, p: 77.0, y: 75.0 },
       nde: { a: 8.0, p: 8.5, y: 7.5 }, al: { a: 6.0, p: 6.0, y: 5.5 },
       cat: [['Asset', 70, 67], ['Hard dollar', 34, 33], ['Other', 16, 16]],
-      sales: { a: 18.6, p: 18.0, y: 17.5, starts: 15.2, losses: 9.8 },
+      sales: { a: 18.6, p: 18.0, y: 17.5, starts: 15.2, losses: 9.8,
+        seg: [['Retirement', 5.1], ['EBS', 3.2], ['Major', 3.6], ['National', 2.4], ['Insurance', 1.7], ['Source', 1.4], ['AVS', 1.2]] },
       ret: { a: 92.4, p: 92.0, y: 92.2 }, cli: { a: 61500, p: 61200, y: 60060 }, proc: 104.0
     },
     ytd: {
@@ -815,7 +835,8 @@
       rev: { a: sum(M.fy27), p: sum(M.plan), y: sum(M.fy26) }, fe: { a: 233.5, p: 231.0, y: 226.0 },
       nde: { a: 24.0, p: 25.0, y: 22.5 }, al: { a: 18.0, p: 18.0, y: 16.5 },
       cat: [['Asset', 208.0, 202.0], ['Hard dollar', 100.9, 98.0], ['Other', 46.9, 46.4]],
-      sales: { a: 52.4, p: 51.0, y: 49.3, starts: 43.1, losses: 28.0 },
+      sales: { a: 52.4, p: 51.0, y: 49.3, starts: 43.1, losses: 28.0,
+        seg: [['Retirement', 14.4], ['EBS', 9.1], ['Major', 10.2], ['National', 6.8], ['Insurance', 4.8], ['Source', 3.9], ['AVS', 3.2]] },
       ret: { a: 92.3, p: 92.0, y: 92.1 }, cli: { a: 61200, p: 61000, y: 59800 }, proc: 308.6
     }
   };
@@ -982,6 +1003,51 @@
     $('ct-cat').textContent = (d.ytd ? 'YTD revenue' : 'Revenue') + ' by category, ' + (pct ? '% of revenue' : '$m');
   }
 
+  /* ---------- sales by segment (donut + bars) ---------- */
+  var SEG_COL = ['#3f8fe0', '#5b2fc0', '#2e7d32', '#e0a03f', '#c8322f', '#2aa5a0', '#8d8d8d'];
+  function renderSeg(d, pct) {
+    var seg = d.sales.seg, tot = sum(seg.map(function (g) { return g[1]; })), when = d.ytd ? 'YTD sales' : 'Sales';
+    var sd = $('svg-segd'), sb = $('svg-segb'), parts = [];
+    clear(sd); clear(sb);
+
+    /* donut */
+    var cx = 70, cy = 105, ro = 60, ri = 38, a0 = -Math.PI / 2;
+    function pt(r, a) { return (cx + r * Math.cos(a)).toFixed(2) + ' ' + (cy + r * Math.sin(a)).toFixed(2); }
+    seg.forEach(function (g, i) {
+      var a1 = a0 + g[1] / tot * 2 * Math.PI, big = a1 - a0 > Math.PI ? 1 : 0;
+      var dd = 'M' + pt(ro, a0) + ' A' + ro + ' ' + ro + ' 0 ' + big + ' 1 ' + pt(ro, a1) +
+               ' L' + pt(ri, a1) + ' A' + ri + ' ' + ri + ' 0 ' + big + ' 0 ' + pt(ri, a0) + ' Z';
+      tipShape('path', { d: dd, fill: SEG_COL[i], stroke: '#fff', 'stroke-width': 1.5 },
+        g[0] + ': ' + usd(g[1]) + ' · ' + pc(g[1] / tot * 100) + ' of sales', null, sd);
+      a0 = a1;
+      var y = 40 + i * 24;
+      S('rect', { x: 138, y: y - 9, width: 9, height: 9, rx: 2, fill: SEG_COL[i] }, sd);
+      label(sd, 152, y, g[0], { 'text-anchor': 'start', 'font-size': 11, fill: '#474747' });
+      if (!pct) label(sd, 246, y, usd(g[1]), { 'text-anchor': 'end', 'font-size': 11, 'font-weight': '700', fill: '#1a1a1a' });
+      label(sd, 292, y, pc(g[1] / tot * 100), { 'text-anchor': 'end', 'font-size': 11, fill: pct ? '#1a1a1a' : '#474747', 'font-weight': pct ? '700' : '400' });
+      parts.push(g[0] + ' ' + (pct ? pc(g[1] / tot * 100) : usd(g[1])));
+    });
+    label(sd, cx, cy + 3, usd(tot), { 'font-size': 13, 'font-weight': '700', fill: '#1a1a1a' });
+    label(sd, cx, cy + 16, 'Total sales', { 'font-size': 9, fill: '#474747' });
+    sd.setAttribute('aria-label', when + ' mix by segment: ' + parts.join(', '));
+    $('ct-segd').textContent = when + ' mix by segment';
+
+    /* horizontal bars */
+    var vals = seg.map(function (g) { return pct ? g[1] / tot * 100 : g[1]; }), k = 150 / Math.max.apply(null, vals);
+    parts = [];
+    S('line', { x1: 82, y1: 8, x2: 82, y2: 192, stroke: '#e4e3de' }, sb);
+    seg.forEach(function (g, i) {
+      var y = 12 + i * 26, w = vals[i] * k;
+      label(sb, 10, y + 13, g[0], { 'text-anchor': 'start', 'font-size': 12, fill: '#474747' });
+      tipShape('rect', { x: 82, y: y, width: w, height: 18, fill: SEG_COL[i] },
+        g[0] + ': ' + usd(g[1]) + ' · ' + pc(g[1] / tot * 100) + ' of sales', null, sb);
+      label(sb, 82 + w + 5, y + 13, pct ? pc(vals[i]) : plain(r1(g[1])), { 'text-anchor': 'start', 'font-size': 12, 'font-weight': '700', fill: '#1a1a1a' });
+      parts.push(g[0] + ' ' + (pct ? pc(vals[i]) : usd(g[1])));
+    });
+    sb.setAttribute('aria-label', when + ' by segment: ' + parts.join(', '));
+    $('ct-segb').textContent = when + ' by segment, ' + (pct ? '% of sales' : '$m');
+  }
+
   function renderLine(d, pct, pva) {
     var svg = $('svg-line'); clear(svg);
     var ytd = d.ytd, series = [];
@@ -1076,6 +1142,7 @@
     renderBridge(d, P, pct);
     renderCat(d, pct);
     renderLine(d, pct, pva);
+    renderSeg(d, pct);
     renderTable(d, P, pct, pva);
     renderText(d, P, pct);
   }
