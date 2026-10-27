@@ -6,6 +6,8 @@
   --bg:#ffffff; --tile:#fff; --inner:#f1f0ec; --hover:#ecebe6;
   --adp:#c8322f;
   --band:#eeece8; --side:#1c1c1c; --side-hover:#2a2a2a; --tint:#f9e9e8;
+  --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8; --p-cyan:#2A9FCB; --p-amber:#E5A83F;
+  --p-coral:#F0605D; --p-indigo:#1B2A7A; --p-green:#3A9A3A; --p-brown:#8B2A0A; --p-lav:#BDB4DC;
 }
 body { font-family: "Inter", "Roboto", -apple-system, "Segoe UI", system-ui, sans-serif; background: var(--bg); }
 
@@ -15,17 +17,17 @@ body { font-family: "Inter", "Roboto", -apple-system, "Segoe UI", system-ui, san
 .chrome-r b { font-weight: 700; font-size: 12px; letter-spacing: 0; }
 .avatar { width: 30px; height: 30px; background: #111; }
 
-/* Sidebar (dark) */
-.sidebar { background: var(--side); border-right: 0; }
-.sb-bu { border-bottom: 1px solid #333; }
-.sb-bu-name { color: #fff; letter-spacing: -.01em; }
-.sb-bu-label, .sb-section, .sb-sublabel, .sb-note { color: #bdbdbd; }
+/* Sidebar (same colour as the page background; dark text for contrast) */
+.sidebar { background: var(--bg); border-right: 1px solid var(--line); }
+.sb-bu { border-bottom: 1px solid var(--line); }
+.sb-bu-name { color: var(--p-navy); letter-spacing: -.01em; }
+.sb-bu-label, .sb-section, .sb-sublabel, .sb-note { color: #525252; }
 .sb-section { letter-spacing: .1em; }
-.sb-link { color: #f2f2f2; }
-.sb-link:hover { background: var(--side-hover); color: #fff; }
-.sb-link.active { color: #fff; font-weight: 700; border-left-color: var(--red); background: var(--side-hover); }
-.sb-ext { color: #f2f2f2; }
-.sb-divider { background: #3a3a3a; }
+.sb-link { color: var(--p-navy); }
+.sb-link:hover { background: var(--inner); color: var(--p-navy); }
+.sb-link.active { color: var(--p-navy); font-weight: 700; border-left-color: var(--red); background: var(--inner); }
+.sb-ext { color: var(--p-blue); }
+.sb-divider { background: var(--line); }
 
 /* Main surface, title bar, breadcrumbs */
 .main, .content { background: #fff; }
@@ -101,3 +103,9 @@ table.pl tr.subtotal:hover > td { background: #ebe8e2; }
 table.te tbody tr.d:hover td { background: #f6f5f1; }
 table.te tbody tr:hover td.ch { background: var(--tint); }
 .cfrw { --t-secbg:#f1f0ec; --t-secline:#c8322f; --t-acc:#c8322f; --t-hrow:#f6f5f1; --t-hsub:#ebe8e2; --t-htot:#e2ded6; --t-chbg:#f9e9e8; --t-neg:#c8322f; --t-side:#e4e3de; }
+
+/* Chart / KPI palette (--p-* variables above) */
+.kpi-val, .kpi-row b { color: var(--p-navy); }
+.kpi-drill { color: var(--p-blue); }
+.kpi-var .fav { color: var(--p-green); }
+.kpi-var .unf { color: var(--p-coral); }

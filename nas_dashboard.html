@@ -90,16 +90,16 @@
   .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-bottom: 1px solid var(--line); background: var(--tile); margin-bottom: 0; }
   .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; display: flex; flex-direction: column; }
   .kpi-row { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .kpi-row b { font-weight: 600; color: var(--navy); }
+  .kpi-row b { font-weight: 600; color: var(--p-navy); }
   .kpi .kpi-drill { margin-top: auto; padding-top: 8px; }
   .kpi:last-child { border-right: 0; }
-  .kpi-val { font-size: 28px; font-weight: 600; color: var(--navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi-val { font-size: 28px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
   .kpi:hover .kpi-val { font-weight: 700; }
   .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
   .kpi-var { font-size: 11px; }
-  .kpi-var .fav { color: var(--green); font-weight: 600; }
-  .kpi-var .unf { color: var(--red); font-weight: 600; }
-  .kpi-drill { font-size: 11px; color: var(--blue); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; margin-top: 4px; }
+  .kpi-var .fav { color: var(--p-green); font-weight: 600; }
+  .kpi-var .unf { color: var(--p-coral); font-weight: 600; }
+  .kpi-drill { font-size: 11px; color: var(--p-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; margin-top: 4px; }
   .kpi-drill:hover { text-decoration: underline; }
 
   /* Charts row */
@@ -298,7 +298,7 @@
       <div class="fb-sep"></div>
       <div class="fb-toggle" id="tg-fmt"><button type="button" class="on" data-v="both" aria-pressed="true">$ + %</button><button type="button" data-v="pct" aria-pressed="false">% only</button></div>
       <div class="fb-sep"></div>
-      <div class="fb-chip">Product: Lyric</div>
+      <div class="fb-chip">Product: All</div>
       <div class="fb-chip" style="background:#525252">Geography: All</div>
       <div class="fb-chip" style="background:#525252">Platform: All</div>
       <div class="fb-chip" style="background:#525252">Sales channel: All</div>
@@ -365,7 +365,7 @@
           <svg id="svg-bridge" viewBox="0 0 300 210" role="group" aria-label="NOI bridge vs plan: plan 24.5, revenue plus 4.0, field expense minus 1.0, NDE plus 0.5, allocations 0.0, actual 28.0">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- connectors -->
-            <g stroke="#a8a8a8" stroke-dasharray="3 2">
+            <g stroke="#BDB4DC" stroke-dasharray="3 2">
               <line x1="51"  y1="107" x2="67"  y2="107"/>
               <line x1="97"  y1="51"  x2="113" y2="51"/>
               <line x1="143" y1="65"  x2="159" y2="65"/>
@@ -373,18 +373,18 @@
               <line x1="235" y1="58"  x2="251" y2="58"/>
             </g>
             <!-- Plan 24.5 -->
-            <rect class="tipt" tabindex="0" data-tip="Plan NOI: $24.5m" aria-label="Plan NOI: $24.5m" x="21"  y="107" width="30" height="63" fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Plan NOI: $24.5m" aria-label="Plan NOI: $24.5m" x="21"  y="107" width="30" height="63" fill="#BDB4DC"/>
             <!-- Revenue +4.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Revenue: +$4.0m vs plan" aria-label="Revenue: +$4.0m vs plan" x="67"  y="51"  width="30" height="56" fill="#2e7d32"/>
+            <rect class="tipt" tabindex="0" data-tip="Revenue: +$4.0m vs plan" aria-label="Revenue: +$4.0m vs plan" x="67"  y="51"  width="30" height="56" fill="#3A9A3A"/>
             <!-- Field expense -1.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Field expense: −$1.0m vs plan" aria-label="Field expense: minus $1.0m vs plan" x="113" y="51"  width="30" height="14" fill="#c8322f"/>
+            <rect class="tipt" tabindex="0" data-tip="Field expense: −$1.0m vs plan" aria-label="Field expense: minus $1.0m vs plan" x="113" y="51"  width="30" height="14" fill="#F0605D"/>
             <!-- NDE +0.5 -->
-            <rect class="tipt" tabindex="0" data-tip="NDE: +$0.5m vs plan" aria-label="NDE: +$0.5m vs plan" x="159" y="58"  width="30" height="7"  fill="#2e7d32"/>
+            <rect class="tipt" tabindex="0" data-tip="NDE: +$0.5m vs plan" aria-label="NDE: +$0.5m vs plan" x="159" y="58"  width="30" height="7"  fill="#3A9A3A"/>
             <!-- Allocations 0.0 -->
             <line x1="205" y1="58" x2="235" y2="58" stroke="#5f5f5f" stroke-width="2"/>
             <rect class="tipt" tabindex="0" data-tip="Allocations: $0.0m vs plan" aria-label="Allocations: $0.0m vs plan" x="205" y="50" width="30" height="16" fill="transparent"/>
             <!-- Actual 28.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Actual NOI: $28.0m" aria-label="Actual NOI: $28.0m" x="251" y="58"  width="30" height="112" fill="#3f8fe0"/>
+            <rect class="tipt" tabindex="0" data-tip="Actual NOI: $28.0m" aria-label="Actual NOI: $28.0m" x="251" y="58"  width="30" height="112" fill="#7B68B0"/>
             <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
               <text x="36"  y="101">24.5</text>
               <text x="82"  y="45">+4.0</text>
@@ -408,20 +408,20 @@
         <div class="chart-tile">
           <div class="chart-title" id="ct-cat">Revenue by category, $m</div>
           <div class="legend">
-            <span><i style="background:#3f8fe0"></i> Actual</span>
-            <span><i style="background:#a8a8a8"></i> Plan</span>
+            <span><i style="background:#7B68B0"></i> Actual</span>
+            <span><i style="background:#BDB4DC"></i> Plan</span>
           </div>
           <svg id="svg-cat" viewBox="0 0 300 210" role="group" aria-label="Revenue by category, actual vs plan: Asset 70 vs 67, Hard dollar 34 vs 33, Other 16 vs 16">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- Asset: actual 70, plan 67 -->
-            <rect class="tipt" tabindex="0" data-tip="Asset · Actual: $70m" aria-label="Asset, actual: $70m" x="30"  y="37"    width="24" height="133"   fill="#3f8fe0"/>
-            <rect class="tipt" tabindex="0" data-tip="Asset · Plan: $67m" aria-label="Asset, plan: $67m" x="56"  y="42.7"  width="24" height="127.3" fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Asset · Actual: $70m" aria-label="Asset, actual: $70m" x="30"  y="37"    width="24" height="133"   fill="#7B68B0"/>
+            <rect class="tipt" tabindex="0" data-tip="Asset · Plan: $67m" aria-label="Asset, plan: $67m" x="56"  y="42.7"  width="24" height="127.3" fill="#BDB4DC"/>
             <!-- Hard dollar: actual 34, plan 33 -->
-            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Actual: $34m" aria-label="Hard dollar, actual: $34m" x="125" y="105.4" width="24" height="64.6"  fill="#3f8fe0"/>
-            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Plan: $33m" aria-label="Hard dollar, plan: $33m" x="151" y="107.3" width="24" height="62.7"  fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Actual: $34m" aria-label="Hard dollar, actual: $34m" x="125" y="105.4" width="24" height="64.6"  fill="#7B68B0"/>
+            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Plan: $33m" aria-label="Hard dollar, plan: $33m" x="151" y="107.3" width="24" height="62.7"  fill="#BDB4DC"/>
             <!-- Other: actual 16, plan 16 -->
-            <rect class="tipt" tabindex="0" data-tip="Other · Actual: $16m" aria-label="Other, actual: $16m" x="220" y="139.6" width="24" height="30.4"  fill="#3f8fe0"/>
-            <rect class="tipt" tabindex="0" data-tip="Other · Plan: $16m" aria-label="Other, plan: $16m" x="246" y="139.6" width="24" height="30.4"  fill="#a8a8a8"/>
+            <rect class="tipt" tabindex="0" data-tip="Other · Actual: $16m" aria-label="Other, actual: $16m" x="220" y="139.6" width="24" height="30.4"  fill="#7B68B0"/>
+            <rect class="tipt" tabindex="0" data-tip="Other · Plan: $16m" aria-label="Other, plan: $16m" x="246" y="139.6" width="24" height="30.4"  fill="#BDB4DC"/>
             <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
               <text x="55"  y="31">70</text>
               <text x="150" y="99">34</text>
@@ -442,15 +442,15 @@
           <svg id="svg-line" viewBox="0 0 300 210" role="group" aria-label="Revenue vs last year, July to September: FY27 117.2, 118.6, 120.0; FY26 111.0, 112.6, 114.0">
             <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
             <!-- FY26 -->
-            <polyline points="40,114 130,99.1 220,84" fill="none" stroke="#8d8d8d" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Jul: $111.0m" aria-label="FY26, July: $111.0m" cx="40"  cy="114"  r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Aug: $112.6m" aria-label="FY26, August: $112.6m" cx="130" cy="99.1" r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Sep: $114.0m" aria-label="FY26, September: $114.0m" cx="220" cy="84"  r="5" fill="#8d8d8d" stroke="#fff" stroke-width="1.5"/>
+            <polyline points="40,114 130,99.1 220,84" fill="none" stroke="#BDB4DC" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Jul: $111.0m" aria-label="FY26, July: $111.0m" cx="40"  cy="114"  r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Aug: $112.6m" aria-label="FY26, August: $112.6m" cx="130" cy="99.1" r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY26 · Sep: $114.0m" aria-label="FY26, September: $114.0m" cx="220" cy="84"  r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
             <!-- FY27 -->
-            <polyline points="40,56.2 130,43.1 220,30" fill="none" stroke="#3f8fe0" stroke-width="2.4" stroke-linejoin="round"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Jul: $117.2m" aria-label="FY27, July: $117.2m" cx="40"  cy="56.2" r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Aug: $118.6m" aria-label="FY27, August: $118.6m" cx="130" cy="43.1" r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Sep: $120.0m" aria-label="FY27, September: $120.0m" cx="220" cy="30"   r="5.5" fill="#3f8fe0" stroke="#fff" stroke-width="1.5"/>
+            <polyline points="40,56.2 130,43.1 220,30" fill="none" stroke="#7B68B0" stroke-width="2.4" stroke-linejoin="round"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Jul: $117.2m" aria-label="FY27, July: $117.2m" cx="40"  cy="56.2" r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Aug: $118.6m" aria-label="FY27, August: $118.6m" cx="130" cy="43.1" r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+            <circle class="tipt" tabindex="0" data-tip="FY27 · Sep: $120.0m" aria-label="FY27, September: $120.0m" cx="220" cy="30"   r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
             <g font-size="14">
               <text x="228" y="35" fill="#1a1a1a" font-weight="700">FY27 120</text>
               <text x="228" y="89" fill="#5f5f5f">FY26 114</text>
@@ -580,12 +580,13 @@
     <div class="mf-body">
       <div class="mf-col" data-col="Product">
         <h3>Product</h3>
+        <div style="font-size:11px;color:var(--muted);font-style:italic;margin:-4px 0 8px">Revenue only</div>
         <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
-        <label class="mf-opt"><input type="checkbox" checked> Lyric</label>
-        <label class="mf-opt"><input type="checkbox"> Workforce Now</label>
-        <label class="mf-opt"><input type="checkbox"> Run Powered by ADP</label>
-        <label class="mf-opt"><input type="checkbox"> Vantage HCM</label>
-        <label class="mf-opt"><input type="checkbox"> TotalSource</label>
+        <label class="mf-opt"><input type="checkbox" checked> Payroll</label>
+        <label class="mf-opt"><input type="checkbox" checked> TLM</label>
+        <label class="mf-opt"><input type="checkbox" checked> Benefits</label>
+        <label class="mf-opt"><input type="checkbox" checked> Talent</label>
+        <label class="mf-opt"><input type="checkbox" checked> COS</label>
       </div>
       <div class="mf-col" data-col="Geography">
         <h3>Geography</h3>
@@ -863,12 +864,12 @@
     var xs = [21, 67, 113, 159, 205, 251], fs = pct ? '11' : '13';
     var sMoney = function (v) { return pct ? sPc(v) : sUsd(v); };
     S('line', { x1: 10, y1: 170, x2: 290, y2: 170, stroke: '#e4e3de' }, svg);
-    var cg = S('g', { stroke: '#a8a8a8', 'stroke-dasharray': '3 2' }, svg);
+    var cg = S('g', { stroke: '#BDB4DC', 'stroke-dasharray': '3 2' }, svg);
     for (var i = 0; i < 5; i++) S('line', { x1: xs[i] + 30, y1: y(levels[i]), x2: xs[i + 1], y2: y(levels[i]) }, cg);
     var lab = { 'font-size': fs, 'font-weight': '700', fill: '#1a1a1a' }, parts = [];
     function copy(o) { var c = {}; Object.keys(o).forEach(function (k2) { c[k2] = o[k2]; }); return c; }
     var planTip = pct ? 'Plan NOI: 100.0% (base)' : 'Plan NOI: ' + usd(start);
-    tipShape('rect', { x: xs[0], y: y(start), width: 30, height: 170 - y(start), fill: '#a8a8a8' }, planTip, null, svg);
+    tipShape('rect', { x: xs[0], y: y(start), width: 30, height: 170 - y(start), fill: '#BDB4DC' }, planTip, null, svg);
     label(svg, xs[0] + 15, y(start) - 6, pct ? pc(start) : num(start), copy(lab));
     parts.push('plan ' + (pct ? pc(start) : num(start)));
     deltas.forEach(function (dv, j) {
@@ -878,12 +879,12 @@
         S('line', { x1: x, y1: y(s0), x2: x + 30, y2: y(s0), stroke: '#5f5f5f', 'stroke-width': 2 }, svg);
         tipShape('rect', { x: x, y: y(s0) - 8, width: 30, height: 16, fill: 'transparent' }, tip, null, svg);
       } else {
-        tipShape('rect', { x: x, y: top, width: 30, height: Math.abs(y(s0) - y(e0)), fill: e0 > s0 ? '#2e7d32' : '#c8322f' }, tip, null, svg);
+        tipShape('rect', { x: x, y: top, width: 30, height: Math.abs(y(s0) - y(e0)), fill: e0 > s0 ? '#3A9A3A' : '#F0605D' }, tip, null, svg);
       }
       label(svg, x + 15, top - 6, sgn(dv) + (pct ? '%' : ''), copy(lab));
       parts.push(names[j].toLowerCase() + ' ' + sgn(dv) + (pct ? '%' : ''));
     });
-    tipShape('rect', { x: xs[5], y: y(end), width: 30, height: 170 - y(end), fill: '#3f8fe0' },
+    tipShape('rect', { x: xs[5], y: y(end), width: 30, height: 170 - y(end), fill: '#7B68B0' },
       pct ? 'Actual NOI: ' + pc(end) + ' of plan' : 'Actual NOI: ' + usd(end), null, svg);
     label(svg, xs[5] + 15, y(end) - 6, pct ? pc(end) : num(end), copy(lab));
     parts.push('actual ' + (pct ? pc(end) : num(end)));
@@ -905,8 +906,8 @@
     S('line', { x1: x0, y1: 6, x2: x0, y2: 190, stroke: '#e4e3de' }, svg);
     rows.forEach(function (r, i) {
       var y0 = 14 + i * 44, wa = r.a * k, wp = r.p * k, suffix = pct ? ' of revenue' : '';
-      tipShape('rect', { x: x0, y: y0, width: wa, height: 14, fill: '#3f8fe0' }, r.n + ' · Actual: ' + show(r.a) + suffix, null, svg);
-      tipShape('rect', { x: x0, y: y0 + 16, width: wp, height: 14, fill: '#a8a8a8' }, r.n + ' · Plan: ' + show(r.p) + suffix, null, svg);
+      tipShape('rect', { x: x0, y: y0, width: wa, height: 14, fill: '#7B68B0' }, r.n + ' · Actual: ' + show(r.a) + suffix, null, svg);
+      tipShape('rect', { x: x0, y: y0 + 16, width: wp, height: 14, fill: '#BDB4DC' }, r.n + ' · Plan: ' + show(r.p) + suffix, null, svg);
       label(svg, x0 - 6, y0 + 21, r.n, { 'font-size': 12, fill: '#5f5f5f', 'text-anchor': 'end' });
       label(svg, x0 + wa + 5, y0 + 12, pct ? pc(r.a) : plain(r.a), { 'font-size': 12, 'font-weight': '700', fill: '#1a1a1a', 'text-anchor': 'start' });
       parts.push(r.n + ' ' + (pct ? pc(r.a) : plain(r.a)) + ' vs ' + (pct ? pc(r.p) : plain(r.p)));
@@ -921,12 +922,12 @@
     var fy27 = ytd ? cum(M.fy27) : M.fy27, fy26 = ytd ? cum(M.fy26) : M.fy26, plan = ytd ? cum(M.plan) : M.plan;
     var xs = [40, 130, 220];
     if (pct) {
-      series.push({ n: 'vs PY', short: 'PY', v: fy27.map(function (v, i) { return (v / fy26[i] - 1) * 100; }), col: '#3f8fe0', w: 2.4, r: 5.5 });
-      if (pva) series.push({ n: 'vs plan', short: 'Plan', v: fy27.map(function (v, i) { return (v / plan[i] - 1) * 100; }), col: '#5b2fc0', w: 2, r: 5, dash: '5 3' });
+      series.push({ n: 'vs PY', short: 'PY', v: fy27.map(function (v, i) { return (v / fy26[i] - 1) * 100; }), col: '#7B68B0', w: 2.4, r: 5.5 });
+      if (pva) series.push({ n: 'vs plan', short: 'Plan', v: fy27.map(function (v, i) { return (v / plan[i] - 1) * 100; }), col: '#4066C8', w: 2, r: 5, dash: '5 3' });
     } else {
-      series.push({ n: 'FY26', short: 'FY26', v: fy26, col: '#8d8d8d', w: 1.8, r: 5, dash: '2 3' });
-      if (pva) series.push({ n: 'Plan', short: 'Plan', v: plan, col: '#5b2fc0', w: 2, r: 5, dash: '5 3' });
-      series.push({ n: 'FY27', short: 'FY27', v: fy27, col: '#3f8fe0', w: 2.4, r: 5.5 });
+      series.push({ n: 'FY26', short: 'FY26', v: fy26, col: '#BDB4DC', w: 1.8, r: 5, dash: '2 3' });
+      if (pva) series.push({ n: 'Plan', short: 'Plan', v: plan, col: '#4066C8', w: 2, r: 5, dash: '5 3' });
+      series.push({ n: 'FY27', short: 'FY27', v: fy27, col: '#7B68B0', w: 2.4, r: 5.5 });
     }
     var vals = [].concat.apply([], series.map(function (s) { return s.v; }));
     var mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals);
@@ -936,7 +937,7 @@
     var parts = [];
     /* shaded area under the main line (FY27, or growth vs PY in % mode) */
     var main = pct ? series[0] : series[series.length - 1];
-    S('polygon', { points: xs[0] + ',170 ' + main.v.map(function (v, i) { return xs[i] + ',' + y(v).toFixed(1); }).join(' ') + ' ' + xs[2] + ',170', fill: '#3f8fe0', 'fill-opacity': '0.12' }, svg);
+    S('polygon', { points: xs[0] + ',170 ' + main.v.map(function (v, i) { return xs[i] + ',' + y(v).toFixed(1); }).join(' ') + ' ' + xs[2] + ',170', fill: '#7B68B0', 'fill-opacity': '0.12' }, svg);
 
     /* end-of-line labels: keep at least 17px apart so close series don't overlap */
     var order = series.slice().sort(function (a, b) { return b.v[2] - a.v[2]; });

@@ -99,7 +99,7 @@
   .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); background: var(--tile); margin: 14px 0 0; }
   .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; }
   .kpi:last-child { border-right: 0; }
-  .kpi-val { font-size: 26px; font-weight: 600; color: var(--navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi-val { font-size: 26px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
   .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .kpi-var { font-size: 11px; }
   .fav { color: var(--green); font-weight: 600; }
@@ -354,9 +354,9 @@
           <div class="chart-title">Field expense bridge · plan to actual</div>
           <div class="chart-sub">USD m · September period</div>
           <div class="legend">
-            <span><i style="background:#3f8fe0"></i> Base</span>
-            <span><i style="background:#c8322f"></i> Unfavorable</span>
-            <span><i style="background:#2e7d32"></i> Favorable</span>
+            <span><i style="background:#7B68B0"></i> Base</span>
+            <span><i style="background:#F0605D"></i> Unfavorable</span>
+            <span><i style="background:#3A9A3A"></i> Favorable</span>
           </div>
           <svg viewBox="0 0 280 160" width="100%" role="img" aria-label="Field expense waterfall plan to actual">
             <line x1="44" y1="18" x2="272" y2="18" stroke="#e0e0e0"/>
@@ -368,27 +368,27 @@
             <text x="38" y="85"  text-anchor="end" font-size="9" fill="#525252">59</text>
             <text x="38" y="117" text-anchor="end" font-size="9" fill="#525252">0</text>
             <!-- Plan bar: 59.0 -->
-            <rect x="48" y="69.4" width="36" height="44.6" fill="#3f8fe0"/>
+            <rect x="48" y="69.4" width="36" height="44.6" fill="#7B68B0"/>
             <text x="66" y="66"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">59.0</text>
             <text x="66" y="128" text-anchor="middle" font-size="9" fill="#525252">Plan</text>
             <line x1="84" y1="69.4" x2="100" y2="69.4" stroke="#aaa" stroke-dasharray="3 2"/>
             <!-- EE unfav +1.2 -->
-            <rect x="100" y="61.6" width="30" height="7.8" fill="#c8322f"/>
+            <rect x="100" y="61.6" width="30" height="7.8" fill="#F0605D"/>
             <text x="115" y="58"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+1.2</text>
             <text x="115" y="128" text-anchor="middle" font-size="9" fill="#525252">EE</text>
             <line x1="130" y1="61.6" x2="146" y2="61.6" stroke="#aaa" stroke-dasharray="3 2"/>
             <!-- T&E unfav +0.4 -->
-            <rect x="146" y="59.0" width="30" height="2.6" fill="#c8322f"/>
+            <rect x="146" y="59.0" width="30" height="2.6" fill="#F0605D"/>
             <text x="161" y="56"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+0.4</text>
             <text x="161" y="128" text-anchor="middle" font-size="9" fill="#525252">T&amp;E</text>
             <line x1="176" y1="59.0" x2="192" y2="59.0" stroke="#aaa" stroke-dasharray="3 2"/>
             <!-- Impl unfav +0.2 -->
-            <rect x="192" y="57.7" width="30" height="1.3" fill="#c8322f"/>
+            <rect x="192" y="57.7" width="30" height="1.3" fill="#F0605D"/>
             <text x="207" y="54"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+0.2</text>
             <text x="207" y="128" text-anchor="middle" font-size="9" fill="#525252">Impl</text>
             <line x1="222" y1="57.7" x2="234" y2="57.7" stroke="#aaa" stroke-dasharray="3 2"/>
             <!-- Actual bar: 60.8 -->
-            <rect x="234" y="57.7" width="36" height="56.3" fill="#3f8fe0"/>
+            <rect x="234" y="57.7" width="36" height="56.3" fill="#7B68B0"/>
             <text x="252" y="54"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">60.8</text>
             <text x="252" y="128" text-anchor="middle" font-size="9" fill="#525252">Actual</text>
           </svg>
@@ -399,9 +399,9 @@
           <div class="chart-title">Expense by category</div>
           <div class="chart-sub">USD m · September period</div>
           <div class="legend">
-            <span><i style="background:#c8322f"></i> Actual (over)</span>
-            <span><i style="background:#3f8fe0"></i> Actual (on/under)</span>
-            <span><i style="background:#9fc5ee"></i> Plan</span>
+            <span><i style="background:#F0605D"></i> Actual (over)</span>
+            <span><i style="background:#7B68B0"></i> Actual (on/under)</span>
+            <span><i style="background:#BDB4DC"></i> Plan</span>
           </div>
           <svg viewBox="0 0 220 160" width="100%" role="img" aria-label="Expense by category bar chart">
             <line x1="30" y1="10" x2="216" y2="10" stroke="#e0e0e0"/>
@@ -412,26 +412,26 @@
             <text x="26" y="83"  text-anchor="end" font-size="8" fill="#525252">20</text>
             <text x="26" y="113" text-anchor="end" font-size="8" fill="#525252">0</text>
             <!-- EE: actual 34.2 > plan 33.0 — scale: 40=100px, 34.2=85.5, 33.0=82.5 -->
-            <rect x="36" y="24.5" width="18" height="85.5" fill="#c8322f"/>
-            <rect x="56" y="27.5" width="18" height="82.5" fill="#9fc5ee"/>
+            <rect x="36" y="24.5" width="18" height="85.5" fill="#F0605D"/>
+            <rect x="56" y="27.5" width="18" height="82.5" fill="#BDB4DC"/>
             <text x="55"  y="122" text-anchor="middle" font-size="7" fill="#525252">EE</text>
             <text x="45"  y="21"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">34.2</text>
             <text x="65"  y="24"  text-anchor="middle" font-size="8" fill="#525252">33.0</text>
             <!-- Non-EE: actual 14.2, plan 14.5 — 14.2=35.5, 14.5=36.3 -->
-            <rect x="84" y="74.5" width="18" height="35.5" fill="#3f8fe0"/>
-            <rect x="104" y="73.8" width="18" height="36.3" fill="#9fc5ee"/>
+            <rect x="84" y="74.5" width="18" height="35.5" fill="#7B68B0"/>
+            <rect x="104" y="73.8" width="18" height="36.3" fill="#BDB4DC"/>
             <text x="103" y="122" text-anchor="middle" font-size="7" fill="#525252">Non-EE</text>
             <text x="93"  y="71"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">14.2</text>
             <text x="113" y="70"  text-anchor="middle" font-size="8" fill="#525252">14.5</text>
             <!-- T&E: actual 5.8, plan 5.4 — 5.8=14.5, 5.4=13.5 -->
-            <rect x="132" y="95.5" width="18" height="14.5" fill="#c8322f"/>
-            <rect x="152" y="96.5" width="18" height="13.5" fill="#9fc5ee"/>
+            <rect x="132" y="95.5" width="18" height="14.5" fill="#F0605D"/>
+            <rect x="152" y="96.5" width="18" height="13.5" fill="#BDB4DC"/>
             <text x="151" y="122" text-anchor="middle" font-size="7" fill="#525252">T&amp;E</text>
             <text x="141" y="92"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">5.8</text>
             <text x="161" y="93"  text-anchor="middle" font-size="8" fill="#525252">5.4</text>
             <!-- Impl: actual 6.6, plan 6.4 — 6.6=16.5, 6.4=16.0 -->
-            <rect x="180" y="93.5" width="18" height="16.5" fill="#c8322f"/>
-            <rect x="199" y="94.0" width="18" height="16.0" fill="#9fc5ee"/>
+            <rect x="180" y="93.5" width="18" height="16.5" fill="#F0605D"/>
+            <rect x="199" y="94.0" width="18" height="16.0" fill="#BDB4DC"/>
             <text x="199" y="122" text-anchor="middle" font-size="7" fill="#525252">Impl</text>
             <text x="189" y="90"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">6.6</text>
             <text x="208" y="91"  text-anchor="middle" font-size="8" fill="#525252">6.4</text>
@@ -443,9 +443,9 @@
           <div class="chart-title">Monthly field expense trend</div>
           <div class="chart-sub">USD m · ADP 4-4-5 · September close</div>
           <div class="legend">
-            <span><i style="background:#c8322f"></i> Actual</span>
+            <span><i style="background:#F0605D"></i> Actual</span>
             <span><i style="background:#888"></i> Plan</span>
-            <span><i style="background:#5b2fc0"></i> Prior year</span>
+            <span><i style="background:#4066C8"></i> Prior year</span>
           </div>
           <svg viewBox="0 0 300 140" width="100%" role="img" aria-label="Monthly field expense trend">
             <line x1="30" y1="15" x2="292" y2="15" stroke="#e0e0e0"/>
@@ -457,14 +457,14 @@
             <text x="26" y="78"  text-anchor="end" font-size="8" fill="#525252">58</text>
             <text x="26" y="108" text-anchor="end" font-size="8" fill="#525252">54</text>
             <!-- Actual: trending slightly up -->
-            <polyline points="34,72 144,68 254,63" fill="none" stroke="#c8322f" stroke-width="2.2" stroke-linejoin="round"/>
+            <polyline points="34,72 144,68 254,63" fill="none" stroke="#F0605D" stroke-width="2.2" stroke-linejoin="round"/>
             <!-- Plan: flat -->
             <polyline points="34,70 144,68 254,67 292,66" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
             <!-- Prior year -->
-            <polyline points="34,88 144,84 254,80" fill="none" stroke="#5b2fc0" stroke-width="1.5" stroke-linejoin="round"/>
-            <text x="258" y="60" font-size="8" fill="#c8322f" font-weight="700">60.8</text>
+            <polyline points="34,88 144,84 254,80" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="258" y="60" font-size="8" fill="#F0605D" font-weight="700">60.8</text>
             <text x="258" y="64" font-size="8" fill="#888">59.0</text>
-            <text x="258" y="77" font-size="8" fill="#5b2fc0">57.2</text>
+            <text x="258" y="77" font-size="8" fill="#4066C8">57.2</text>
             <text x="34"  y="118" text-anchor="middle" font-size="8" fill="#525252">Jul</text>
             <text x="144" y="118" text-anchor="middle" font-size="8" fill="#525252">Aug</text>
             <text x="254" y="118" text-anchor="middle" font-size="8" fill="#525252">Sep</text>
