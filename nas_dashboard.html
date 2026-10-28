@@ -87,8 +87,7 @@
   .content { padding: 0 0 32px; flex: 1; }
 
   /* KPI strip */
-  .kpis-group { background: var(--tile); border: 1px solid var(--line); margin-bottom: 14px; }
-  .kpis-group-hdr { display: flex; align-items: center; padding: 7px 18px; border-bottom: 1px solid var(--line); background: var(--inner); }
+  .kpis-group-hdr { display: flex; align-items: center; padding: 7px 18px; background: var(--inner); border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); }
   .kpis-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
   .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-bottom: 1px solid var(--line); background: var(--tile); margin-bottom: 0; }
   .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; display: flex; flex-direction: column; }
@@ -358,182 +357,77 @@
         </div>
       </div>
 
-      <!-- Period KPI rows: Month / QTD / YTD / Full Year -->
-      <div class="kpis-group">
-
-        <div class="kpis-group-hdr"><span class="kpis-group-label">Month · September</span></div>
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpi-label">Sales</div>
-            <div class="kpi-val">$18.6m</div>
-            <div class="kpi-var"><span class="fav">+$0.6m vs plan</span></div>
-            <div class="kpi-row"><span>Starts</span><b>$15.2m</b></div>
-            <div class="kpi-row"><span>Losses</span><b>$9.8m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Retention</div>
-            <div class="kpi-val">92.4%</div>
-            <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Revenue</div>
-            <div class="kpi-val">$120.0m</div>
-            <div class="kpi-var"><span class="fav">+$4.0m vs plan</span></div>
-            <div class="kpi-row"><span>Processing</span><b>$104.0m</b></div>
-            <div class="kpi-row"><span>Non-processing</span><b>$16.0m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">NOI</div>
-            <div class="kpi-val">$28.0m</div>
-            <div class="kpi-var"><span class="fav">+$3.5m vs plan</span></div>
-            <div class="kpi-row"><span>Margin</span><b>23.3%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Clients (average)</div>
-            <div class="kpi-val">61,500</div>
-            <div class="kpi-var"><span class="fav">+300 vs plan</span></div>
-          </div>
+      <!-- KPI summary table -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">KPI summary — all periods</div>
+          <span class="illustrative">Illustrative · $m unless noted · vs plan</span>
         </div>
-
-        <div class="kpis-group-hdr"><span class="kpis-group-label">QTD · Q1 FY27 (Aug–Sep, 2 of 3 months)</span></div>
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpi-label">Sales</div>
-            <div class="kpi-val">$37.4m</div>
-            <div class="kpi-var"><span class="fav">+$1.4m vs plan</span></div>
-            <div class="kpi-row"><span>Starts</span><b>$30.4m</b></div>
-            <div class="kpi-row"><span>Losses</span><b>$19.8m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Retention</div>
-            <div class="kpi-val">92.3%</div>
-            <div class="kpi-var"><span class="fav">+0.3 pp vs plan</span></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Revenue</div>
-            <div class="kpi-val">$238.6m</div>
-            <div class="kpi-var"><span class="fav">+$6.6m vs plan</span></div>
-            <div class="kpi-row"><span>Processing</span><b>$207.2m</b></div>
-            <div class="kpi-row"><span>Non-processing</span><b>$31.4m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">NOI</div>
-            <div class="kpi-val">$55.2m</div>
-            <div class="kpi-var"><span class="fav">+$5.8m vs plan</span></div>
-            <div class="kpi-row"><span>Margin</span><b>23.1%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Clients (average)</div>
-            <div class="kpi-val">61,350</div>
-            <div class="kpi-var"><span class="fav">+280 vs plan</span></div>
-          </div>
+        <div class="tbl-wrap">
+          <table class="pl" style="font-size:12px;">
+            <thead>
+              <tr>
+                <th style="min-width:170px;text-align:left">Period</th>
+                <th>Sales</th>
+                <th>Retention</th>
+                <th>Revenue</th>
+                <th>NOI</th>
+                <th>Clients (avg)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold">
+                <td>Current (Sep)</td>
+                <td>$18.6m <span class="fav" style="font-weight:400">+$0.6m</span></td>
+                <td>92.4% <span class="fav" style="font-weight:400">+0.4 pp</span></td>
+                <td>$120.0m <span class="fav" style="font-weight:400">+$4.0m</span></td>
+                <td>$28.0m <span class="fav" style="font-weight:400">+$3.5m</span></td>
+                <td>61,500 <span class="fav" style="font-weight:400">+300</span></td>
+              </tr>
+              <tr>
+                <td>Month (Sep)</td>
+                <td>$18.6m <span class="fav" style="font-weight:400">+$0.6m</span></td>
+                <td>92.4% <span class="fav" style="font-weight:400">+0.4 pp</span></td>
+                <td>$120.0m <span class="fav" style="font-weight:400">+$4.0m</span></td>
+                <td>$28.0m <span class="fav" style="font-weight:400">+$3.5m</span></td>
+                <td>61,500 <span class="fav" style="font-weight:400">+300</span></td>
+              </tr>
+              <tr>
+                <td>QTD (Aug–Sep)</td>
+                <td>$37.4m <span class="fav" style="font-weight:400">+$1.4m</span></td>
+                <td>92.3% <span class="fav" style="font-weight:400">+0.3 pp</span></td>
+                <td>$238.6m <span class="fav" style="font-weight:400">+$6.6m</span></td>
+                <td>$55.2m <span class="fav" style="font-weight:400">+$5.8m</span></td>
+                <td>61,350 <span class="fav" style="font-weight:400">+280</span></td>
+              </tr>
+              <tr>
+                <td>YTD (Jul–Sep)</td>
+                <td>$54.8m <span class="fav" style="font-weight:400">+$1.8m</span></td>
+                <td>91.8% <span class="unf" style="font-weight:400">−0.2 pp</span></td>
+                <td>$354.8m <span class="fav" style="font-weight:400">+$10.8m</span></td>
+                <td>$82.4m <span class="fav" style="font-weight:400">+$9.4m</span></td>
+                <td>61,200 <span class="fav" style="font-weight:400">+250</span></td>
+              </tr>
+              <tr>
+                <td>Full Year Plan</td>
+                <td>$224.0m</td>
+                <td>92.0%</td>
+                <td>$1,392.0m</td>
+                <td>$292.0m</td>
+                <td>62,400</td>
+              </tr>
+              <tr class="bold">
+                <td>YTD % of FY Plan</td>
+                <td><span class="fav">24.5%</span></td>
+                <td><span class="unf">−0.2 pp</span></td>
+                <td><span class="fav">25.5%</span></td>
+                <td><span class="fav">28.2%</span></td>
+                <td><span class="unf">98.1%</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <div class="kpis-group-hdr"><span class="kpis-group-label">YTD · FY27 (Jul–Sep)</span></div>
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpi-label">Sales</div>
-            <div class="kpi-val">$54.8m</div>
-            <div class="kpi-var"><span class="fav">+$1.8m vs plan</span></div>
-            <div class="kpi-row"><span>Starts</span><b>$44.6m</b></div>
-            <div class="kpi-row"><span>Losses</span><b>$29.4m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Retention</div>
-            <div class="kpi-val">91.8%</div>
-            <div class="kpi-var"><span class="unf">−0.2 pp vs plan</span></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Revenue</div>
-            <div class="kpi-val">$354.8m</div>
-            <div class="kpi-var"><span class="fav">+$10.8m vs plan</span></div>
-            <div class="kpi-row"><span>Processing</span><b>$308.2m</b></div>
-            <div class="kpi-row"><span>Non-processing</span><b>$46.6m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">NOI</div>
-            <div class="kpi-val">$82.4m</div>
-            <div class="kpi-var"><span class="fav">+$9.4m vs plan</span></div>
-            <div class="kpi-row"><span>Margin</span><b>23.2%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Clients (average)</div>
-            <div class="kpi-val">61,200</div>
-            <div class="kpi-var"><span class="fav">+250 vs plan</span></div>
-          </div>
-        </div>
-
-        <div class="kpis-group-hdr"><span class="kpis-group-label">Full Year · FY27 Plan</span></div>
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpi-label">Sales</div>
-            <div class="kpi-val">$224.0m</div>
-            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
-            <div class="kpi-row"><span>Starts (plan)</span><b>$182.0m</b></div>
-            <div class="kpi-row"><span>Losses (plan)</span><b>$118.0m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Retention</div>
-            <div class="kpi-val">92.0%</div>
-            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Revenue</div>
-            <div class="kpi-val">$1,392.0m</div>
-            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
-            <div class="kpi-row"><span>Processing (plan)</span><b>$1,209.6m</b></div>
-            <div class="kpi-row"><span>Non-processing</span><b>$182.4m</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">NOI</div>
-            <div class="kpi-val">$292.0m</div>
-            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
-            <div class="kpi-row"><span>Margin (plan)</span><b>21.0%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Clients (average)</div>
-            <div class="kpi-val">62,400</div>
-            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
-          </div>
-        </div>
-
-        <div class="kpis-group-hdr"><span class="kpis-group-label">YTD as % of Full Year Plan</span></div>
-        <div class="kpis">
-          <div class="kpi">
-            <div class="kpi-label">Sales</div>
-            <div class="kpi-val">24.5%</div>
-            <div class="kpi-var"><span class="fav">$54.8m of $224.0m plan</span></div>
-            <div class="kpi-row"><span>Starts attainment</span><b>24.5%</b></div>
-            <div class="kpi-row"><span>Losses attainment</span><b>24.9%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Retention</div>
-            <div class="kpi-val">−0.2 pp</div>
-            <div class="kpi-var"><span class="unf">91.8% vs 92.0% plan</span></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Revenue</div>
-            <div class="kpi-val">25.5%</div>
-            <div class="kpi-var"><span class="fav">$354.8m of $1,392.0m plan</span></div>
-            <div class="kpi-row"><span>Processing attainment</span><b>25.5%</b></div>
-            <div class="kpi-row"><span>Non-proc. attainment</span><b>25.6%</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">NOI</div>
-            <div class="kpi-val">28.2%</div>
-            <div class="kpi-var"><span class="fav">$82.4m of $292.0m plan</span></div>
-            <div class="kpi-row"><span>Margin vs plan</span><b>+2.2 pp</b></div>
-          </div>
-          <div class="kpi">
-            <div class="kpi-label">Clients (average)</div>
-            <div class="kpi-val">98.1%</div>
-            <div class="kpi-var"><span class="unf">61,200 of 62,400 plan</span></div>
-          </div>
-        </div>
-
-      </div><!-- /kpis-group -->
-
-
+      </div>
 
       <!-- P&L table -->
       <div class="section">
