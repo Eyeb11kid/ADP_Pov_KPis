@@ -1,0 +1,112 @@
+/* Project Polaris shared theme — loaded after each page's inline <style>.
+   Visual overrides only (colour, type, borders); page layout spacing is untouched. */
+:root {
+  --blue:#c8322f; --navy:#1a1a1a; --green:#2e7d32; --red:#c8322f;
+  --teal:#009D9A; --purple:#5b2fc0; --muted:#5f5f5f; --line:#e4e3de;
+  --bg:#ffffff; --tile:#fff; --inner:#f1f0ec; --hover:#ecebe6;
+  --adp:#c8322f;
+  --band:#eeece8; --side:#1c1c1c; --side-hover:#2a2a2a; --tint:#f9e9e8;
+  --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8; --p-cyan:#2A9FCB; --p-amber:#E5A83F;
+  --p-coral:#F0605D; --p-indigo:#1B2A7A; --p-green:#3A9A3A; --p-brown:#8B2A0A; --p-lav:#BDB4DC;
+}
+body { font-family: "Inter", "Roboto", -apple-system, "Segoe UI", system-ui, sans-serif; background: var(--bg); }
+
+/* Top chrome */
+.chrome { height: 48px; padding: 0 20px; }
+.chrome-r { font-size: 11px; letter-spacing: .06em; }
+.chrome-r b { font-weight: 700; font-size: 12px; letter-spacing: 0; }
+.avatar { width: 30px; height: 30px; background: #111; }
+
+/* Sidebar (same colour as the page background; dark text for contrast) */
+.sidebar { background: var(--bg); border-right: 1px solid var(--line); }
+.sb-bu { border-bottom: 1px solid var(--line); }
+.sb-bu-name { color: var(--p-navy); letter-spacing: -.01em; }
+.sb-bu-label { color: #111; font-size: 15px; font-weight: 700; }
+.sb-section, .sb-sublabel, .sb-note { color: #525252; }
+.sb-section { letter-spacing: .1em; }
+.sb-link { color: var(--p-navy); }
+.sb-link:hover { background: var(--inner); color: var(--p-navy); }
+.sb-link.active { color: var(--p-navy); font-weight: 700; border-left-color: var(--red); background: var(--inner); }
+.sb-ext { color: var(--p-blue); }
+.sb-divider { background: var(--line); }
+
+/* Main surface, title bar, breadcrumbs */
+.main, .content { background: #fff; }
+.titlebar { padding-top: 14px; padding-bottom: 14px; }
+.breadcrumb a { color: var(--red); }
+.page-title { font-size: 28px; font-weight: 700; letter-spacing: -.02em; }
+.page-sub { margin-top: 6px; }
+.title-ctrls { gap: 12px; }
+
+/* Underlined selectors instead of boxed pills */
+.pill-select, .bu-btn { background: transparent; border: 0; border-bottom: 2px solid var(--navy); padding: 4px 8px; }
+.bu-btn:hover, .bu-btn[aria-expanded="true"] { background: var(--inner); }
+.bu-btn:focus-visible { outline-color: var(--red); }
+.bu-item:hover { background: var(--tint); }
+
+/* Filter bar */
+.filterbar { padding-top: 10px; padding-bottom: 10px; gap: 8px; }
+.fb-toggle button { padding: 6px 12px; border: 0; background: #ececec; border-radius: 0; }
+.fb-toggle button:first-child, .fb-toggle button:last-child { border-radius: 0; }
+.fb-toggle button.on { background: #111; color: #fff; }
+.fb-chip { background: #111; font-weight: 700; padding: 4px 9px; border-radius: 0; }
+.fb-link, .export-link, .pl-export, .kpi-drill, .disc-reply { color: var(--red); }
+
+/* KPI cards: grey band, white cards with a red top rule */
+.kpis { gap: 12px; padding: 14px; background: var(--band); border: 1px solid var(--line); }
+.kpi { background: var(--tile); border: 1px solid var(--line); border-top: 2px solid var(--red); }
+.kpi:last-child { border-right: 1px solid var(--line); }
+.kpi-val { font-weight: 500; letter-spacing: -.02em; }
+.kpi-label { margin-bottom: 10px; }
+
+/* Tiles, sections, tables */
+.chart-tile, .pl-tile { padding-left: 18px; padding-right: 18px; }
+.chart-title, .pl-title { font-weight: 700; }
+.section-title { font-size: 14px; font-weight: 700; }
+table.pl th { font-weight: 500; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-top: 8px; padding-bottom: 8px; }
+table.pl td { padding-top: 8px; padding-bottom: 8px; }
+table.pl tr:hover td { background: #f6f5f1; }
+.tabs button[aria-selected="true"], .dtab.on { color: var(--red); border-bottom-color: var(--red); }
+.drill-toggle { color: var(--red); background: var(--tint); border-color: #f0c4c2; border-radius: 0; }
+
+/* Row discussion */
+.row-disc { background: var(--inner); border-left-color: var(--red); }
+.disc-avatar { background: #111; }
+.disc-meta .disc-tag { color: var(--red); }
+
+/* Right-hand assistant panel */
+.panel-icon { width: 34px; height: 34px; background: var(--red); }
+.ai-tag { padding: 3px 9px; border-radius: 12px; }
+.ai-tag.draft { background: #fbe3e1; color: var(--red); }
+.ai-tag.review { background: #fdf1c9; color: #a67c00; }
+.panel-period { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.ai-headline { font-size: 16px; }
+.ask-label { font-weight: 700; }
+.btn { font-weight: 600; padding-top: 7px; padding-bottom: 7px; border-radius: 0; }
+.btn-ghost { background: #fff; border: 1.5px solid #111; color: #111; }
+.btn-ghost:hover { background: var(--hover); }
+.btn-primary { background: var(--red); border: 1.5px solid var(--red); color: #fff; font-weight: 700; }
+.btn-primary:hover { background: #a82724; border-color: #a82724; }
+
+/* Modify-filters modal */
+.mf-title { font-weight: 700; }
+.mf-col h3 { font-weight: 700; letter-spacing: .08em; }
+.mf-opt input { accent-color: var(--red); }
+
+/* Bottom nav cards (NAS / RS dashboards) */
+.bot-link { border-top: 2px solid var(--red); }
+.bot-link:hover { background: var(--inner); border-color: var(--line); border-top-color: var(--red); }
+.bot-link-title { color: var(--red); }
+
+/* Blue-tinted hardcoded table states -> warm neutrals / red tint */
+table.pl tr.subtotal > td { background: #f4f2ee; }
+table.pl tr.subtotal:hover > td { background: #ebe8e2; }
+table.te tbody tr.d:hover td { background: #f6f5f1; }
+table.te tbody tr:hover td.ch { background: var(--tint); }
+.cfrw { --t-secbg:#f1f0ec; --t-secline:#c8322f; --t-acc:#c8322f; --t-hrow:#f6f5f1; --t-hsub:#ebe8e2; --t-htot:#e2ded6; --t-chbg:#f9e9e8; --t-neg:#c8322f; --t-side:#e4e3de; }
+
+/* Chart / KPI palette (--p-* variables above) */
+.kpi-val, .kpi-row b { color: var(--p-navy); }
+.kpi-drill { color: var(--p-blue); }
+.kpi-var .fav { color: var(--p-green); }
+.kpi-var .unf { color: var(--p-coral); }

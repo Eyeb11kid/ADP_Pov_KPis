@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Expense P&amp;L — NAS — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── Top chrome ── */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* ── Shell ── */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .sb-bu-label { font-size: 15px; font-weight: 700; color: #111; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
+  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+
+  /* ── Main ── */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+
+  /* Title bar */
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+  /* BU dropdown */
+  .bu-wrap { position: relative; }
+  .bu-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .bu-btn:hover, .bu-btn[aria-expanded="true"] { background: var(--hover); }
+  .bu-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .bu-menu { position: absolute; right: 0; top: 100%; z-index: 50; min-width: 170px; background: var(--tile); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.15); padding: 4px 0; margin-top: 2px; }
+  .bu-menu[hidden] { display: none; }
+  .bu-item { display: flex; align-items: center; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; text-align: left; text-decoration: none; color: var(--navy); cursor: pointer; }
+  .bu-item:hover { background: #edf4ff; }
+  .bu-item.bu-on { font-weight: 700; border-left-color: var(--blue); color: var(--blue); cursor: default; }
+  .bu-item.bu-dim { color: #b0b0b0; cursor: not-allowed; pointer-events: none; }
+
+  /* Filter bar */
+  .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .fb-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .fb-toggle { display: flex; }
+  .fb-toggle button { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--inner); color: var(--muted); cursor: pointer; }
+  .fb-toggle button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .fb-toggle button:first-child { border-radius: 3px 0 0 3px; }
+  .fb-toggle button:last-child { border-radius: 0 3px 3px 0; }
+  .fb-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; background: var(--navy); color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; cursor: pointer; }
+  .fb-link { font-size: 12px; color: var(--blue); text-decoration: none; cursor: pointer; }
+  .fb-link:hover { text-decoration: underline; }
+  .fb-note { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* Content */
+  .content { padding: 0 20px 32px; flex: 1; }
+
+  /* Headline banner */
+  .banner { background: var(--tile); border: 1px solid var(--line); margin: 16px 0 0; padding: 14px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+  .banner-headline { font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+  .banner-sub { font-size: 12px; color: var(--muted); }
+  .banner-ytd { text-align: right; flex: none; }
+  .banner-ytd-val { font-size: 26px; font-weight: 600; color: var(--navy); }
+  .banner-ytd-var { font-size: 12px; font-weight: 600; margin-top: 2px; }
+  .banner-ytd-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+
+  /* KPI strip */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); background: var(--tile); margin: 14px 0 0; }
+  .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; }
+  .kpi:last-child { border-right: 0; }
+  .kpi-val { font-size: 26px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 11px; }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* Charts row */
+  .charts { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 12px; margin: 14px 0 0; }
+  .chart-tile { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; }
+  .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .legend { display: flex; gap: 14px; margin-bottom: 8px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+  /* Section tile */
+  .section { background: var(--tile); border: 1px solid var(--line); margin: 14px 0 0; }
+  .section-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 13px 16px 4px; }
+  .section-title { font-size: 13px; font-weight: 700; }
+  .section-sub { font-size: 11px; color: var(--muted); padding: 0 16px 10px; }
+  .export-link { font-size: 12px; color: var(--blue); text-decoration: none; flex: none; }
+
+  /* Drill tabs */
+  .drill-tabs { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 2px solid var(--line); }
+  .drill-tabs-l { display: flex; }
+  .dtab { font: inherit; font-size: 12px; font-weight: 600; padding: 8px 14px; border: 0; background: transparent; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .dtab:hover { color: var(--navy); }
+  .dtab.on { color: var(--blue); border-bottom-color: var(--blue); }
+  .drill-toggle { font-size: 11px; color: var(--blue); background: #edf4ff; border: 1px solid #c0d6ff; padding: 3px 10px; cursor: pointer; white-space: nowrap; }
+
+  /* P&L table */
+  .tbl-wrap { overflow-x: auto; }
+  table.pl { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+  table.pl th { text-align: right; font-size: 11px; font-weight: 600; color: var(--muted); padding: 7px 10px; background: var(--inner); border-bottom: 2px solid var(--line); }
+  table.pl th:first-child { text-align: left; min-width: 230px; white-space: normal; position: sticky; left: 0; background: var(--inner); }
+  table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  table.pl td:first-child { text-align: left; position: sticky; left: 0; background: var(--tile); }
+  table.pl tr:hover td { background: var(--hover); }
+  table.pl tr:hover td:first-child { background: var(--hover); }
+  table.pl tr.bold > td { font-weight: 700; }
+  table.pl tr.subtotal > td { font-weight: 700; background: #f0f4ff; border-top: 2px solid var(--line); }
+  table.pl tr.subtotal:hover > td { background: #e4ecff; }
+  table.pl tr.indent td:first-child { padding-left: 24px; color: var(--muted); }
+  table.pl tr.indent2 td:first-child { padding-left: 36px; color: var(--muted); }
+  table.pl tr.group-hd > td { font-size: 11px; font-weight: 700; color: var(--muted); background: var(--inner); padding: 6px 10px 4px; border-bottom: 0; }
+  .dot-unf { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-left: 4px; vertical-align: middle; }
+  .tbl-note { font-size: 11px; color: var(--muted); padding: 7px 16px 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+
+  /* Row discussion */
+  .row-disc { margin: 0 16px 14px; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 10px; }
+  .disc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none; margin-top: 1px; }
+  .disc-body { flex: 1; min-width: 0; }
+  .disc-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .disc-meta b { color: var(--navy); }
+  .disc-meta .disc-tag { color: var(--red); font-weight: 600; }
+  .disc-msg { font-size: 12px; color: var(--navy); }
+  .disc-info { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .disc-reply { font-size: 12px; color: var(--blue); text-decoration: none; margin-left: auto; flex: none; align-self: flex-start; padding-top: 1px; }
+
+  /* Right AI panel */
+  .panel { width: var(--panel-w); background: #fff; border-left: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; }
+  .panel-hdr { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#5b2fc0,#3f8fe0); flex: none; }
+  .panel-title { font-size: 13px; font-weight: 700; }
+  .panel-sub { font-size: 11px; color: var(--muted); }
+  .panel-body { padding: 12px 14px; flex: 1; }
+  .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+  .ai-tag.draft { background: #e8daff; color: #5b2fc0; }
+  .ai-tag.review { background: #fff3cd; color: #B28600; margin-left: 4px; }
+  .panel-period { font-size: 11px; font-weight: 600; color: var(--muted); margin: 10px 0 8px; }
+  .ai-headline { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+  .ai-body { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .reviewer { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .ai-actions { display: flex; gap: 8px; margin-bottom: 20px; }
+  .btn { font: inherit; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 2px; }
+  .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--navy); }
+  .btn-ghost:hover { background: var(--hover); }
+  .btn-primary { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
+  .btn-primary:hover { background: #0050e6; }
+  .panel-divider { height: 1px; background: var(--line); margin: 0 0 14px; }
+  .ask-label { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+  .ask-input { width: 100%; font: inherit; font-size: 12px; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 7px 10px; resize: none; height: 80px; }
+  .ask-input::placeholder { color: var(--muted); }
+  .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
+  .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
+  /* Modify filters modal */
+  .mf-overlay { position: fixed; inset: 0; background: rgba(22,22,22,.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+  .mf-overlay[hidden] { display: none; }
+  .mf-modal { background: #fff; width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; border: 1px solid var(--line); }
+  .mf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+  .mf-title { font-size: 15px; font-weight: 600; }
+  .mf-close { font: inherit; font-size: 20px; line-height: 1; width: 28px; height: 28px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+  .mf-close:hover { background: var(--hover); color: var(--navy); }
+  .mf-body { display: grid; grid-template-columns: repeat(4, 1fr); overflow-y: auto; }
+  .mf-col { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 0; min-width: 0; }
+  .mf-col:last-child { border-right: 0; }
+  .mf-col h3 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .mf-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; cursor: pointer; }
+  .mf-opt input { accent-color: var(--blue); width: 14px; height: 14px; flex: none; margin: 0; }
+  .mf-opt.mf-all { font-weight: 600; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
+  @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+<!-- ── Top chrome ── -->
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a>
+    Project Polaris
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>FP&amp;A Lead</b>
+    <div class="avatar">JL</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Left sidebar ── -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">BU Close Review</div>
+    <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
+    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
+    <a class="sb-link sub active" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
+    <div class="sb-sublabel">Within Field Expense</div>
+    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
+    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
+    <div class="sb-divider"></div>
+    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
+    <a class="sb-link sub" href="management_pl_RS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate</div>
+    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <a class="sb-link sub" href="sec_report.html">SEC</a>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Title bar -->
+    <div class="titlebar">
+      <div class="breadcrumb">
+        <a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>
+        <a href="nas_dashboard.html">NAS dashboard</a><span>/</span>
+        Field Expense P&amp;L
+      </div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">Field Expense P&amp;L</div>
+          <div class="page-sub">Where is expense running above or below plan, and which categories drive the variance?</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="bu-wrap">
+            <button type="button" class="bu-btn" id="bu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Select business unit">Business unit &nbsp;<b id="bu-label">NAS</b>&nbsp;<svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+            <div class="bu-menu" id="bu-menu" hidden role="menu">
+              <span class="bu-item bu-on"  role="menuitem" aria-current="true">NAS</span>
+              <a    class="bu-item"        role="menuitem" href="fe_pl_RS.html">RS</a>
+              <div style="height:1px;background:#e0e0e0;margin:4px 0"></div>
+              <span class="bu-item bu-dim" role="menuitem">ES</span>
+              <span class="bu-item bu-dim" role="menuitem">SBS</span>
+              <span class="bu-item bu-dim" role="menuitem">MAS</span>
+              <span class="bu-item bu-dim" role="menuitem">AOS</span>
+              <span class="bu-item bu-dim" role="menuitem">PEO</span>
+              <span class="bu-item bu-dim" role="menuitem">TS</span>
+              <span class="bu-item bu-dim" role="menuitem">HRO</span>
+              <span class="bu-item bu-dim" role="menuitem">ADPIA</span>
+            </div>
+          </div>
+          <div class="pill-select">ADP 4-4-5</div>
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filterbar">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;font-weight:600;color:var(--muted)">Compare</span>
+        <div class="pill-select" style="font-size:12px">Plan&nbsp;<svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </div>
+      <span style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">Period</button><button>YTD</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-toggle"><button class="on">$ + %</button><button>% only</button></div>
+      <div class="fb-sep"></div>
+      <div class="fb-chip">Function: All NAS</div>
+      <div class="fb-chip">Geography: All</div>
+      <div class="fb-chip">Cost centre: All</div>
+      <a class="fb-link" id="mf-open" href="#" role="button" aria-haspopup="dialog">Modify filters</a>
+      <a class="fb-link">Clear all</a>
+      <span class="fb-note">Carried across reports</span>
+    </div>
+    <div style="padding:5px 20px;background:#fff;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);font-style:italic;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (Lyric only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
+
+    <div class="content">
+
+      <!-- Headline banner -->
+      <div class="banner">
+        <div>
+          <div class="banner-label">September Field Expense / NAS</div>
+          <div class="banner-headline">$1.8m above plan, driven by EE-related costs.</div>
+          <div class="banner-sub">EE-related +$1.2m · T&amp;E +$0.4m · Implementation +$0.2m · Non-EE broadly on plan</div>
+        </div>
+        <div class="banner-ytd">
+          <div class="banner-ytd-label">YTD field expense through September</div>
+          <div class="banner-ytd-val">$174.6m</div>
+          <div class="banner-ytd-var" style="color:var(--red)">+$3.4m / +2.0% vs plan</div>
+        </div>
+      </div>
+
+      <!-- KPI strip -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-val">$60.8m</div>
+          <div class="kpi-label">Total field expense</div>
+          <div class="kpi-var"><span class="unf">+$1.8m</span> / <span class="unf">+3.0% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">$34.2m</div>
+          <div class="kpi-label">EE-related expense</div>
+          <div class="kpi-var"><span class="unf">+$1.2m</span> / <span class="unf">+3.6% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">860</div>
+          <div class="kpi-label">Headcount (ending)</div>
+          <div class="kpi-var"><span class="unf">+10</span> / <span class="unf">+1.2% vs plan</span></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">$70.6k</div>
+          <div class="kpi-label">Expense / FTE</div>
+          <div class="kpi-var"><span class="unf">+$1.8k</span> / <span class="unf">+2.6% vs plan</span></div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts">
+
+        <!-- Expense waterfall: plan to actual -->
+        <div class="chart-tile">
+          <div class="chart-title">Field expense bridge · plan to actual</div>
+          <div class="chart-sub">USD m · September period</div>
+          <div class="legend">
+            <span><i style="background:#7B68B0"></i> Base</span>
+            <span><i style="background:#F0605D"></i> Unfavorable</span>
+            <span><i style="background:#3A9A3A"></i> Favorable</span>
+          </div>
+          <svg viewBox="0 0 280 160" width="100%" role="img" aria-label="Field expense waterfall plan to actual">
+            <line x1="44" y1="18" x2="272" y2="18" stroke="#e0e0e0"/>
+            <line x1="44" y1="50" x2="272" y2="50" stroke="#e0e0e0"/>
+            <line x1="44" y1="82" x2="272" y2="82" stroke="#e0e0e0"/>
+            <line x1="44" y1="114" x2="272" y2="114" stroke="#e0e0e0"/>
+            <text x="38" y="21"  text-anchor="end" font-size="9" fill="#525252">64</text>
+            <text x="38" y="53"  text-anchor="end" font-size="9" fill="#525252">62</text>
+            <text x="38" y="85"  text-anchor="end" font-size="9" fill="#525252">59</text>
+            <text x="38" y="117" text-anchor="end" font-size="9" fill="#525252">0</text>
+            <!-- Plan bar: 59.0 -->
+            <rect x="48" y="69.4" width="36" height="44.6" fill="#7B68B0"/>
+            <text x="66" y="66"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">59.0</text>
+            <text x="66" y="128" text-anchor="middle" font-size="9" fill="#525252">Plan</text>
+            <line x1="84" y1="69.4" x2="100" y2="69.4" stroke="#aaa" stroke-dasharray="3 2"/>
+            <!-- EE unfav +1.2 -->
+            <rect x="100" y="61.6" width="30" height="7.8" fill="#F0605D"/>
+            <text x="115" y="58"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+1.2</text>
+            <text x="115" y="128" text-anchor="middle" font-size="9" fill="#525252">EE</text>
+            <line x1="130" y1="61.6" x2="146" y2="61.6" stroke="#aaa" stroke-dasharray="3 2"/>
+            <!-- T&E unfav +0.4 -->
+            <rect x="146" y="59.0" width="30" height="2.6" fill="#F0605D"/>
+            <text x="161" y="56"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+0.4</text>
+            <text x="161" y="128" text-anchor="middle" font-size="9" fill="#525252">T&amp;E</text>
+            <line x1="176" y1="59.0" x2="192" y2="59.0" stroke="#aaa" stroke-dasharray="3 2"/>
+            <!-- Impl unfav +0.2 -->
+            <rect x="192" y="57.7" width="30" height="1.3" fill="#F0605D"/>
+            <text x="207" y="54"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">+0.2</text>
+            <text x="207" y="128" text-anchor="middle" font-size="9" fill="#525252">Impl</text>
+            <line x1="222" y1="57.7" x2="234" y2="57.7" stroke="#aaa" stroke-dasharray="3 2"/>
+            <!-- Actual bar: 60.8 -->
+            <rect x="234" y="57.7" width="36" height="56.3" fill="#7B68B0"/>
+            <text x="252" y="54"  text-anchor="middle" font-size="9" font-weight="700" fill="#161616">60.8</text>
+            <text x="252" y="128" text-anchor="middle" font-size="9" fill="#525252">Actual</text>
+          </svg>
+        </div>
+
+        <!-- Expense by category: actual vs plan -->
+        <div class="chart-tile">
+          <div class="chart-title">Expense by category</div>
+          <div class="chart-sub">USD m · September period</div>
+          <div class="legend">
+            <span><i style="background:#F0605D"></i> Actual (over)</span>
+            <span><i style="background:#7B68B0"></i> Actual (on/under)</span>
+            <span><i style="background:#BDB4DC"></i> Plan</span>
+          </div>
+          <svg viewBox="0 0 220 160" width="100%" role="img" aria-label="Expense by category bar chart">
+            <line x1="30" y1="10" x2="216" y2="10" stroke="#e0e0e0"/>
+            <line x1="30" y1="45" x2="216" y2="45" stroke="#e0e0e0"/>
+            <line x1="30" y1="80" x2="216" y2="80" stroke="#e0e0e0"/>
+            <line x1="30" y1="110" x2="216" y2="110" stroke="#e0e0e0"/>
+            <text x="26" y="48"  text-anchor="end" font-size="8" fill="#525252">40</text>
+            <text x="26" y="83"  text-anchor="end" font-size="8" fill="#525252">20</text>
+            <text x="26" y="113" text-anchor="end" font-size="8" fill="#525252">0</text>
+            <!-- EE: actual 34.2 > plan 33.0 — scale: 40=100px, 34.2=85.5, 33.0=82.5 -->
+            <rect x="36" y="24.5" width="18" height="85.5" fill="#F0605D"/>
+            <rect x="56" y="27.5" width="18" height="82.5" fill="#BDB4DC"/>
+            <text x="55"  y="122" text-anchor="middle" font-size="7" fill="#525252">EE</text>
+            <text x="45"  y="21"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">34.2</text>
+            <text x="65"  y="24"  text-anchor="middle" font-size="8" fill="#525252">33.0</text>
+            <!-- Non-EE: actual 14.2, plan 14.5 — 14.2=35.5, 14.5=36.3 -->
+            <rect x="84" y="74.5" width="18" height="35.5" fill="#7B68B0"/>
+            <rect x="104" y="73.8" width="18" height="36.3" fill="#BDB4DC"/>
+            <text x="103" y="122" text-anchor="middle" font-size="7" fill="#525252">Non-EE</text>
+            <text x="93"  y="71"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">14.2</text>
+            <text x="113" y="70"  text-anchor="middle" font-size="8" fill="#525252">14.5</text>
+            <!-- T&E: actual 5.8, plan 5.4 — 5.8=14.5, 5.4=13.5 -->
+            <rect x="132" y="95.5" width="18" height="14.5" fill="#F0605D"/>
+            <rect x="152" y="96.5" width="18" height="13.5" fill="#BDB4DC"/>
+            <text x="151" y="122" text-anchor="middle" font-size="7" fill="#525252">T&amp;E</text>
+            <text x="141" y="92"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">5.8</text>
+            <text x="161" y="93"  text-anchor="middle" font-size="8" fill="#525252">5.4</text>
+            <!-- Impl: actual 6.6, plan 6.4 — 6.6=16.5, 6.4=16.0 -->
+            <rect x="180" y="93.5" width="18" height="16.5" fill="#F0605D"/>
+            <rect x="199" y="94.0" width="18" height="16.0" fill="#BDB4DC"/>
+            <text x="199" y="122" text-anchor="middle" font-size="7" fill="#525252">Impl</text>
+            <text x="189" y="90"  text-anchor="middle" font-size="8" fill="#161616" font-weight="700">6.6</text>
+            <text x="208" y="91"  text-anchor="middle" font-size="8" fill="#525252">6.4</text>
+          </svg>
+        </div>
+
+        <!-- Monthly expense trend -->
+        <div class="chart-tile">
+          <div class="chart-title">Monthly field expense trend</div>
+          <div class="chart-sub">USD m · ADP 4-4-5 · September close</div>
+          <div class="legend">
+            <span><i style="background:#F0605D"></i> Actual</span>
+            <span><i style="background:#888"></i> Plan</span>
+            <span><i style="background:#4066C8"></i> Prior year</span>
+          </div>
+          <svg viewBox="0 0 300 140" width="100%" role="img" aria-label="Monthly field expense trend">
+            <line x1="30" y1="15" x2="292" y2="15" stroke="#e0e0e0"/>
+            <line x1="30" y1="45" x2="292" y2="45" stroke="#e0e0e0"/>
+            <line x1="30" y1="75" x2="292" y2="75" stroke="#e0e0e0"/>
+            <line x1="30" y1="105" x2="292" y2="105" stroke="#e0e0e0"/>
+            <text x="26" y="18"  text-anchor="end" font-size="8" fill="#525252">64</text>
+            <text x="26" y="48"  text-anchor="end" font-size="8" fill="#525252">61</text>
+            <text x="26" y="78"  text-anchor="end" font-size="8" fill="#525252">58</text>
+            <text x="26" y="108" text-anchor="end" font-size="8" fill="#525252">54</text>
+            <!-- Actual: trending slightly up -->
+            <polyline points="34,72 144,68 254,63" fill="none" stroke="#F0605D" stroke-width="2.2" stroke-linejoin="round"/>
+            <!-- Plan: flat -->
+            <polyline points="34,70 144,68 254,67 292,66" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
+            <!-- Prior year -->
+            <polyline points="34,88 144,84 254,80" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-linejoin="round"/>
+            <text x="258" y="60" font-size="8" fill="#F0605D" font-weight="700">60.8</text>
+            <text x="258" y="64" font-size="8" fill="#888">59.0</text>
+            <text x="258" y="77" font-size="8" fill="#4066C8">57.2</text>
+            <text x="34"  y="118" text-anchor="middle" font-size="8" fill="#525252">Jul</text>
+            <text x="144" y="118" text-anchor="middle" font-size="8" fill="#525252">Aug</text>
+            <text x="254" y="118" text-anchor="middle" font-size="8" fill="#525252">Sep</text>
+          </svg>
+        </div>
+
+      </div><!-- /charts -->
+
+      <!-- Field expense drill -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">Field expense P&amp;L · category drill</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">USD m unless noted · Actual – comparator · Favorable = lower expense · Percentage-point deltas for rate metrics</div>
+
+        <!-- Sub-tabs -->
+        <div class="drill-tabs">
+          <div class="drill-tabs-l">
+            <button class="dtab on" data-dtab="category">Category</button>
+            <button class="dtab" data-dtab="function">Function</button>
+            <button class="dtab" data-dtab="geography">Geography</button>
+            <button class="dtab" data-dtab="owner">Owner</button>
+          </div>
+          <button class="drill-toggle">Expense expanded · Category &gt; Function</button>
+        </div>
+
+        <!-- Expense table -->
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Expense line / category</th>
+                <th>Actual</th>
+                <th>Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>Prior year</th>
+                <th>Δ vs PY</th>
+                <th>Prior period</th>
+                <th>Δ vs PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold"><td>↓ EE-related expense</td><td>34.2</td><td>33.0</td><td class="unf">+1.2 <span class="dot-unf"></span></td><td class="unf">+3.6%</td><td>32.1</td><td class="unf">+6.5%</td><td>33.8</td><td class="unf">+1.2%</td></tr>
+              <tr class="indent"><td>Base compensation</td><td>22.4</td><td>21.8</td><td class="unf">+0.6</td><td class="unf">+2.8%</td><td>21.0</td><td class="unf">+6.7%</td><td>22.1</td><td class="unf">+1.4%</td></tr>
+              <tr class="indent"><td>Benefits &amp; payroll tax</td><td>7.6</td><td>7.4</td><td class="unf">+0.2</td><td class="unf">+2.7%</td><td>7.1</td><td class="unf">+7.0%</td><td>7.5</td><td class="unf">+1.3%</td></tr>
+              <tr class="indent"><td>Overtime &amp; variable pay</td><td>4.2</td><td>3.8</td><td class="unf">+0.4</td><td class="unf">+10.5%</td><td>4.0</td><td class="unf">+5.0%</td><td>4.2</td><td>—</td></tr>
+              <tr class="bold"><td>↓ Non-EE expense</td><td>14.2</td><td>14.5</td><td class="fav">−0.3</td><td class="fav">−2.1%</td><td>13.8</td><td class="unf">+2.9%</td><td>14.4</td><td class="fav">−1.4%</td></tr>
+              <tr class="indent"><td>Contractors &amp; outsourcing</td><td>6.8</td><td>7.0</td><td class="fav">−0.2</td><td class="fav">−2.9%</td><td>6.6</td><td class="unf">+3.0%</td><td>6.9</td><td class="fav">−1.4%</td></tr>
+              <tr class="indent"><td>Software &amp; licenses</td><td>4.2</td><td>4.2</td><td>—</td><td>—</td><td>4.0</td><td class="unf">+5.0%</td><td>4.2</td><td>—</td></tr>
+              <tr class="indent"><td>Facilities &amp; other</td><td>3.2</td><td>3.3</td><td class="fav">−0.1</td><td class="fav">−3.0%</td><td>3.2</td><td>—</td><td>3.3</td><td class="fav">−3.0%</td></tr>
+              <tr class="bold"><td>T&amp;E</td><td>5.8</td><td>5.4</td><td class="unf">+0.4</td><td class="unf">+7.4%</td><td>4.8</td><td class="unf">+20.8%</td><td>5.5</td><td class="unf">+5.5%</td></tr>
+              <tr class="bold"><td>Implementation expense</td><td>6.6</td><td>6.4</td><td class="unf">+0.2</td><td class="unf">+3.1%</td><td>5.8</td><td class="unf">+13.8%</td><td>6.4</td><td class="unf">+3.1%</td></tr>
+              <tr class="subtotal"><td>Total field expense</td><td>60.8</td><td>59.0</td><td class="unf">+1.8</td><td class="unf">+3.0%</td><td>56.5</td><td class="unf">+7.6%</td><td>60.1</td><td class="unf">+1.2%</td></tr>
+              <tr><td>Field expense / revenue %</td><td>72.4%</td><td>68.6%</td><td class="unf">+3.8 pp</td><td class="unf">+5.5%</td><td>69.4%</td><td class="unf">+3.0 pp</td><td>70.5%</td><td class="unf">+1.9 pp</td></tr>
+              <tr class="group-hd"><td colspan="9">Workforce</td></tr>
+              <tr><td>Headcount (ending)</td><td>860</td><td>850</td><td class="unf">+10</td><td class="unf">+1.2%</td><td>830</td><td class="unf">+3.6%</td><td>855</td><td class="unf">+0.6%</td></tr>
+              <tr><td>FTE (average)</td><td>842</td><td>835</td><td class="unf">+7</td><td class="unf">+0.8%</td><td>815</td><td class="unf">+3.3%</td><td>840</td><td class="unf">+0.2%</td></tr>
+              <tr><td>Lyric FTE (average)</td><td>420</td><td>415</td><td class="unf">+5</td><td class="unf">+1.2%</td><td>390</td><td class="unf">+7.7%</td><td>418</td><td class="unf">+0.5%</td></tr>
+              <tr><td>Expense / FTE ($k)</td><td>72.2</td><td>70.7</td><td class="unf">+1.5</td><td class="unf">+2.1%</td><td>69.3</td><td class="unf">+4.2%</td><td>71.5</td><td class="unf">+1.0%</td></tr>
+              <tr><td>Revenue / FTE ($k)</td><td>99.8</td><td>103.0</td><td class="fav">−3.2</td><td class="fav">−3.1%</td><td>100.6</td><td class="fav">−0.8%</td><td>101.8</td><td class="fav">−2.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">
+          <span>↗ Category rows continue to cost-centre detail · Favorable = lower expense vs comparator</span>
+          <a class="export-link" href="#">View T&amp;E detail ↗</a>
+        </div>
+
+        <!-- Row discussion -->
+        <div class="row-disc">
+          <div class="disc-avatar">JL</div>
+          <div class="disc-body">
+            <div class="disc-meta">
+              ● <b>Row discussion</b> &nbsp;
+              <span class="disc-tag">EE-related · Δ vs plan: +$1.2m</span>
+              &nbsp;·&nbsp; Static collaboration state
+            </div>
+            <div class="disc-msg">@Alex Rivera — Overtime uplift in Implementation org (+$0.4m) needs owner commentary before CFO pack. Base comp overage tied to 10 headcount above plan.</div>
+            <div class="disc-info">Jordan Lee · FP&amp;A Lead · 1 colleague tagged · Separate from AI variance commentary</div>
+          </div>
+          <a class="disc-reply" href="#">Reply</a>
+        </div>
+
+      </div><!-- /section -->
+
+      <!-- T&E drivers -->
+      <div class="section">
+        <div class="section-hdr">
+          <div class="section-title">T&amp;E and headcount drivers</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">USD m for T&amp;E · headcount in FTE · Illustrative · lower T&amp;E is favorable</div>
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>Actual</th>
+                <th>Plan</th>
+                <th>Δ vs plan</th>
+                <th>Δ %</th>
+                <th>Prior year</th>
+                <th>Δ vs PY</th>
+                <th>Prior period</th>
+                <th>Δ vs PP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>T&amp;E — travel</td><td>3.6</td><td>3.3</td><td class="unf">+0.3</td><td class="unf">+9.1%</td><td>2.8</td><td class="unf">+28.6%</td><td>3.4</td><td class="unf">+5.9%</td></tr>
+              <tr><td>T&amp;E — entertainment</td><td>1.4</td><td>1.3</td><td class="unf">+0.1</td><td class="unf">+7.7%</td><td>1.2</td><td class="unf">+16.7%</td><td>1.3</td><td class="unf">+7.7%</td></tr>
+              <tr><td>T&amp;E — training</td><td>0.8</td><td>0.8</td><td>—</td><td>—</td><td>0.8</td><td>—</td><td>0.8</td><td>—</td></tr>
+              <tr><td>Ending headcount</td><td>860</td><td>850</td><td class="unf">+10</td><td class="unf">+1.2%</td><td>830</td><td class="unf">+3.6%</td><td>855</td><td class="unf">+0.6%</td></tr>
+              <tr><td>Lyric headcount</td><td>420</td><td>415</td><td class="unf">+5</td><td class="unf">+1.2%</td><td>390</td><td class="unf">+7.7%</td><td>418</td><td class="unf">+0.5%</td></tr>
+              <tr><td>Voluntary attrition %</td><td>8.2%</td><td>8.5%</td><td class="fav">−0.3 pp</td><td class="fav">−3.5%</td><td>9.1%</td><td class="fav">−0.9 pp</td><td>8.3%</td><td class="fav">−0.1 pp</td></tr>
+              <tr><td>Open requisitions</td><td>42</td><td>35</td><td class="unf">+7</td><td class="unf">+20.0%</td><td>28</td><td class="unf">+50.0%</td><td>38</td><td class="unf">+10.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">
+          <span>All figures illustrative. T&amp;E sub-lines are supporting measures, not individually audited. Headcount continues at FTE drill level.</span>
+        </div>
+      </div><!-- /section -->
+
+    </div><!-- /content -->
+  </main>
+
+  <!-- ── Right AI panel ── -->
+  <aside class="panel" aria-label="Close assistant">
+    <div class="panel-hdr">
+      <div class="panel-icon"></div>
+      <div>
+        <div class="panel-title">Close assistant</div>
+        <div class="panel-sub">AI commentary · Placeholder</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <span class="ai-tag draft">AI-drafted</span>
+        <span class="ai-tag review">Needs review</span>
+      </div>
+      <div class="panel-period">NAS / SEPTEMBER / FIELD EXPENSE</div>
+      <div class="ai-headline">EE-related cost drives $1.8m expense overage.</div>
+      <div class="ai-body">Field expense is $60.8m, $1.8m above plan (+3.0%). EE-related costs account for $1.2m of the overage — base compensation +$0.6m and overtime +$0.4m. T&amp;E is $0.4m over plan, reflecting increased travel in the Implementation org.<br><br>YTD field expense is $174.6m, +$3.4m vs plan (+2.0%). Headcount is 10 above plan at 860, driving the base comp overage.</div>
+      <div class="reviewer">Reviewer: FP&amp;A Lead</div>
+      <div class="ai-actions">
+        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-primary">Mark reviewed</button>
+      </div>
+      <div class="panel-divider"></div>
+      <div class="ask-label">Ask about this analysis</div>
+      <textarea class="ask-input" placeholder="Ask a question…"></textarea>
+    </div>
+    <div class="panel-disclaimer">
+      <div class="disclaimer-title">Review before publishing</div>
+      Static concept only. Commentary and Q&amp;A are illustrative placeholders, not generated close results. Field expense definitions and cost-centre boundaries remain under validation. No certified definitions are implied.
+    </div>
+  </aside>
+
+</div><!-- /shell -->
+
+<script>
+(function () {
+  /* Drill sub-tabs */
+  var dtabs = document.querySelectorAll('.dtab');
+  dtabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      dtabs.forEach(function (t) { t.classList.remove('on'); });
+      tab.classList.add('on');
+    });
+  });
+  /* Filter bar toggles */
+  document.querySelectorAll('.fb-toggle').forEach(function (grp) {
+    grp.querySelectorAll('button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        grp.querySelectorAll('button').forEach(function (b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+      });
+    });
+  });
+  /* BU dropdown */
+  var buBtn = document.getElementById('bu-btn');
+  var buMenu = document.getElementById('bu-menu');
+  if (buBtn && buMenu) {
+    function openBu(on) {
+      buBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) buMenu.removeAttribute('hidden'); else buMenu.setAttribute('hidden', '');
+    }
+    buBtn.addEventListener('click', function () { openBu(buMenu.hasAttribute('hidden')); });
+    document.addEventListener('click', function (e) {
+      if (!buMenu.hasAttribute('hidden') && !buMenu.contains(e.target) && !buBtn.contains(e.target)) openBu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !buMenu.hasAttribute('hidden')) { openBu(false); buBtn.focus(); }
+    });
+  }
+})();
+</script>
+<!-- Modify filters modal -->
+<div class="mf-overlay" id="mf-overlay" hidden>
+  <div class="mf-modal" role="dialog" aria-modal="true" aria-labelledby="mf-title">
+    <div class="mf-head">
+      <div class="mf-title" id="mf-title">Modify filters</div>
+      <button type="button" class="mf-close" id="mf-x" aria-label="Close">&times;</button>
+    </div>
+    <div class="mf-body">
+      <div class="mf-col" data-col="Function">
+        <h3>Function</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Sales</label>
+        <label class="mf-opt"><input type="checkbox" checked> Client Services</label>
+        <label class="mf-opt"><input type="checkbox" checked> Implementation</label>
+        <label class="mf-opt"><input type="checkbox" checked> Operations</label>
+        <label class="mf-opt"><input type="checkbox" checked> Product &amp; Tech</label>
+      </div>
+      <div class="mf-col" data-col="Geography">
+        <h3>Geography</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Northeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southeast</label>
+        <label class="mf-opt"><input type="checkbox" checked> Midwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> Southwest</label>
+        <label class="mf-opt"><input type="checkbox" checked> West</label>
+      </div>
+      <div class="mf-col" data-col="Cost Centre">
+        <h3>Cost Centre</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Sales &amp; Marketing</label>
+        <label class="mf-opt"><input type="checkbox" checked> G&amp;A</label>
+        <label class="mf-opt"><input type="checkbox" checked> R&amp;D</label>
+        <label class="mf-opt"><input type="checkbox" checked> Service Delivery</label>
+      </div>
+      <div class="mf-col" data-col="HC Type">
+        <h3>HC Type</h3>
+        <label class="mf-opt mf-all"><input type="checkbox" class="mf-allbox"> All</label>
+        <label class="mf-opt"><input type="checkbox" checked> Regular full-time</label>
+        <label class="mf-opt"><input type="checkbox" checked> Regular part-time</label>
+        <label class="mf-opt"><input type="checkbox" checked> Contractor</label>
+        <label class="mf-opt"><input type="checkbox" checked> Intern</label>
+      </div>
+    </div>
+    <div class="mf-foot">
+      <button type="button" class="btn btn-ghost" id="mf-cancel">Cancel</button>
+      <button type="button" class="btn btn-primary" id="mf-apply">Apply Filter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* Modify filters modal */
+  var mfOverlay = document.getElementById('mf-overlay');
+  var mfOpen = document.getElementById('mf-open');
+  function mfSync(col) {
+    var all = col.querySelector('.mf-allbox');
+    var opts = col.querySelectorAll('.mf-opt:not(.mf-all) input');
+    var n = col.querySelectorAll('.mf-opt:not(.mf-all) input:checked').length;
+    all.checked = false;
+    all.indeterminate = n > 0 && n < opts.length;
+  }
+  function mfShow(on) {
+    if (on) { mfOverlay.removeAttribute('hidden'); document.getElementById('mf-x').focus(); }
+    else { mfOverlay.setAttribute('hidden', ''); mfOpen.focus(); }
+  }
+  if (mfOverlay && mfOpen) {
+    var cols = mfOverlay.querySelectorAll('.mf-col');
+    cols.forEach(function (col) {
+      mfSync(col);
+      col.addEventListener('change', function (e) {
+        if (e.target.classList.contains('mf-allbox')) {
+          col.querySelectorAll('.mf-opt:not(.mf-all) input').forEach(function (cb) { cb.checked = e.target.checked; });
+        }
+        mfSync(col);
+      });
+    });
+    mfOpen.addEventListener('click', function (e) { e.preventDefault(); mfShow(true); });
+    document.getElementById('mf-x').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-cancel').addEventListener('click', function () { mfShow(false); });
+    document.getElementById('mf-apply').addEventListener('click', function () { mfShow(false); });
+    mfOverlay.addEventListener('click', function (e) { if (e.target === mfOverlay) mfShow(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mfOverlay.hasAttribute('hidden')) mfShow(false);
+    });
+  }
+})();
+</script>
+<script src="comments.js"></script>
+</body>
+</html>

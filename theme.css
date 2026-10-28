@@ -21,7 +21,8 @@ body { font-family: "Inter", "Roboto", -apple-system, "Segoe UI", system-ui, san
 .sidebar { background: var(--bg); border-right: 1px solid var(--line); }
 .sb-bu { border-bottom: 1px solid var(--line); }
 .sb-bu-name { color: var(--p-navy); letter-spacing: -.01em; }
-.sb-bu-label, .sb-section, .sb-sublabel, .sb-note { color: #525252; }
+.sb-bu-label { color: #111; font-size: 15px; font-weight: 700; }
+.sb-section, .sb-sublabel, .sb-note { color: #525252; }
 .sb-section { letter-spacing: .1em; }
 .sb-link { color: var(--p-navy); }
 .sb-link:hover { background: var(--inner); color: var(--p-navy); }
