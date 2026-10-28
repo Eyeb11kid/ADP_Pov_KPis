@@ -31,7 +31,7 @@
   .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
   .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
-  .sb-bu-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .sb-bu-label { font-size: 15px; font-weight: 700; color: #111; }
   .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
   .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
   .sb-link:hover { background: var(--hover); color: var(--navy); }
@@ -103,6 +103,11 @@
   .kpi-var .unf { color: var(--p-coral); font-weight: 600; }
   .kpi-drill { font-size: 11px; color: var(--p-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; margin-top: 4px; }
   .kpi-drill:hover { text-decoration: underline; }
+
+  /* KPI group rows */
+  .kpis-group { background: var(--tile); border: 1px solid var(--line); margin-bottom: 14px; }
+  .kpis-group-hdr { display: flex; align-items: center; padding: 7px 18px; border-bottom: 1px solid var(--line); background: var(--inner); }
+  .kpis-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 
   /* Charts row */
   .charts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 20px; }
@@ -233,7 +238,6 @@
   <!-- ── Left sidebar ── -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-name">ADP · Polaris</div>
       <div class="sb-bu-label">Close Review · September</div>
     </div>
     <div class="sb-section">BU Close Review</div>
@@ -400,115 +404,146 @@
         </div>
       </div>
 
-      <!-- Charts -->
-      <div class="charts">
+      <!-- Period KPI rows: Month / QTD / YTD / Full Year -->
+      <div class="kpis-group">
 
-        <!-- NOI bridge vs plan -->
-        <div class="chart-tile">
-          <div class="chart-title" id="ct-bridge">NOI bridge vs plan, $m</div>
-          <div class="chart-sub" id="cs-bridge">Axis starts at $20m</div>
-          <svg id="svg-bridge" viewBox="0 0 300 210" role="group" aria-label="NOI bridge vs plan: plan 24.5, revenue plus 4.0, field expense minus 1.0, NDE plus 0.5, allocations 0.0, actual 28.0">
-            <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
-            <!-- connectors -->
-            <g stroke="#BDB4DC" stroke-dasharray="3 2">
-              <line x1="51"  y1="107" x2="67"  y2="107"/>
-              <line x1="97"  y1="51"  x2="113" y2="51"/>
-              <line x1="143" y1="65"  x2="159" y2="65"/>
-              <line x1="189" y1="58"  x2="205" y2="58"/>
-              <line x1="235" y1="58"  x2="251" y2="58"/>
-            </g>
-            <!-- Plan 24.5 -->
-            <rect class="tipt" tabindex="0" data-tip="Plan NOI: $24.5m" aria-label="Plan NOI: $24.5m" x="21"  y="107" width="30" height="63" fill="#BDB4DC"/>
-            <!-- Revenue +4.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Revenue: +$4.0m vs plan" aria-label="Revenue: +$4.0m vs plan" x="67"  y="51"  width="30" height="56" fill="#3A9A3A"/>
-            <!-- Field expense -1.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Field expense: −$1.0m vs plan" aria-label="Field expense: minus $1.0m vs plan" x="113" y="51"  width="30" height="14" fill="#F0605D"/>
-            <!-- NDE +0.5 -->
-            <rect class="tipt" tabindex="0" data-tip="NDE: +$0.5m vs plan" aria-label="NDE: +$0.5m vs plan" x="159" y="58"  width="30" height="7"  fill="#3A9A3A"/>
-            <!-- Allocations 0.0 -->
-            <line x1="205" y1="58" x2="235" y2="58" stroke="#5f5f5f" stroke-width="2"/>
-            <rect class="tipt" tabindex="0" data-tip="Allocations: $0.0m vs plan" aria-label="Allocations: $0.0m vs plan" x="205" y="50" width="30" height="16" fill="transparent"/>
-            <!-- Actual 28.0 -->
-            <rect class="tipt" tabindex="0" data-tip="Actual NOI: $28.0m" aria-label="Actual NOI: $28.0m" x="251" y="58"  width="30" height="112" fill="#7B68B0"/>
-            <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
-              <text x="36"  y="101">24.5</text>
-              <text x="82"  y="45">+4.0</text>
-              <text x="128" y="45">−1.0</text>
-              <text x="174" y="52">+0.5</text>
-              <text x="220" y="52">0.0</text>
-              <text x="266" y="52">28.0</text>
-            </g>
-            <g text-anchor="middle" font-size="13" fill="#474747">
-              <text x="36"  y="192">Plan</text>
-              <text x="82"  y="192">Rev</text>
-              <text x="128" y="192">Field</text>
-              <text x="174" y="192">NDE</text>
-              <text x="220" y="192">Alloc</text>
-              <text x="266" y="192">Act</text>
-            </g>
-          </svg>
-        </div>
-
-        <!-- Revenue by category -->
-        <div class="chart-tile">
-          <div class="chart-title" id="ct-cat">Revenue by category, $m</div>
-          <div class="legend">
-            <span><i style="background:#7B68B0"></i> Actual</span>
-            <span><i style="background:#BDB4DC"></i> Plan</span>
+        <div class="kpis-group-hdr"><span class="kpis-group-label">Month · September</span></div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-label">Sales</div>
+            <div class="kpi-val">$18.6m</div>
+            <div class="kpi-var"><span class="fav">+$0.6m vs plan</span></div>
+            <div class="kpi-row"><span>Starts</span><b>$15.2m</b></div>
+            <div class="kpi-row"><span>Losses</span><b>$9.8m</b></div>
           </div>
-          <svg id="svg-cat" viewBox="0 0 300 210" role="group" aria-label="Revenue by category, actual vs plan: Asset 70 vs 67, Hard dollar 34 vs 33, Other 16 vs 16">
-            <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
-            <!-- Asset: actual 70, plan 67 -->
-            <rect class="tipt" tabindex="0" data-tip="Asset · Actual: $70m" aria-label="Asset, actual: $70m" x="30"  y="37"    width="24" height="133"   fill="#7B68B0"/>
-            <rect class="tipt" tabindex="0" data-tip="Asset · Plan: $67m" aria-label="Asset, plan: $67m" x="56"  y="42.7"  width="24" height="127.3" fill="#BDB4DC"/>
-            <!-- Hard dollar: actual 34, plan 33 -->
-            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Actual: $34m" aria-label="Hard dollar, actual: $34m" x="125" y="105.4" width="24" height="64.6"  fill="#7B68B0"/>
-            <rect class="tipt" tabindex="0" data-tip="Hard dollar · Plan: $33m" aria-label="Hard dollar, plan: $33m" x="151" y="107.3" width="24" height="62.7"  fill="#BDB4DC"/>
-            <!-- Other: actual 16, plan 16 -->
-            <rect class="tipt" tabindex="0" data-tip="Other · Actual: $16m" aria-label="Other, actual: $16m" x="220" y="139.6" width="24" height="30.4"  fill="#7B68B0"/>
-            <rect class="tipt" tabindex="0" data-tip="Other · Plan: $16m" aria-label="Other, plan: $16m" x="246" y="139.6" width="24" height="30.4"  fill="#BDB4DC"/>
-            <g text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">
-              <text x="55"  y="31">70</text>
-              <text x="150" y="99">34</text>
-              <text x="245" y="133">16</text>
-            </g>
-            <g text-anchor="middle" font-size="13" fill="#474747">
-              <text x="55"  y="192">Asset</text>
-              <text x="150" y="192">Hard dollar</text>
-              <text x="245" y="192">Other</text>
-            </g>
-          </svg>
+          <div class="kpi">
+            <div class="kpi-label">Retention</div>
+            <div class="kpi-val">92.4%</div>
+            <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Revenue</div>
+            <div class="kpi-val">$120.0m</div>
+            <div class="kpi-var"><span class="fav">+$4.0m vs plan</span></div>
+            <div class="kpi-row"><span>Asset</span><b>$70.0m</b></div>
+            <div class="kpi-row"><span>Hard dollar</span><b>$34.0m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">NOI</div>
+            <div class="kpi-val">$28.0m</div>
+            <div class="kpi-var"><span class="fav">+$3.5m vs plan</span></div>
+            <div class="kpi-row"><span>Margin</span><b>23.3%</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Clients (average)</div>
+            <div class="kpi-val">61,500</div>
+            <div class="kpi-var"><span class="fav">+300 vs plan</span></div>
+          </div>
         </div>
 
-        <!-- Revenue vs last year -->
-        <div class="chart-tile">
-          <div class="chart-title" id="ct-line">Revenue vs last year, $m</div>
-          <div class="chart-sub" id="cs-line">Axis starts at $105m</div>
-          <svg id="svg-line" viewBox="0 0 300 210" role="group" aria-label="Revenue vs last year, July to September: FY27 117.2, 118.6, 120.0; FY26 111.0, 112.6, 114.0">
-            <line x1="10" y1="170" x2="290" y2="170" stroke="#e4e3de"/>
-            <!-- FY26 -->
-            <polyline points="40,114 130,99.1 220,84" fill="none" stroke="#BDB4DC" stroke-width="1.8" stroke-dasharray="2 3" stroke-linecap="round"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Jul: $111.0m" aria-label="FY26, July: $111.0m" cx="40"  cy="114"  r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Aug: $112.6m" aria-label="FY26, August: $112.6m" cx="130" cy="99.1" r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY26 · Sep: $114.0m" aria-label="FY26, September: $114.0m" cx="220" cy="84"  r="5" fill="#BDB4DC" stroke="#fff" stroke-width="1.5"/>
-            <!-- FY27 -->
-            <polyline points="40,56.2 130,43.1 220,30" fill="none" stroke="#7B68B0" stroke-width="2.4" stroke-linejoin="round"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Jul: $117.2m" aria-label="FY27, July: $117.2m" cx="40"  cy="56.2" r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Aug: $118.6m" aria-label="FY27, August: $118.6m" cx="130" cy="43.1" r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-            <circle class="tipt" tabindex="0" data-tip="FY27 · Sep: $120.0m" aria-label="FY27, September: $120.0m" cx="220" cy="30"   r="5.5" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-            <g font-size="14">
-              <text x="228" y="35" fill="#1a1a1a" font-weight="700">FY27 120</text>
-              <text x="228" y="89" fill="#474747">FY26 114</text>
-            </g>
-            <g text-anchor="middle" font-size="13" fill="#474747">
-              <text x="40"  y="192">Jul</text>
-              <text x="130" y="192">Aug</text>
-              <text x="220" y="192">Sep</text>
-            </g>
-          </svg>
+        <div class="kpis-group-hdr"><span class="kpis-group-label">QTD · Q1 FY27 (Jul–Sep)</span></div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-label">Sales</div>
+            <div class="kpi-val">$52.4m</div>
+            <div class="kpi-var"><span class="fav">+$1.4m vs plan</span></div>
+            <div class="kpi-row"><span>Starts</span><b>$42.6m</b></div>
+            <div class="kpi-row"><span>Losses</span><b>$27.8m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Retention</div>
+            <div class="kpi-val">92.2%</div>
+            <div class="kpi-var"><span class="fav">+0.2 pp vs plan</span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Revenue</div>
+            <div class="kpi-val">$348.6m</div>
+            <div class="kpi-var"><span class="fav">+$9.6m vs plan</span></div>
+            <div class="kpi-row"><span>Asset</span><b>$204.2m</b></div>
+            <div class="kpi-row"><span>Hard dollar</span><b>$101.8m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">NOI</div>
+            <div class="kpi-val">$80.8m</div>
+            <div class="kpi-var"><span class="fav">+$8.8m vs plan</span></div>
+            <div class="kpi-row"><span>Margin</span><b>23.2%</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Clients (average)</div>
+            <div class="kpi-val">61,100</div>
+            <div class="kpi-var"><span class="fav">+200 vs plan</span></div>
+          </div>
         </div>
 
-      </div><!-- /charts -->
+        <div class="kpis-group-hdr"><span class="kpis-group-label">YTD · FY27 (Jul–Sep)</span></div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-label">Sales</div>
+            <div class="kpi-val">$52.4m</div>
+            <div class="kpi-var"><span class="fav">+$1.4m vs plan</span></div>
+            <div class="kpi-row"><span>Starts</span><b>$42.6m</b></div>
+            <div class="kpi-row"><span>Losses</span><b>$27.8m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Retention</div>
+            <div class="kpi-val">92.0%</div>
+            <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Revenue</div>
+            <div class="kpi-val">$348.6m</div>
+            <div class="kpi-var"><span class="fav">+$9.6m vs plan</span></div>
+            <div class="kpi-row"><span>Asset</span><b>$204.2m</b></div>
+            <div class="kpi-row"><span>Hard dollar</span><b>$101.8m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">NOI</div>
+            <div class="kpi-val">$80.8m</div>
+            <div class="kpi-var"><span class="fav">+$8.8m vs plan</span></div>
+            <div class="kpi-row"><span>Margin</span><b>23.2%</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Clients (average)</div>
+            <div class="kpi-val">61,100</div>
+            <div class="kpi-var"><span class="fav">+200 vs plan</span></div>
+          </div>
+        </div>
+
+        <div class="kpis-group-hdr"><span class="kpis-group-label">Full Year · FY27 Plan</span></div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-label">Sales</div>
+            <div class="kpi-val">$210.0m</div>
+            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
+            <div class="kpi-row"><span>Starts (plan)</span><b>$170.0m</b></div>
+            <div class="kpi-row"><span>Losses (plan)</span><b>$110.0m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Retention</div>
+            <div class="kpi-val">92.0%</div>
+            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Revenue</div>
+            <div class="kpi-val">$1,356.0m</div>
+            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
+            <div class="kpi-row"><span>Asset (plan)</span><b>$792.0m</b></div>
+            <div class="kpi-row"><span>Hard dollar</span><b>$394.0m</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">NOI</div>
+            <div class="kpi-val">$280.0m</div>
+            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
+            <div class="kpi-row"><span>Margin (plan)</span><b>20.6%</b></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Clients (average)</div>
+            <div class="kpi-val">61,800</div>
+            <div class="kpi-var" style="color:var(--muted)">Full year plan</div>
+          </div>
+        </div>
+
+      </div><!-- /kpis-group -->
 
       <!-- Sales by segment -->
       <div class="charts two">
