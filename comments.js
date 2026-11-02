@@ -11,8 +11,8 @@
   var MAX_NAME = 60;
   var MAX_TEXT = 2000;
   // Elements a viewer can pick as "a component"
-  var PICKABLE = '.kcard,.kpi,.panel,.chart-tile,.section,.note,.row-disc,.bot-link,.titlebar,.filterbar,.card';
-  var LABEL_SEL = 'h1,h2,h3,.chart-title,.section-title,.page-title,.lab,.kpi-label,.card-title';
+  var PICKABLE = '.kcard,.kpi,.panel,.chart-tile,.section,.note,.row-disc,.bot-link,.titlebar,.filterbar,.card,.banner,.commentary-module';
+  var LABEL_SEL = 'h1,h2,h3,.chart-title,.section-title,.page-title,.lab,.kpi-label,.card-title,.banner-label,.commentary-title';
 
   var filter = 'open';
   var scope = 'page'; // 'page' or 'site'

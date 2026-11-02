@@ -5,200 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAS Dashboard — BU CFO — ADP Project Polaris</title>
 <style>
-  :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
-    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
-
-  /* ── Top chrome ── */
-  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
-  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
-  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
-  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
-  .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
-
-  /* ── Shell ── */
-  .shell { display: flex; flex: 1; overflow: hidden; }
-
-  /* ── Sidebar ── */
-  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
-  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
-  .sb-bu-label { font-size: 15px; font-weight: 700; color: #111; }
-  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
-  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
-  .sb-link:hover { background: var(--hover); color: var(--navy); }
-  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
-  .sb-link.sub { padding-left: 28px; font-size: 12px; }
-  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
-  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
-  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
-  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
-  .sb-ext:hover { text-decoration: underline; }
-  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
-
-  /* ── Main ── */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
-
-  /* Title bar */
-  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
-  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-  .breadcrumb a { color: var(--blue); text-decoration: none; }
-  .breadcrumb a:hover { text-decoration: underline; }
-  .breadcrumb span { margin: 0 5px; }
-  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
-  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
-  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 2px; flex-wrap: wrap; justify-content: flex-end; }
-  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
-  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
-  /* BU dropdown */
-  .bu-wrap { position: relative; }
-  .bu-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
-  .bu-btn:hover, .bu-btn[aria-expanded="true"] { background: var(--hover); }
-  .bu-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-  .bu-menu { position: absolute; right: 0; top: 100%; z-index: 50; min-width: 170px; background: var(--tile); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.15); padding: 4px 0; margin-top: 2px; }
-  .bu-menu[hidden] { display: none; }
-  .bu-item { display: flex; align-items: center; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; text-align: left; text-decoration: none; color: var(--navy); cursor: pointer; }
-  .bu-item:hover { background: #edf4ff; }
-  .bu-item.bu-on { font-weight: 700; border-left-color: var(--blue); color: var(--blue); cursor: default; }
-  .bu-item.bu-dim { color: #b0b0b0; cursor: not-allowed; pointer-events: none; }
-  .cmp-menu { left: 0; right: auto; }
-  #ai-body { white-space: pre-line; }
-
-  /* Filter bar */
-  .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .fb-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
-  .fb-toggle { display: flex; }
-  .fb-toggle button { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--inner); color: var(--muted); cursor: pointer; }
-  .fb-toggle button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
-  .fb-toggle button:first-child { border-radius: 3px 0 0 3px; }
-  .fb-toggle button:last-child { border-radius: 0 3px 3px 0; }
-  .fb-chip { font-size: 11px; font-weight: 600; background: var(--navy); color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
-  .fb-link { font-size: 12px; color: var(--blue); text-decoration: none; cursor: pointer; }
-  .fb-note { font-size: 11px; color: var(--muted); font-style: italic; }
-
-  /* Content */
-  .content { padding: 0 0 32px; flex: 1; }
-
-  /* KPI strip */
-  .kpis-group-hdr { display: flex; align-items: center; padding: 7px 18px; background: var(--inner); border-bottom: 1px solid var(--line); border-top: 1px solid var(--line); }
+  /* NAS Dashboard — page-specific only */
+  .content { padding: 0 20px 32px; flex: 1; }
+  /* Headline banner */
+  .banner { background: var(--tile); border: 1px solid var(--line); margin: 16px 0 0; padding: 14px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+  .banner-headline { font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+  .banner-sub { font-size: 12px; color: var(--muted); }
+  .banner-ytd { text-align: right; flex: none; }
+  .banner-ytd-val { font-size: 26px; font-weight: 600; color: var(--navy); }
+  .banner-ytd-var { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 2px; }
+  .banner-ytd-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .help-link { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 600; color: var(--red); text-decoration: none; cursor: pointer; }
+  .help-link:hover { text-decoration: underline; }
+  .kpis-group-hdr { display: flex; align-items: center; padding: 7px 18px; background: var(--inner); border: 1px solid var(--line); border-bottom: 0; margin-top: 14px; }
   .kpis-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-  .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-bottom: 1px solid var(--line); background: var(--tile); margin-bottom: 0; }
+  .kpis { display: grid; grid-template-columns: repeat(5, 1fr) !important; gap: 0; border: 1px solid var(--line); background: var(--tile); margin: 0 0 14px; }
   .kpi { background: var(--tile); border-right: 1px solid var(--line); padding: 16px 18px 14px; display: flex; flex-direction: column; }
-  .kpi-row { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .kpi-row b { font-weight: 600; color: var(--p-navy); }
-  .kpi .kpi-drill { margin-top: auto; padding-top: 8px; }
   .kpi:last-child { border-right: 0; }
-  .kpi-val { font-size: 28px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
   .kpi:hover .kpi-val { font-weight: 700; }
-  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-  .kpi-var { font-size: 11px; }
-  .kpi-var .fav { color: var(--p-green); font-weight: 600; }
-  .kpi-var .unf { color: var(--p-coral); font-weight: 600; }
-  .kpi-drill { font-size: 11px; color: var(--p-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; margin-top: 4px; }
-  .kpi-drill:hover { text-decoration: underline; }
-
-  /* Charts row */
-  .charts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 14px 20px; }
-  .chart-tile { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; }
-  .chart-tile svg { display: block; width: 100%; height: auto; flex: 1; min-height: 0; }
+  .kpi .kpi-drill { margin-top: auto; padding-top: 8px; }
+  .charts { margin: 14px 0; }
   .tipt { cursor: pointer; }
   .tipt:hover, .tipt:focus { stroke: #1a1a1a; stroke-width: 1.5; outline: none; }
   .chart-tip { position: fixed; z-index: 1500; pointer-events: none; background: #1a1a1a; color: #fff; font-size: 12px; line-height: 1.4; padding: 5px 9px; white-space: nowrap; opacity: 0; transition: opacity .1s; }
   .chart-tip.on { opacity: 1; }
-  .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
-  .legend { display: flex; gap: 14px; margin-bottom: 8px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
-  .legend span { display: flex; align-items: center; gap: 4px; }
-  .legend i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
-
-  /* P&L section */
-  .section { background: var(--tile); border: 1px solid var(--line); margin: 0 20px 14px; }
-  .section-hdr { display: flex; align-items: baseline; justify-content: space-between; padding: 13px 16px 0; }
-  .section-title { font-size: 13px; font-weight: 700; }
-  .section-sub { font-size: 11px; color: var(--muted); padding: 2px 16px 10px; }
-  .export-link { font-size: 12px; color: var(--blue); text-decoration: none; flex: none; }
-  .tbl-wrap { overflow-x: auto; }
-  table.pl { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
-  table.pl th { text-align: right; font-size: 11px; font-weight: 600; color: var(--muted); padding: 7px 10px; background: var(--inner); border-bottom: 2px solid var(--line); }
-  table.pl th:first-child { text-align: left; min-width: 200px; white-space: normal; }
-  table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
-  table.pl td:first-child { text-align: left; }
-  table.pl tr.bold > td { font-weight: 700; }
-  table.pl tr:hover td { background: var(--hover); }
-  .fav { color: var(--green); font-weight: 600; }
-  .unf { color: var(--red); font-weight: 600; }
+  .section { margin: 0 0 14px; }
   .tbl-foot { font-size: 11px; color: var(--muted); padding: 7px 16px; border-top: 1px solid var(--line); }
+  .bottom-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 24px; }
+  .page-footer { font-size: 11px; color: var(--muted); padding: 10px 0 20px; line-height: 1.5; border-top: 1px solid var(--line); margin: 0; }
+  #ai-body { white-space: pre-line; }
+</style>
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* NAS Dashboard — overrides after theme */
+  .help-link { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 600; color: var(--red); text-decoration: none; cursor: pointer; }
+  .help-link:hover { text-decoration: underline; }
+  .kpis-group-hdr { margin: 14px 0 0; border: 1px solid var(--line); border-bottom: 0; }
+  .kpis { margin: 0 0 14px !important; }
+  .banner { margin: 16px 0 0 !important; }
+  .charts { margin: 14px 0 !important; }
+  .section { margin: 0 0 14px !important; }
+  .bottom-nav { margin: 0 0 24px !important; }
+
+  /* Interactive Commentary Module */
+  .commentary-module { background: var(--tile); border: 1px solid var(--line); border-left: 4px solid var(--blue); padding: 18px 20px; margin: 16px 0 0; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+  .commentary-module[hidden] { display: none; }
+  .commentary-hdr { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+  .commentary-title { font-size: 16px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+  .commentary-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; background: #edf5ff; color: var(--blue); padding: 2px 7px; border-radius: 3px; letter-spacing: .04em; }
+  .commentary-list { display: flex; flex-direction: column; gap: 10px; }
+  .commentary-item { background: #fbfbfb; border: 1px solid var(--line); border-radius: 3px; padding: 12px 14px; position: relative; display: flex; flex-direction: column; gap: 6px; transition: background .15s ease; }
+  .commentary-item:hover { background: #f7f8fa; }
+  .commentary-item-top { display: flex; align-items: center; gap: 8px; padding-right: 32px; }
+  .insight-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 2px 8px; border-radius: 12px; }
+  .insight-pill.ai { background: #edf5ff; color: #0043ce; border: 1px solid #d0e2ff; }
+  .insight-pill.user { background: #e8f5e9; color: #1e4620; border: 1px solid #c8e6c9; }
+  .commentary-item-title { font-size: 15px; font-weight: 700; color: var(--navy); line-height: 1.35; margin-top: 2px; }
+  .commentary-item-text { font-size: 13px; color: var(--navy); line-height: 1.55; padding-right: 28px; }
+  .commentary-item-meta { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .commentary-item-meta b { color: var(--navy); }
+  .commentary-del-btn { position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; color: var(--muted); cursor: pointer; border-radius: 3px; }
+  .commentary-del-btn:hover { background: #fce8e6; color: var(--red); }
+  .commentary-input-box { display: flex; flex-direction: column; gap: 10px; background: #f7f8fa; border: 1px dashed var(--line); padding: 14px; border-radius: 3px; margin-top: 4px; }
+  .commentary-input-box[hidden] { display: none; }
+  .commentary-user-select { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .commentary-user-select select { font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 4px 8px; border-radius: 2px; }
+  .commentary-title-input { width: 100%; font: inherit; font-size: 13px; font-weight: 600; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 7px 12px; box-sizing: border-box; border-radius: 2px; }
+  .commentary-title-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+  .commentary-textarea { width: 100%; min-height: 72px; font: inherit; font-size: 13px; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 8px 12px; resize: vertical; box-sizing: border-box; }
+  .commentary-textarea:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+  .commentary-actions { display: flex; justify-content: flex-end; gap: 8px; }
+  .commentary-add-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+
+  /* Collapsed Commentary Bar */
+  .commentary-collapsed { background: var(--tile); border: 1px solid var(--line); border-left: 4px solid var(--blue); padding: 11px 16px; margin: 16px 0 0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background .15s ease, border-color .15s ease; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+  .commentary-collapsed:hover { background: #f7faff; border-color: #b3cfff; }
+  .commentary-collapsed[hidden] { display: none !important; }
+  .commentary-collapsed-l { display: flex; align-items: center; gap: 10px; }
+  .commentary-collapsed-icon { width: 24px; height: 24px; border-radius: 50%; background: #edf5ff; color: var(--blue); display: flex; align-items: center; justify-content: center; flex: none; }
+  .commentary-collapsed-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .commentary-collapsed-r { display: flex; align-items: center; gap: 12px; }
+  .commentary-collapsed-hint { font-size: 12px; color: var(--muted); }
+  .commentary-expand-btn { font-size: 12px; font-weight: 700; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: #edf5ff; border-radius: 3px; }
 
   /* Row discussion */
-  .row-disc { margin: 0 16px 14px; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 10px; }
-  .disc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none; margin-top: 1px; }
+  .row-disc { margin: 14px 0 0; padding: 11px 14px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 12px; }
+  .disc-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; margin-top: 1px; }
   .disc-body { flex: 1; min-width: 0; }
-  .disc-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .disc-meta { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .disc-meta b { color: var(--navy); }
-  .disc-msg { font-size: 12px; color: var(--navy); }
-  .disc-reply { font-size: 12px; color: var(--blue); text-decoration: none; margin-left: auto; flex: none; align-self: center; }
-
-  /* Bottom nav links */
-  .bottom-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 20px 24px; }
-  .bot-link { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; text-decoration: none; color: var(--navy); display: flex; justify-content: space-between; align-items: center; }
-  .bot-link:hover { border-color: var(--blue); }
-  .bot-link-title { font-size: 12px; font-weight: 700; color: var(--blue); }
-  .bot-link-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* Right AI panel */
-  .panel { width: var(--panel-w); background: #fff; border-left: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; }
-  .panel-hdr { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
-  .panel-icon { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#5b2fc0,#3f8fe0); flex: none; }
-  .panel-title { font-size: 13px; font-weight: 700; }
-  .panel-sub { font-size: 11px; color: var(--muted); }
-  .panel-body { padding: 12px 14px; flex: 1; }
-  .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
-  .ai-tag.draft { background: #e8daff; color: #5b2fc0; }
-  .ai-tag.review { background: #fff3cd; color: #B28600; margin-left: 4px; }
-  .panel-period { font-size: 11px; font-weight: 600; color: var(--muted); margin: 10px 0 8px; }
-  .ai-headline { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
-  .ai-body { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
-  .reviewer { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
-  .ai-actions { display: flex; gap: 8px; margin-bottom: 20px; }
-  .btn { font: inherit; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 2px; }
-  .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--navy); }
-  .btn-ghost:hover { background: var(--hover); }
-  .btn-primary { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
-  .btn-primary:hover { background: #0050e6; }
-  .panel-divider { height: 1px; background: var(--line); margin: 0 0 14px; }
-  .ask-label { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
-  .ask-input { width: 100%; font: inherit; font-size: 12px; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 7px 10px; resize: none; height: 60px; }
-  .ask-input::placeholder { color: var(--muted); }
-  .panel-disclaimer { font-size: 11px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); line-height: 1.5; }
-  .disclaimer-title { font-weight: 600; margin-bottom: 3px; }
-  .page-footer { font-size: 11px; color: var(--muted); padding: 10px 20px 20px; line-height: 1.5; border-top: 1px solid var(--line); margin: 0 20px; }
-
-  /* Modify filters modal */
-  .mf-overlay { position: fixed; inset: 0; background: rgba(22,22,22,.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
-  .mf-overlay[hidden] { display: none; }
-  .mf-modal { background: #fff; width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; border: 1px solid var(--line); }
-  .mf-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line); }
-  .mf-title { font-size: 15px; font-weight: 600; }
-  .mf-close { font: inherit; font-size: 20px; line-height: 1; width: 28px; height: 28px; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
-  .mf-close:hover { background: var(--hover); color: var(--navy); }
-  .mf-body { display: grid; grid-template-columns: repeat(4, 1fr); overflow-y: auto; }
-  .mf-col { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 0; min-width: 0; }
-  .mf-col:last-child { border-right: 0; }
-  .mf-col h3 { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .mf-opt { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; cursor: pointer; }
-  .mf-opt input { accent-color: var(--blue); width: 14px; height: 14px; flex: none; margin: 0; }
-  .mf-opt.mf-all { font-weight: 600; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
-  .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
-  @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
+  .disc-meta .disc-tag { color: var(--blue); font-weight: 600; background: #edf5ff; padding: 1px 7px; border-radius: 2px; }
+  .disc-msg { font-size: 12.5px; color: var(--navy); line-height: 1.5; }
+  .disc-info { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .disc-reply { font-size: 12px; color: var(--blue); text-decoration: none; margin-left: auto; flex: none; align-self: flex-start; padding-top: 2px; font-weight: 600; }
+  .disc-reply:hover { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
@@ -210,6 +113,10 @@
   </div>
   <div class="chrome-r">
     <span>SEPTEMBER CLOSE / DAY 4</span>
+    <a href="#" class="help-link">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" style="flex:none;"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.8A5.8 5.8 0 1 1 8 2.2a5.8 5.8 0 0 1 0 11.6zM8 10.5a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zm0-6.8c-1.4 0-2.4.9-2.4 2.2 0 .3.2.5.5.5s.5-.2.5-.5c0-.8.7-1.3 1.4-1.3.8 0 1.4.5 1.4 1.2 0 .6-.4 1-.9 1.4-.6.5-1 1-1 1.9v.3a.5.5 0 0 0 1 0v-.2c0-.6.3-.9.8-1.3.6-.5 1.1-1.1 1.1-2.1C9.9 4.6 8.9 3.7 8 3.7z"/></svg>
+      <span>Need help?</span>
+    </a>
     <b>FP&amp;A Lead</b>
     <div class="avatar">JL</div>
   </div>
@@ -307,12 +214,173 @@
       <a class="fb-link">Clear all</a>
       <span class="fb-note">Carried across reports</span>
     </div>
+    <div style="padding:5px 20px;background:#fff;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);font-style:italic;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (Lyric only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
 
     <div class="content">
-      <div class="fb-note" style="padding:8px 20px 10px;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (Lyric only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
+
+      <div class="kpis-group-hdr"><span class="kpis-group-label">Current · September Close</span></div>
+
+      <!-- Headline banner -->
+      <div class="banner">
+        <div>
+          <div class="banner-label" id="banner-label">September Performance / NAS</div>
+          <div class="banner-headline" id="banner-headline">$3.4m above plan, driven by Lyric volume and hard dollar gains.</div>
+          <div class="banner-sub" id="banner-sub">Revenue $131.4m (+$3.4m) · Field NOI $46.8m (+$0.8m) · Retention 91.6% (−0.5 pp) · Average clients 58,900</div>
+        </div>
+        <div class="banner-ytd">
+          <div class="banner-ytd-label" id="banner-ytd-label">YTD revenue through September</div>
+          <div class="banner-ytd-val" id="banner-ytd-val">$387.4m</div>
+          <div class="banner-ytd-var" id="banner-ytd-var" style="color:var(--green)">+$11.9m / +3.2% vs plan</div>
+        </div>
+      </div>
+
+      <!-- Collapsed September Close Commentary Teaser Bar -->
+      <div class="commentary-collapsed" id="commentary-collapsed" role="button" tabindex="0" aria-label="Open September Close Commentary">
+        <div class="commentary-collapsed-l">
+          <div class="commentary-collapsed-icon">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M2.5 1A1.5 1.5 0 0 0 1 2.5v11A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 13.5 1h-11zm4.5 3.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-3-5.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm0 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm0 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
+          </div>
+          <span class="commentary-collapsed-title">September Close commentary</span>
+          <span class="commentary-badge">Live Review · 4 Insights</span>
+        </div>
+        <div class="commentary-collapsed-r">
+          <span class="commentary-collapsed-hint">Click to expand commentary</span>
+          <span class="commentary-expand-btn">
+            Expand ▾
+          </span>
+        </div>
+      </div>
+
+      <!-- Interactive September Close Commentary Module -->
+      <div class="commentary-module" id="commentary-module" hidden>
+        <div class="commentary-hdr">
+          <div class="commentary-title">
+            <span>September Close commentary · NAS</span>
+            <span class="commentary-badge">Live Review</span>
+          </div>
+          <button type="button" class="mf-close" id="commentary-close-btn" aria-label="Collapse commentary module" title="Collapse to summary">&times;</button>
+        </div>
+
+        <div class="commentary-list" id="commentary-list">
+          <!-- Item 1: AI Generated -->
+          <div class="commentary-item" data-id="nas-c1">
+            <button type="button" class="commentary-del-btn" aria-label="Delete commentary" title="Delete commentary">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+            </button>
+            <div class="commentary-item-top">
+              <span class="insight-pill ai">
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M7.5 1.5a.5.5 0 0 1 .5.5v1.2a4.5 4.5 0 0 1 3.8 3.8h1.2a.5.5 0 0 1 0 1h-1.2A4.5 4.5 0 0 1 8 11.8v1.2a.5.5 0 0 1-1 0v-1.2A4.5 4.5 0 0 1 3.2 8H2a.5.5 0 0 1 0-1h1.2A4.5 4.5 0 0 1 7 3.2V2a.5.5 0 0 1 .5-.5z"/></svg>
+                AI Insight
+              </span>
+            </div>
+            <div class="commentary-item-title">NAS Revenue Outperformance &amp; Lyric Platform Growth</div>
+            <div class="commentary-item-text">
+              <b>Revenue &amp; Platform Growth:</b> September revenue reached <b>$131.4M (+$3.4M / +2.7% vs plan)</b> and grew <b>+5.8% YoY</b>, driven by strong <b>Lyric platform adoption</b> (+$2.0M across Pillar A &amp; B) and hard dollar processing revenue gains (<b>$39.2M, +$2.0M</b>).
+            </div>
+            <div class="commentary-item-meta">Project Polaris Close Assistant · Automated Close Analysis · Day 4</div>
+          </div>
+
+          <!-- Item 2: AI Generated -->
+          <div class="commentary-item" data-id="nas-c2">
+            <button type="button" class="commentary-del-btn" aria-label="Delete commentary" title="Delete commentary">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+            </button>
+            <div class="commentary-item-top">
+              <span class="insight-pill ai">
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M7.5 1.5a.5.5 0 0 1 .5.5v1.2a4.5 4.5 0 0 1 3.8 3.8h1.2a.5.5 0 0 1 0 1h-1.2A4.5 4.5 0 0 1 8 11.8v1.2a.5.5 0 0 1-1 0v-1.2A4.5 4.5 0 0 1 3.2 8H2a.5.5 0 0 1 0-1h1.2A4.5 4.5 0 0 1 7 3.2V2a.5.5 0 0 1 .5-.5z"/></svg>
+                AI Insight
+              </span>
+            </div>
+            <div class="commentary-item-title">Field Operating NOI &amp; Client Retention Resilience</div>
+            <div class="commentary-item-text">
+              <b>Operating Margin &amp; Retention:</b> Field Operating NOI delivered <b>$46.8M (+$0.8M vs plan)</b> with a <b>35.6% margin</b>. Client retention finished solid at <b>92.4% (+0.4 pp vs plan)</b> with active client count averaging <b>58,900</b>.
+            </div>
+            <div class="commentary-item-meta">Project Polaris Close Assistant · Automated Close Analysis · Day 4</div>
+          </div>
+
+          <!-- Item 3: User Insight (Jordan Lee) -->
+          <div class="commentary-item" data-id="nas-c3">
+            <button type="button" class="commentary-del-btn" aria-label="Delete commentary" title="Delete commentary">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+            </button>
+            <div class="commentary-item-top">
+              <span class="insight-pill user">
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                User Insight
+              </span>
+            </div>
+            <div class="commentary-item-title">Lyric Direct &amp; Partner Channel Performance</div>
+            <div class="commentary-item-text">
+              <b>Lyric Channel Breakdown:</b> Lyric direct sales channel contributed <b>$1.5M</b> of the revenue upside, while partner channels added <b>$0.5M</b>. Total new starts of <b>$17.9M</b> offset <b>$11.2M</b> in client losses.
+            </div>
+            <div class="commentary-item-meta">Added by <b>Jordan Lee (FP&amp;A Lead)</b> · Sep 28, 2026 at 10:30 AM EDT</div>
+          </div>
+
+          <!-- Item 4: User Insight (Sarah Jenkins) -->
+          <div class="commentary-item" data-id="nas-c4">
+            <button type="button" class="commentary-del-btn" aria-label="Delete commentary" title="Delete commentary">
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+            </button>
+            <div class="commentary-item-top">
+              <span class="insight-pill user">
+                <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                User Insight
+              </span>
+            </div>
+            <div class="commentary-item-title">Field Expense Discipline &amp; CS Pod Reinvestment</div>
+            <div class="commentary-item-text">
+              <b>Field Expense Discipline:</b> Field expense settled at <b>$84.6M</b>, with discretionary T&amp;E and contractor fees favorable by <b>+$2.6M</b>, supporting re-investment into Lyric onboarding customer success pods.
+            </div>
+            <div class="commentary-item-meta">Added by <b>Sarah Jenkins (Revenue Operations Lead)</b> · Sep 28, 2026 at 2:05 PM EDT</div>
+          </div>
+        </div>
+
+        <!-- Add commentary input box -->
+        <div class="commentary-input-box" id="commentary-input-box" hidden>
+          <div class="commentary-user-select">
+            <label for="commentary-author-select"><b>Posting as:</b></label>
+            <select id="commentary-author-select">
+              <option value="Jordan Lee (FP&amp;A Lead)">Jordan Lee (FP&amp;A Lead)</option>
+              <option value="Maya Chen (Sr. Financial Analyst, NAS)">Maya Chen (Sr. Financial Analyst, NAS)</option>
+              <option value="Sarah Jenkins (Revenue Operations Lead)">Sarah Jenkins (Revenue Operations Lead)</option>
+              <option value="Marcus Vance (BU CFO Lead)">Marcus Vance (BU CFO Lead)</option>
+            </select>
+          </div>
+          <input type="text" class="commentary-title-input" id="commentary-title-input" placeholder="Insight title (e.g., Lyric Platform Growth &amp; Channel Mix)…" />
+          <textarea class="commentary-textarea" id="commentary-input" placeholder="Type new NAS close commentary, operational drivers, or review notes…"></textarea>
+          <div class="commentary-actions">
+            <button type="button" class="btn btn-ghost" id="commentary-cancel-btn">Cancel</button>
+            <button type="button" class="btn btn-primary" id="commentary-save-btn">Save Insight</button>
+          </div>
+        </div>
+
+        <div class="commentary-add-wrap">
+          <button type="button" class="btn btn-ghost" id="commentary-add-btn" style="display:inline-flex;align-items:center;gap:6px;font-weight:600;">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M8 2a.75.75 0 0 1 .75.75v4.5h4.5a.75.75 0 0 1 0 1.5h-4.5v4.5a.75.75 0 0 1-1.5 0v-4.5h-4.5a.75.75 0 0 1 0-1.5h4.5v-4.5A.75.75 0 0 1 8 2z"/></svg>
+            Add commentary
+          </button>
+          <span style="font-size:11px;color:var(--muted);font-style:italic;">Updates persist in current session</span>
+        </div>
+      </div>
+
+      <!-- Row discussion commentary above KPIs -->
+      <div class="row-disc">
+        <div class="disc-avatar">JL</div>
+        <div class="disc-body">
+          <div class="disc-meta">
+            ● <b>Row discussion</b> &nbsp;·&nbsp;
+            <span class="disc-tag">NAS September Close · Δ vs plan: +$3.4m</span>
+            &nbsp;·&nbsp; Live collaboration state
+          </div>
+          <div class="disc-msg">
+            <b>Jordan Lee (FP&amp;A Lead):</b> Lyric volumes beat expectation by $2.0m (Pillar A +$1.2m, Pillar B +$0.8m) with strong hard-dollar processing revenue ($112.5m, +$2.8m vs plan). Retention sustained at 92.4% (+0.4 pp vs plan), supported by lower mid-market losses ($9.8m). Field Operating NOI reached $46.8m (+$0.8m vs plan, 35.6% margin).
+          </div>
+          <div class="disc-info">Sep 28, 2026 · 14:22 EDT · NAS Executive Review</div>
+        </div>
+        <a class="disc-reply" href="#commentary-module" id="nas-disc-reply-btn">Reply</a>
+      </div>
 
       <!-- KPI strip -->
-      <div class="kpis-group-hdr"><span class="kpis-group-label">Current · September Close</span></div>
       <div class="kpis">
         <div class="kpi" id="kpi-sales">
           <div class="kpi-label">Sales</div>
@@ -514,7 +582,7 @@
       <div class="ai-body" id="ai-body">Revenue is $3.4m above plan and 5.8% above last year, led by hard dollar revenue. NOI lands $0.4m above plan.<br><br>Field expense is $2.6m over plan, partly offsetting the revenue upside. Sales are $1.2m below plan and retention of 91.6% is 0.5 pp below plan.</div>
       <div class="reviewer">Reviewer: FP&amp;A Lead</div>
       <div class="ai-actions">
-        <button class="btn btn-ghost">Edit draft</button>
+        <button class="btn btn-ghost" id="btn-edit-draft">Edit draft</button>
         <button class="btn btn-primary">Mark reviewed</button>
       </div>
       <div class="panel-divider"></div>
@@ -959,6 +1027,14 @@
     var feDir = fe.dp < 0 ? 'over' : 'under', noiDir = noi.dp >= 0 ? 'above' : 'below';
     var rr = d.ret.a - d.ret.p, rDir = rr >= 0 ? 'above' : 'below';
     var sd = d.sales.a - d.sales.p, sDir = sd >= 0 ? 'above' : 'below', sAmt = pct ? pc(Math.abs(sd / d.sales.p * 100)) : usd(Math.abs(sd));
+    $('banner-label').textContent = d.ytd ? 'YTD Performance (Jul–Sep) / NAS' : 'September Performance / NAS';
+    $('banner-headline').textContent = amt(rev) + ' ' + revDir + ' plan' + (d.ytd ? ' year to date' : '') + ', driven by ' + (rev.dp >= 0 ? 'Lyric volumes and hard dollar gains.' : 'client volume shortfall.');
+    $('banner-sub').textContent = 'Revenue ' + (pct ? sPc(rev.pp) : usd(rev.a)) + ' (' + sUsd(rev.dp) + ') · Field NOI ' + (pct ? sPc(P.fnoi.pp) : usd(P.fnoi.a)) + ' (' + sUsd(P.fnoi.dp) + ') · Retention ' + d.ret.a.toFixed(1) + '% (' + sgn(rr) + ' pp) · Clients ' + int(d.cli.a);
+    $('banner-ytd-label').textContent = d.ytd ? 'YTD Field NOI' : 'YTD revenue through September';
+    $('banner-ytd-val').textContent = d.ytd ? (pct ? sPc(P.fnoi.pp) : usd(P.fnoi.a)) : (pct ? sPc(P.rev.pp) : usd(DATA.ytd.rev.a));
+    var yVarText = d.ytd ? (sUsd(P.fnoi.dp) + ' vs plan') : (sUsd(DATA.ytd.rev.a - DATA.ytd.rev.p) + ' / ' + sPc((DATA.ytd.rev.a / DATA.ytd.rev.p - 1) * 100) + ' vs plan');
+    $('banner-ytd-var').textContent = yVarText;
+    $('banner-ytd-var').style.color = (d.ytd ? P.fnoi.dp >= 0 : (DATA.ytd.rev.a >= DATA.ytd.rev.p)) ? 'var(--green)' : 'var(--red)';
     $('pl-foot').textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
       ' prior year. Field expense is ' + amt(fe) + ' ' + feDir + ' plan; NOI lands ' + amt(noi) + ' ' + noiDir + ' plan.';
     $('disc-ref').textContent = 'Revenue / ' + (pct ? sPc(rev.pp) : sUsd(rev.dp));
@@ -1025,6 +1101,159 @@
 
   syncControls();
   render();
+})();
+</script>
+
+<script>
+/* Interactive Commentary Module for NAS Dashboard */
+(function () {
+  var mod = document.getElementById('commentary-module');
+  var btnEdit = document.getElementById('btn-edit-draft');
+  var btnClose = document.getElementById('commentary-close-btn');
+  var list = document.getElementById('commentary-list');
+  var inputBox = document.getElementById('commentary-input-box');
+  var input = document.getElementById('commentary-input');
+  var btnAdd = document.getElementById('commentary-add-btn');
+  var btnCancel = document.getElementById('commentary-cancel-btn');
+  var btnSave = document.getElementById('commentary-save-btn');
+  var replyBtn = document.getElementById('nas-disc-reply-btn');
+  var collapsedBar = document.getElementById('commentary-collapsed');
+  var titleInput = document.getElementById('commentary-title-input');
+
+  function openModule() {
+    if (!mod) return;
+    if (collapsedBar) collapsedBar.setAttribute('hidden', '');
+    mod.removeAttribute('hidden');
+    mod.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function closeModule() {
+    if (!mod) return;
+    mod.setAttribute('hidden', '');
+    if (collapsedBar) collapsedBar.removeAttribute('hidden');
+    if (collapsedBar) collapsedBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  if (collapsedBar) {
+    collapsedBar.addEventListener('click', function () {
+      openModule();
+    });
+    collapsedBar.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModule();
+      }
+    });
+  }
+
+  if (btnEdit && mod) {
+    btnEdit.addEventListener('click', function (e) {
+      e.preventDefault();
+      openModule();
+    });
+  }
+
+  if (replyBtn && mod) {
+    replyBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openModule();
+      if (inputBox) {
+        inputBox.removeAttribute('hidden');
+        if (titleInput) titleInput.focus();
+        else if (input) input.focus();
+      }
+    });
+  }
+
+  if (btnClose && mod) {
+    btnClose.addEventListener('click', function () {
+      closeModule();
+    });
+  }
+
+  if (btnAdd && inputBox) {
+    btnAdd.addEventListener('click', function () {
+      inputBox.removeAttribute('hidden');
+      if (titleInput) titleInput.focus();
+      else if (input) input.focus();
+    });
+  }
+
+  if (btnCancel && inputBox) {
+    btnCancel.addEventListener('click', function () {
+      if (input) input.value = '';
+      if (titleInput) titleInput.value = '';
+      inputBox.setAttribute('hidden', '');
+    });
+  }
+
+  if (btnSave && inputBox && input && list) {
+    btnSave.addEventListener('click', function () {
+      var txt = input.value.trim();
+      var tVal = titleInput ? titleInput.value.trim() : '';
+      if (!txt) {
+        input.focus();
+        return;
+      }
+      var item = document.createElement('div');
+      item.className = 'commentary-item';
+
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'commentary-del-btn';
+      delBtn.setAttribute('aria-label', 'Delete commentary');
+      delBtn.setAttribute('title', 'Delete commentary');
+      delBtn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
+
+      var topEl = document.createElement('div');
+      topEl.className = 'commentary-item-top';
+      topEl.innerHTML = '<span class="insight-pill user"><svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg> User Insight</span>';
+
+      var titleEl = document.createElement('div');
+      titleEl.className = 'commentary-item-title';
+      titleEl.textContent = tVal || 'NAS Close Review Insight';
+
+      var textEl = document.createElement('div');
+      textEl.className = 'commentary-item-text';
+      textEl.textContent = txt;
+
+      var metaEl = document.createElement('div');
+      metaEl.className = 'commentary-item-meta';
+      var authorSelect = document.getElementById('commentary-author-select');
+      var author = authorSelect ? authorSelect.value : 'Jordan Lee (FP&A Lead)';
+      var now = new Date();
+      var dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      var timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      metaEl.innerHTML = 'Added by <b>' + author + '</b> · ' + dateStr + ' at ' + timeStr;
+
+      item.appendChild(delBtn);
+      item.appendChild(topEl);
+      item.appendChild(titleEl);
+      item.appendChild(textEl);
+      item.appendChild(metaEl);
+
+      list.appendChild(item);
+
+      input.value = '';
+      if (titleInput) titleInput.value = '';
+      inputBox.setAttribute('hidden', '');
+    });
+  }
+
+  if (list) {
+    list.addEventListener('click', function (e) {
+      var del = e.target.closest('.commentary-del-btn');
+      if (!del) return;
+      var item = del.closest('.commentary-item');
+      if (item) {
+        item.style.opacity = '0';
+        item.style.transition = 'opacity .15s ease';
+        setTimeout(function () {
+          if (item.parentNode) item.parentNode.removeChild(item);
+        }, 150);
+      }
+    });
+  }
 })();
 </script>
 

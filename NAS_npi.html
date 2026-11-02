@@ -5,14 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NPI P&amp;L — NAS — ADP Project Polaris</title>
 <style>
-  :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
-    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  /* NAS NPI — page-specific only */
+  .kpi-var .flat { color: var(--muted); font-weight: 600; }
 
   /* ── Top chrome ── */
   .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
@@ -28,7 +22,7 @@
   .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
   .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
-  .sb-bu-label { font-size: 15px; font-weight: 700; color: #111; }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
   .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
   .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
   .sb-link:hover { background: var(--hover); color: var(--navy); }
@@ -169,6 +163,7 @@
   .mf-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
   @media (max-width: 640px) { .mf-body { grid-template-columns: repeat(2, 1fr); } }
 </style>
+<link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="theme.css">
 </head>
 <body>
@@ -354,6 +349,82 @@
           All figures illustrative. Base plus Implementation equals Total NPI on every column. n/m = not meaningful (sign change or negative base). Cycle time: lower is favorable. Totals may differ from the sum of their parts by rounding. NPI definitions and cost allocation remain under validation.
         </div>
       </div><!-- /section -->
+
+      <!-- RS Management P&L · MTD -->
+      <div class="section" style="margin-top:14px">
+        <div class="section-hdr">
+          <div class="section-title">RS Management P&amp;L · MTD</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">$M · Actual vs Plan · Green is favorable, red is unfavorable</div>
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>$M</th>
+                <th>MTD</th>
+                <th>MTD vs Plan</th>
+                <th style="min-width:180px;text-align:left;padding-left:16px">MTD Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold"><td>&#9733; RS</td><td>47.5</td><td class="fav">4.6</td><td style="text-align:left;padding-left:16px">+25.9% growth; 110.8% of plan</td></tr>
+              <tr><td>Revenue</td><td>93.4</td><td>0.5</td><td style="text-align:left;padding-left:16px">Revenue is at 100.5% of plan</td></tr>
+              <tr class="bold"><td>Field Opex Expense</td><td>18.9</td><td class="unf">2.3</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>EE Related Expense</td><td>11.8</td><td>0.2</td><td style="text-align:left;padding-left:16px">FTE's are (46) lower than plan; Rate / EE is at 101.0% of plan</td></tr>
+              <tr class="indent"><td>Trustee Fees</td><td>0.8</td><td>0.1</td><td style="text-align:left;padding-left:16px">Mesirow fee driven</td></tr>
+              <tr class="indent"><td>Trailer Fees</td><td>3.1</td><td>0.1</td><td style="text-align:left;padding-left:16px">Market driven</td></tr>
+              <tr class="indent"><td>Bad Debt</td><td>0.8</td><td class="unf">(0.1)</td><td style="text-align:left;padding-left:16px">(24.7%) growth; 108.0% of plan</td></tr>
+              <tr class="indent"><td>Consulting &amp; Professional</td><td>0.7</td><td>0.0</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>Adv, Fulfillment &amp; Mktg</td><td>0.5</td><td class="unf">(0.1)</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>Delivery &amp; Mailings</td><td>1.9</td><td class="fav">1.8</td><td style="text-align:left;padding-left:16px">+$2.6M due to timing of stmt mailing for One Paper Benefit mailing to December, offset by higher participant mailings of ($0.8M)</td></tr>
+              <tr class="indent"><td>Interest Income</td><td>(1.2)</td><td class="unf">(0.1)</td><td style="text-align:left;padding-left:16px">Slightly lower interest income than planned</td></tr>
+              <tr class="indent"><td>All Other Expense</td><td>0.5</td><td>0.2</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr><td>NDE</td><td>20.5</td><td class="fav">1.9</td><td style="text-align:left;padding-left:16px">Income Summary Sales are ($2.0M) lower than plan</td></tr>
+              <tr><td>Allocations</td><td>6.5</td><td class="unf">(0.0)</td><td style="text-align:left;padding-left:16px"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">All figures illustrative. Favorable variances in green; unfavorable in red with parentheses notation.</div>
+      </div><!-- /section RS MTD -->
+
+      <!-- RS Management P&L · YTD -->
+      <div class="section" style="margin-top:14px">
+        <div class="section-hdr">
+          <div class="section-title">RS Management P&amp;L · YTD</div>
+          <a class="export-link" href="#">Export ↓</a>
+        </div>
+        <div class="section-sub">$M · Actual vs Plan · Green is favorable, red is unfavorable</div>
+        <div class="tbl-wrap">
+          <table class="pl">
+            <thead>
+              <tr>
+                <th>$M</th>
+                <th>YTD</th>
+                <th>YTD vs Plan</th>
+                <th style="min-width:180px;text-align:left;padding-left:16px">YTD Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold"><td>&#9733; RS</td><td>150.2</td><td class="fav">8.4</td><td style="text-align:left;padding-left:16px">+23.7% growth; 105.9% of plan</td></tr>
+              <tr><td>Revenue</td><td>286.8</td><td>2.8</td><td style="text-align:left;padding-left:16px">Revenue is at 101.0% of plan</td></tr>
+              <tr class="bold"><td>Field Opex Expense</td><td>59.1</td><td class="unf">2.6</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>EE Related Expense</td><td>37.1</td><td>0.6</td><td style="text-align:left;padding-left:16px">FTE's are (29) lower than plan; Rate / EE is at 100.5% of plan</td></tr>
+              <tr class="indent"><td>Trustee Fees</td><td>2.5</td><td>0.1</td><td style="text-align:left;padding-left:16px">Mesirow fee driven</td></tr>
+              <tr class="indent"><td>Trailer Fees</td><td>9.8</td><td>0.2</td><td style="text-align:left;padding-left:16px">Market driven</td></tr>
+              <tr class="indent"><td>Bad Debt</td><td>3.3</td><td class="unf">(0.3)</td><td style="text-align:left;padding-left:16px">(25.4%) growth; 111.0% of plan</td></tr>
+              <tr class="indent"><td>Consulting &amp; Professional</td><td>1.9</td><td>0.1</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>Adv, Fulfillment &amp; Mktg</td><td>1.2</td><td>0.1</td><td style="text-align:left;padding-left:16px"></td></tr>
+              <tr class="indent"><td>Delivery &amp; Mailings</td><td>5.5</td><td class="fav">1.7</td><td style="text-align:left;padding-left:16px">Higher ($1.0M) participant mailings (volume driven), offset by +$2.7M lower stmt mailings due to timing of One Paper Benefit mailings</td></tr>
+              <tr class="indent"><td>Interest Income</td><td>(3.5)</td><td class="unf">(0.2)</td><td style="text-align:left;padding-left:16px">Slightly lower interest income than planned</td></tr>
+              <tr class="indent"><td>All Other Expense</td><td>1.4</td><td>0.4</td><td style="text-align:left;padding-left:16px">Misc items</td></tr>
+              <tr><td>NDE</td><td>57.9</td><td class="fav">3.0</td><td style="text-align:left;padding-left:16px">Income Summary Sales are ($3.8M) lower than plan</td></tr>
+              <tr><td>Allocations</td><td>19.5</td><td class="unf">(0.0)</td><td style="text-align:left;padding-left:16px"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-note">All figures illustrative. Favorable variances in green; unfavorable in red with parentheses notation.</div>
+      </div><!-- /section RS YTD -->
 
     </div><!-- /content -->
   </main>
