@@ -2812,67 +2812,46 @@
     convoEl.appendChild(answerBlock);
     scrollToBottom();
 
-    // 3. After thinking, typewriter
+    // 3. After thinking, render full formatted response
     setTimeout(function() {
       bodyEl.removeChild(thinking);
 
+      // Render all paragraphs at once with a fade-in
       var paragraphs = parseParagraphs(a);
-      var pIdx = 0, cIdx = 0, curP = null;
-      var SPEED = 11;
+      paragraphs.forEach(function(text) {
+        var p = document.createElement('p');
+        p.innerHTML = applyBold(text);
+        bodyEl.appendChild(p);
+      });
+      bodyEl.style.opacity = '0';
+      bodyEl.style.transition = 'opacity .25s';
+      requestAnimationFrame(function() { requestAnimationFrame(function() { bodyEl.style.opacity = '1'; }); });
 
-      function nextPara() {
-        if (pIdx >= paragraphs.length) {
-          // Done — add action row then follow-ups
-          var actions = document.createElement('div');
-          actions.className = 'ai-answer-actions';
-          actions.innerHTML =
-            '<button type="button" class="btn-sm btn-save-reply" style="font-size:11px;" id="ai-copy-btn">Copy</button>' +
-            '<button type="button" class="btn-sm btn-cancel-reply" style="font-size:11px;" id="ai-add-commentary-btn">Add to commentary</button>';
-          actions.querySelector('#ai-copy-btn').addEventListener('click', function() {
-            if (navigator.clipboard) navigator.clipboard.writeText(a);
-            this.textContent = 'Copied ✓';
-            var self = this; setTimeout(function() { self.textContent = 'Copy'; }, 2000);
-          });
-          actions.querySelector('#ai-add-commentary-btn').addEventListener('click', function() {
-            if (window.switchToCommentaryTab) window.switchToCommentaryTab();
-            var inputBox = document.getElementById('commentary-input-box');
-            var commentaryInput = document.getElementById('commentary-input');
-            var titleInput = document.getElementById('commentary-title-input');
-            if (inputBox) inputBox.removeAttribute('hidden');
-            if (titleInput) titleInput.value = q;
-            if (commentaryInput) { commentaryInput.value = a; commentaryInput.focus(); }
-            this.textContent = 'Added ✓';
-            var self = this; setTimeout(function() { self.textContent = 'Add to commentary'; }, 2000);
-          });
-          answerBlock.appendChild(actions);
-          scrollToBottom();
-          // Follow-up prompts
-          setTimeout(showFollowUps, 300);
-          return;
-        }
-        curP = document.createElement('p');
-        curP.style.opacity = '0';
-        curP.style.transition = 'opacity .15s';
-        bodyEl.appendChild(curP);
-        requestAnimationFrame(function() { requestAnimationFrame(function() { curP.style.opacity = '1'; }); });
-        cIdx = 0;
-        typeChar();
-      }
-
-      function typeChar() {
-        var text = paragraphs[pIdx];
-        if (cIdx < text.length) {
-          curP.textContent = text.slice(0, ++cIdx);
-          scrollToBottom();
-          setTimeout(typeChar, SPEED);
-        } else {
-          curP.innerHTML = applyBold(text);
-          pIdx++;
-          setTimeout(nextPara, 70);
-        }
-      }
-
-      nextPara();
+      // Action row
+      var actions = document.createElement('div');
+      actions.className = 'ai-answer-actions';
+      actions.innerHTML =
+        '<button type="button" class="btn-sm btn-save-reply" style="font-size:11px;">Copy</button>' +
+        '<button type="button" class="btn-sm btn-cancel-reply" style="font-size:11px;">Add to commentary</button>';
+      actions.querySelector('.btn-save-reply').addEventListener('click', function() {
+        if (navigator.clipboard) navigator.clipboard.writeText(a);
+        this.textContent = 'Copied ✓';
+        var self = this; setTimeout(function() { self.textContent = 'Copy'; }, 2000);
+      });
+      actions.querySelector('.btn-cancel-reply').addEventListener('click', function() {
+        if (window.switchToCommentaryTab) window.switchToCommentaryTab();
+        var inputBox = document.getElementById('commentary-input-box');
+        var commentaryInput = document.getElementById('commentary-input');
+        var titleInput = document.getElementById('commentary-title-input');
+        if (inputBox) inputBox.removeAttribute('hidden');
+        if (titleInput) titleInput.value = q;
+        if (commentaryInput) { commentaryInput.value = a; commentaryInput.focus(); }
+        this.textContent = 'Added ✓';
+        var self = this; setTimeout(function() { self.textContent = 'Add to commentary'; }, 2000);
+      });
+      answerBlock.appendChild(actions);
+      scrollToBottom();
+      setTimeout(showFollowUps, 300);
     }, 1200);
 
     function showFollowUps() {
