@@ -148,11 +148,6 @@
   table.pl th:first-child { text-align: left; min-width: 200px; white-space: normal; }
   table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
   table.pl td:first-child { text-align: left; }
-  #pl-table th:first-child,
-  #pl-table td:first-child { position: sticky; left: 0; z-index: 2; background: var(--tile); box-shadow: 2px 0 4px -2px rgba(0,0,0,.12); }
-  #pl-table thead tr:first-child th:first-child { background: #fff; z-index: 3; }
-  #pl-table tr.section-gap td:first-child { background: #f9f9f9; }
-  #pl-table tr:hover td:first-child { background: var(--hover); }
   table.pl tr.bold > td { font-weight: 700; }
   table.pl tr:hover td { background: var(--hover); }
   .fav { color: var(--green); font-weight: 600; }
@@ -382,12 +377,28 @@
   .snapcmts-hdr { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
   .snapcmt { padding: 8px 10px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 3px; }
 
-  /* Scorecard summary: row highlight, hover overlay, row commentary */
-  #scorecard-table tbody tr[data-sc-label] { cursor: pointer; }
+  /* Table row highlight, hover overlay, row commentary */
+  #scorecard-table tbody tr[data-sc-label],
+  #kpi-detail-table tbody tr[data-sc-label],
+  #pl-table-detailed tbody tr[data-sc-label],
+  #fe-summary-table tbody tr[data-sc-label],
+  table.pl tbody tr[data-sc-label] { cursor: pointer; }
 
-  #scorecard-table tr.sc-hl > td { box-shadow: inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
-  #scorecard-table tr.sc-hl > td:first-child { box-shadow: inset 2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
-  #scorecard-table tr.sc-hl > td:last-child { box-shadow: inset -2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+  #scorecard-table tr.sc-hl > td,
+  #kpi-detail-table tr.sc-hl > td,
+  #pl-table-detailed tr.sc-hl > td,
+  #fe-summary-table tr.sc-hl > td,
+  table.pl tr.sc-hl > td { box-shadow: inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+  #scorecard-table tr.sc-hl > td:first-child,
+  #kpi-detail-table tr.sc-hl > td:first-child,
+  #pl-table-detailed tr.sc-hl > td:first-child,
+  #fe-summary-table tr.sc-hl > td:first-child,
+  table.pl tr.sc-hl > td:first-child { box-shadow: inset 2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+  #scorecard-table tr.sc-hl > td:last-child,
+  #kpi-detail-table tr.sc-hl > td:last-child,
+  #pl-table-detailed tr.sc-hl > td:last-child,
+  #fe-summary-table tr.sc-hl > td:last-child,
+  table.pl tr.sc-hl > td:last-child { box-shadow: inset -2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
   #sc-overlay { position: fixed; z-index: 1200; display: none; align-items: center; gap: 12px; padding: 4px 10px; background: #fff; border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.15); font-size: 11px; font-weight: 600; color: var(--navy); }
   #sc-overlay.on { display: flex; }
   .sc-ov-opt { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap; }
@@ -1055,12 +1066,14 @@
       <div class="opt-label">Option 3</div>
       <div class="section">
         <div class="section-hdr">
-          <div class="section-title">RS KPI performance detail</div>
+          <div class="section-title">RS KPI performance detail
+            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add RS KPI performance detail table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
+          </div>
           <a class="export-link" href="#">Export ↓</a>
         </div>
         <div class="section-sub">Actual performance vs Plan, Forecast, and Prior Year (YoY)</div>
         <div class="tbl-wrap">
-          <table class="pl">
+          <table class="pl" id="kpi-detail-table">
             <thead>
               <tr>
                 <th style="min-width:220px">Metric</th>
@@ -1089,204 +1102,32 @@
             </tbody>
           </table>
         </div>
-      </div>
-
-      <!-- Summary scorecard table -->
-      <div class="opt-label brd-host">Option 4<span class="brd-pill" data-brd="BR-07">BR-07</span><span class="brd-pill brd-2" data-brd="BR-09">BR-09</span></div>
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">RS scorecard summary
-            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add RS scorecard summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
-          </div>
-          <a class="export-link" href="#">Export ↓</a>
-        </div>
-        <div class="section-sub">September close · $m unless noted · Illustrative</div>
-        <div class="tbl-wrap">
-          <table class="pl" id="scorecard-table">
-            <thead>
-              <tr>
-                <th style="min-width:200px"></th>
-                <th>Sep Act</th>
-                <th>vs Plan</th>
-                <th>Gr %</th>
-                <th style="border-left:2px solid var(--line)">Sep YTD Act</th>
-                <th>vs Plan</th>
-                <th>Gr %</th>
-                <th style="border-left:2px solid var(--line)">FY27 Plan</th>
-                <th>Gr %</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Sales block -->
-              <tr class="bold"><td>Income Summary Sales</td><td>25.7</td><td class="unf">(2.0)</td><td>5.5%</td><td style="border-left:2px solid var(--line)">59.2</td><td class="unf">(3.8)</td><td>3.1%</td><td style="border-left:2px solid var(--line)">291.2</td><td>10.7%</td></tr>
-              <tr class="bold"><td>NNB</td><td>11.8</td><td class="unf">(1.0)</td><td>10.2%</td><td style="border-left:2px solid var(--line)">40.4</td><td>2.1</td><td>8.6%</td><td style="border-left:2px solid var(--line)">170.3</td><td>3.0%</td></tr>
-              <tr><td style="padding-left:24px">Starts</td><td>19.1</td><td class="unf">(1.8)</td><td>1.2%</td><td style="border-left:2px solid var(--line)">62.5</td><td>0.3</td><td>7.9%</td><td style="border-left:2px solid var(--line)">277.8</td><td>7.5%</td></tr>
-              <tr><td style="padding-left:24px">Losses</td><td>7.3</td><td>0.8</td><td class="unf">(10.6%)</td><td style="border-left:2px solid var(--line)">22.1</td><td>1.7</td><td>6.8%</td><td style="border-left:2px solid var(--line)">107.5</td><td>15.6%</td></tr>
-              <tr class="bold"><td>Retention %</td><td>92.2%</td><td>89 bps</td><td>221 bps</td><td style="border-left:2px solid var(--line)">92.3%</td><td>69 bps</td><td>61 bps</td><td style="border-left:2px solid var(--line)">90.9%</td><td class="unf">−18 bps</td></tr>
-              <!-- Revenue / NOI block -->
-              <tr style="height:6px"><td colspan="9"></td></tr>
-              <tr class="bold"><td>Revenue</td><td>93.4</td><td>0.5</td><td>14.7%</td><td style="border-left:2px solid var(--line)">286.8</td><td>2.8</td><td>15.2%</td><td style="border-left:2px solid var(--line)">1,181.1</td><td>13.4%</td></tr>
-              <tr><td style="padding-left:24px;font-style:italic">Field Expense</td><td>18.9</td><td>2.3</td><td>5.3%</td><td style="border-left:2px solid var(--line)">59.1</td><td>2.6</td><td>4.2%</td><td style="border-left:2px solid var(--line)">251.3</td><td>8.7%</td></tr>
-              <tr><td style="padding-left:24px;font-style:italic">NDE</td><td>20.5</td><td>1.9</td><td>5.3%</td><td style="border-left:2px solid var(--line)">57.9</td><td>3.0</td><td>11.5%</td><td style="border-left:2px solid var(--line)">270.0</td><td>9.2%</td></tr>
-              <tr><td style="padding-left:24px;font-style:italic">Allocations</td><td>6.5</td><td class="unf">(0.0)</td><td>4.1%</td><td style="border-left:2px solid var(--line)">19.5</td><td class="unf">(0.0)</td><td>4.1%</td><td style="border-left:2px solid var(--line)">78.0</td><td>4.1%</td></tr>
-              <tr class="bold"><td>NOI</td><td>47.5</td><td class="fav">4.6</td><td>25.9%</td><td style="border-left:2px solid var(--line)">150.2</td><td class="fav">8.4</td><td>23.7%</td><td style="border-left:2px solid var(--line)">581.9</td><td>19.1%</td></tr>
-              <tr class="bold"><td>NOI Margin %</td><td>50.8%</td><td>472 bps</td><td>449 bps</td><td style="border-left:2px solid var(--line)">52.4%</td><td>245 bps</td><td>359 bps</td><td style="border-left:2px solid var(--line)">49.3%</td><td>239 bps</td></tr>
-              <!-- Clients block -->
-              <tr style="height:6px"><td colspan="9" style="border-top:2px solid var(--line)"></td></tr>
-              <tr class="bold"><td>Clients (000's) Avg</td><td>219.2</td><td>(0.2)k Lower</td><td>12.4%</td><td style="border-left:2px solid var(--line)">217.8</td><td>0.1k Higher</td><td>12.0%</td><td style="border-left:2px solid var(--line)">228.1</td><td>13.4%</td></tr>
-              <tr><td style="padding-left:24px">401K Clients (000's) Avg</td><td>151.3</td><td>0.3k Higher</td><td>16.4%</td><td style="border-left:2px solid var(--line)">149.7</td><td>0.3k Higher</td><td>15.5%</td><td style="border-left:2px solid var(--line)">158.5</td><td>16.6%</td></tr>
-              <tr><td style="padding-left:24px">Simple Clients (000's) Avg</td><td>64.1</td><td>(0.5)k Lower</td><td>4.7%</td><td style="border-left:2px solid var(--line)">64.3</td><td>(0.2)k Lower</td><td>5.1%</td><td style="border-left:2px solid var(--line)">65.7</td><td>7.1%</td></tr>
-              <tr class="bold"><td>Participants (000's) Avg</td><td>4,987.2</td><td>9.7k Higher</td><td>12.5%</td><td style="border-left:2px solid var(--line)">4,896.3</td><td>(6.2)k Lower</td><td>12.0%</td><td style="border-left:2px solid var(--line)">5,175.7</td><td>12.3%</td></tr>
-              <!-- Headcount block -->
-              <tr style="height:6px"><td colspan="9"></td></tr>
-              <tr class="bold"><td>Headcount (Ending)</td><td>1,510</td><td>(31) Lower</td><td>3.9%</td><td style="border-left:2px solid var(--line)">1,510</td><td>(31) Lower</td><td>3.9%</td><td style="border-left:2px solid var(--line)">1,587</td><td>4.9%</td></tr>
-              <tr class="bold"><td>FTE's (Average)</td><td>1,503</td><td>(46) Lower</td><td>2.8%</td><td style="border-left:2px solid var(--line)">1,510</td><td>(29) Lower</td><td>3.6%</td><td style="border-left:2px solid var(--line)">1,582</td><td>6.1%</td></tr>
-            </tbody>
-          </table>
-        </div>
         <!-- Row commentary (saved below the table) -->
-        <div class="sc-cmt-area" id="sc-cmt-area">
-          <span class="brd-pill" data-brd="BR-16" style="top:-2px;">BR-16</span>
-          <div class="sc-cmt-as">
-            <label for="sc-cmt-persona"><b>Commenting as:</b></label>
-            <select id="sc-cmt-persona"></select>
-          </div>
-          <div class="sc-cmt-editor" id="sc-cmt-editor" hidden>
-            <div class="sc-cmt-target">Commenting on: <b id="sc-cmt-target"></b></div>
-            <textarea id="sc-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
+        <div class="sc-cmt-area" id="kpi-detail-cmt-area">
+          <div class="sc-cmt-editor" id="kpi-detail-cmt-editor" hidden>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div class="sc-cmt-target">Commenting on: <b id="kpi-detail-cmt-target"></b></div>
+              <div class="sc-cmt-as" style="margin:0;">
+                <label for="kpi-detail-cmt-persona"><b>Commenting as:</b></label>
+                <select id="kpi-detail-cmt-persona"></select>
+              </div>
+            </div>
+            <textarea id="kpi-detail-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
             <div class="sc-cmt-actions">
-              <button type="button" class="btn-sm btn-cancel-reply" id="sc-cmt-cancel">Cancel</button>
-              <button type="button" class="btn-sm btn-save-reply" id="sc-cmt-save">Save commentary</button>
+              <button type="button" class="btn-sm btn-cancel-reply" id="kpi-detail-cmt-cancel">Cancel</button>
+              <button type="button" class="btn-sm btn-save-reply" id="kpi-detail-cmt-save">Save commentary</button>
             </div>
           </div>
-          <div class="sc-cmt-list" id="sc-cmt-list"></div>
-        </div>
-        <div class="tbl-foot">Illustrative · All figures in $m unless noted · bps = basis points · k = thousands</div>
-      </div><!-- /scorecard -->
-
-      <!-- KPI summary table -->
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">KPI summary — all periods</div>
-          <span class="illustrative">Illustrative · $m unless noted · vs plan</span>
-        </div>
-        <div class="tbl-wrap">
-          <table class="pl" style="font-size:12px;">
-            <thead>
-              <tr>
-                <th style="min-width:170px;text-align:left">Period</th>
-                <th>Sales</th>
-                <th>Retention</th>
-                <th>Revenue</th>
-                <th>NOI</th>
-                <th>Clients (avg)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bold">
-                <td>Current (Sep)</td>
-                <td>$18.6m <span class="fav" style="font-weight:400">+$0.6m</span></td>
-                <td>92.4% <span class="fav" style="font-weight:400">+0.4 pp</span></td>
-                <td>$120.0m <span class="fav" style="font-weight:400">+$4.0m</span></td>
-                <td>$28.0m <span class="fav" style="font-weight:400">+$3.5m</span></td>
-                <td>61,500 <span class="fav" style="font-weight:400">+300</span></td>
-              </tr>
-              <tr>
-                <td>Month (Sep)</td>
-                <td>$18.6m <span class="fav" style="font-weight:400">+$0.6m</span></td>
-                <td>92.4% <span class="fav" style="font-weight:400">+0.4 pp</span></td>
-                <td>$120.0m <span class="fav" style="font-weight:400">+$4.0m</span></td>
-                <td>$28.0m <span class="fav" style="font-weight:400">+$3.5m</span></td>
-                <td>61,500 <span class="fav" style="font-weight:400">+300</span></td>
-              </tr>
-              <tr>
-                <td>QTD (Aug–Sep)</td>
-                <td>$35.8m <span class="fav" style="font-weight:400">+$1.0m</span></td>
-                <td>92.3% <span class="fav" style="font-weight:400">+0.3 pp</span></td>
-                <td>$234.2m <span class="fav" style="font-weight:400">+$6.2m</span></td>
-                <td>$54.0m <span class="fav" style="font-weight:400">+$5.6m</span></td>
-                <td>61,250 <span class="fav" style="font-weight:400">+220</span></td>
-              </tr>
-              <tr>
-                <td>YTD (Jul–Sep)</td>
-                <td>$52.4m <span class="fav" style="font-weight:400">+$1.4m</span></td>
-                <td>92.0% <span class="fav" style="font-weight:400">+0.4 pp</span></td>
-                <td>$348.6m <span class="fav" style="font-weight:400">+$9.6m</span></td>
-                <td>$80.8m <span class="fav" style="font-weight:400">+$8.8m</span></td>
-                <td>61,100 <span class="fav" style="font-weight:400">+200</span></td>
-              </tr>
-              <tr>
-                <td>Full Year Plan</td>
-                <td>$210.0m</td>
-                <td>92.0%</td>
-                <td>$1,356.0m</td>
-                <td>$280.0m</td>
-                <td>61,800</td>
-              </tr>
-              <tr class="bold">
-                <td>YTD % of FY Plan</td>
-                <td><span class="fav">25.0%</span></td>
-                <td><span class="fav">+0.4 pp</span></td>
-                <td><span class="fav">25.7%</span></td>
-                <td><span class="fav">28.9%</span></td>
-                <td><span class="unf">98.9%</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="sc-cmt-list" id="kpi-detail-cmt-list"></div>
         </div>
       </div>
 
-      <!-- P&L table -->
-      <div class="opt-label">Option 1</div>
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">Management-view P&amp;L summary</div>
-          <a class="export-link" href="#">Export ↓</a>
-        </div>
-        <div class="section-sub" id="pl-sub">September, $m · Actual vs plan and prior year · Illustrative</div>
-        <div class="tbl-wrap">
-          <table class="pl" id="pl-table">
-            <thead>
-              <tr>
-                <th>September, $m</th>
-                <th>Actual</th>
-                <th>vs plan</th>
-                <th>%</th>
-                <th>vs PY</th>
-                <th>%</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bold"><td>Revenue ↗</td><td>120.0</td><td class="fav">+4.0</td><td class="fav">+3.4%</td><td class="fav">+6.0</td><td class="fav">+5.3%</td></tr>
-              <tr><td>Field expense ↗</td><td>78.0</td><td class="unf">−1.0</td><td class="unf">−1.3%</td><td class="unf">−3.0</td><td class="unf">−4.0%</td></tr>
-              <tr class="bold"><td>Field NOI</td><td>42.0</td><td class="fav">+3.0</td><td class="fav">+7.7%</td><td class="fav">+3.0</td><td class="fav">+7.7%</td></tr>
-              <tr><td>NDE</td><td>8.0</td><td class="fav">+0.5</td><td class="fav">+5.9%</td><td class="unf">−0.5</td><td class="unf">−6.7%</td></tr>
-              <tr><td>Shared service allocations</td><td>6.0</td><td>0.0</td><td>0.0%</td><td class="unf">−0.5</td><td class="unf">−9.1%</td></tr>
-              <tr class="bold"><td>NOI</td><td>28.0</td><td class="fav">+3.5</td><td class="fav">+14.3%</td><td class="fav">+2.0</td><td class="fav">+7.7%</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="tbl-foot" id="pl-foot">Revenue is $4.0m above plan and 5.3% above prior year. Field expense is $1.0m over plan; NOI lands $3.5m above plan.</div>
-
-        <!-- Row discussion -->
-        <div class="row-disc">
-          <div class="disc-avatar">MC</div>
-          <div class="disc-body">
-            <div class="disc-meta"><b>Row discussion</b> &nbsp;·&nbsp; <span id="disc-ref" style="color:var(--blue)">Revenue / +$4.0m</span> &nbsp;·&nbsp; Static collaboration state</div>
-            <div class="disc-msg">@Maya Chen — Confirm the asset revenue upside before sign-off.</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:3px">Row discussion · Static</div>
-          </div>
-          <a class="disc-reply" href="#">Reply</a>
-        </div>
-
-      </div><!-- /section -->
-
       <!-- Detailed Management-view P&L table -->
-      <div class="opt-label">Option 2</div>
       <div class="section">
         <div class="section-hdr">
-          <div class="section-title">Management-view P&amp;L detail summary</div>
+          <div class="section-title">Management-view P&amp;L detail summary
+            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add Management-view P&L detail summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
+          </div>
           <a class="export-link" href="#">Export ↓</a>
         </div>
         <div class="section-sub">September · $m · Actual vs forecast, plan and prior year · Illustrative</div>
@@ -1487,6 +1328,24 @@
             </tbody>
           </table>
         </div>
+        <!-- Row commentary (saved below the table) -->
+        <div class="sc-cmt-area" id="pl-detail-cmt-area">
+          <div class="sc-cmt-editor" id="pl-detail-cmt-editor" hidden>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div class="sc-cmt-target">Commenting on: <b id="pl-detail-cmt-target"></b></div>
+              <div class="sc-cmt-as" style="margin:0;">
+                <label for="pl-detail-cmt-persona"><b>Commenting as:</b></label>
+                <select id="pl-detail-cmt-persona"></select>
+              </div>
+            </div>
+            <textarea id="pl-detail-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
+            <div class="sc-cmt-actions">
+              <button type="button" class="btn-sm btn-cancel-reply" id="pl-detail-cmt-cancel">Cancel</button>
+              <button type="button" class="btn-sm btn-save-reply" id="pl-detail-cmt-save">Save commentary</button>
+            </div>
+          </div>
+          <div class="sc-cmt-list" id="pl-detail-cmt-list"></div>
+        </div>
         <div class="tbl-foot">September close · All figures in $m unless noted · Contrib. = Contribution to Processing Revenue Growth</div>
       </div><!-- /section -->
 
@@ -1494,7 +1353,9 @@
       <div class="opt-label">Option 1</div>
       <div class="section">
         <div class="section-hdr">
-          <div class="section-title">RS Field Expense Summary P&amp;L — MTD &amp; YTD</div>
+          <div class="section-title">RS Field Expense Summary P&amp;L — MTD &amp; YTD
+            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add RS Field Expense Summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
+          </div>
           <a class="export-link" href="#">Export ↓</a>
         </div>
         <div class="section-sub">September close · $m unless noted · Actual vs Plan &amp; variance commentary · Illustrative</div>
@@ -1628,6 +1489,24 @@
             </tbody>
           </table>
         </div>
+        <!-- Row commentary (saved below the table) -->
+        <div class="sc-cmt-area" id="fe-summary-cmt-area">
+          <div class="sc-cmt-editor" id="fe-summary-cmt-editor" hidden>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <div class="sc-cmt-target">Commenting on: <b id="fe-summary-cmt-target"></b></div>
+              <div class="sc-cmt-as" style="margin:0;">
+                <label for="fe-summary-cmt-persona"><b>Commenting as:</b></label>
+                <select id="fe-summary-cmt-persona"></select>
+              </div>
+            </div>
+            <textarea id="fe-summary-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
+            <div class="sc-cmt-actions">
+              <button type="button" class="btn-sm btn-cancel-reply" id="fe-summary-cmt-cancel">Cancel</button>
+              <button type="button" class="btn-sm btn-save-reply" id="fe-summary-cmt-save">Save commentary</button>
+            </div>
+          </div>
+          <div class="sc-cmt-list" id="fe-summary-cmt-list"></div>
+        </div>
         <div class="tbl-foot">September close · All figures in $m unless noted · Parentheses denote unfavorable variance vs plan · Summarized from Field Expense P&amp;L</div>
       </div><!-- /fe-summary section -->
 
@@ -1728,7 +1607,7 @@
           </div>
         </div>
         <div class="commentary-hdr-r">
-          <button type="button" class="btn btn-ghost" id="commentary-print-btn" style="font-size:12px;padding:5px 12px;" title="Open a print-ready view of the narrative">Print</button>
+          <button type="button" class="btn btn-ghost" id="commentary-print-btn" style="font-size:12px;padding:5px 12px;" title="View commentary narrative">View</button>
 
           <button type="button" class="btn btn-send-cfo" id="commentary-send-cfo-btn" style="font-size:12px;padding:5px 12px;">Send to CFO</button>
           <span class="brd-host"><span class="brd-pill" data-brd="BR-10">BR-10</span><button type="button" class="btn btn-approve" id="commentary-approve-btn" style="font-size:12px;padding:5px 12px;">Approve</button></span>
@@ -2614,28 +2493,6 @@
     $('cs-line').textContent = 'Axis starts at ' + (pct ? '0%' : '$' + base + 'm');
   }
 
-  /* ---------- table ---------- */
-  function renderTable(d, P, pct, pva) {
-    var table = $('pl-table'), thead = table.tHead, tbody = table.tBodies[0];
-    var denomA = P.rev.a, denomP = P.rev.p;
-    var cols = [{ h: 'Actual', f: function (r) { return { t: pct ? pc(r.a / denomA * 100) : num(r.a) }; } }];
-    if (pva) cols.push({ h: 'Plan', f: function (r) { return { t: pct ? pc(r.p / denomP * 100) : num(r.p) }; } });
-    cols.push({ h: pct ? 'vs plan %' : 'vs plan', f: function (r) { return pct ? { t: sPc(r.pp), c: cls(r.pp) } : { t: sgn(r.dp), c: cls(r.dp) }; } });
-    if (!pct) cols.push({ h: '%', f: function (r) { return { t: sPc(r.pp), c: cls(r.pp) }; } });
-    cols.push({ h: pct ? 'vs PY %' : 'vs PY', f: function (r) { return pct ? { t: sPc(r.py), c: cls(r.py) } : { t: sgn(r.dy), c: cls(r.dy) }; } });
-    if (!pct) cols.push({ h: '%', f: function (r) { return { t: sPc(r.py), c: cls(r.py) }; } });
-    clear(thead); clear(tbody);
-    var hr = el('tr'); hr.appendChild(el('th', null, d.name + ', ' + (pct ? '%' : '$m')));
-    cols.forEach(function (c) { hr.appendChild(el('th', null, c.h)); });
-    thead.appendChild(hr);
-    [['rev', 'Revenue ↗', 1], ['fe', 'Field expense ↗', 0], ['fnoi', 'Field NOI', 1], ['nde', 'NDE', 0], ['al', 'Shared service allocations', 0], ['noi', 'NOI', 1]].forEach(function (row) {
-      var r = P[row[0]], tr = el('tr', row[2] ? 'bold' : '');
-      tr.appendChild(el('td', null, row[1]));
-      cols.forEach(function (c) { var o = c.f(r); tr.appendChild(el('td', o.c || '', o.t)); });
-      tbody.appendChild(tr);
-    });
-    $('pl-sub').textContent = d.name + ', ' + (pct ? '% · Actual as % of revenue; variance % vs plan and prior year' : '$m · Actual ' + (pva ? 'and plan, with variance to plan and prior year' : 'vs plan and prior year')) + ' · Illustrative';
-  }
 
   /* ---------- narrative ---------- */
   function renderText(d, P, pct) {
@@ -2652,9 +2509,15 @@
     var rsYVarText = d.ytd ? (sUsd(noi.dp) + ' vs plan') : (sUsd(DATA.ytd.rev.a - DATA.ytd.rev.p) + ' / ' + sPc((DATA.ytd.rev.a / DATA.ytd.rev.p - 1) * 100) + ' vs plan');
     $('banner-ytd-var').textContent = rsYVarText;
     $('banner-ytd-var').style.color = (d.ytd ? noi.dp >= 0 : (DATA.ytd.rev.a >= DATA.ytd.rev.p)) ? 'var(--green)' : 'var(--red)';
-    $('pl-foot').textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
-      ' prior year. Field expense is ' + amt(fe) + ' ' + feDir + ' plan; NOI lands ' + amt(noi) + ' ' + noiDir + ' plan.';
-    $('disc-ref').textContent = 'Revenue / ' + (pct ? sPc(rev.pp) : sUsd(rev.dp));
+    var plFoot = $('pl-foot');
+    if (plFoot) {
+      plFoot.textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
+        ' prior year. Field expense is ' + amt(fe) + ' ' + feDir + ' plan; NOI lands ' + amt(noi) + ' ' + noiDir + ' plan.';
+    }
+    var discRef = $('disc-ref');
+    if (discRef) {
+      discRef.textContent = 'Revenue / ' + (pct ? sPc(rev.pp) : sUsd(rev.dp));
+    }
     $('ai-period').textContent = 'RS / SEPTEMBER / ' + (d.ytd ? 'YTD' : 'PERIOD');
     $('ai-head').textContent = 'Revenue ' + revDir + ' plan' + (d.ytd ? ' year to date' : '') + ', led by asset revenue; NOI ' + amt(noi) + ' ' + (noi.dp >= 0 ? 'ahead' : 'behind') + '.';
     $('ai-body').textContent = 'Revenue is ' + amt(rev) + ' ' + revDir + ' plan and ' + pc(Math.abs(rev.py)) + ' ' + pyDir +
@@ -2670,7 +2533,6 @@
     renderCat(d, pct);
     renderLine(d, pct, pva);
     renderSeg(d, pct);
-    renderTable(d, P, pct, pva);
     renderText(d, P, pct);
   }
 
@@ -2892,90 +2754,19 @@
 </div>
 <script>
 (function () {
-  var table = document.getElementById('scorecard-table');
-  if (!table) return;
-  var wrap = table.parentNode;
   var ov = document.getElementById('sc-overlay');
   var cm = document.getElementById('sc-ov-cm');
-  var editor = document.getElementById('sc-cmt-editor'), ta = document.getElementById('sc-cmt-text');
-  var target = document.getElementById('sc-cmt-target'), list = document.getElementById('sc-cmt-list');
-  var saveBtn = document.getElementById('sc-cmt-save'), cancelBtn = document.getElementById('sc-cmt-cancel');
+  if (!ov || !cm) return;
+
   var NAMES = ['Marcus Vance', 'Jordan Lee', 'Maya Chen', 'Sarah Jenkins', 'Derek Osman'];
   var tagRe = new RegExp('(@(?:' + NAMES.join('|') + '))', 'g');
-  var rows = Array.prototype.filter.call(table.tBodies[0].rows, function (r) { return r.cells.length > 1; });
-  var cur = null, editing = null, hideTimer = null, comments = [];
-
-  rows.forEach(function (r) {
-    r.dataset.scLabel = r.cells[0].textContent.trim();
-    r.addEventListener('mouseenter', function () { show(r); });
-    r.addEventListener('click', function (e) {
-      if (e.target.closest('a, button, input, textarea, select')) return;
-      r.classList.toggle('sc-hl');
-      show(r);
-    });
-  });
-
-  function show(r) {
-    clearTimeout(hideTimer);
-    cur = r;
-    cm.checked = (editing === r);
-    ov.classList.add('on');
-    var rr = r.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
-    ov.style.top = (rr.top + rr.height / 2 - ov.offsetHeight / 2) + 'px';
-    ov.style.left = (Math.min(wr.right, window.innerWidth) - ov.offsetWidth - 8) + 'px';
-  }
-  function hide() { ov.classList.remove('on'); }
-  function scheduleHide() { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 120); }
-  table.addEventListener('mouseleave', scheduleHide);
-  ov.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
-  ov.addEventListener('mouseleave', scheduleHide);
-  document.addEventListener('scroll', hide, true);
-
-  cm.addEventListener('change', function () {
-    if (!cur) return;
-    if (cm.checked) openEditor(cur); else closeEditor();
-  });
-
-  function openEditor(r) {
-    editing = r;
-    target.textContent = r.dataset.scLabel;
-    ta.value = '';
-    editor.hidden = false;
-    ta.focus();
-    editor.scrollIntoView({ block: 'nearest' });
-  }
-  function closeEditor() { editing = null; editor.hidden = true; ta.value = ''; cm.checked = false; }
-
-  function fill(el, text) {
-    text.split(tagRe).forEach(function (part) {
-      if (!part) return;
-      if (part.charAt(0) === '@' && NAMES.indexOf(part.slice(1)) !== -1) {
-        var s = document.createElement('span'); s.className = 'sc-tag'; s.textContent = part; el.appendChild(s);
-      } else el.appendChild(document.createTextNode(part));
-    });
-  }
-  function badges() {
-    rows.forEach(function (r) {
-      var n = comments.filter(function (c) { return c.row === r; }).length;
-      var b = r.cells[0].querySelector('.sc-badge');
-      if (!n) { if (b) b.remove(); return; }
-      if (!b) { b = document.createElement('span'); b.className = 'sc-badge'; r.cells[0].appendChild(b); }
-      b.textContent = n;
-      b.title = n + (n === 1 ? ' comment' : ' comments');
-    });
-  }
-  /* ---------- personas ---------- */
   var PERSONAS = [
     { name: 'Jordan Lee',    role: 'FP&A Lead',                      initials: 'JL', color: '#4066C8' },
     { name: 'Maya Chen',     role: 'Sr. Financial Analyst, RS FP&A', initials: 'MC', color: '#2e7d32' },
     { name: 'Marcus Vance',  role: 'RS BU CFO',                      initials: 'MV', color: '#141E50' },
     { name: 'Sarah Jenkins', role: 'Revenue Operations Lead',        initials: 'SJ', color: '#7B68B0' }
   ];
-  var personaSel = document.getElementById('sc-cmt-persona');
-  PERSONAS.forEach(function (p) {
-    var o = document.createElement('option'); o.value = p.name; o.textContent = p.name + ' (' + p.role + ')';
-    personaSel.appendChild(o);
-  });
+
   function persona(name) { return PERSONAS.filter(function (p) { return p.name === name; })[0] || PERSONAS[0]; }
   function now() { return new Date().toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
   function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -2987,112 +2778,285 @@
   function textBtn(label, fn, cls) {
     var b = mk('button', cls || 'sc-link', label); b.type = 'button'; b.addEventListener('click', fn); return b;
   }
-
-  /* ---------- push a comment (with its replies) into the Insights commentary panel ---------- */
-  function toInsights(c) {
-    var save = document.getElementById('commentary-save-btn'), inp = document.getElementById('commentary-input');
-    var tit = document.getElementById('commentary-title-input'), sel = document.getElementById('commentary-author-select');
-    if (!save || !inp) return;
-    var p = persona(c.p), prev = sel ? sel.value : '';
-    if (sel) sel.value = p.name + ' (' + p.role + ')';
-    if (tit) tit.value = 'RS scorecard · ' + c.label;
-    inp.value = c.text + (c.replies.length ? '\n\nReplies:\n' + c.replies.map(function (r) { return '— ' + r.p + ': ' + r.text; }).join('\n') : '');
-    save.click();
-    if (sel && prev) sel.value = prev;
-    c.added = true; renderList();
-    if (window.openDrawer) window.openDrawer('commentary');
-  }
-
-  function renderList() {
-    while (list.firstChild) list.removeChild(list.firstChild);
-    comments.forEach(function (c) {
-      var p = persona(c.p), item = mk('div', 'sc-cmt-item');
-
-      var head = mk('div', 'sc-cmt-head');
-      head.appendChild(avatar(p));
-      var who = mk('div', 'sc-cmt-who');
-      who.appendChild(mk('b', null, p.name));
-      who.appendChild(mk('span', 'sc-role', p.role));
-      head.appendChild(who);
-      head.appendChild(mk('span', 'sc-chip', c.label));
-      head.appendChild(mk('span', 'sc-ts', c.ts));
-      var del = textBtn('Delete', function () {
-        comments.splice(comments.indexOf(c), 1); renderList(); badges();
-      }, 'sc-link sc-del');
-      del.setAttribute('aria-label', 'Delete comment on ' + c.label);
-      head.appendChild(del);
-      item.appendChild(head);
-
-      var body = mk('div', 'sc-cmt-body'); fill(body, c.text); item.appendChild(body);
-
-      var acts = mk('div', 'sc-cmt-acts');
-      acts.appendChild(textBtn('↩ Reply' + (c.replies.length ? ' (' + c.replies.length + ')' : ''), function () {
-        c.replying = true; renderList();
-        var t = list.querySelector('.sc-reply-ta[data-id="' + c.id + '"]'); if (t) t.focus();
-      }));
-      if (c.added) acts.appendChild(mk('span', 'sc-added', 'Added to insights ✓'));
-      else acts.appendChild(textBtn('Add to insights', function () { toInsights(c); }));
-      item.appendChild(acts);
-
-      if (c.replies.length) {
-        var rl = mk('div', 'sc-replies');
-        c.replies.forEach(function (r) {
-          var rp = persona(r.p), re = mk('div', 'sc-reply');
-          re.appendChild(avatar(rp, true));
-          var rb = mk('div', 'sc-reply-main');
-          var rm = mk('div', 'sc-reply-meta');
-          rm.appendChild(mk('b', null, rp.name)); rm.appendChild(document.createTextNode(' · ' + r.ts));
-          var rt = mk('div', 'sc-cmt-body'); fill(rt, r.text);
-          rb.appendChild(rm); rb.appendChild(rt); re.appendChild(rb); rl.appendChild(re);
-        });
-        item.appendChild(rl);
-      }
-
-      if (c.replying) {
-        var form = mk('div', 'sc-reply-form');
-        var rta = mk('textarea', 'sc-cmt-text sc-reply-ta');
-        rta.dataset.id = c.id; rta.placeholder = 'Reply as ' + persona(personaSel.value).name + '. Type @ to tag a colleague.';
-        rta.setAttribute('aria-label', 'Reply to comment on ' + c.label);
-        if (window.wireMentionTextarea) window.wireMentionTextarea(rta);
-        var ra = mk('div', 'sc-cmt-actions');
-        var cancel = mk('button', 'btn-sm btn-cancel-reply', 'Cancel'); cancel.type = 'button';
-        cancel.addEventListener('click', function () { c.replying = false; renderList(); });
-        var post = mk('button', 'btn-sm btn-save-reply', 'Post reply'); post.type = 'button';
-        post.addEventListener('click', function () {
-          var t = rta.value.trim(); if (!t) { rta.focus(); return; }
-          c.replies.push({ p: personaSel.value, text: t, ts: now() });
-          c.replying = false; c.added = false; renderList();
-        });
-        ra.appendChild(cancel); ra.appendChild(post);
-        form.appendChild(rta); form.appendChild(ra); item.appendChild(form);
-      }
-      list.appendChild(item);
+  function fill(el, text) {
+    text.split(tagRe).forEach(function (part) {
+      if (!part) return;
+      if (part.charAt(0) === '@' && NAMES.indexOf(part.slice(1)) !== -1) {
+        var s = document.createElement('span'); s.className = 'sc-tag'; s.textContent = part; el.appendChild(s);
+      } else el.appendChild(document.createTextNode(part));
     });
   }
 
-  var seq = 0;
-  saveBtn.addEventListener('click', function () {
-    var text = ta.value.trim();
-    if (!text || !editing) return;
-    comments.push({
-      id: ++seq, row: editing, label: editing.dataset.scLabel, text: text,
-      p: personaSel.value, ts: now(), replies: [], replying: false, added: false
-    });
-    closeEditor(); renderList(); badges();
+  var curRow = null, curCfg = null, hideTimer = null, seq = 0;
+
+  function showOverlay(r, cfg) {
+    clearTimeout(hideTimer);
+    curRow = r;
+    curCfg = cfg;
+    cm.checked = (cfg.editing === r);
+    ov.classList.add('on');
+    var rr = r.getBoundingClientRect(), wr = cfg.wrap.getBoundingClientRect();
+    ov.style.top = (rr.top + rr.height / 2 - ov.offsetHeight / 2) + 'px';
+    ov.style.left = (Math.min(wr.right, window.innerWidth) - ov.offsetWidth - 8) + 'px';
+  }
+  function hideOverlay() { ov.classList.remove('on'); }
+  function scheduleHide() { clearTimeout(hideTimer); hideTimer = setTimeout(hideOverlay, 120); }
+
+  ov.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
+  ov.addEventListener('mouseleave', scheduleHide);
+  document.addEventListener('scroll', hideOverlay, true);
+
+  cm.addEventListener('change', function () {
+    if (!curRow || !curCfg) return;
+    if (cm.checked) curCfg.openEditor(curRow); else curCfg.closeEditor();
   });
-  /* read-only view of the row comments, used when the table is added to the narrative panel */
-  window.scSnapshot = function () {
-    return comments.map(function (c) {
-      var p = persona(c.p);
-      return {
-        label: c.label, text: c.text, ts: c.ts,
-        p: { name: p.name, role: p.role, initials: p.initials, color: p.color },
-        replies: c.replies.map(function (r) { var rp = persona(r.p); return { name: rp.name, initials: rp.initials, color: rp.color, text: r.text, ts: r.ts }; })
-      };
-    });
-  };
 
-  cancelBtn.addEventListener('click', closeEditor);
+  var TABLE_DEFS = [
+    {
+      tableId: 'kpi-detail-table',
+      personaId: 'kpi-detail-cmt-persona',
+      editorId: 'kpi-detail-cmt-editor',
+      targetId: 'kpi-detail-cmt-target',
+      textId: 'kpi-detail-cmt-text',
+      cancelId: 'kpi-detail-cmt-cancel',
+      saveId: 'kpi-detail-cmt-save',
+      listId: 'kpi-detail-cmt-list',
+      insightsPrefix: 'RS KPI performance detail · '
+    },
+    {
+      tableId: 'pl-table-detailed',
+      personaId: 'pl-detail-cmt-persona',
+      editorId: 'pl-detail-cmt-editor',
+      targetId: 'pl-detail-cmt-target',
+      textId: 'pl-detail-cmt-text',
+      cancelId: 'pl-detail-cmt-cancel',
+      saveId: 'pl-detail-cmt-save',
+      listId: 'pl-detail-cmt-list',
+      insightsPrefix: 'Management-view P&L detail · '
+    },
+    {
+      tableId: 'fe-summary-table',
+      personaId: 'fe-summary-cmt-persona',
+      editorId: 'fe-summary-cmt-editor',
+      targetId: 'fe-summary-cmt-target',
+      textId: 'fe-summary-cmt-text',
+      cancelId: 'fe-summary-cmt-cancel',
+      saveId: 'fe-summary-cmt-save',
+      listId: 'fe-summary-cmt-list',
+      insightsPrefix: 'RS Field Expense Summary · '
+    }
+  ];
+
+  TABLE_DEFS.forEach(function (def) {
+    var table = document.getElementById(def.tableId);
+    if (!table || !table.tBodies.length) return;
+    var wrap = table.parentNode;
+    var editor = document.getElementById(def.editorId);
+    var ta = document.getElementById(def.textId);
+    var target = document.getElementById(def.targetId);
+    var list = document.getElementById(def.listId);
+    var saveBtn = document.getElementById(def.saveId);
+    var cancelBtn = document.getElementById(def.cancelId);
+    var personaSel = document.getElementById(def.personaId);
+    if (!editor || !ta || !target || !list || !saveBtn || !cancelBtn) return;
+
+    if (personaSel) {
+      PERSONAS.forEach(function (p) {
+        var o = document.createElement('option'); o.value = p.name; o.textContent = p.name + ' (' + p.role + ')';
+        personaSel.appendChild(o);
+      });
+    }
+
+    if (window.wireMentionTextarea) window.wireMentionTextarea(ta);
+
+    var cfg = {
+      table: table,
+      wrap: wrap,
+      editor: editor,
+      ta: ta,
+      target: target,
+      list: list,
+      personaSel: personaSel,
+      insightsPrefix: def.insightsPrefix,
+      comments: [],
+      editing: null,
+      rows: []
+    };
+
+    cfg.openEditor = function (r) {
+      cfg.editing = r;
+      target.textContent = r.dataset.scLabel;
+      ta.value = '';
+      editor.hidden = false;
+      ta.focus();
+      editor.scrollIntoView({ block: 'nearest' });
+    };
+
+    cfg.closeEditor = function () {
+      cfg.editing = null;
+      editor.hidden = true;
+      ta.value = '';
+      if (curCfg === cfg) cm.checked = false;
+    };
+
+    function updateBadges() {
+      cfg.rows.forEach(function (r) {
+        var n = cfg.comments.filter(function (c) { return c.row === r; }).length;
+        var b = r.cells[0].querySelector('.sc-badge');
+        if (!n) { if (b) b.remove(); return; }
+        if (!b) { b = document.createElement('span'); b.className = 'sc-badge'; r.cells[0].appendChild(b); }
+        b.textContent = n;
+        b.title = n + (n === 1 ? ' comment' : ' comments');
+      });
+    }
+
+    function toInsights(c) {
+      var save = document.getElementById('commentary-save-btn'), inp = document.getElementById('commentary-input');
+      var tit = document.getElementById('commentary-title-input'), sel = document.getElementById('commentary-author-select');
+      if (!save || !inp) return;
+      var p = persona(c.p), prev = sel ? sel.value : '';
+      if (sel) sel.value = p.name + ' (' + p.role + ')';
+      if (tit) tit.value = cfg.insightsPrefix + c.label;
+      inp.value = c.text + (c.replies.length ? '\n\nReplies:\n' + c.replies.map(function (r) { return '— ' + r.p + ': ' + r.text; }).join('\n') : '');
+      save.click();
+      if (sel && prev) sel.value = prev;
+      c.added = true;
+      renderList();
+      if (window.openDrawer) window.openDrawer('commentary');
+    }
+
+    function renderList() {
+      while (list.firstChild) list.removeChild(list.firstChild);
+      cfg.comments.forEach(function (c) {
+        var p = persona(c.p), item = mk('div', 'sc-cmt-item');
+
+        var head = mk('div', 'sc-cmt-head');
+        head.appendChild(avatar(p));
+        var who = mk('div', 'sc-cmt-who');
+        who.appendChild(mk('b', null, p.name));
+        who.appendChild(mk('span', 'sc-role', p.role));
+        head.appendChild(who);
+        head.appendChild(mk('span', 'sc-chip', c.label));
+        head.appendChild(mk('span', 'sc-ts', c.ts));
+        var del = textBtn('Delete', function () {
+          cfg.comments.splice(cfg.comments.indexOf(c), 1);
+          renderList();
+          updateBadges();
+        }, 'sc-link sc-del');
+        del.setAttribute('aria-label', 'Delete comment on ' + c.label);
+        head.appendChild(del);
+        item.appendChild(head);
+
+        var body = mk('div', 'sc-cmt-body'); fill(body, c.text); item.appendChild(body);
+
+        var acts = mk('div', 'sc-cmt-acts');
+        acts.appendChild(textBtn('↩ Reply' + (c.replies.length ? ' (' + c.replies.length + ')' : ''), function () {
+          c.replying = true; renderList();
+          var t = list.querySelector('.sc-reply-ta[data-id="' + c.id + '"]'); if (t) t.focus();
+        }));
+        if (c.added) acts.appendChild(mk('span', 'sc-added', 'Added to insights ✓'));
+        else acts.appendChild(textBtn('Add to insights', function () { toInsights(c); }));
+        item.appendChild(acts);
+
+        if (c.replies.length) {
+          var rl = mk('div', 'sc-replies');
+          c.replies.forEach(function (r) {
+            var rp = persona(r.p), re = mk('div', 'sc-reply');
+            re.appendChild(avatar(rp, true));
+            var rb = mk('div', 'sc-reply-main');
+            var rm = mk('div', 'sc-reply-meta');
+            rm.appendChild(mk('b', null, rp.name)); rm.appendChild(document.createTextNode(' · ' + r.ts));
+            var rt = mk('div', 'sc-cmt-body'); fill(rt, r.text);
+            rb.appendChild(rm); rb.appendChild(rt); re.appendChild(rb); rl.appendChild(re);
+          });
+          item.appendChild(rl);
+        }
+
+        if (c.replying) {
+          var form = mk('div', 'sc-reply-form');
+          var replyBar = mk('div', null);
+          replyBar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:12px;gap:8px;';
+          var repLab = mk('label', null);
+          repLab.innerHTML = '<b>Replying as:</b>';
+          var repSel = mk('select', null);
+          repSel.style.cssText = 'font:inherit;font-size:12px;font-weight:600;color:var(--navy);background:#fff;border:1px solid var(--line);padding:3px 8px;border-radius:2px;';
+          PERSONAS.forEach(function (p) {
+            var o = document.createElement('option'); o.value = p.name; o.textContent = p.name + ' (' + p.role + ')';
+            if (personaSel && personaSel.value === p.name) o.selected = true;
+            repSel.appendChild(o);
+          });
+          replyBar.appendChild(repLab); replyBar.appendChild(repSel);
+          form.appendChild(replyBar);
+
+          var rta = mk('textarea', 'sc-cmt-text sc-reply-ta');
+          rta.dataset.id = c.id; rta.placeholder = 'Add a reply. Type @ to tag a colleague.';
+          rta.setAttribute('aria-label', 'Reply to comment on ' + c.label);
+          if (window.wireMentionTextarea) window.wireMentionTextarea(rta);
+          var ra = mk('div', 'sc-cmt-actions');
+          var cancel = mk('button', 'btn-sm btn-cancel-reply', 'Cancel'); cancel.type = 'button';
+          cancel.addEventListener('click', function () { c.replying = false; renderList(); });
+          var post = mk('button', 'btn-sm btn-save-reply', 'Post reply'); post.type = 'button';
+          post.addEventListener('click', function () {
+            var t = rta.value.trim(); if (!t) { rta.focus(); return; }
+            var curP = persona(repSel.value);
+            c.replies.push({ p: curP.name, text: t, ts: now() });
+            c.replying = false; c.added = false; renderList();
+          });
+          ra.appendChild(cancel); ra.appendChild(post);
+          form.appendChild(rta); form.appendChild(ra); item.appendChild(form);
+        }
+        list.appendChild(item);
+      });
+    }
+
+    saveBtn.addEventListener('click', function () {
+      var text = ta.value.trim();
+      if (!text || !cfg.editing) return;
+      var activeP = persona(personaSel ? personaSel.value : '');
+      cfg.comments.push({
+        id: ++seq, row: cfg.editing, label: cfg.editing.dataset.scLabel, text: text,
+        p: activeP.name, ts: now(), replies: [], replying: false, added: false
+      });
+      cfg.closeEditor();
+      renderList();
+      updateBadges();
+    });
+
+    cancelBtn.addEventListener('click', cfg.closeEditor);
+
+    var rows = Array.prototype.filter.call(table.tBodies[0].rows, function (r) {
+      return r.cells.length > 1 && !r.classList.contains('section-gap') && r.cells[0].textContent.trim().length > 0;
+    });
+    cfg.rows = rows;
+
+    rows.forEach(function (r) {
+      if (!r.dataset.scLabel) r.dataset.scLabel = r.cells[0].textContent.trim();
+      r.addEventListener('mouseenter', function () { showOverlay(r, cfg); });
+      r.addEventListener('click', function (e) {
+        if (e.target.closest('a, button, input, textarea, select')) return;
+        r.classList.toggle('sc-hl');
+        showOverlay(r, cfg);
+      });
+    });
+
+    table.addEventListener('mouseleave', scheduleHide);
+
+    table.__scSnapshot = function () {
+      return cfg.comments.map(function (c) {
+        var p = persona(c.p);
+        return {
+          label: c.label, text: c.text, ts: c.ts,
+          p: { name: p.name, role: p.role, initials: p.initials, color: p.color },
+          replies: c.replies.map(function (r) { var rp = persona(r.p); return { name: rp.name, initials: rp.initials, color: rp.color, text: r.text, ts: r.ts }; })
+        };
+      });
+    };
+  });
+
+  window.scSnapshot = function () {
+    var t = document.getElementById('kpi-detail-table') || document.getElementById('pl-table-detailed') || document.getElementById('fe-summary-table');
+    return (t && t.__scSnapshot) ? t.__scSnapshot() : [];
+  };
 })();
 </script>
                             <script>
@@ -3690,10 +3654,13 @@
       if (btn.classList.contains('on')) { if (window.openDrawer) window.openDrawer('commentary'); return; }
       var src, title, kind, cmts = null;
       if (btn.dataset.snap === 'table') {
-        var table = document.getElementById('scorecard-table');
+        var section = btn.closest('.section');
+        var table = section ? section.querySelector('table.pl') : null;
         if (!table) return;
-        kind = 'Table'; title = 'RS scorecard summary'; src = tableImage(table);
-        cmts = window.scSnapshot ? window.scSnapshot() : null;
+        var ti = section ? section.querySelector('.section-title') : null;
+        var titleText = ti ? ti.childNodes[0].textContent.trim() : 'Table';
+        kind = 'Table'; title = titleText; src = tableImage(table);
+        cmts = (table.__scSnapshot) ? table.__scSnapshot() : (window.scSnapshot ? window.scSnapshot() : null);
       } else {
         var tile = btn.closest('.chart-tile'), ti = tile && tile.querySelector('.chart-title');
         if (!tile) return;
