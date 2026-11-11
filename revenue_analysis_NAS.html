@@ -134,9 +134,9 @@
   table.pl tr.l3 td:first-child { padding-left: 58px; }
   table.pl td.na { color: var(--muted); }
   table.pl th.bus, table.pl td.bus { text-align: left; }
-  table.pl.pl-uniform { table-layout: fixed; min-width: 1000px; }
-  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 34%; min-width: 0; }
-  table.pl.pl-uniform th:not(:first-child) { width: 8.25%; }
+  table.pl.pl-uniform { table-layout: fixed; min-width: 1300px; }
+  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 22%; min-width: 0; }
+  table.pl.pl-uniform th:not(:first-child) { width: 6.5%; }
   table.pl.pl-uniform td:first-child { white-space: normal; }
 
   table.pl tr.group-hd > td { font-size: 11px; font-weight: 700; color: var(--muted); background: var(--inner); padding: 6px 10px 4px; border-bottom: 0; }
@@ -476,14 +476,14 @@
           <table class="pl pl-uniform" id="rev-by-product-table">
             <thead>
               <tr>
-                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Total revenue</div></td><td>93,403.4</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">Processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">Non-processing revenue</div><div class="row-subtext">Retrieve if a roll-up member exists, else a calculation (C06, OQ-06).</div></td><td>95.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l2"><td><div class="row-main">Setup revenue</div></td><td>66.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="bold"><td><div class="row-main">Total revenue</div></td><td>93,403.4</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">Processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">Non-processing revenue</div><div class="row-subtext">Retrieve if a roll-up member exists, else a calculation (C06, OQ-06).</div></td><td>95.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l2"><td><div class="row-main">Setup revenue</div></td><td>66.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -500,11 +500,11 @@
           <table class="pl pl-uniform" id="proc-rev-by-product-table">
             <thead>
               <tr>
-                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold subtotal"><td><div class="row-main">Total processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="bold subtotal"><td><div class="row-main">Total processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -521,19 +521,19 @@
           <table class="pl pl-uniform" id="sales-retention-table">
             <thead>
               <tr>
-                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Sales dollars</div><div class="row-subtext">By product: Core K (401K Small, Mid, Large), Simple, Other (MGT-02; r36-41)</div></td><td>25,666.7</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1"><td><div class="row-main">Sales by channel</div><div class="row-subtext">One line per selling business unit (for example RS, NAS, SBS, MAS, CAN, GES)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr><td><div class="row-main">Start dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r45-50)</div></td><td>19,087.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr><td><div class="row-main">Loss dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r54-59)</div></td><td>7,308.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr><td><div class="row-main">Net new business</div></td><td>11,779.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr><td><div class="row-main">Retention %</div><div class="row-subtext">By product r63-68. Ties: 1 less 7,308.3 / 93,308.1. Variance in bps.</div></td><td>92.2%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="group-hd"><td colspan="9">Sales and revenue ratios</td></tr>
-              <tr><td><div class="row-main">NDE % of sales</div></td><td>80.0%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr><td><div class="row-main">Revenue per FTE</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="bold"><td><div class="row-main">Sales dollars</div><div class="row-subtext">By product: Core K (401K Small, Mid, Large), Simple, Other (MGT-02; r36-41)</div></td><td>25,666.7</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Sales by channel</div><div class="row-subtext">One line per selling business unit (for example RS, NAS, SBS, MAS, CAN, GES)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Start dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r45-50)</div></td><td>19,087.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Loss dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r54-59)</div></td><td>7,308.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Net new business</div></td><td>11,779.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Retention %</div><div class="row-subtext">By product r63-68. Ties: 1 less 7,308.3 / 93,308.1. Variance in bps.</div></td><td>92.2%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="group-hd"><td colspan="13">Sales and revenue ratios</td></tr>
+              <tr><td><div class="row-main">NDE % of sales</div></td><td>80.0%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Revenue per FTE</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -550,17 +550,17 @@
           <table class="pl pl-uniform" id="sources-of-revenue-table">
             <thead>
               <tr>
-                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Prior year processing revenue</div></td><td>81,319.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1"><td><div class="row-main">Starts revenue impact</div></td><td>20,212.5</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1"><td><div class="row-main">Losses revenue impact</div></td><td>(7,259.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1"><td><div class="row-main">Price increase</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
-              <tr class="l1"><td><div class="row-main">Concessions</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">UBV</div></td><td>(964.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
-              <tr class="bold subtotal"><td><div class="row-main">Current year processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="bold"><td><div class="row-main">Prior year processing revenue</div></td><td>81,319.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Starts revenue impact</div></td><td>20,212.5</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Losses revenue impact</div></td><td>(7,259.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Price increase</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="l1"><td><div class="row-main">Concessions</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">UBV</div></td><td>(964.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold subtotal"><td><div class="row-main">Current year processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -577,11 +577,11 @@
           <table class="pl pl-uniform" id="volume-statistics-table">
             <thead>
               <tr>
-                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td><div class="row-main">Clients (net active controls)</div><div class="row-subtext">Average for QTD and YTD (GEN-02)</div></td><td>219,224</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
+              <tr><td><div class="row-main">Clients (net active controls)</div><div class="row-subtext">Average for QTD and YTD (GEN-02)</div></td><td>219,224</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
             </tbody>
           </table>
         </div>

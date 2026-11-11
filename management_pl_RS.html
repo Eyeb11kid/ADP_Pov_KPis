@@ -138,9 +138,9 @@
   table.pl tr.grp-label > td { font-size: 11px; font-weight: 700; color: #fff; background: #4066C8; padding: 5px 10px; border-bottom: 0; }
   table.pl tr.grp-label > td:first-child { background: #4066C8; box-shadow: none; }
   /* Uniform column widths so data columns align vertically across tables */
-  table.pl.pl-uniform { table-layout: fixed; min-width: 1000px; }
-  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 34%; min-width: 0; }
-  table.pl.pl-uniform th:not(:first-child) { width: 8.25%; }
+  table.pl.pl-uniform { table-layout: fixed; min-width: 1300px; }
+  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 22%; min-width: 0; }
+  table.pl.pl-uniform th:not(:first-child) { width: 6.5%; }
   table.pl.pl-uniform th.bus, table.pl.pl-uniform td.bus { text-align: left; }
   table.pl.pl-uniform td:first-child { white-space: normal; }
   .section-hdr-band { background: #e8e9eb; padding: 10px 16px; display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
@@ -480,18 +480,18 @@
             <thead>
               <tr>
                 <th>Line</th>
-                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td>Total revenue</td><td>93,403.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="bold indent"><td>Processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Asset revenue</td><td>22,692.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Hard dollar fees</td><td>70,615.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="bold indent"><td>Non-processing revenue<div class="row-subtext">Retrieve if a roll-up member exists, else a calculation (C06, OQ-06).</div></td><td>95.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Setup revenue</td><td>66.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Other recurring revenue (DCIO fees)</td><td>9.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Offset revenue and interest (client funds interest)</td><td>19.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold"><td>Total revenue</td><td>93,403.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="bold indent"><td>Processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Asset revenue</td><td>22,692.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Hard dollar fees</td><td>70,615.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold indent"><td>Non-processing revenue<div class="row-subtext">Retrieve if a roll-up member exists, else a calculation (C06, OQ-06).</div></td><td>95.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Setup revenue</td><td>66.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Other recurring revenue (DCIO fees)</td><td>9.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Offset revenue and interest (client funds interest)</td><td>19.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
             </tbody>
           </table>
         </div>
@@ -508,27 +508,27 @@
             <thead>
               <tr>
                 <th>Line</th>
-                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="group-hd"><td colspan="9">Asset revenue (R0010_MGT) by product: Core K (asset revenue of other products is under Other products)</td></tr>
-              <tr class="indent"><td>401K Small</td><td>18,047.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Mid</td><td>2,779.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Large</td><td>172.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Custom</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="group-hd"><td colspan="9">Hard dollar fees by product (no member; processing revenue less asset revenue per product)</td></tr>
-              <tr class="indent"><td>401K Small</td><td>52,319.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Mid</td><td>12,551.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Large</td><td>3,086.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>401K Custom</td><td>196.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="group-hd"><td colspan="9">Other products (Processing_Revenue_and_Float)</td></tr>
-              <tr class="indent"><td>Simple</td><td>4,055.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>SEP</td><td>1.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>EDC</td><td>87.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>EasyPay</td><td>11.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>All other (balances to total)</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="bold subtotal"><td>Total processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="group-hd"><td colspan="13">Asset revenue (R0010_MGT) by product: Core K (asset revenue of other products is under Other products)</td></tr>
+              <tr class="indent"><td>401K Small</td><td>18,047.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Mid</td><td>2,779.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Large</td><td>172.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Custom</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="group-hd"><td colspan="13">Hard dollar fees by product (no member; processing revenue less asset revenue per product)</td></tr>
+              <tr class="indent"><td>401K Small</td><td>52,319.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Mid</td><td>12,551.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Large</td><td>3,086.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>401K Custom</td><td>196.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="group-hd"><td colspan="13">Other products (Processing_Revenue_and_Float)</td></tr>
+              <tr class="indent"><td>Simple</td><td>4,055.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>SEP</td><td>1.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>EDC</td><td>87.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>EasyPay</td><td>11.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>All other (balances to total)</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold subtotal"><td>Total processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -545,19 +545,19 @@
             <thead>
               <tr>
                 <th>Line</th>
-                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td><b>Sales dollars</b><div class="row-subtext">By product: Core K (401K Small, Mid, Large), Simple, Other (MGT-02; r36-41)</div></td><td><b>25,666.7</b></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Sales by channel<div class="row-subtext">One line per selling business unit (for example RS, NAS, SBS, MAS, CAN, GES)</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr><td>Start dollars<div class="row-subtext">By product: Core K, Simple, Other (r45-50)</div></td><td>19,087.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr><td>Loss dollars<div class="row-subtext">By product: Core K, Simple, Other (r54-59)</div></td><td>7,308.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr><td>Net new business</td><td>11,779.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr><td>Retention %<div class="row-subtext">By product r63-68. Ties: 1 less 7,308.3 / 93,308.1. Variance in bps.</div></td><td>92.2%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="group-hd"><td colspan="9">Sales and revenue ratios</td></tr>
-              <tr><td>NDE % of sales</td><td>80.0%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr><td>Revenue per FTE</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td><b>Sales dollars</b><div class="row-subtext">By product: Core K (401K Small, Mid, Large), Simple, Other (MGT-02; r36-41)</div></td><td><b>25,666.7</b></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Sales by channel<div class="row-subtext">One line per selling business unit (for example RS, NAS, SBS, MAS, CAN, GES)</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Start dollars<div class="row-subtext">By product: Core K, Simple, Other (r45-50)</div></td><td>19,087.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Loss dollars<div class="row-subtext">By product: Core K, Simple, Other (r54-59)</div></td><td>7,308.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Net new business</td><td>11,779.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Retention %<div class="row-subtext">By product r63-68. Ties: 1 less 7,308.3 / 93,308.1. Variance in bps.</div></td><td>92.2%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="group-hd"><td colspan="13">Sales and revenue ratios</td></tr>
+              <tr><td>NDE % of sales</td><td>80.0%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Revenue per FTE</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -574,23 +574,23 @@
             <thead>
               <tr>
                 <th>Line</th>
-                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td>Prior year processing revenue</td><td>81,319.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Starts revenue impact</td><td>20,212.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Losses revenue impact</td><td>(7,259.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Price increase<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent"><td>Concessions<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Float<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="bold indent"><td>UBV</td><td>(964.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Market impact</td><td>1,501.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Asset-related fees<div class="row-subtext">Net contributions, BPS change, RIA trailer, R/K fees, IM fees, other BPS fees, asset revenue UBV (r85-91)</div></td><td>163.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Participant-related fees<div class="row-subtext">Participant rate change, loans / disbursements, 3(16) admin, participant mailings (r94-97)</div></td><td>2,739.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Client-related fees<div class="row-subtext">Base rate change, terms / transfers, education, trustee, 5500, advice, brokerage, Broadridge, Co-Fid, new comp, other (r100-110)</div></td><td>(362.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Promos, discounts and credits<div class="row-subtext">Promotions, client discount, credits (r113-115)</div></td><td>(1,252.4)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="bold subtotal"><td>Current year processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold"><td>Prior year processing revenue</td><td>81,319.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Starts revenue impact</td><td>20,212.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Losses revenue impact</td><td>(7,259.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Price increase<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent"><td>Concessions<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Float<div class="row-subtext">No RS data</div></td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold indent"><td>UBV</td><td>(964.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Market impact</td><td>1,501.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Asset-related fees<div class="row-subtext">Net contributions, BPS change, RIA trailer, R/K fees, IM fees, other BPS fees, asset revenue UBV (r85-91)</div></td><td>163.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Participant-related fees<div class="row-subtext">Participant rate change, loans / disbursements, 3(16) admin, participant mailings (r94-97)</div></td><td>2,739.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Client-related fees<div class="row-subtext">Base rate change, terms / transfers, education, trustee, 5500, advice, brokerage, Broadridge, Co-Fid, new comp, other (r100-110)</div></td><td>(362.5)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Promos, discounts and credits<div class="row-subtext">Promotions, client discount, credits (r113-115)</div></td><td>(1,252.4)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold subtotal"><td>Current year processing revenue</td><td>93,308.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -607,14 +607,14 @@
             <thead>
               <tr>
                 <th>Line</th>
-                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+                <th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Clients (net active controls)<div class="row-subtext">Average for QTD and YTD (GEN-02)</div></td><td>219,224</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr><td>Participants</td><td>4,987,208</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr><td>401K assets under management, period end ($M)</td><td>194,823.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr><td>401K average assets under management ($M)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr><td>Clients (net active controls)<div class="row-subtext">Average for QTD and YTD (GEN-02)</div></td><td>219,224</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr><td>Participants</td><td>4,987,208</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr><td>401K assets under management, period end ($M)</td><td>194,823.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr><td>401K average assets under management ($M)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
             </tbody>
           </table>
         </div>

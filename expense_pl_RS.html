@@ -152,9 +152,9 @@
   .section-hdr-band .section-sub { font-size: 11.5px; color: #525252; margin: 0; padding: 0; flex: 1; }
   .row-subtext { font-size: 11px; color: var(--muted); font-weight: normal; margin-top: 2px; line-height: 1.35; white-space: normal; }
   /* Uniform column widths so data columns align vertically across tables */
-  table.pl.pl-uniform { table-layout: fixed; min-width: 1000px; }
-  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 34%; min-width: 0; }
-  table.pl.pl-uniform th:not(:first-child) { width: 8.25%; }
+  table.pl.pl-uniform { table-layout: fixed; min-width: 1300px; }
+  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 22%; min-width: 0; }
+  table.pl.pl-uniform th:not(:first-child) { width: 6.5%; }
   table.pl.pl-uniform th.bus, table.pl.pl-uniform td.bus { text-align: left; }
   table.pl.pl-uniform td:first-child { white-space: normal; }
   .dot-unf { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-left: 4px; vertical-align: middle; }
@@ -828,133 +828,133 @@
         <div class="tbl-wrap">
           <table class="pl pl-uniform">
             <thead>
-              <tr><th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th></tr>
+              <tr><th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th></tr>
             </thead>
             <tbody>
-              <tr><td>Total revenue (reference)</td><td>93,403.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="bold"><td>Total expenses</td><td>45,917.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="bold indent"><td>Field expense<div class="row-subtext">No reliable single member (DAT-06). Close package r59 is the tie-out value.</div></td><td>18,881.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="group-hd"><td colspan="9">Field expense by account (Hyperion EBIT Expense hierarchy)</td></tr>
-              <tr class="bold indent"><td>Employee related</td><td>11,849.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Total compensation</td><td>11,729.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Salary with Overtime incl Intercompany</td><td>7,628.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Salary</td><td>7,387.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Overtime</td><td>240.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Vacation-Regular</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Vacation-Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>FEC Employee Related-Vacation</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>FEC Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Alloc Income Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Alloc Expense Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>IC Income Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>IC Expense Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Global Business Solutions</td><td>888.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Contingent</td><td>20.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Bonus</td><td>476.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Commissions</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Draw</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Payroll Taxes</td><td>599.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Benefits</td><td>1,913.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Stock Based Comp<div class="row-subtext">RS's file also shows a deactivated Stock Based Comp line; not used.</div></td><td>202.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Total employee other</td><td>120.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Travel and Entertainment incl Intercompany</td><td>100.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Auto Allowance</td><td>(16.3)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Relocation</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Employee Activities</td><td>14.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Recruiting</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Tuition</td><td>4.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Employee Verification</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Training</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Other Employee Related incl Intercompany</td><td>11.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>GBS Non Salary</td><td>4.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Severance</td><td>1.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Contests</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="bold indent"><td>Non-employee related<div class="row-subtext">NAS retrieves this (NAS-102, Total Non Employee Related Expense). Test the same member for RS.</div></td><td>7,032.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent2"><td>Total direct costs</td><td>4,663.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Bad Debt Trade</td><td>763.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Supply And Other Expense Operating</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Rebillable Supplies and Expenses</td><td>1.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Forms and Cards</td><td>0.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Trustee Service Fees</td><td>827.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -Default</td><td>3.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -Fund Maint and Custodial</td><td>89.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -ERISA Bond</td><td>256.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -STC Fiduciary Payment</td><td>438.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -Fin Control and Trading</td><td>39.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Trustee -Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Trailer Fees</td><td>3,069.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Allowance NSF Mvmt</td><td>1.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Bank Fees</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Implementation Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total ADP Ceded Premium Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Client Equipment Costs</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total W2 Supplies</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Cost of Goods Sold</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Client Printing</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Passback Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Bad Debt Non AR Trade</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Total expense other</td><td>3,144.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Facility Related</td><td>137.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Consulting and Professional Fees</td><td>707.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Advertising and Marketing</td><td>473.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Delivery and Mailing</td><td>1,905.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Common Carrier</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Overnight Carrier</td><td>4.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Postage</td><td>1,900.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent5"><td>Postage-Non Deductible (Part Mailing)<div class="row-subtext">RS name: Part Mailing (participant mailing).</div></td><td>1,532.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent5"><td>Postage-Other (Stmt Postage)<div class="row-subtext">RS name: Stmt Postage (statement postage).</div></td><td>368.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Freight</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Other Fees and Costs</td><td>(135.1)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Dues and Subscriptions</td><td>13.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Insurance</td><td>151.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Penalties and Interest</td><td>149.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Ariba Interface</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Risk Reserve Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Total License Fees Expense</td><td>1.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Other Credits</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent4"><td>Total Unallocated Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent4"><td>Total Other Business Expense incl Intercompany</td><td>(450.7)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Other Tax</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Meetings &amp; Program</td><td>55.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Restructuring Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Other EBIT items</td><td>(775.6)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent3"><td>Total Depreciation &amp; Amortization</td><td>53.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Charge In/Charge Out/Allocations</td><td>313.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Disposition of Fixed Assets</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Internal Expense Revenue Offset MGT</td><td>22.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Other Income with Intercompany</td><td>(1,165.4)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Total Other Expense with Intercompany</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent3"><td>Total Other Intercompany</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="group-hd"><td colspan="9">Field expense by department (FEX-03; also the Function filter)</td></tr>
-              <tr class="indent"><td>Service; Production; Product Direct Costs; General Management and SEC Reporting; Other SEC; Business Development and Strategy; Non-NDE Marketing<div class="row-subtext">One row per department in the build.</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>Implementation<div class="row-subtext">Implementation % of starts (Financial Overview r34) is not placed.</div></td><td>3,034.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Not assigned to a field department<div class="row-subtext">Reconciling row so the departments total to field expense.</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="group-hd"><td colspan="9">Allocations and NOI</td></tr>
-              <tr><td>NDE</td><td>20,534.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="bold indent"><td>Shared service allocations (excl. NDE)<div class="row-subtext">Same member NAS uses. Expected 6,501.1; confirm with a retrieve.</div></td><td>6,501.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent2"><td>Alloc expense - shared service</td><td>5,201.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>GETS</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Learning and Performance</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Print and Delivery</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Product Management</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Product Development</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Alloc expense - corporate overhead and G&amp;A</td><td>1,299.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Legal</td><td>181.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Other Insurance</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Facility</td><td>936.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>HR Shared Service</td><td>30.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Internal Systems</td><td>9.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Finance</td><td>141.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Tax COE</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Strategy</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent3"><td>Third Party Auto</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Functional cut: R&amp;D allocation<div class="row-subtext">Tie-out to 6,501.1 to confirm.</div></td><td>2,643.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent2"><td>Functional cut: product management allocation</td><td>288.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="bold"><td>Field NOI</td><td>74,521.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Field NOI margin %</td><td>79.8%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="bold"><td>NOI (EBIT)</td><td>47,486.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>NOI margin %<div class="row-subtext">Variance in bps.</div></td><td>50.8%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent"><td>NOI excl. sales and marketing and margin %<div class="row-subtext">Not NOI plus NDE for RS: the member also adds back 905.1, likely the Non-NDE Marketing department. Confirm with RS.</div></td><td>68,925.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr><td>Total revenue (reference)</td><td>93,403.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="bold"><td>Total expenses</td><td>45,917.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold indent"><td>Field expense<div class="row-subtext">No reliable single member (DAT-06). Close package r59 is the tie-out value.</div></td><td>18,881.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="group-hd"><td colspan="13">Field expense by account (Hyperion EBIT Expense hierarchy)</td></tr>
+              <tr class="bold indent"><td>Employee related</td><td>11,849.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Total compensation</td><td>11,729.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Salary with Overtime incl Intercompany</td><td>7,628.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Salary</td><td>7,387.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Overtime</td><td>240.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Vacation-Regular</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Vacation-Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>FEC Employee Related-Vacation</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>FEC Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Alloc Income Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Alloc Expense Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>IC Income Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>IC Expense Employee Related-Payroll</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Global Business Solutions</td><td>888.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Contingent</td><td>20.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Bonus</td><td>476.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Commissions</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Draw</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Payroll Taxes</td><td>599.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Benefits</td><td>1,913.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Stock Based Comp<div class="row-subtext">RS's file also shows a deactivated Stock Based Comp line; not used.</div></td><td>202.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Total employee other</td><td>120.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Travel and Entertainment incl Intercompany</td><td>100.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Auto Allowance</td><td>(16.3)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Relocation</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Employee Activities</td><td>14.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Recruiting</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Tuition</td><td>4.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Employee Verification</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Training</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Other Employee Related incl Intercompany</td><td>11.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>GBS Non Salary</td><td>4.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Severance</td><td>1.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Contests</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold indent"><td>Non-employee related<div class="row-subtext">NAS retrieves this (NAS-102, Total Non Employee Related Expense). Test the same member for RS.</div></td><td>7,032.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent2"><td>Total direct costs</td><td>4,663.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Bad Debt Trade</td><td>763.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Supply And Other Expense Operating</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Rebillable Supplies and Expenses</td><td>1.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Forms and Cards</td><td>0.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Trustee Service Fees</td><td>827.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -Default</td><td>3.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -Fund Maint and Custodial</td><td>89.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -ERISA Bond</td><td>256.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -STC Fiduciary Payment</td><td>438.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -Fin Control and Trading</td><td>39.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Trustee -Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Trailer Fees</td><td>3,069.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Allowance NSF Mvmt</td><td>1.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Bank Fees</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Implementation Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total ADP Ceded Premium Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Client Equipment Costs</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total W2 Supplies</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Cost of Goods Sold</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Client Printing</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Passback Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Bad Debt Non AR Trade</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Total expense other</td><td>3,144.7</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Facility Related</td><td>137.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Consulting and Professional Fees</td><td>707.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Advertising and Marketing</td><td>473.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Delivery and Mailing</td><td>1,905.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Common Carrier</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Overnight Carrier</td><td>4.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Postage</td><td>1,900.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent5"><td>Postage-Non Deductible (Part Mailing)<div class="row-subtext">RS name: Part Mailing (participant mailing).</div></td><td>1,532.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent5"><td>Postage-Other (Stmt Postage)<div class="row-subtext">RS name: Stmt Postage (statement postage).</div></td><td>368.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Freight</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Other Fees and Costs</td><td>(135.1)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Dues and Subscriptions</td><td>13.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Insurance</td><td>151.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Penalties and Interest</td><td>149.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Ariba Interface</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Risk Reserve Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Total License Fees Expense</td><td>1.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Other Credits</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent4"><td>Total Unallocated Other</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent4"><td>Total Other Business Expense incl Intercompany</td><td>(450.7)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Other Tax</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Meetings &amp; Program</td><td>55.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Restructuring Expense</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Other EBIT items</td><td>(775.6)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent3"><td>Total Depreciation &amp; Amortization</td><td>53.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Charge In/Charge Out/Allocations</td><td>313.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Disposition of Fixed Assets</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Internal Expense Revenue Offset MGT</td><td>22.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Other Income with Intercompany</td><td>(1,165.4)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Total Other Expense with Intercompany</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent3"><td>Total Other Intercompany</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="group-hd"><td colspan="13">Field expense by department (FEX-03; also the Function filter)</td></tr>
+              <tr class="indent"><td>Service; Production; Product Direct Costs; General Management and SEC Reporting; Other SEC; Business Development and Strategy; Non-NDE Marketing<div class="row-subtext">One row per department in the build.</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>Implementation<div class="row-subtext">Implementation % of starts (Financial Overview r34) is not placed.</div></td><td>3,034.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Not assigned to a field department<div class="row-subtext">Reconciling row so the departments total to field expense.</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="group-hd"><td colspan="13">Allocations and NOI</td></tr>
+              <tr><td>NDE</td><td>20,534.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold indent"><td>Shared service allocations (excl. NDE)<div class="row-subtext">Same member NAS uses. Expected 6,501.1; confirm with a retrieve.</div></td><td>6,501.1</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent2"><td>Alloc expense - shared service</td><td>5,201.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>GETS</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Learning and Performance</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Print and Delivery</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Product Management</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Product Development</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Alloc expense - corporate overhead and G&amp;A</td><td>1,299.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Legal</td><td>181.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Other Insurance</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Facility</td><td>936.9</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>HR Shared Service</td><td>30.8</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Internal Systems</td><td>9.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Finance</td><td>141.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Tax COE</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Strategy</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent3"><td>Third Party Auto</td><td>0.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Functional cut: R&amp;D allocation<div class="row-subtext">Tie-out to 6,501.1 to confirm.</div></td><td>2,643.2</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent2"><td>Functional cut: product management allocation</td><td>288.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="bold"><td>Field NOI</td><td>74,521.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Field NOI margin %</td><td>79.8%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="bold"><td>NOI (EBIT)</td><td>47,486.0</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>NOI margin %<div class="row-subtext">Variance in bps.</div></td><td>50.8%</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent"><td>NOI excl. sales and marketing and margin %<div class="row-subtext">Not NOI plus NDE for RS: the member also adds back 905.1, likely the Non-NDE Marketing department. Confirm with RS.</div></td><td>68,925.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -969,26 +969,26 @@
         <div class="tbl-wrap">
           <table class="pl pl-uniform">
             <thead>
-              <tr><th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th></tr>
+              <tr><th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th><th class="bus">BUs</th></tr>
             </thead>
             <tbody>
-              <tr class="bold"><td>Headcount (ending)<div class="row-subtext">Permanent associates with benefits, active or on leave. Contingent and interns are memo lines.</div></td><td>1,513</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>United States (Traditional and OneADP)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent"><td>India (GBS)<div class="row-subtext">GBS countries sit under Total GBS Headcount; RS has India only today. Country members to confirm (OQ-09).</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Contingent headcount (memo)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Intern headcount (memo)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="bold"><td>FTE (average)</td><td>1,503.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>FTE excl. overtime and contingent</td><td>1,474.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent2"><td>Traditional (US, onshore)</td><td>522.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent2"><td>OneADP (US, onshore)</td><td>488.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent2"><td>GBS (India, offshore)</td><td>463.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent"><td>Overtime FTE</td><td>27.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
-              <tr class="indent"><td>Contingent FTE</td><td>1.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
-              <tr class="indent"><td>Base vs implementation FTE</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="indent"><td>Base vs implementation headcount</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr class="group-hd"><td colspan="9">Productivity and rates</td></tr>
-              <tr><td>Starts per FTE<div class="row-subtext">Definition differs by BU (FEX-02).</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
-              <tr><td>Controls per base FTE<div class="row-subtext">Gross controls member open</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="bold"><td>Headcount (ending)<div class="row-subtext">Permanent associates with benefits, active or on leave. Contingent and interns are memo lines.</div></td><td>1,513</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>United States (Traditional and OneADP)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent"><td>India (GBS)<div class="row-subtext">GBS countries sit under Total GBS Headcount; RS has India only today. Country members to confirm (OQ-09).</div></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Contingent headcount (memo)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Intern headcount (memo)</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="bold"><td>FTE (average)</td><td>1,503.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>FTE excl. overtime and contingent</td><td>1,474.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent2"><td>Traditional (US, onshore)</td><td>522.5</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent2"><td>OneADP (US, onshore)</td><td>488.3</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent2"><td>GBS (India, offshore)</td><td>463.6</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent"><td>Overtime FTE</td><td>27.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">RS only</td></tr>
+              <tr class="indent"><td>Contingent FTE</td><td>1.4</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both</td></tr>
+              <tr class="indent"><td>Base vs implementation FTE</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="indent"><td>Base vs implementation headcount</td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr class="group-hd"><td colspan="13">Productivity and rates</td></tr>
+              <tr><td>Starts per FTE<div class="row-subtext">Definition differs by BU (FEX-02).</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
+              <tr><td>Controls per base FTE<div class="row-subtext">Gross controls member open</div></td><td></td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="bus">Both, differs</td></tr>
             </tbody>
           </table>
         </div>

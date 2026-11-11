@@ -264,9 +264,8 @@
   .fr-foot button { flex: 1 1 50%; font: inherit; font-size: 13px; height: 48px; border: 0; padding: 0 16px; text-align: left; cursor: pointer; }
   .fr-cancel { background: #393939; color: #fff; }
   .fr-cancel:hover { background: #4c4c4c; }
-  .fr-done { background: #c6c6c6; color: #8d8d8d; cursor: default; }
-  .fr-done.fr-ready { background: var(--blue); color: #fff; cursor: pointer; }
-  .fr-done.fr-ready:hover { background: #0353e9; }
+  .fr-done { background: var(--red); color: #fff; cursor: pointer; }
+  .fr-done:hover { background: #a82926; }
   .fr-foot button:focus-visible { outline: 2px solid var(--blue); outline-offset: -3px; }
   @media (max-width: 640px) {
     .filterrow { gap: 6px; padding: 8px 12px 10px; }
@@ -615,13 +614,8 @@
       <div class="fr-wrap" data-f="prod"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Product</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Product filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="geo"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Geography</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Geography filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="ch"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Channel</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Channel filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="period"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Period</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Period filter" hidden>&times;</button></div></div>
       <a class="fb-link fr-clear" id="fr-clear" href="#" role="button">Clear Filters</a>
-      <div class="fr-tools" role="group" aria-label="Display options">
-        <span class="fb-sep" aria-hidden="true"></span>
-        <div class="fb-toggle" id="tg-cmp" title="Prior year / Prior period"><button type="button" class="on" data-v="plan" aria-pressed="true">Plan</button><button type="button" data-v="pva" aria-pressed="false">Plan vs Actual</button></div>
-        <div class="fb-toggle" id="tg-range"><button type="button" class="on" data-v="period" aria-pressed="true">Period</button><button type="button" data-v="ytd" aria-pressed="false">YTD</button></div>
-        <div class="fb-toggle" id="tg-fmt"><button type="button" class="on" data-v="both" aria-pressed="true">$ + %</button><button type="button" data-v="pct" aria-pressed="false">% only</button></div>
-      </div>
     </div>
 
     <div style="padding:5px 20px;background:#fff;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted);font-style:italic;">BU selector options for this role: Corporate CFO &nbsp;·&nbsp; NAS (sync only) &nbsp;·&nbsp; RS &nbsp;·&nbsp; Access model pending validation</div>
@@ -1507,7 +1501,8 @@
   var DATA = {
     prod: ['401K Small', '401K Mid', '401K Large', 'Custom (Core K)', 'Simple', 'SEP', 'EDC', 'Easy Pay', 'All other'],
     geo:  ['APAC', 'Americas', 'EMEA', 'Japan'],
-    ch:   ['Direct sales', 'Inside sales', 'Channel partners', 'Digital / self-serve', 'Existing-client cross-sell']
+    ch:   ['Direct sales', 'Inside sales', 'Channel partners', 'Digital / self-serve', 'Existing-client cross-sell'],
+    period: ['Current Period (September)', 'QTD', 'YTD', 'ROY', 'FY']
   };
   var NS = 'http://www.w3.org/2000/svg';
   var filters = [];   /* {key, name, wrap, pill, btn, lab, x, panel, committed:Set, pending:Set, list, search, done} */
@@ -1525,11 +1520,34 @@
     a.forEach(function (v) { if (!b.has(v)) ok = false; });
     return ok;
   }
+  /* Period starts with every option checked; the other filters start empty */
+  function defaultSet(key) { return key === 'period' ? new Set(DATA.period) : new Set(); }
+
+  /* Period options -> table columns (1-based): Current Period = Sep FY27 Act, vs Plan, vs Fcst */
+  var PERIOD_COLS = { 'Current Period (September)': [2, 3, 4], 'QTD': [5], 'YTD': [6], 'ROY': [7], 'FY': [8] };
+  var PERIOD_TABLES = ['#headline-kpi-table', '#mgmt-pl-summary-table'];
+  var periodStyle = document.createElement('style');
+  document.head.appendChild(periodStyle);
+  function applyPeriod(f) {
+    var sels = [];
+    DATA.period.forEach(function (opt) {
+      if (f.committed.has(opt)) return;
+      PERIOD_COLS[opt].forEach(function (c) {
+        PERIOD_TABLES.forEach(function (t) {
+          sels.push(t + ' th:nth-child(' + c + ')', t + ' td:nth-child(' + c + ')');
+        });
+      });
+    });
+    periodStyle.textContent = sels.length ? sels.join(',') + '{display:none}' : '';
+  }
+
   function paintBtn(f) {
     var n = f.committed.size;
-    f.lab.textContent = n ? f.name + ' (' + n + ')' : f.name;
-    f.x.hidden = n === 0;
-    f.pill.classList.toggle('fr-has', n > 0);
+    var active = !same(f.committed, defaultSet(f.key));
+    f.lab.textContent = active ? f.name + ' (' + n + ')' : f.name;
+    f.x.hidden = !active;
+    f.pill.classList.toggle('fr-has', active);
+    if (f.key === 'period') applyPeriod(f);
   }
   function paintDone(f) {
     var changed = !same(f.pending, f.committed);
@@ -1549,6 +1567,7 @@
       cb.checked = f.pending.has(v);
       cb.addEventListener('change', function () {
         if (cb.checked) f.pending.add(v); else f.pending.delete(v);
+        if (f.key === 'period') { f.committed = new Set(f.pending); paintBtn(f); }
         paintDone(f);
       });
       lb.appendChild(cb);
@@ -1578,8 +1597,8 @@
     f.search.focus();
   }
   function clearOne(f) {
-    f.committed = new Set();
-    f.pending = new Set();
+    f.committed = defaultSet(f.key);
+    f.pending = defaultSet(f.key);
     paintBtn(f);
   }
 
@@ -1589,7 +1608,7 @@
       key: key, wrap: wrap,
       pill: wrap.querySelector('.fr-pill'), btn: wrap.querySelector('.fr-btn'),
       lab: wrap.querySelector('.fr-lab'), x: wrap.querySelector('.fr-x'),
-      committed: new Set(), pending: new Set()
+      committed: defaultSet(key), pending: defaultSet(key)
     };
     f.name = f.lab.textContent;
 
@@ -1622,7 +1641,7 @@
 
     var foot = el('div', 'fr-foot');
     var cancel = el('button', 'fr-cancel', 'Cancel'); cancel.type = 'button';
-    var done = el('button', 'fr-done', 'Done'); done.type = 'button';
+    var done = el('button', 'fr-done', 'Apply'); done.type = 'button';
     foot.appendChild(cancel); foot.appendChild(done);
 
     panel.appendChild(sw); panel.appendChild(list); panel.appendChild(links); panel.appendChild(foot);
@@ -1636,15 +1655,16 @@
       f.btn.focus();
     });
     search.addEventListener('input', function () { paintList(f); });
-    clr.addEventListener('click', function () { f.pending = new Set(); paintList(f); paintDone(f); });
+    function live(f) { if (f.key === 'period') { f.committed = new Set(f.pending); paintBtn(f); } }
+    clr.addEventListener('click', function () { f.pending = new Set(); live(f); paintList(f); paintDone(f); });
     inv.addEventListener('click', function () {
       var next = new Set();
       DATA[f.key].forEach(function (v) { if (!f.pending.has(v)) next.add(v); });
-      f.pending = next; paintList(f); paintDone(f);
+      f.pending = next; live(f); paintList(f); paintDone(f);
     });
     cancel.addEventListener('click', function () { close(f, true); });
     done.addEventListener('click', function () {
-      if (same(f.pending, f.committed)) return;
+      if (same(f.pending, f.committed)) { if (f.key === 'period') close(f, true); return; }
       f.committed = new Set(f.pending);
       paintBtn(f);
       close(f, true);
@@ -2350,27 +2370,6 @@
     renderText(d, P, pct);
   }
 
-  /* ---------- controls ---------- */
-  var TOGGLES = [['tg-cmp', 'cmp'], ['tg-range', 'range'], ['tg-fmt', 'fmt']];
-  function syncControls() {
-    TOGGLES.forEach(function (g) {
-      Array.prototype.forEach.call($(g[0]).querySelectorAll('button'), function (b) {
-        var on = b.getAttribute('data-v') === st[g[1]];
-        b.classList.toggle('on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-    });
-  }
-  TOGGLES.forEach(function (g) {
-    $(g[0]).addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      st[g[1]] = b.getAttribute('data-v');
-      syncControls(); render();
-    });
-  });
-
-  syncControls();
   render();
 })();
 </script>
@@ -2564,13 +2563,15 @@
 <!-- Scorecard summary: row hover overlay (highlight + row commentary) -->
 <div id="sc-overlay" role="toolbar" aria-label="Row actions">
   <span class="brd-pill brd-r" data-brd="BR-16" style="right:6px;">BR-16</span>
+  <label class="sc-ov-opt"><input type="checkbox" id="sc-ov-hl"> Highlight</label>
   <label class="sc-ov-opt"><input type="checkbox" id="sc-ov-cm"> Comment</label>
 </div>
 <script>
 (function () {
   var ov = document.getElementById('sc-overlay');
   var cm = document.getElementById('sc-ov-cm');
-  if (!ov || !cm) return;
+  var hl = document.getElementById('sc-ov-hl');
+  if (!ov || !cm || !hl) return;
 
   var NAMES = ['Marcus Vance', 'Jordan Lee', 'Maya Chen', 'Sarah Jenkins', 'Derek Osman'];
   var tagRe = new RegExp('(@(?:' + NAMES.join('|') + '))', 'g');
@@ -2608,6 +2609,7 @@
     curRow = r;
     curCfg = cfg;
     cm.checked = (cfg.editing === r);
+    hl.checked = r.classList.contains('sc-hl');
     ov.classList.add('on');
     var rr = r.getBoundingClientRect(), wr = cfg.wrap.getBoundingClientRect();
     ov.style.top = (rr.top + rr.height / 2 - ov.offsetHeight / 2) + 'px';
@@ -2619,6 +2621,11 @@
   ov.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
   ov.addEventListener('mouseleave', scheduleHide);
   document.addEventListener('scroll', hideOverlay, true);
+
+  hl.addEventListener('change', function () {
+    if (!curRow) return;
+    curRow.classList.toggle('sc-hl', hl.checked);
+  });
 
   cm.addEventListener('change', function () {
     if (!curRow || !curCfg) return;
@@ -2837,8 +2844,7 @@
       r.addEventListener('mouseenter', function () { showOverlay(r, cfg); });
       r.addEventListener('click', function (e) {
         if (e.target.closest('a, button, input, textarea, select')) return;
-        r.classList.toggle('sc-hl');
-        showOverlay(r, cfg);
+        window.location.href = 'rs_transaction_detail.html';
       });
     });
 
