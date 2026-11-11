@@ -159,6 +159,11 @@
   table.pl tr.section-gap td { height: 8px; padding: 0; border-bottom: 0; background: #f9f9f9; }
   table.pl tr.underline-row td { border-bottom: 2px solid var(--line); }
   table.pl td.italic { font-style: italic; }
+  .section-hdr-band { background: #e8e9eb; padding: 10px 16px; display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .section-hdr-band .section-title { font-size: 14px; font-weight: 700; color: #161616; display: flex; align-items: center; gap: 6px; }
+  .section-hdr-band .section-sub { font-size: 11.5px; color: #525252; margin: 0; padding: 0; flex: 1; }
+  .row-main { font-weight: inherit; color: var(--navy); }
+  .row-subtext { font-size: 11px; color: var(--muted); font-weight: normal; margin-top: 2px; line-height: 1.35; white-space: normal; }
 
   /* Row discussion */
   .row-disc { margin: 0 16px 14px; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-left: 3px solid var(--blue); display: flex; gap: 10px; }
@@ -294,7 +299,7 @@
   .banner { margin: 16px 0 0 !important; }
   .charts { margin: 14px 18px !important; }
   .section { margin: 14px 18px !important; overflow: hidden; }
-  .bottom-nav { margin: 0 0 24px !important; }
+  .bottom-nav { margin: 0 18px 24px !important; }
   .kpi-grid-3rows { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; padding: 0 18px; }
   .kpi-row-5col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
   .kpi-card-ext { background: var(--tile); border: 1px solid var(--line); border-top: 2px solid var(--red); padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 3px; }
@@ -379,25 +384,13 @@
 
   /* Table row highlight, hover overlay, row commentary */
   #scorecard-table tbody tr[data-sc-label],
-  #kpi-detail-table tbody tr[data-sc-label],
-  #pl-table-detailed tbody tr[data-sc-label],
-  #fe-summary-table tbody tr[data-sc-label],
   table.pl tbody tr[data-sc-label] { cursor: pointer; }
 
   #scorecard-table tr.sc-hl > td,
-  #kpi-detail-table tr.sc-hl > td,
-  #pl-table-detailed tr.sc-hl > td,
-  #fe-summary-table tr.sc-hl > td,
   table.pl tr.sc-hl > td { box-shadow: inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
   #scorecard-table tr.sc-hl > td:first-child,
-  #kpi-detail-table tr.sc-hl > td:first-child,
-  #pl-table-detailed tr.sc-hl > td:first-child,
-  #fe-summary-table tr.sc-hl > td:first-child,
   table.pl tr.sc-hl > td:first-child { box-shadow: inset 2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
   #scorecard-table tr.sc-hl > td:last-child,
-  #kpi-detail-table tr.sc-hl > td:last-child,
-  #pl-table-detailed tr.sc-hl > td:last-child,
-  #fe-summary-table tr.sc-hl > td:last-child,
   table.pl tr.sc-hl > td:last-child { box-shadow: inset -2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
   #sc-overlay { position: fixed; z-index: 1200; display: none; align-items: center; gap: 12px; padding: 4px 10px; background: #fff; border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.15); font-size: 11px; font-weight: 600; color: var(--navy); }
   #sc-overlay.on { display: flex; }
@@ -539,19 +532,19 @@
     </div>
     <div class="sb-section">BU Close Review</div>
     <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
-    <a class="sb-link sub" href="management_pl_NAS.html">Management P&amp;L</a>
+    <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
+    <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
     <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
-    <a class="sb-link sub" href="fe_pl_NAS.html">Field Expense P&amp;L</a>
-    <div class="sb-sublabel">Within Field Expense</div>
-    <a class="sb-link sub2" href="payroll_drill.html">Headcount and FTE</a>
-    <a class="sb-link sub2" href="te_point_to_point.html">T&amp;E point to point</a>
+    <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
     <div class="sb-divider"></div>
     <a class="sb-link active" href="rs_dashboard.html">RS dashboard</a>
-    <a class="sb-link sub" href="management_pl_RS.html">Management P&amp;L</a>
-    <a class="sb-link sub" href="fe_pl_RS.html">Field Expense P&amp;L</a>
+    <a class="sb-link sub" href="management_pl_RS.html">Revenue Analysis</a>
+    <a class="sb-link sub2" href="rs_transaction_detail.html">RS transaction detail</a>
+    <a class="sb-link sub" href="expense_pl_RS.html">Expense P&amp;L</a>
     <div class="sb-divider"></div>
     <div class="sb-section">Corporate</div>
     <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
+    <a class="sb-link sub" href="cfo_details.html">CFO details</a>
     <a class="sb-link sub" href="sec_report.html">SEC</a>
     <div class="sb-divider"></div>
     <a class="sb-ext" href="index.html">&larr; Home</a>
@@ -823,14 +816,14 @@
           <div class="kpi-row"><span>Starts</span><b>$15.2m</b></div>
           <div class="kpi-row"><span>Losses</span><b>$9.8m</b></div>
           <div class="kpi-row"><span>Net new business</span><b>$5.4m</b></div>
-          <a class="kpi-drill" href="management_pl_RS.html">Management P&amp;L ↗</a>
+          <a class="kpi-drill" href="management_pl_RS.html">Revenue Analysis ↗</a>
         </div>
         <div class="kpi" id="kpi-ret">
           <div class="kpi-label">Retention</div>
           <div class="kpi-val">92.4%</div>
           <div class="kpi-var"><span class="fav">+0.4 pp vs plan</span></div>
           <div class="kpi-var"><span class="fav">+0.2 pp vs PY</span></div>
-          <a class="kpi-drill" href="management_pl_RS.html">Management P&amp;L ↗</a>
+          <a class="kpi-drill" href="management_pl_RS.html">Revenue Analysis ↗</a>
         </div>
         <div class="kpi" id="kpi-rev">
           <div class="kpi-label">Revenue</div>
@@ -839,7 +832,7 @@
           <div class="kpi-var"><span class="fav">+5.3% vs PY</span></div>
           <div class="kpi-row"><span>Processing</span><b>$104.0m</b></div>
           <div class="kpi-row"><span>Non-processing</span><b>$16.0m</b></div>
-          <a class="kpi-drill" href="management_pl_RS.html">Management P&amp;L ↗</a>
+          <a class="kpi-drill" href="management_pl_RS.html">Revenue Analysis ↗</a>
         </div>
         <div class="kpi" id="kpi-noi">
           <div class="kpi-label">NOI</div>
@@ -847,14 +840,14 @@
           <div class="kpi-var"><span class="fav">+$3.5m vs plan</span></div>
           <div class="kpi-var"><span class="fav">+7.7% vs PY</span></div>
           <div class="kpi-row"><span>Margin</span><b>23.3%</b></div>
-          <a class="kpi-drill" href="fe_pl_RS.html">Field Expense P&amp;L ↗</a>
+          <a class="kpi-drill" href="expense_pl_RS.html">Expense P&amp;L ↗</a>
         </div>
         <div class="kpi" id="kpi-cli">
           <div class="kpi-label">Clients (average)</div>
           <div class="kpi-val">61,500</div>
           <div class="kpi-var"><span class="fav">+300 vs plan</span></div>
           <div class="kpi-var"><span class="fav">+2.4% vs PY</span></div>
-          <a class="kpi-drill" href="management_pl_RS.html">Management P&amp;L ↗</a>
+          <a class="kpi-drill" href="management_pl_RS.html">Revenue Analysis ↗</a>
         </div>
       </div>
 
@@ -1060,464 +1053,285 @@
 
       </div><!-- /charts -->
 
-
-
-      <!-- KPI Performance Tabular Detail -->
-      <div class="opt-label">Option 3</div>
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">RS KPI performance detail
-            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add RS KPI performance detail table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
+      <!-- Headline KPIs (BUD-03) -->
+      <div class="section" id="sec-headline-kpis">
+        <div class="section-hdr-band">
+          <div class="section-title">
+            Headline KPIs (BUD-03)
+            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add Headline KPIs (BUD-03) table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
           </div>
-          <a class="export-link" href="#">Export ↓</a>
+          <div class="section-sub">$K · Month vs plan and vs forecast; QTD, YTD (with % of full-year plan), ROY and FY each with the variance and growth for the period</div>
+          <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
         </div>
-        <div class="section-sub">Actual performance vs Plan, Forecast, and Prior Year (YoY)</div>
         <div class="tbl-wrap">
-          <table class="pl" id="kpi-detail-table">
+          <table class="pl" id="headline-kpi-table">
             <thead>
               <tr>
-                <th style="min-width:220px">Metric</th>
-                <th>Actual</th>
+                <th style="min-width:240px">Line</th>
+                <th>Sep FY27 Act</th>
                 <th>vs Plan</th>
                 <th>vs Fcst</th>
-                <th>YoY Growth</th>
+                <th>QTD</th>
+                <th>YTD</th>
+                <th>ROY</th>
+                <th>FY</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Sales</td><td>$25.7M</td><td class="unf">($2.0M)</td><td class="unf">($1.7M)</td><td class="fav">+5.5%</td></tr>
-              <tr><td>Starts</td><td>$24.3M</td><td class="unf">($0.2M)</td><td class="fav">+$1.6M</td><td class="fav">+5.9%</td></tr>
-              <tr><td>Retention</td><td>91.0%</td><td class="unf">-55 bps</td><td class="fav">+68 bps</td><td class="unf">-199 bps</td></tr>
-              <tr><td>Losses</td><td>$8.8M</td><td class="unf">($0.6M)</td><td class="fav">+$0.7M</td><td class="fav">+47.6%</td></tr>
-              <tr><td>Clients</td><td>222.0K</td><td class="unf">(0.6K)</td><td class="fav">+0.1K</td><td class="fav">+15.4%</td></tr>
-              <tr class="section-gap"><td colspan="5"></td></tr>
-              <tr class="bold"><td>Revenue</td><td>$97.7M</td><td class="fav">+$0.9M</td><td>($0.1M)</td><td class="fav">+15.0%</td></tr>
-              <tr><td>Exp. X NDE</td><td>$26.3M</td><td class="fav">+$0.8M</td><td class="fav">+$0.4M</td><td>+5.5%</td></tr>
-              <tr><td>NDE</td><td>$19.4M</td><td class="fav">+$1.0M</td><td class="unf">($0.1M)</td><td>+7.6%</td></tr>
-              <tr class="bold"><td>NOI</td><td>$52.0M</td><td class="fav">+$2.6M</td><td class="fav">+$0.2M</td><td class="fav">+25.3%</td></tr>
-              <tr><td>NOI Margin</td><td>53.2%</td><td class="fav">+221 bps</td><td class="fav">+26 bps</td><td class="fav">+441 bps</td></tr>
-              <tr class="section-gap"><td colspan="5"></td></tr>
-              <tr><td>Headcount (HC)</td><td>1,505</td><td class="unf">(59)</td><td class="unf">(24)</td><td>+3.3%</td></tr>
-              <tr class="bold"><td>Field NOI</td><td>$78.0M</td><td class="fav">+$1.6M</td><td class="fav">+$0.3M</td><td class="fav">+18.5%</td></tr>
-              <tr><td>Field NOI Margin</td><td>79.8%</td><td class="fav">+98 bps</td><td class="fav">+41 bps</td><td class="fav">+237 bps</td></tr>
+              <tr data-sc-label="Revenue">
+                <td>
+                  <div class="row-main">Revenue</div>
+                  <div class="row-subtext">With processing 93,308.1 and non-processing 95.3</div>
+                </td>
+                <td class="bold">93,403.4</td>
+                <td class="fav">+512.6</td>
+                <td class="fav">+184.2</td>
+                <td>276,842.1</td>
+                <td>276,842.1</td>
+                <td>838,650.0</td>
+                <td>1,115,492.1</td>
+              </tr>
+              <tr data-sc-label="NOI">
+                <td>
+                  <div class="row-main">NOI</div>
+                </td>
+                <td class="bold">47,486.0</td>
+                <td class="fav">+4,620.5</td>
+                <td class="fav">+1,140.0</td>
+                <td>138,420.8</td>
+                <td>138,420.8</td>
+                <td>370,580.0</td>
+                <td>509,000.8</td>
+              </tr>
+              <tr data-sc-label="Sales">
+                <td>
+                  <div class="row-main">Sales</div>
+                  <div class="row-subtext">With starts 19,087.6, losses 7,308.3 and net new business 11,779.3</div>
+                </td>
+                <td class="bold">25,666.7</td>
+                <td class="unf">(1,980.3)</td>
+                <td class="unf">(1,650.0)</td>
+                <td>68,410.5</td>
+                <td>68,410.5</td>
+                <td>221,500.0</td>
+                <td>289,910.5</td>
+              </tr>
+              <tr data-sc-label="Retention %">
+                <td>
+                  <div class="row-main">Retention %</div>
+                  <div class="row-subtext">Variance in bps</div>
+                </td>
+                <td class="bold">92.2%</td>
+                <td class="fav">+40 bps</td>
+                <td class="fav">+68 bps</td>
+                <td>92.0%</td>
+                <td>92.0%</td>
+                <td>92.5%</td>
+                <td>92.4%</td>
+              </tr>
+              <tr data-sc-label="Clients">
+                <td>
+                  <div class="row-main">Clients</div>
+                  <div class="row-subtext">Average for QTD and YTD</div>
+                </td>
+                <td class="bold">219,224</td>
+                <td class="unf">(580)</td>
+                <td class="fav">+120</td>
+                <td>218,650</td>
+                <td>218,650</td>
+                <td>224,800</td>
+                <td>224,800</td>
+              </tr>
             </tbody>
           </table>
         </div>
         <!-- Row commentary (saved below the table) -->
-        <div class="sc-cmt-area" id="kpi-detail-cmt-area">
-          <div class="sc-cmt-editor" id="kpi-detail-cmt-editor" hidden>
+        <div class="sc-cmt-area" id="headline-kpi-cmt-area">
+          <div class="sc-cmt-editor" id="headline-kpi-cmt-editor" hidden>
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-              <div class="sc-cmt-target">Commenting on: <b id="kpi-detail-cmt-target"></b></div>
+              <div class="sc-cmt-target">Commenting on: <b id="headline-kpi-cmt-target"></b></div>
               <div class="sc-cmt-as" style="margin:0;">
-                <label for="kpi-detail-cmt-persona"><b>Commenting as:</b></label>
-                <select id="kpi-detail-cmt-persona"></select>
+                <label for="headline-kpi-cmt-persona"><b>Commenting as:</b></label>
+                <select id="headline-kpi-cmt-persona"></select>
               </div>
             </div>
-            <textarea id="kpi-detail-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
+            <textarea id="headline-kpi-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
             <div class="sc-cmt-actions">
-              <button type="button" class="btn-sm btn-cancel-reply" id="kpi-detail-cmt-cancel">Cancel</button>
-              <button type="button" class="btn-sm btn-save-reply" id="kpi-detail-cmt-save">Save commentary</button>
+              <button type="button" class="btn-sm btn-cancel-reply" id="headline-kpi-cmt-cancel">Cancel</button>
+              <button type="button" class="btn-sm btn-save-reply" id="headline-kpi-cmt-save">Save commentary</button>
             </div>
           </div>
-          <div class="sc-cmt-list" id="kpi-detail-cmt-list"></div>
+          <div class="sc-cmt-list" id="headline-kpi-cmt-list"></div>
         </div>
       </div>
 
-      <!-- Detailed Management-view P&L table -->
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">Management-view P&amp;L detail summary
-            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add Management-view P&L detail summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
+      <!-- Management P&L summary -->
+      <div class="section" id="sec-mgmt-pl-summary">
+        <div class="section-hdr-band">
+          <div class="section-title">
+            Management P&amp;L summary
+            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add Management P&L summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
           </div>
-          <a class="export-link" href="#">Export ↓</a>
+          <div class="section-sub">$K · Month vs plan and vs forecast; QTD, YTD (with % of full-year plan), ROY and FY each with the variance and growth for the period</div>
+          <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
         </div>
-        <div class="section-sub">September · $m · Actual vs forecast, plan and prior year · Illustrative</div>
         <div class="tbl-wrap">
-          <table class="pl" id="pl-table-detailed">
+          <table class="pl" id="mgmt-pl-summary-table">
             <thead>
               <tr>
-                <th style="background:#fff;border-bottom:1px solid var(--line)"></th>
-                <th colspan="8" class="grp-hdr">Current Month</th>
-                <th colspan="7" class="grp-hdr">Quarter To Date</th>
-                <th colspan="6" class="grp-hdr">Year to Date</th>
-              </tr>
-              <tr>
-                <th style="min-width:160px;white-space:normal"></th>
-                <th>Actual</th><th>vs Fcst</th><th>% Fcst</th><th>vs Plan</th><th>% Plan</th><th>Prior Yr</th><th>$ Grw</th><th>% Grw</th>
-                <th class="grp-sep">Actual</th><th>vs Fcst</th><th>% Fcst</th><th>vs Plan</th><th>Prior Yr</th><th>$ Grw</th><th>% Grw</th>
-                <th class="grp-sep">Actual</th><th>vs Plan</th><th>% Plan</th><th>Prior Yr</th><th>$ Grw</th><th>% Grw</th>
+                <th style="min-width:240px">Line</th>
+                <th>Sep FY27 Act</th>
+                <th>vs Plan</th>
+                <th>vs Fcst</th>
+                <th>QTD</th>
+                <th>YTD</th>
+                <th>ROY</th>
+                <th>FY</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold underline-row">
-                <td>Total Revenue</td>
-                <td>93.4</td><td>0.5</td><td>0.5%</td><td>0.5</td><td>0.5%</td><td>81.4</td><td>12.0</td><td>14.7%</td>
-                <td class="grp-sep">286.8</td><td>2.8</td><td>1.0%</td><td>2.8</td><td>248.9</td><td>37.9</td><td>15.2%</td>
-                <td class="grp-sep">286.8</td><td>2.8</td><td>1.0%</td><td>248.9</td><td>37.9</td><td>15.2%</td>
+              <tr class="bold" data-sc-label="Total revenue">
+                <td>
+                  <div class="row-main">Total revenue</div>
+                </td>
+                <td>93,403.4</td>
+                <td class="fav">+512.6</td>
+                <td class="fav">+184.2</td>
+                <td>276,842.1</td>
+                <td>276,842.1</td>
+                <td>838,650.0</td>
+                <td>1,115,492.1</td>
               </tr>
-              <tr class="underline-row">
-                <td>Total Rev w/o Pass Thru</td>
-                <td>93.4</td><td>0.5</td><td>0.5%</td><td>0.5</td><td>0.5%</td><td>81.4</td><td>12.0</td><td>14.7%</td>
-                <td class="grp-sep">286.8</td><td>2.8</td><td>1.0%</td><td>2.8</td><td>248.9</td><td>37.9</td><td>15.2%</td>
-                <td class="grp-sep">286.8</td><td>2.8</td><td>1.0%</td><td>248.9</td><td>37.9</td><td>15.2%</td>
+              <tr data-sc-label="Field expense">
+                <td>
+                  <div class="row-main">Field expense</div>
+                  <div class="row-subtext">No reliable single member (DAT-06). Close package r59 is the tie-out value.</div>
+                </td>
+                <td class="bold">18,881.9</td>
+                <td class="fav">+2,250.4</td>
+                <td class="fav">+840.2</td>
+                <td>58,410.2</td>
+                <td>58,410.2</td>
+                <td>176,500.0</td>
+                <td>234,910.2</td>
               </tr>
-              <tr class="bold underline-row">
-                <td>Proc Revenue</td>
-                <td>93.3</td><td>0.5</td><td>0.5%</td><td>0.5</td><td>0.5%</td><td>81.3</td><td>12.0</td><td>14.7%</td>
-                <td class="grp-sep">286.4</td><td>2.8</td><td>1.0%</td><td>2.8</td><td>248.6</td><td>37.8</td><td>15.2%</td>
-                <td class="grp-sep">286.4</td><td>2.8</td><td>1.0%</td><td>248.6</td><td>37.8</td><td>15.2%</td>
+              <tr data-sc-label="Field NOI">
+                <td>
+                  <div class="row-main">Field NOI</div>
+                </td>
+                <td class="bold">74,521.5</td>
+                <td class="fav">+2,763.0</td>
+                <td class="fav">+1,024.4</td>
+                <td>218,431.9</td>
+                <td>218,431.9</td>
+                <td>662,150.0</td>
+                <td>880,581.9</td>
               </tr>
-              <tr>
-                <td>Pass Thru</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
+              <tr class="indent" data-sc-label="Field NOI margin %">
+                <td>
+                  <div class="row-main">Field NOI margin %</div>
+                </td>
+                <td>79.8%</td>
+                <td class="fav">+252 bps</td>
+                <td class="fav">+94 bps</td>
+                <td>78.9%</td>
+                <td>78.9%</td>
+                <td>79.0%</td>
+                <td>78.9%</td>
               </tr>
-              <tr class="section-gap"><td colspan="22"></td></tr>
-              <tr>
-                <td>Setup</td>
-                <td>0.1</td><td>(0.0)</td><td class="unf">-17.9%</td><td>(0.0)</td><td class="unf">-17.9%</td><td>0.1</td><td>0.0</td><td>1.6%</td>
-                <td class="grp-sep">0.2</td><td>0.0</td><td>2.3%</td><td>0.0</td><td>0.2</td><td>0.0</td><td>27.7%</td>
-                <td class="grp-sep">0.2</td><td>0.0</td><td>2.3%</td><td>0.2</td><td>0.0</td><td>27.7%</td>
+              <tr data-sc-label="NDE">
+                <td>
+                  <div class="row-main">NDE</div>
+                </td>
+                <td class="bold">20,534.4</td>
+                <td class="fav">+1,880.5</td>
+                <td class="unf">(120.0)</td>
+                <td>59,810.0</td>
+                <td>59,810.0</td>
+                <td>180,200.0</td>
+                <td>240,010.0</td>
               </tr>
-              <tr>
-                <td>W2</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>ERC/Maintenance</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>Supply/Other (DCIO Fees)</td>
-                <td>0.0</td><td>0.0</td><td>-</td><td>0.0</td><td>-</td><td>0.0</td><td>0.0</td><td>34.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>-</td><td>0.0</td><td>0.0</td><td>0.0</td><td>41.7%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>-</td><td>0.0</td><td>0.0</td><td>41.7%</td>
-              </tr>
-              <tr>
-                <td>Project Services</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>FX</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>Other Segment</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>Client Fund Interest</td>
-                <td>0.0</td><td>0.0</td><td>2.4%</td><td>0.0</td><td>2.4%</td><td>0.0</td><td>(0.0)</td><td class="unf">-12.7%</td>
-                <td class="grp-sep">0.1</td><td>0.0</td><td>3.2%</td><td>0.0</td><td>0.1</td><td>(0.0)</td><td class="unf">-14.9%</td>
-                <td class="grp-sep">0.1</td><td>0.0</td><td>3.2%</td><td>0.1</td><td>(0.0)</td><td class="unf">-14.9%</td>
-              </tr>
-              <tr class="section-gap"><td colspan="22"></td></tr>
-              <tr>
-                <td>Sales</td>
-                <td>25.7</td><td class="unf">(2.0)</td><td class="unf">-7.1%</td><td class="unf">(2.0)</td><td class="unf">-7.1%</td><td>24.3</td><td>1.3</td><td>5.5%</td>
-                <td class="grp-sep">59.2</td><td class="unf">(3.8)</td><td class="unf">-6.0%</td><td class="unf">(3.8)</td><td>57.4</td><td>1.8</td><td>3.1%</td>
-                <td class="grp-sep">59.2</td><td class="unf">(3.8)</td><td class="unf">-6.0%</td><td>57.4</td><td>1.8</td><td>3.1%</td>
-              </tr>
-              <tr>
-                <td>Starts</td>
-                <td>19.1</td><td class="unf">(1.8)</td><td class="unf">-8.4%</td><td class="unf">(1.8)</td><td class="unf">-8.4%</td><td>18.3</td><td>0.2</td><td>1.2%</td>
-                <td class="grp-sep">62.5</td><td>0.3</td><td>0.6%</td><td>0.3</td><td>57.9</td><td>4.6</td><td>7.9%</td>
-                <td class="grp-sep">62.5</td><td>0.3</td><td>0.6%</td><td>57.9</td><td>4.6</td><td>7.9%</td>
-              </tr>
-              <tr>
-                <td>Losses</td>
-                <td>7.3</td><td>0.8</td><td>9.8%</td><td>0.8</td><td>9.8%</td><td>8.2</td><td>0.9</td><td class="unf">-10.6%</td>
-                <td class="grp-sep">22.1</td><td>1.7</td><td>7.3%</td><td>1.7</td><td>20.7</td><td>(1.4)</td><td>6.8%</td>
-                <td class="grp-sep">22.1</td><td>1.7</td><td>7.3%</td><td>20.7</td><td>(1.4)</td><td>6.8%</td>
-              </tr>
-              <tr>
-                <td>NNB</td>
-                <td>11.8</td><td class="unf">(1.0)</td><td class="unf">-7.6%</td><td class="unf">(1.0)</td><td class="unf">-7.6%</td><td>10.7</td><td>1.1</td><td>10.2%</td>
-                <td class="grp-sep">40.4</td><td>2.1</td><td>5.4%</td><td>2.1</td><td>37.2</td><td>3.2</td><td>8.6%</td>
-                <td class="grp-sep">40.4</td><td>2.1</td><td>5.4%</td><td>37.2</td><td>3.2</td><td>8.6%</td>
-              </tr>
-              <tr>
-                <td>Retention</td>
-                <td>92.2%</td><td>0.9%</td><td>1.0%</td><td>0.9%</td><td>1.0%</td><td>90.0%</td><td></td><td>2.2%</td>
-                <td class="grp-sep">92.3%</td><td>0.7%</td><td>0.8%</td><td>0.7%</td><td>91.7%</td><td></td><td>0.6%</td>
-                <td class="grp-sep">92.3%</td><td>0.7%</td><td>0.8%</td><td>91.7%</td><td></td><td>0.6%</td>
-              </tr>
-              <tr class="section-gap"><td colspan="22"></td></tr>
-              <tr>
-                <td style="font-weight:600;text-decoration:underline">Proc Rev Grw From:</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="color:var(--muted);font-size:10px">Contrib.</td>
-                <td class="grp-sep"></td><td></td><td></td><td></td><td></td><td></td><td style="color:var(--muted);font-size:10px">Contrib.</td>
-                <td class="grp-sep"></td><td></td><td></td><td></td><td></td><td style="color:var(--muted);font-size:10px">Contrib.</td>
-              </tr>
-              <tr>
-                <td>- Starts</td>
-                <td>20.2</td><td>0.1</td><td>0.5%</td><td>0.1</td><td>0.5%</td><td>18.4</td><td>1.8</td><td>24.9%</td>
-                <td class="grp-sep">65.4</td><td>0.3</td><td>0.5%</td><td>0.3</td><td>59.4</td><td>6.0</td><td>26.3%</td>
-                <td class="grp-sep">65.4</td><td>0.3</td><td>0.5%</td><td>59.4</td><td>6.0</td><td>26.3%</td>
-              </tr>
-              <tr>
-                <td>- Losses</td>
-                <td>(7.3)</td><td>0.1</td><td class="unf">-1.8%</td><td>0.1</td><td class="unf">-1.8%</td><td>(6.5)</td><td>0.8</td><td class="unf">-8.9%</td>
-                <td class="grp-sep">(23.7)</td><td>0.2</td><td class="unf">-0.9%</td><td>0.2</td><td>(20.5)</td><td>3.2</td><td class="unf">-9.5%</td>
-                <td class="grp-sep">(23.7)</td><td>0.2</td><td class="unf">-0.9%</td><td>(20.5)</td><td>3.2</td><td class="unf">-9.5%</td>
-              </tr>
-              <tr>
-                <td>- NNB</td>
-                <td>13.0</td><td>0.2</td><td>1.8%</td><td>0.2</td><td>1.8%</td><td>12.0</td><td>1.0</td><td>15.9%</td>
-                <td class="grp-sep">41.6</td><td>0.5</td><td>1.2%</td><td>0.5</td><td>38.9</td><td>2.7</td><td>16.8%</td>
-                <td class="grp-sep">41.6</td><td>0.5</td><td>1.2%</td><td>38.9</td><td>2.7</td><td>16.8%</td>
-              </tr>
-              <tr>
-                <td>- Price Increase</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Concessions</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Net Price Inc</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Same Store PPC</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Float</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Acq/Divest</td>
-                <td>0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-                <td class="grp-sep">0.0</td><td>0.0</td><td>0.0%</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td>
-              </tr>
-              <tr>
-                <td>- Total UBV</td>
-                <td>(1.0)</td><td>0.2</td><td class="unf">-19.2%</td><td>0.2</td><td class="unf">-19.2%</td><td>(0.8)</td><td>(0.2)</td><td class="unf">-1.2%</td>
-                <td class="grp-sep">(3.8)</td><td>2.3</td><td class="unf">-37.7%</td><td>2.3</td><td>(4.2)</td><td>0.4</td><td class="unf">-1.5%</td>
-                <td class="grp-sep">(3.8)</td><td>2.3</td><td class="unf">-37.7%</td><td>(4.2)</td><td>0.4</td><td class="unf">-1.5%</td>
-              </tr>
-              <tr class="bold underline-row">
-                <td>CY Proc Revenue</td>
-                <td>93.3</td><td>0.5</td><td>0.5%</td><td>0.5</td><td>0.5%</td><td>81.3</td><td>12.0</td><td>14.7%</td>
-                <td class="grp-sep">286.4</td><td>2.8</td><td>1.0%</td><td>2.8</td><td>248.6</td><td>37.8</td><td>15.2%</td>
-                <td class="grp-sep">286.4</td><td>2.8</td><td>1.0%</td><td>248.6</td><td>37.8</td><td>15.2%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Row commentary (saved below the table) -->
-        <div class="sc-cmt-area" id="pl-detail-cmt-area">
-          <div class="sc-cmt-editor" id="pl-detail-cmt-editor" hidden>
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-              <div class="sc-cmt-target">Commenting on: <b id="pl-detail-cmt-target"></b></div>
-              <div class="sc-cmt-as" style="margin:0;">
-                <label for="pl-detail-cmt-persona"><b>Commenting as:</b></label>
-                <select id="pl-detail-cmt-persona"></select>
-              </div>
-            </div>
-            <textarea id="pl-detail-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
-            <div class="sc-cmt-actions">
-              <button type="button" class="btn-sm btn-cancel-reply" id="pl-detail-cmt-cancel">Cancel</button>
-              <button type="button" class="btn-sm btn-save-reply" id="pl-detail-cmt-save">Save commentary</button>
-            </div>
-          </div>
-          <div class="sc-cmt-list" id="pl-detail-cmt-list"></div>
-        </div>
-        <div class="tbl-foot">September close · All figures in $m unless noted · Contrib. = Contribution to Processing Revenue Growth</div>
-      </div><!-- /section -->
-
-      <!-- Field Expense Summary P&L table -->
-      <div class="opt-label">Option 1</div>
-      <div class="section">
-        <div class="section-hdr">
-          <div class="section-title">RS Field Expense Summary P&amp;L — MTD &amp; YTD
-            <button type="button" class="snap-star inline" data-snap="table" title="Add to insights" aria-label="Add RS Field Expense Summary table to insights"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg></button>
-          </div>
-          <a class="export-link" href="#">Export ↓</a>
-        </div>
-        <div class="section-sub">September close · $m unless noted · Actual vs Plan &amp; variance commentary · Illustrative</div>
-        <div class="tbl-wrap">
-          <table class="pl" id="fe-summary-table">
-            <thead>
-              <tr>
-                <th style="min-width:210px">$M Line Item</th>
-                <th>MTD Act</th>
-                <th>MTD vs Plan</th>
-                <th style="border-left:2px solid var(--line)">YTD Act</th>
-                <th>YTD vs Plan</th>
-                <th style="border-left:2px solid var(--line);text-align:left;white-space:normal;min-width:280px">Key Variance Driver / Commentary</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bold">
-                <td>&#9733; Total RS NOI</td>
-                <td>47.5</td>
-                <td class="fav">+4.6</td>
-                <td style="border-left:2px solid var(--line)">150.2</td>
-                <td class="fav">+8.4</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">+25.9% MTD / +23.7% YTD growth; 105.9% of YTD plan</td>
-              </tr>
-              <tr class="bold">
-                <td>Revenue</td>
-                <td>93.4</td>
-                <td class="fav">+0.5</td>
-                <td style="border-left:2px solid var(--line)">286.8</td>
-                <td class="fav">+2.8</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Revenue tracking 100.5% MTD and 101.0% YTD of plan</td>
-              </tr>
-              <tr class="section-gap"><td colspan="6"></td></tr>
-              <tr class="bold underline-row">
-                <td>Field Opex Expense</td>
-                <td>18.9</td>
-                <td class="fav">+2.3</td>
-                <td style="border-left:2px solid var(--line)">59.1</td>
-                <td class="fav">+2.6</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Favorable operating leverage; EE savings and mailing shift</td>
-              </tr>
-              <tr class="indent">
-                <td>EE Related Expense</td>
-                <td>11.8</td>
-                <td class="fav">+0.2</td>
-                <td style="border-left:2px solid var(--line)">37.1</td>
-                <td class="fav">+0.6</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">FTEs (46) MTD / (29) YTD lower than plan; Rate/EE at 100.5%</td>
-              </tr>
-              <tr class="indent">
-                <td>Trustee Fees</td>
-                <td>0.8</td>
-                <td class="fav">+0.1</td>
-                <td style="border-left:2px solid var(--line)">2.5</td>
-                <td class="fav">+0.1</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Mesirow fiduciary fee driven</td>
-              </tr>
-              <tr class="indent">
-                <td>Trailer Fees</td>
-                <td>3.1</td>
-                <td class="fav">+0.1</td>
-                <td style="border-left:2px solid var(--line)">9.8</td>
-                <td class="fav">+0.2</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Market asset valuation driven</td>
-              </tr>
-              <tr class="indent">
-                <td>Bad Debt</td>
-                <td>0.8</td>
-                <td class="unf">(0.1)</td>
-                <td style="border-left:2px solid var(--line)">3.3</td>
-                <td class="unf">(0.3)</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">(25.4%) YoY growth; aging balances at 111.0% of plan</td>
-              </tr>
-              <tr class="indent">
-                <td>Consulting &amp; Professional</td>
-                <td>0.7</td>
+              <tr data-sc-label="Shared service allocations (excl. NDE)">
+                <td>
+                  <div class="row-main">Shared service allocations (excl. NDE)</div>
+                  <div class="row-subtext">Same member NAS uses (NAS view KPI 12). Expected 6,501.1; confirm with a retrieve.</div>
+                </td>
+                <td class="bold">6,501.1</td>
+                <td class="unf">(23.0)</td>
                 <td>0.0</td>
-                <td style="border-left:2px solid var(--line)">1.9</td>
-                <td class="fav">+0.1</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">External project cadence aligned with forecast</td>
+                <td>19,503.3</td>
+                <td>19,503.3</td>
+                <td>58,500.0</td>
+                <td>78,003.3</td>
               </tr>
-              <tr class="indent">
-                <td>Adv, Fulfillment &amp; Mktg</td>
-                <td>0.5</td>
-                <td class="unf">(0.1)</td>
-                <td style="border-left:2px solid var(--line)">1.2</td>
-                <td class="fav">+0.1</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Campaign timing adjustment</td>
+              <tr class="bold" data-sc-label="Total expenses">
+                <td>
+                  <div class="row-main">Total expenses</div>
+                </td>
+                <td>45,917.4</td>
+                <td class="fav">+4,107.9</td>
+                <td class="fav">+720.2</td>
+                <td>137,723.5</td>
+                <td>137,723.5</td>
+                <td>415,200.0</td>
+                <td>552,923.5</td>
               </tr>
-              <tr class="indent">
-                <td>Delivery &amp; Mailings</td>
-                <td>1.9</td>
-                <td class="fav">+1.8</td>
-                <td style="border-left:2px solid var(--line)">5.5</td>
-                <td class="fav">+1.7</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">+$2.7M timing shift of One Paper Benefit mailings to Dec, offset by higher participant volume</td>
+              <tr class="bold" data-sc-label="NOI (EBIT)">
+                <td>
+                  <div class="row-main">NOI (EBIT)</div>
+                </td>
+                <td>47,486.0</td>
+                <td class="fav">+4,620.5</td>
+                <td class="fav">+904.4</td>
+                <td>139,118.6</td>
+                <td>139,118.6</td>
+                <td>423,450.0</td>
+                <td>562,568.6</td>
               </tr>
-              <tr class="indent">
-                <td>Interest Income</td>
-                <td>(1.2)</td>
-                <td class="unf">(0.1)</td>
-                <td style="border-left:2px solid var(--line)">(3.5)</td>
-                <td class="unf">(0.2)</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Slightly lower cash interest yields vs plan</td>
-              </tr>
-              <tr class="indent">
-                <td>All Other Expense</td>
-                <td>0.5</td>
-                <td class="fav">+0.2</td>
-                <td style="border-left:2px solid var(--line)">1.4</td>
-                <td class="fav">+0.4</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">General office, software licenses and travel efficiencies</td>
-              </tr>
-              <tr class="section-gap"><td colspan="6"></td></tr>
-              <tr class="bold">
-                <td>NDE</td>
-                <td>20.5</td>
-                <td class="fav">+1.9</td>
-                <td style="border-left:2px solid var(--line)">57.9</td>
-                <td class="fav">+3.0</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Income summary sales ($3.8M) YTD lower than plan</td>
-              </tr>
-              <tr class="bold">
-                <td>Allocations</td>
-                <td>6.5</td>
-                <td class="unf">(0.0)</td>
-                <td style="border-left:2px solid var(--line)">19.5</td>
-                <td class="unf">(0.0)</td>
-                <td style="border-left:2px solid var(--line);white-space:normal">Shared services shared cost allocation as planned</td>
+              <tr class="indent" data-sc-label="NOI margin %">
+                <td>
+                  <div class="row-main">NOI margin %</div>
+                  <div class="row-subtext">Variance in bps.</div>
+                </td>
+                <td>50.8%</td>
+                <td class="fav">+470 bps</td>
+                <td class="fav">+87 bps</td>
+                <td>50.2%</td>
+                <td>50.2%</td>
+                <td>50.5%</td>
+                <td>50.4%</td>
               </tr>
             </tbody>
           </table>
         </div>
         <!-- Row commentary (saved below the table) -->
-        <div class="sc-cmt-area" id="fe-summary-cmt-area">
-          <div class="sc-cmt-editor" id="fe-summary-cmt-editor" hidden>
+        <div class="sc-cmt-area" id="mgmt-pl-summary-cmt-area">
+          <div class="sc-cmt-editor" id="mgmt-pl-summary-cmt-editor" hidden>
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-              <div class="sc-cmt-target">Commenting on: <b id="fe-summary-cmt-target"></b></div>
+              <div class="sc-cmt-target">Commenting on: <b id="mgmt-pl-summary-cmt-target"></b></div>
               <div class="sc-cmt-as" style="margin:0;">
-                <label for="fe-summary-cmt-persona"><b>Commenting as:</b></label>
-                <select id="fe-summary-cmt-persona"></select>
+                <label for="mgmt-pl-summary-cmt-persona"><b>Commenting as:</b></label>
+                <select id="mgmt-pl-summary-cmt-persona"></select>
               </div>
             </div>
-            <textarea id="fe-summary-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
+            <textarea id="mgmt-pl-summary-cmt-text" class="sc-cmt-text" placeholder="Add commentary. Type @ to tag a colleague." aria-label="Row commentary"></textarea>
             <div class="sc-cmt-actions">
-              <button type="button" class="btn-sm btn-cancel-reply" id="fe-summary-cmt-cancel">Cancel</button>
-              <button type="button" class="btn-sm btn-save-reply" id="fe-summary-cmt-save">Save commentary</button>
+              <button type="button" class="btn-sm btn-cancel-reply" id="mgmt-pl-summary-cmt-cancel">Cancel</button>
+              <button type="button" class="btn-sm btn-save-reply" id="mgmt-pl-summary-cmt-save">Save commentary</button>
             </div>
           </div>
-          <div class="sc-cmt-list" id="fe-summary-cmt-list"></div>
+          <div class="sc-cmt-list" id="mgmt-pl-summary-cmt-list"></div>
         </div>
-        <div class="tbl-foot">September close · All figures in $m unless noted · Parentheses denote unfavorable variance vs plan · Summarized from Field Expense P&amp;L</div>
-      </div><!-- /fe-summary section -->
+      </div>
 
       <!-- Bottom nav -->
       <div class="bottom-nav">
         <a class="bot-link" href="management_pl_RS.html">
-          <div><div class="bot-link-title">Management P&amp;L</div><div class="bot-link-sub">Revenue · sales · retention</div></div>
+          <div><div class="bot-link-title">Revenue Analysis</div><div class="bot-link-sub">Revenue · sales · retention</div></div>
           <span style="color:var(--blue);font-size:16px">↗</span>
         </a>
-        <a class="bot-link" href="fe_pl_RS.html">
-          <div><div class="bot-link-title">Field Expense P&amp;L</div><div class="bot-link-sub">Expense · Headcount and FTE</div></div>
+        <a class="bot-link" href="expense_pl_RS.html">
+          <div><div class="bot-link-title">Expense P&amp;L</div><div class="bot-link-sub">Expense · Headcount and FTE</div></div>
           <span style="color:var(--blue);font-size:16px">↗</span>
         </a>
       </div>
@@ -2813,37 +2627,26 @@
 
   var TABLE_DEFS = [
     {
-      tableId: 'kpi-detail-table',
-      personaId: 'kpi-detail-cmt-persona',
-      editorId: 'kpi-detail-cmt-editor',
-      targetId: 'kpi-detail-cmt-target',
-      textId: 'kpi-detail-cmt-text',
-      cancelId: 'kpi-detail-cmt-cancel',
-      saveId: 'kpi-detail-cmt-save',
-      listId: 'kpi-detail-cmt-list',
-      insightsPrefix: 'RS KPI performance detail · '
+      tableId: 'headline-kpi-table',
+      personaId: 'headline-kpi-cmt-persona',
+      editorId: 'headline-kpi-cmt-editor',
+      targetId: 'headline-kpi-cmt-target',
+      textId: 'headline-kpi-cmt-text',
+      cancelId: 'headline-kpi-cmt-cancel',
+      saveId: 'headline-kpi-cmt-save',
+      listId: 'headline-kpi-cmt-list',
+      insightsPrefix: 'Headline KPIs (BUD-03) · '
     },
     {
-      tableId: 'pl-table-detailed',
-      personaId: 'pl-detail-cmt-persona',
-      editorId: 'pl-detail-cmt-editor',
-      targetId: 'pl-detail-cmt-target',
-      textId: 'pl-detail-cmt-text',
-      cancelId: 'pl-detail-cmt-cancel',
-      saveId: 'pl-detail-cmt-save',
-      listId: 'pl-detail-cmt-list',
-      insightsPrefix: 'Management-view P&L detail · '
-    },
-    {
-      tableId: 'fe-summary-table',
-      personaId: 'fe-summary-cmt-persona',
-      editorId: 'fe-summary-cmt-editor',
-      targetId: 'fe-summary-cmt-target',
-      textId: 'fe-summary-cmt-text',
-      cancelId: 'fe-summary-cmt-cancel',
-      saveId: 'fe-summary-cmt-save',
-      listId: 'fe-summary-cmt-list',
-      insightsPrefix: 'RS Field Expense Summary · '
+      tableId: 'mgmt-pl-summary-table',
+      personaId: 'mgmt-pl-summary-cmt-persona',
+      editorId: 'mgmt-pl-summary-cmt-editor',
+      targetId: 'mgmt-pl-summary-cmt-target',
+      textId: 'mgmt-pl-summary-cmt-text',
+      cancelId: 'mgmt-pl-summary-cmt-cancel',
+      saveId: 'mgmt-pl-summary-cmt-save',
+      listId: 'mgmt-pl-summary-cmt-list',
+      insightsPrefix: 'Management P&L summary · '
     }
   ];
 
@@ -3054,7 +2857,7 @@
   });
 
   window.scSnapshot = function () {
-    var t = document.getElementById('kpi-detail-table') || document.getElementById('pl-table-detailed') || document.getElementById('fe-summary-table');
+    var t = document.getElementById("headline-kpi-table") || document.getElementById("mgmt-pl-summary-table");
     return (t && t.__scSnapshot) ? t.__scSnapshot() : [];
   };
 })();
