@@ -1,0 +1,47 @@
+/* RS pages: row rollover (highlight + comment), row commentary and add-to-insights stars.
+   Used with rs_tools.js on the RS, NAS and corporate pages. */
+
+table.pl tr.sc-hl > td { box-shadow: inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+table.pl tr.sc-hl > td:first-child { box-shadow: inset 2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+table.pl tr.sc-hl > td:last-child { box-shadow: inset -2px 0 0 var(--red), inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+
+#sc-overlay { position: fixed; z-index: 1200; display: none; align-items: center; gap: 12px; padding: 4px 10px; background: #fff; border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 2px 8px rgba(0,0,0,.15); font-size: 11px; font-weight: 600; color: var(--navy); }
+#sc-overlay.on { display: flex; }
+.sc-ov-opt { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; white-space: nowrap; }
+.sc-ov-opt input { margin: 0; cursor: pointer; accent-color: var(--red); }
+.sc-badge { display: inline-block; min-width: 14px; margin-left: 8px; padding: 0 4px; font-size: 10px; font-weight: 700; line-height: 14px; text-align: center; color: #fff; background: var(--p-blue); border-radius: 7px; }
+
+.sc-cmt-area { padding: 0 16px; }
+.sc-cmt-editor { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; padding: 10px 12px; background: #f7f8fa; border: 1px solid var(--line); border-radius: 3px; }
+.sc-cmt-editor[hidden] { display: none; }
+.sc-cmt-target { font-size: 12px; color: var(--muted); }
+.sc-cmt-target b { color: var(--navy); }
+.sc-cmt-text { width: 100%; min-height: 64px; font: inherit; font-size: 13px; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 7px 10px; resize: vertical; box-sizing: border-box; border-radius: 2px; }
+.sc-cmt-text:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+.sc-cmt-actions { display: flex; justify-content: flex-end; gap: 6px; }
+.sc-cmt-list { display: flex; flex-direction: column; gap: 8px; }
+.sc-cmt-list:not(:empty) { margin: 10px 0; }
+.sc-cmt-item { padding: 10px 12px; background: #fbfbfb; border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 3px; }
+.sc-cmt-as { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.sc-cmt-as select { font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 4px 8px; border-radius: 2px; }
+.sc-av { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; flex: none; }
+.sc-av.sm { width: 22px; height: 22px; font-size: 9px; }
+.sc-cmt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sc-cmt-who { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.sc-cmt-who b { font-size: 13px; color: var(--navy); }
+.sc-role { font-size: 11px; color: var(--muted); }
+.sc-chip { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 10px; background: #edf5ff; color: #0043ce; border: 1px solid #d0e2ff; white-space: nowrap; }
+.sc-ts { margin-left: auto; font-size: 11px; color: var(--muted); white-space: nowrap; }
+.sc-cmt-body { font-size: 13px; line-height: 1.5; color: #111; white-space: pre-wrap; }
+.sc-cmt-acts { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+.sc-link { font: inherit; font-size: 11px; font-weight: 600; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; }
+.sc-link:hover { color: var(--blue); text-decoration: underline; }
+.sc-link.sc-del:hover { color: var(--red); }
+.sc-added { font-size: 11px; font-weight: 600; color: var(--green); }
+.sc-replies { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding-left: 12px; border-left: 2px solid #d0e2ff; }
+.sc-reply { display: flex; gap: 8px; align-items: flex-start; }
+.sc-reply-main { min-width: 0; }
+.sc-reply-meta { font-size: 11px; color: var(--muted); }
+.sc-reply-meta b { color: var(--navy); }
+.sc-reply-form { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; padding-left: 12px; border-left: 2px solid #d0e2ff; }
+.sc-reply-ta { min-height: 52px; }

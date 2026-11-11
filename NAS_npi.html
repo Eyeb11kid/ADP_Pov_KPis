@@ -34,6 +34,13 @@
   .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
   .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
 
   /* ── Main ── */
   .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
@@ -320,6 +327,8 @@
 </style>
 <link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="rs_filterrow.css">
+<link rel="stylesheet" href="rs_tools.css">
 </head>
 <body>
 
@@ -344,21 +353,27 @@
       <div class="sb-bu-label">Close Review · September</div>
     </div>
     <div class="sb-section">BU Close Review</div>
-    <a class="sb-link" href="nas_dashboard.html">NAS dashboard</a>
-    <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
-    <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
-    <a class="sb-link sub active" href="NAS_npi.html">NPI P&amp;L</a>
-    <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
+    <details class="sb-acc" name="sb-acc" open>
+      <summary><a href="nas_dashboard.html">NAS dashboard</a></summary>
+      <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
+      <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
+      <a class="sb-link sub active" href="NAS_npi.html">NPI P&amp;L</a>
+      <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
+    </details>
     <div class="sb-divider"></div>
-    <a class="sb-link" href="rs_dashboard.html">RS dashboard</a>
-    <a class="sb-link sub" href="management_pl_RS.html">Revenue Analysis</a>
-    <a class="sb-link sub2" href="rs_transaction_detail.html">RS transaction detail</a>
-    <a class="sb-link sub" href="expense_pl_RS.html">Expense P&amp;L</a>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="rs_dashboard.html">RS dashboard</a></summary>
+      <a class="sb-link sub" href="management_pl_RS.html">Revenue Analysis</a>
+      <a class="sb-link sub2" href="rs_transaction_detail.html">RS transaction detail</a>
+      <a class="sb-link sub" href="expense_pl_RS.html">Expense P&amp;L</a>
+    </details>
     <div class="sb-divider"></div>
     <div class="sb-section">Corporate</div>
-    <a class="sb-link" href="cfo_dashboard.html">CFO Dashboard</a>
-    <a class="sb-link sub" href="cfo_details.html">CFO details</a>
-    <a class="sb-link sub" href="sec_report.html">SEC</a>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard.html">CFO Dashboard</a></summary>
+      <a class="sb-link sub" href="cfo_details.html">CFO details</a>
+      <a class="sb-link sub" href="sec_report.html">SEC</a>
+    </details>
     <div class="sb-divider"></div>
     <a class="sb-ext" href="index.html">&larr; Home</a>
   </nav>
@@ -395,30 +410,18 @@
               <span class="bu-item bu-dim" role="menuitem">ADPIA</span>
             </div>
           </div>
-          <div class="pill-select">ADP 4-4-5</div>
           <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
         </div>
       </div>
     </div>
 
     <!-- Filter bar -->
-    <div class="filterbar">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-size:12px;font-weight:600;color:var(--muted)">Compare</span>
-        <div class="pill-select" style="font-size:12px">Plan&nbsp;<svg viewBox="0 0 12 12" width="10" height="10"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
-      </div>
-      <span style="font-size:12px;color:var(--muted)">Prior year / Prior period</span>
-      <div class="fb-sep"></div>
-      <div class="fb-toggle"><button class="on">Period</button><button>YTD</button></div>
-      <div class="fb-sep"></div>
-      <div class="fb-toggle"><button class="on">$ + %</button><button>% only</button></div>
-      <div class="fb-sep"></div>
-      <div class="fb-chip">Product: All</div>
-      <div class="fb-chip" style="background:#525252">Segment: NPI</div>
-      <div class="fb-chip" style="background:#525252">Geography: All</div>
-      <a class="fb-link" id="mf-open" href="#" role="button" aria-haspopup="dialog">Modify filters</a>
-      <a class="fb-link">Clear all</a>
-      <span class="fb-note">Carried across reports</span>
+    <div class="filterrow" id="filterrow">
+      <div class="fr-wrap" data-f="prod"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Product</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Product filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="geo"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Geography</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Geography filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="ch"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Channel</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Channel filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="period"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Period</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Period filter" hidden>&times;</button></div></div>
+      <a class="fb-link fr-clear" id="fr-clear" href="#" role="button">Clear Filters</a>
     </div>
 
     <div class="content">
@@ -2108,6 +2111,9 @@
   }
 })();
 </script>
+<script>window.SC_DETAIL_PAGE = 'revenue_details_NAS.html';</script>
+<script src="rs_tools.js"></script>
+<script src="rs_filterrow.js"></script>
 <script src="comments.js"></script>
 </body>
 </html>
