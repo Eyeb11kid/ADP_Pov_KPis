@@ -133,6 +133,11 @@
   table.pl tr.l2 td:first-child { padding-left: 40px; }
   table.pl tr.l3 td:first-child { padding-left: 58px; }
   table.pl td.na { color: var(--muted); }
+  table.pl th.bus, table.pl td.bus { text-align: left; }
+  table.pl.pl-uniform { table-layout: fixed; min-width: 1000px; }
+  table.pl.pl-uniform th:first-child, table.pl.pl-uniform td:first-child { width: 34%; min-width: 0; }
+  table.pl.pl-uniform th:not(:first-child) { width: 8.25%; }
+  table.pl.pl-uniform td:first-child { white-space: normal; }
 
   table.pl tr.group-hd > td { font-size: 11px; font-weight: 700; color: var(--muted); background: var(--inner); padding: 6px 10px 4px; border-bottom: 0; }
   .fav { color: var(--green); font-weight: 600; }
@@ -460,36 +465,46 @@
         </div>
       </div>
 
-      <!-- Revenue by product -->
+      <!-- Revenue -->
       <div class="section" id="sec-rev-by-product">
         <div class="section-hdr-band">
-          <div class="section-title">Revenue by product</div>
-          <div class="section-sub">$K · Month · processing and non-processing revenue at the top (MGT-01) · Month shown; QTD, YTD, ROY and FY are columns too</div>
+          <div class="section-title">Revenue</div>
+          <div class="section-sub">$K · Month shown; QTD, YTD, ROY and FY are columns too, each with the Compare to choice; growth is against prior year</div>
           <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
         </div>
         <div class="tbl-wrap">
-          <table class="pl" id="rev-by-product-table">
+          <table class="pl pl-uniform" id="rev-by-product-table">
             <thead>
               <tr>
-                <th style="min-width:300px">Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Total revenue</div></td><td>6,363.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">Processing revenue</div><div class="row-subtext">Member to confirm (MGT-01, OQ-05).</div></td><td>5,899.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">HCM pillar (Payroll, TLM, Benefits)</div><div class="row-subtext">Pillars per MGT-02. MGT-02 reads total revenue by pillar; NAS's Lyric tab shows processing revenue by product. Basis to confirm.</div></td><td>4,252.2</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l3"><td><div class="row-main">Lyric Payroll</div></td><td>2,437.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l3"><td><div class="row-main">Lyric TLM</div></td><td>1,153.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l3"><td><div class="row-main">Lyric Benefits</div></td><td>661.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Talent pillar (Lyric Talent)</div></td><td>947.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Lyric COS</div><div class="row-subtext">A business line, not a pillar. Not split by pillar today (MGT-02). Shown as its own row; no Lyric Tech / COS selector (MGT-02).</div></td><td>700.4</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">Non-processing revenue</div></td><td>464.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Project services</div></td><td>108.4</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Setup</div></td><td>214.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">W2 revenue</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">ERC</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Maintenance</div></td><td>1.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Supply / other</div></td><td>139.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+              <tr class="bold"><td><div class="row-main">Total revenue</div></td><td>93,403.4</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">Processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">Non-processing revenue</div><div class="row-subtext">Retrieve if a roll-up member exists, else a calculation (C06, OQ-06).</div></td><td>95.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l2"><td><div class="row-main">Setup revenue</div></td><td>66.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /section -->
+
+      <!-- Processing revenue by product -->
+      <div class="section" id="sec-proc-rev-by-product">
+        <div class="section-hdr-band">
+          <div class="section-title">Processing revenue by product</div>
+          <div class="section-sub">$K · opens from the Processing revenue row (MGT-02) · Month shown; QTD, YTD, ROY and FY are columns too, each with the Compare to choice; growth is against prior year</div>
+          <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
+        </div>
+        <div class="tbl-wrap">
+          <table class="pl pl-uniform" id="proc-rev-by-product-table">
+            <thead>
+              <tr>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bold subtotal"><td><div class="row-main">Total processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -499,32 +514,26 @@
       <div class="section" id="sec-sales-retention">
         <div class="section-hdr-band">
           <div class="section-title">Sales, starts, losses and retention</div>
-          <div class="section-sub">$K · Lyric Cons, total products only (no product breakdown for sales, starts, losses) · Month shown; QTD, YTD, ROY and FY are columns too</div>
+          <div class="section-sub">$K · by product where noted · Month shown; QTD, YTD, ROY and FY are columns too, each with the Compare to choice; growth is against prior year</div>
           <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
         </div>
         <div class="tbl-wrap">
-          <table class="pl" id="sales-retention-table">
+          <table class="pl pl-uniform" id="sales-retention-table">
             <thead>
               <tr>
-                <th style="min-width:300px">Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Sales dollars (income summary)</div><div class="row-subtext">NAS's variance by account file shows Total Sales Dollars at Lyric Cons as 5,744.2 (r203), not 5,628.2. Confirm the member (TSD-000 or Total Sales Dollars) and department.</div></td><td>5,628.2</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Sales by channel</div><div class="row-subtext">One line per selling business unit, as for RS (for example RS, SBS, MAS, CAN, GES)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Start dollars</div></td><td>5,291.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Loss dollars</div></td><td>110.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Net new business</div></td><td>5,180.7</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Retention %</div><div class="row-subtext">Variance in bps</div></td><td>98.9%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Clients (average)</div><div class="row-subtext">Period end or average to confirm (OQ-05)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Channel sales (all NAS)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">No-starts</div><div class="row-subtext">Input to C11.</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Backlog ($)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="group-hd"><td colspan="8">Sales and revenue ratios</td></tr>
-              <tr><td><div class="row-main">NDE % of sales</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Processing revenue per client</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">No-start % of sales</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr><td><div class="row-main">Revenue per FTE</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+              <tr class="bold"><td><div class="row-main">Sales dollars</div><div class="row-subtext">By product: Core K (401K Small, Mid, Large), Simple, Other (MGT-02; r36-41)</div></td><td>25,666.7</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Sales by channel</div><div class="row-subtext">One line per selling business unit (for example RS, NAS, SBS, MAS, CAN, GES)</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Start dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r45-50)</div></td><td>19,087.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Loss dollars</div><div class="row-subtext">By product: Core K, Simple, Other (r54-59)</div></td><td>7,308.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Net new business</div></td><td>11,779.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Retention %</div><div class="row-subtext">By product r63-68. Ties: 1 less 7,308.3 / 93,308.1. Variance in bps.</div></td><td>92.2%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="group-hd"><td colspan="9">Sales and revenue ratios</td></tr>
+              <tr><td><div class="row-main">NDE % of sales</div></td><td>80.0%</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr><td><div class="row-main">Revenue per FTE</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
@@ -534,48 +543,50 @@
       <div class="section" id="sec-sources-of-revenue">
         <div class="section-hdr-band">
           <div class="section-title">Sources of revenue (total products only)</div>
-          <div class="section-sub">$K · 30 lines with accounts in BU KPI Inventory, NAS Sources of Revenue tab (SOR-NAS-01 to 30) · no product breakdown</div>
+          <div class="section-sub">$K · 51 lines with accounts in BU KPI Inventory, RS Sources of Revenue tab (SOR-RS-01 to 51) · no product breakdown, no drill · Month shown; QTD, YTD, ROY and FY are columns too</div>
           <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
         </div>
         <div class="tbl-wrap">
-          <table class="pl" id="sources-of-revenue-table">
+          <table class="pl pl-uniform" id="sources-of-revenue-table">
             <thead>
               <tr>
-                <th style="min-width:300px">Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bold"><td><div class="row-main">Prior year processing revenue</div></td><td>2,896.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Starts</div></td><td>2,597.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Losses</div></td><td>(303.9)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Price increase</div></td><td>45.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Same store PPC</div><div class="row-subtext">Not shown for Lyric (North Star)</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Concessions</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Acquisitions</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Divestiture</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Float</div><div class="row-subtext">No member; zero for Lyric</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1 bold"><td><div class="row-main">UBV</div></td><td>664.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">ARC starts</div></td><td>(194.0)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">ARC losses</div></td><td>8.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Promotions</div></td><td>(0.6)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Credits</div></td><td>154.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Migrations</div><div class="row-subtext">Shown only if accurate (OQ-34)</div></td><td>668.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Juris / Amend</div></td><td>1.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">Service level change, annual OE, one-time RI items</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l2"><td><div class="row-main">UBV other</div></td><td>25.3</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="bold"><td><div class="row-main">Processing revenue</div><div class="row-subtext">Member to confirm (MGT-01, OQ-05)</div></td><td>5,899.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">UBV % of prior year</div></td><td></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="group-hd"><td colspan="8">Non-processing revenue: change vs same month last year, then total revenue</td></tr>
-              <tr class="l1"><td><div class="row-main">Project services</div></td><td>74.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Setup</div></td><td>60.8</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">W2 revenue</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">ERC / maintenance</div></td><td>1.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="l1"><td><div class="row-main">Supply / other</div></td><td>72.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-              <tr class="bold"><td><div class="row-main">Total revenue</div></td><td>6,363.9</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+              <tr class="bold"><td><div class="row-main">Prior year processing revenue</div></td><td>81,319.6</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Starts revenue impact</div></td><td>20,212.5</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Losses revenue impact</div></td><td>(7,259.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1"><td><div class="row-main">Price increase</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
+              <tr class="l1"><td><div class="row-main">Concessions</div><div class="row-subtext">No RS data</div></td><td>0.0</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="l1 bold"><td><div class="row-main">UBV</div></td><td>(964.5)</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
+              <tr class="bold subtotal"><td><div class="row-main">Current year processing revenue</div></td><td>93,308.1</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both</td></tr>
             </tbody>
           </table>
         </div>
       </div><!-- /section -->
+
+      <!-- Volume statistics -->
+      <div class="section" id="sec-volume-statistics">
+        <div class="section-hdr-band">
+          <div class="section-title">Volume statistics</div>
+          <div class="section-sub">Counts as shown · Month shown; QTD, YTD, ROY and FY are columns too, each with the Compare to choice; growth is against prior year</div>
+          <a class="export-link" href="#" style="margin-left:auto;">Export ↓</a>
+        </div>
+        <div class="tbl-wrap">
+          <table class="pl pl-uniform" id="volume-statistics-table">
+            <thead>
+              <tr>
+                <th>Line</th><th>Sep FY27 Act</th><th>Comparison</th><th>Var $</th><th>Var %</th><th>Growth $</th><th>Growth %</th><th>% of plan</th><th class="bus">BUs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><div class="row-main">Clients (net active controls)</div><div class="row-subtext">Average for QTD and YTD (GEN-02)</div></td><td>219,224</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="bus">Both, differs</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /section -->
+
 
 
 

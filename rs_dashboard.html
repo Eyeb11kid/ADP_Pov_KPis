@@ -191,9 +191,8 @@
   .ai-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
   .ai-tag.draft { background: #e8daff; color: #5b2fc0; }
   /* ── Combined drawer ── */
-  .drawer { position: fixed; top: 0; right: 0; width: var(--drawer-w); height: 100vh; background: #fff; border-left: 1px solid var(--line); box-shadow: -4px 0 24px rgba(0,0,0,.12); display: flex; flex-direction: column; z-index: 1300; transform: translateX(var(--drawer-w)); transition: transform .28s cubic-bezier(.4,0,.2,1); }
+  .drawer { position: fixed; top: 0; right: 0; width: var(--drawer-w); height: 100vh; background: #fff; border-left: 1px solid var(--line); box-shadow: -4px 0 24px rgba(0,0,0,.12); display: flex; flex-direction: column; z-index: 1300; transform: translateX(var(--drawer-w)); }
   .drawer.drawer-open { transform: translateX(0); }
-  .main { transition: margin-right .28s cubic-bezier(.4,0,.2,1); }
   .drawer-open-body .main { margin-right: var(--drawer-w); }
   .drawer-hdr { flex: none; display: flex; align-items: center; gap: 10px; padding: 0 16px; height: 48px; border-bottom: 1px solid var(--line); background: #fff; }
   .drawer-icon { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#141E50,#4066C8); flex: none; }
@@ -206,7 +205,7 @@
   .drawer-tab:hover:not(.active) { color: var(--navy); background: var(--inner); }
   .drawer-pane { display: none; flex: 1; flex-direction: column; overflow: hidden; min-height: 0; }
   .drawer-pane.active { display: flex; }
-  .drawer-fab { position: fixed; bottom: 76px; right: 28px; z-index: 1200; display: inline-flex; align-items: center; gap: 9px; background: #141E50; color: #fff; border: 0; border-radius: 24px; padding: 11px 20px 11px 14px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.22); transition: background .15s, box-shadow .15s, transform .28s cubic-bezier(.4,0,.2,1); white-space: nowrap; }
+  .drawer-fab { position: fixed; bottom: 76px; right: 28px; z-index: 1200; display: inline-flex; align-items: center; gap: 9px; background: #141E50; color: #fff; border: 0; border-radius: 24px; padding: 11px 20px 11px 14px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.22); white-space: nowrap; }
   .drawer-fab:hover { background: #1B2A7A; box-shadow: 0 6px 24px rgba(0,0,0,.3); }
   .drawer-open-body .drawer-fab { transform: translateX(calc(-1 * var(--drawer-w))); }
   .drawer-fab-icon { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; flex: none; }
@@ -296,9 +295,10 @@
   .drawer-tab, .sc-cmt-area { position: relative; }
   .brd-pill { display: none; position: absolute; z-index: 5; top: -10px; left: 12px; font-size: 10px; font-weight: 700; line-height: 1; letter-spacing: .04em; color: #161616; background: #e8e8e8; border: 1px solid #8d8d8d; border-radius: 10px; padding: 3px 8px; pointer-events: none; }
   body.brd-on .brd-pill { display: inline-block; }
+  .content { padding-bottom: 0 !important; }
   .banner { margin: 16px 0 0 !important; }
-  .charts { margin: 14px 18px !important; }
-  .section { margin: 14px 18px !important; overflow: hidden; }
+  .charts { margin: 0 18px 14px !important; }
+  .section { margin: 0 18px 14px !important; overflow: hidden; }
   .bottom-nav { margin: 0 18px 24px !important; }
   .kpi-grid-3rows { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; padding: 0 18px; }
   .kpi-row-5col { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
@@ -805,7 +805,7 @@
       </div><!-- /hidden commentary-list placeholder -->
 
       <!-- KPI strip -->
-      <div class="opt-label">Option 1</div>
+      <!-- <div class="opt-label">Option 1</div> -->
       <div class="kpis" style="margin-top:14px;">
         <span class="brd-pill" data-brd="BR-06">BR-06</span>
         <div class="kpi" id="kpi-sales">
@@ -852,7 +852,7 @@
       </div>
 
       <!-- Extended 3-Row KPI Grid -->
-      <div class="opt-label">Option 2</div>
+      <!-- <div class="opt-label">Option 2</div> -->
       <div class="kpi-grid-3rows">
         <!-- Row 1 -->
         <div class="kpi-row-5col">
