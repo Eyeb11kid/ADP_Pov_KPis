@@ -102,6 +102,25 @@
   .kpi-val { font-size: 26px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
   .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .kpi-var { font-size: 11px; }
+  /* Headline KPI row: five cards on one line at any width */
+  .kpis.kpis-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; }
+  .kpis.kpis-5 > .kpi { border: 1px solid var(--line); border-top: 2px solid var(--red); padding: 14px 14px 12px; min-width: 0; }
+  .kpis.kpis-5 .kpi-val { font-size: clamp(18px, 1.9vw, 26px); }
+  .kpis.kpis-5 .kpi-label { margin-bottom: 2px; font-weight: 600; color: var(--p-navy); }
+  .kpis.kpis-5 .kpi-desc { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="usd"] .m-both { display: none; }
+  /* Filter-row toggles (right aligned): $ + % / $ and Plan / Plan vs Actual */
+  .cfo-tg-wrap { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cfo-tg { display: inline-flex; border: 1px solid #8d8d8d; background: #fff; }
+  .cfo-tg button { font: inherit; font-size: 12px; font-weight: 500; line-height: 1; padding: 9px 12px; background: #fff; color: #161616; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #8d8d8d; }
+  .cfo-tg button:hover { background: #e8e8e8; }
+  .cfo-tg button[aria-pressed="true"] { background: #161616; color: #fff; }
+  .cfo-tg button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+  /* Table columns: 3/6/9 = vs Plan, 4/7/10 = YoY Gr % */
+  .cfo-tbl table.pl.tg-plan :is(th, td):is(:nth-child(3), :nth-child(4), :nth-child(6), :nth-child(7), :nth-child(9), :nth-child(10)),
+  .cfo-tbl table.pl.tg-usd :is(th, td):is(:nth-child(4), :nth-child(7), :nth-child(10)) { display: none; }
+  .cfo-tbl table.pl td .vp { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
   .fav { color: var(--green); font-weight: 600; }
   .unf { color: var(--red); font-weight: 600; }
   /* Modify filters modal */
@@ -363,6 +382,7 @@
 </style>
 <link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="site_footer.css">
 <link rel="stylesheet" href="rs_filterrow.css">
 <link rel="stylesheet" href="rs_tools.css">
 </head>
@@ -437,6 +457,16 @@
       <div class="fr-wrap" data-f="ch"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Channel</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Channel filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="period"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Period</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Period filter" hidden>&times;</button></div></div>
       <a class="fb-link fr-clear" id="fr-clear" href="#" role="button">Clear Filters</a>
+      <div class="cfo-tg-wrap" id="cfo-toggles">
+        <div class="cfo-tg" role="group" aria-label="Value format" data-k="fmt">
+          <button type="button" data-v="both" aria-pressed="true">$ + %</button>
+          <button type="button" data-v="usd" aria-pressed="false">$</button>
+        </div>
+        <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
+          <button type="button" data-v="plan" aria-pressed="false">Plan</button>
+          <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+        </div>
+      </div>
     </div>
 
     <div class="content">
@@ -466,6 +496,61 @@
   <div class="kpi" id="kpi-6"></div>
   <div class="kpi" id="kpi-7"></div>
 </div>
+<!-- Headline KPIs: Total revenue, Adj. EBIT margin, bookings, FTEs, retention (sample data, September) -->
+<div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+  <div class="kpi" id="hkpi-rev">
+    <div class="kpi-val"><span class="m-pva">$5.24B</span><span class="m-plan">$5.18B</span></div>
+    <div class="kpi-label">Total revenue</div>
+    <div class="kpi-desc">Total ADP Revenue</div>
+    <div class="kpi-var m-pva"><span class="fav">▲ +$62M</span><span class="m-both"> (+1.2%)</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>$5.18B</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>+5.1%</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.9%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-ebit">
+    <div class="kpi-val"><span class="m-pva">27.5%</span><span class="m-plan">29.9%</span></div>
+    <div class="kpi-label">Adj. EBIT margin %</div>
+    <div class="kpi-desc">With Adj. EBIT $; variance in bps</div>
+    <div class="kpi-var m-pva"><span class="unf">▼ −240 bps</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Adj. EBIT</span><b>$1.44B</b></div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>29.9% · $1.55B</b></div>
+    <div class="kpi-row m-plan"><span>Adj. EBIT (plan)</span><b>$1.55B</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+150 bps</b></div>
+  </div>
+  <div class="kpi" id="hkpi-nbb">
+    <div class="kpi-val"><span class="m-pva">$486M</span><span class="m-plan">$470M</span></div>
+    <div class="kpi-label">New business bookings</div>
+    <div class="kpi-desc">ES and PEO</div>
+    <div class="kpi-var m-pva"><span class="fav">▲ +$16M</span><span class="m-both"> (+3.4%)</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>$470M</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.3%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-fte">
+    <div class="kpi-val"><span class="m-pva">64,820</span><span class="m-plan">65,300</span></div>
+    <div class="kpi-label">Average total FTEs</div>
+    <div class="kpi-desc">With ending headcount</div>
+    <div class="kpi-var m-pva"><span class="fav">▼ 480 lower</span><span class="m-both"> (−0.7%)</span> than plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Ending headcount</span><b>65,140</b></div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>65,300</b></div>
+    <div class="kpi-row m-plan"><span>Ending headcount (plan)</span><b>65,300</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.7%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-ret">
+    <div class="kpi-val"><span class="m-pva">92.1%</span><span class="m-plan">92.4%</span></div>
+    <div class="kpi-label">Retention</div>
+    <div class="kpi-desc">ES and PEO</div>
+    <div class="kpi-var m-pva"><span class="unf">▼ −30 bps</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>92.4%</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>−10 bps</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+20 bps</b></div>
+  </div>
+</div>
 <!-- Headline KPIs (proposed set, CFO-02, OQ-21) -->
 <div class="section cfo-tbl" id="sec-cfo-headline-kpis" style="background:var(--tile);border:1px solid var(--line);margin:14px 0 0;">
   <div class="section-hdr-band">
@@ -480,11 +565,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="bold"><td><div class="row-main">Total revenue</div><div class="row-subtext">Total ADP Revenue; the exclusions (ZMPT, CFI) are rows in the summary below (C33)</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Adj. EBIT margin %</div><div class="row-subtext">With Adj. EBIT $; variance in bps</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">New business bookings</div><div class="row-subtext">ES and PEO</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Retention</div><div class="row-subtext">ES and PEO</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Average total FTEs</div><div class="row-subtext">With ending headcount</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+        <tr class="bold"><td><div class="row-main">Total revenue</div><div class="row-subtext">Total ADP Revenue; the exclusions (ZMPT, CFI) are rows in the summary below (C33)</div></td><td data-plan="5,180">5,242</td><td data-vpct="+1.2%" class="fav">+62</td><td>+5.1%</td><td data-plan="15,160">15,330</td><td data-vpct="+1.1%" class="fav">+170</td><td>+4.8%</td><td data-plan="20,590">20,780</td><td data-vpct="+0.9%" class="fav">+190</td><td>+4.9%</td></tr>
+        <tr class="bold"><td><div class="row-main">Adj. EBIT margin %</div><div class="row-subtext">With Adj. EBIT $; variance in bps</div></td><td data-plan="29.9%" data-plan-sub="$1,549">27.5%<div class="row-subtext">$1,442</div></td><td class="unf">(240) bps</td><td class="unf">(90) bps</td><td data-plan="29.7%" data-plan-sub="$4,502">27.9%<div class="row-subtext">$4,277</div></td><td class="unf">(180) bps</td><td class="unf">(70) bps</td><td data-plan="29.6%" data-plan-sub="$6,094">28.1%<div class="row-subtext">$5,839</div></td><td class="unf">(150) bps</td><td class="unf">(60) bps</td></tr>
+        <tr class="bold"><td><div class="row-main">New business bookings</div><div class="row-subtext">ES and PEO</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr class="bold"><td><div class="row-main">Retention</div><div class="row-subtext">ES and PEO</div></td><td data-plan="92.4%">92.1%</td><td class="unf">(30) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.3%</td><td class="unf">(20) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.4%</td><td class="unf">(10) bps</td><td>0 bps</td></tr>
+        <tr class="bold"><td><div class="row-main">Average total FTEs</div><div class="row-subtext">With ending headcount</div></td><td data-plan="65,300" data-plan-sub="65,300 ending">64,820<div class="row-subtext">65,140 ending</div></td><td data-vpct="(0.7%)" class="fav">(480)</td><td>+1.9%</td><td data-plan="65,000" data-plan-sub="65,300 ending">64,610<div class="row-subtext">65,140 ending</div></td><td data-vpct="(0.6%)" class="fav">(390)</td><td>+2.1%</td><td data-plan="65,250" data-plan-sub="65,250 ending">64,900<div class="row-subtext">65,000 ending</div></td><td data-vpct="(0.5%)" class="fav">(350)</td><td>+2.0%</td></tr>
       </tbody>
     </table>
   </div>
@@ -504,24 +589,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="bold"><td><div class="row-main">Total revenue</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Revenue excl. ZMPT</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Revenue excl. CFI</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Revenue excl. CFI and ZMPT</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">ES revenue</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">ES revenue excl. CFI</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">PEO revenue</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">PEO revenue excl. ZMPT</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">CFI revenue</div><div class="row-subtext">The CFR adds a manual adjustment row (r181).</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Total expenses</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">ZMPT</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">NDE</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Total PEO pass-through</div><div class="row-subtext">Includes ZMPT, WC and SUI; test that the member covers SUI</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Adj. EBIT</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Margin %</div><div class="row-subtext">Variance in bps</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Margin % excl. CFI</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">ES margin % (and excl. CFI)</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">PEO margin %</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+        <tr class="bold"><td><div class="row-main">Total revenue</div></td><td data-plan="5,180">5,242</td><td data-vpct="+1.2%" class="fav">+62</td><td>+5.1%</td><td data-plan="15,160">15,330</td><td data-vpct="+1.1%" class="fav">+170</td><td>+4.8%</td><td data-plan="20,590">20,780</td><td data-vpct="+0.9%" class="fav">+190</td><td>+4.9%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. ZMPT</div></td><td data-plan="4,024">4,062</td><td data-vpct="+0.9%" class="fav">+38</td><td>+3.7%</td><td data-plan="11,740">11,840</td><td data-vpct="+0.9%" class="fav">+100</td><td>+3.3%</td><td data-plan="15,975">16,080</td><td data-vpct="+0.7%" class="fav">+105</td><td>+3.5%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. CFI</div></td><td data-plan="4,920">4,982</td><td data-vpct="+1.3%" class="fav">+62</td><td>+6.3%</td><td data-plan="14,380">14,560</td><td data-vpct="+1.3%" class="fav">+180</td><td>+5.9%</td><td data-plan="19,515">19,720</td><td data-vpct="+1.1%" class="fav">+205</td><td>+5.9%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. CFI and ZMPT</div></td><td data-plan="3,764">3,802</td><td data-vpct="+1.0%" class="fav">+38</td><td>+5.1%</td><td data-plan="10,960">11,070</td><td data-vpct="+1.0%" class="fav">+110</td><td>+4.7%</td><td data-plan="14,900">15,020</td><td data-vpct="+0.8%" class="fav">+120</td><td>+4.7%</td></tr>
+        <tr class="bold"><td><div class="row-main">ES revenue</div></td><td data-plan="3,370">3,404</td><td data-vpct="+1.0%" class="fav">+34</td><td>+3.2%</td><td data-plan="9,860">9,950</td><td data-vpct="+0.9%" class="fav">+90</td><td>+2.9%</td><td data-plan="13,330">13,430</td><td data-vpct="+0.8%" class="fav">+100</td><td>+3.0%</td></tr>
+        <tr class="l1"><td><div class="row-main">ES revenue excl. CFI</div></td><td data-plan="3,110">3,144</td><td data-vpct="+1.1%" class="fav">+34</td><td>+4.8%</td><td data-plan="9,080">9,180</td><td data-vpct="+1.1%" class="fav">+100</td><td>+4.4%</td><td data-plan="12,255">12,370</td><td data-vpct="+0.9%" class="fav">+115</td><td>+4.4%</td></tr>
+        <tr class="bold"><td><div class="row-main">PEO revenue</div></td><td data-plan="1,810">1,838</td><td data-vpct="+1.5%" class="fav">+28</td><td>+8.9%</td><td data-plan="5,300">5,380</td><td data-vpct="+1.5%" class="fav">+80</td><td>+8.5%</td><td data-plan="7,260">7,350</td><td data-vpct="+1.2%" class="fav">+90</td><td>+8.6%</td></tr>
+        <tr class="l1"><td><div class="row-main">PEO revenue excl. ZMPT</div></td><td data-plan="654">658</td><td data-vpct="+0.6%" class="fav">+4</td><td>+6.5%</td><td data-plan="1,880">1,890</td><td data-vpct="+0.5%" class="fav">+10</td><td>+5.6%</td><td data-plan="2,645">2,650</td><td data-vpct="+0.2%" class="fav">+5</td><td>+6.0%</td></tr>
+        <tr class="bold"><td><div class="row-main">CFI revenue</div><div class="row-subtext">The CFR adds a manual adjustment row (r181).</div></td><td data-plan="260">260</td><td>–</td><td>(13.3%)</td><td data-plan="780">770</td><td data-vpct="(1.3%)" class="unf">(10)</td><td>(12.5%)</td><td data-plan="1,075">1,060</td><td data-vpct="(1.4%)" class="unf">(15)</td><td>(10.9%)</td></tr>
+        <tr class="bold"><td><div class="row-main">Total expenses</div></td><td data-plan="3,631">3,800</td><td data-vpct="(4.7%)" class="unf">(169)</td><td>+6.4%</td><td data-plan="10,658">11,053</td><td data-vpct="(3.7%)" class="unf">(395)</td><td>+5.8%</td><td data-plan="14,496">14,941</td><td data-vpct="(3.1%)" class="unf">(445)</td><td>+5.8%</td></tr>
+        <tr class="l1"><td><div class="row-main">ZMPT</div></td><td data-plan="1,156">1,180</td><td data-vpct="(2.1%)" class="unf">(24)</td><td>+10.3%</td><td data-plan="3,420">3,490</td><td data-vpct="(2.0%)" class="unf">(70)</td><td>+10.1%</td><td data-plan="4,615">4,700</td><td data-vpct="(1.8%)" class="unf">(85)</td><td>+10.1%</td></tr>
+        <tr class="l1"><td><div class="row-main">NDE</div></td><td data-plan="2,361">2,504</td><td data-vpct="(6.1%)" class="unf">(143)</td><td>+4.6%</td><td data-plan="6,903">7,223</td><td data-vpct="(4.6%)" class="unf">(320)</td><td>+3.7%</td><td data-plan="9,426">9,781</td><td data-vpct="(3.8%)" class="unf">(355)</td><td>+3.7%</td></tr>
+        <tr class="l1"><td><div class="row-main">Total PEO pass-through</div><div class="row-subtext">Includes ZMPT, WC and SUI; test that the member covers SUI</div></td><td data-plan="1,270">1,296</td><td data-vpct="(2.0%)" class="unf">(26)</td><td>+10.0%</td><td data-plan="3,755">3,830</td><td data-vpct="(2.0%)" class="unf">(75)</td><td>+10.1%</td><td data-plan="5,070">5,160</td><td data-vpct="(1.8%)" class="unf">(90)</td><td>+10.0%</td></tr>
+        <tr class="bold"><td><div class="row-main">Adj. EBIT</div></td><td data-plan="1,549">1,442</td><td data-vpct="(6.9%)" class="unf">(107)</td><td>+1.8%</td><td data-plan="4,502">4,277</td><td data-vpct="(5.0%)" class="unf">(225)</td><td>+2.2%</td><td data-plan="6,094">5,839</td><td data-vpct="(4.2%)" class="unf">(255)</td><td>+2.7%</td></tr>
+        <tr class="bold"><td><div class="row-main">Margin %</div><div class="row-subtext">Variance in bps</div></td><td data-plan="29.9%">27.5%</td><td class="unf">(240) bps</td><td class="unf">(90) bps</td><td data-plan="29.7%">27.9%</td><td class="unf">(180) bps</td><td class="unf">(70) bps</td><td data-plan="29.6%">28.1%</td><td class="unf">(150) bps</td><td class="unf">(60) bps</td></tr>
+        <tr class="l1"><td><div class="row-main">Margin % excl. CFI</div></td><td data-plan="26.2%">23.7%</td><td class="unf">(250) bps</td><td class="unf">(10) bps</td><td data-plan="25.9%">24.1%</td><td class="unf">(180) bps</td><td class="fav">+10 bps</td><td data-plan="25.7%">24.2%</td><td class="unf">(150) bps</td><td class="fav">+10 bps</td></tr>
+        <tr class="l1"><td><div class="row-main">ES margin % (and excl. CFI)</div></td><td data-plan="38.9%" data-plan-sub="excl. CFI 33.8%">35.4%<div class="row-subtext">excl. CFI 30.1%</div></td><td class="unf">(350) bps<div class="row-subtext">excl. CFI (370) bps</div></td><td class="unf">(110) bps<div class="row-subtext">excl. CFI 0 bps</div></td><td data-plan="38.6%" data-plan-sub="excl. CFI 33.3%">36.0%<div class="row-subtext">excl. CFI 30.6%</div></td><td class="unf">(260) bps<div class="row-subtext">excl. CFI (270) bps</div></td><td class="unf">(70) bps<div class="row-subtext">excl. CFI +30 bps</div></td><td data-plan="38.5%" data-plan-sub="excl. CFI 33.1%">36.3%<div class="row-subtext">excl. CFI 30.9%</div></td><td class="unf">(220) bps<div class="row-subtext">excl. CFI (220) bps</div></td><td class="unf">(50) bps<div class="row-subtext">excl. CFI +40 bps</div></td></tr>
+        <tr class="l1"><td><div class="row-main">PEO margin %</div></td><td data-plan="13.2%">12.9%</td><td class="unf">(30) bps</td><td class="fav">+20 bps</td><td data-plan="13.3%">13.0%</td><td class="unf">(30) bps</td><td class="fav">+10 bps</td><td data-plan="13.3%">13.1%</td><td class="unf">(20) bps</td><td class="fav">+10 bps</td></tr>
       </tbody>
     </table>
   </div>
@@ -541,27 +626,27 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="bold"><td><div class="row-main">New business bookings</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">ES and PEO new business bookings</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr><td><div class="row-main">Starts</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr><td><div class="row-main">Losses</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">NNB</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr><td><div class="row-main">Retention: ES and PEO</div><div class="row-subtext">OneData source to confirm (OQ-21)</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr><td><div class="row-main">Average WSEs (K)</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Average total FTEs</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Traditional, OneADP</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Offshore and nearshore</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="l1"><td><div class="row-main">Contingent, overtime</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
-        <tr class="bold"><td><div class="row-main">Ending headcount</div></td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td><td class="na">·</td></tr>
+        <tr class="bold"><td><div class="row-main">New business bookings</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr class="l1"><td><div class="row-main">ES and PEO new business bookings</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr><td><div class="row-main">Starts</div></td><td data-plan="405">412</td><td data-vpct="+1.7%" class="fav">+7</td><td>+5.4%</td><td data-plan="1,150">1,180</td><td data-vpct="+2.6%" class="fav">+30</td><td>+4.9%</td><td data-plan="1,580">1,620</td><td data-vpct="+2.5%" class="fav">+40</td><td>+4.6%</td></tr>
+        <tr><td><div class="row-main">Losses</div></td><td data-plan="305">318</td><td data-vpct="(4.3%)" class="unf">(13)</td><td>+4.6%</td><td data-plan="900">925</td><td data-vpct="(2.8%)" class="unf">(25)</td><td>+3.8%</td><td data-plan="1,225">1,255</td><td data-vpct="(2.4%)" class="unf">(30)</td><td>+3.5%</td></tr>
+        <tr class="bold"><td><div class="row-main">NNB</div></td><td data-plan="100">94</td><td data-vpct="(6.0%)" class="unf">(6)</td><td>+8.0%</td><td data-plan="250">255</td><td data-vpct="+2.0%" class="fav">+5</td><td>+9.0%</td><td data-plan="355">365</td><td data-vpct="+2.8%" class="fav">+10</td><td>+8.6%</td></tr>
+        <tr><td><div class="row-main">Retention: ES and PEO</div><div class="row-subtext">OneData source to confirm (OQ-21)</div></td><td data-plan="92.4%">92.1%</td><td class="unf">(30) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.3%</td><td class="unf">(20) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.4%</td><td class="unf">(10) bps</td><td>0 bps</td></tr>
+        <tr><td><div class="row-main">Average WSEs (K)</div></td><td data-plan="744.0">748.2</td><td data-vpct="+0.6%" class="fav">+4.2</td><td>+4.6%</td><td data-plan="738.0">741.5</td><td data-vpct="+0.5%" class="fav">+3.5</td><td>+4.3%</td><td data-plan="745.5">750.0</td><td data-vpct="+0.6%" class="fav">+4.5</td><td>+4.4%</td></tr>
+        <tr class="bold"><td><div class="row-main">Average total FTEs</div></td><td data-plan="65,300">64,820</td><td data-vpct="(0.7%)" class="fav">(480)</td><td>+1.9%</td><td data-plan="65,000">64,610</td><td data-vpct="(0.6%)" class="fav">(390)</td><td>+2.1%</td><td data-plan="65,250">64,900</td><td data-vpct="(0.5%)" class="fav">(350)</td><td>+2.0%</td></tr>
+        <tr class="l1"><td><div class="row-main">Traditional, OneADP</div></td><td data-plan="41,610">41,250</td><td data-vpct="(0.9%)" class="fav">(360)</td><td>(2.1%)</td><td data-plan="41,720">41,420</td><td data-vpct="(0.7%)" class="fav">(300)</td><td>(2.1%)</td><td data-plan="41,770">41,500</td><td data-vpct="(0.6%)" class="fav">(270)</td><td>(2.0%)</td></tr>
+        <tr class="l1"><td><div class="row-main">Offshore and nearshore</div></td><td data-plan="18,360">18,420</td><td data-vpct="+0.3%" class="unf">+60</td><td>+16.6%</td><td data-plan="18,040">18,080</td><td data-vpct="+0.2%" class="unf">+40</td><td>+17.0%</td><td data-plan="18,170">18,200</td><td data-vpct="+0.2%" class="unf">+30</td><td>+16.7%</td></tr>
+        <tr class="l1"><td><div class="row-main">Contingent, overtime</div></td><td data-plan="5,330">5,150</td><td data-vpct="(3.4%)" class="fav">(180)</td><td>(9.1%)</td><td data-plan="5,240">5,110</td><td data-vpct="(2.5%)" class="fav">(130)</td><td>(7.6%)</td><td data-plan="5,310">5,200</td><td data-vpct="(2.1%)" class="fav">(110)</td><td>(8.4%)</td></tr>
+        <tr class="bold"><td><div class="row-main">Ending headcount</div></td><td data-plan="65,300">65,140</td><td data-vpct="(0.2%)" class="fav">(160)</td><td>+1.9%</td><td data-plan="65,300">65,140</td><td data-vpct="(0.2%)" class="fav">(160)</td><td>+1.9%</td><td data-plan="65,250">65,000</td><td data-vpct="(0.4%)" class="fav">(250)</td><td>+1.9%</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
 
-<div class="footer">Made with IBM Bob</div>
       </div><!-- /wrap -->
     </div><!-- /content -->
+    <footer class="site-footer"><div><span class="sf-brand">ADP Project Polaris</span> · September close review · Illustrative figures for internal review only</div><div class="sf-links"><a href="index.html">Home</a><a href="cfo_dashboard.html">Corporate</a><a href="nas_dashboard.html">NAS</a><a href="rs_dashboard.html">RS</a></div></footer>
   </main>
 
 </div><!-- /shell -->
@@ -2218,10 +2303,16 @@
   var KPIS = [['pl', 'rev', 'Total revenue'], ['pl', 'opex', 'Operating expenses'], ['pl', 'ebitda', 'EBITDA'], ['pl', 'ni', 'Net income'],
               ['bs', 'cash', 'Cash & equivalents'], ['bs', 'ta', 'Total assets'], ['bs', 'tl', 'Total liabilities'], ['bs', 'eq', "Stockholders' equity"]];
   function renderKpis() {
-    var pct = st.fmt === 'pct', pva = st.cmp === 'pva';
+    var pct = st.fmt === 'pct', usd = st.fmt === 'usd', pva = st.cmp === 'pva', planOnly = st.cmp === 'plan';
     KPIS.forEach(function (k, i) {
       var card = $('kpi-' + i), isPl = k[0] === 'pl', r = find(isPl ? PL[st.range].rows : BS, k[1]), x = vinfo(r, isPl);
       clear(card);
+      if (planOnly) {
+        card.appendChild(el('div', 'kpi-val', fB(r.p, r.dec)));
+        card.appendChild(el('div', 'kpi-label', k[2] + (k[1] === 'rev' ? ' · ' + PL[st.range].name : '')));
+        card.appendChild(el('div', 'kpi-var', 'Plan'));
+        return;
+      }
       card.appendChild(el('div', 'kpi-val', pct ? sPc(x.pp) : fB(r.a, r.dec)));
       card.appendChild(el('div', 'kpi-label', k[2] + (k[1] === 'rev' ? ' · ' + PL[st.range].name : '')));
       var vv = el('div', 'kpi-var');
@@ -2229,7 +2320,7 @@
         var z = el('span', null, '–'); z.style.color = 'var(--muted)'; z.style.fontWeight = '600';
         vv.appendChild(z); vv.appendChild(txt(' On plan'));
       } else {
-        vv.appendChild(el('span', x.c, (x.v > 0 ? '▲ ' : '▼ ') + (pct ? 'vs plan' : sM(x.v))));
+        vv.appendChild(el('span', x.c, (x.v > 0 ? '▲ ' : '▼ ') + (pct ? 'vs plan' : sM(x.v) + (usd ? '' : ' (' + sPc(x.pp) + ')'))));
         if (!pct) vv.appendChild(txt(' vs plan'));
       }
       if (pva) vv.appendChild(txt(' · ' + (pct ? 'Actual / plan ' + pc(r.a / r.p * 100) : 'Plan ' + fB(r.p, r.dec))));
@@ -2240,23 +2331,29 @@
   /* ---------- statement tables ---------- */
   function renderStmt(tblId, rows, baseKey, signed) {
     var t = $(tblId), thead = t.tHead, tbody = t.tBodies[0];
-    var pct = st.fmt === 'pct', pva = st.cmp === 'pva', base = find(rows, baseKey);
+    if (!t) return;
+    var pct = st.fmt === 'pct', usd = st.fmt === 'usd', pva = st.cmp === 'pva', planOnly = st.cmp === 'plan', base = find(rows, baseKey);
     clear(thead); clear(tbody);
     var hr = el('tr');
-    ['Line', 'Actual'].concat(pva ? ['Plan'] : [], [pct ? 'Variance %' : 'Variance'], pct ? [] : ['%']).forEach(function (h) { hr.appendChild(el('th', null, h)); });
+    (planOnly ? ['Line', 'Plan'] : ['Line', 'Actual'].concat(pva ? ['Plan'] : [], [pct ? 'Variance %' : 'Variance'], (pct || usd) ? [] : ['%'])).forEach(function (h) { hr.appendChild(el('th', null, h)); });
     thead.appendChild(hr);
     rows.forEach(function (r) {
       var x = vinfo(r, signed), tr = el('tr', r.t), first = el('td', null, r.n), zero = x.raw === 0;
       if (r.ic === 'i') { var i = el('span', 'fs-i', 'i'); i.setAttribute('title', 'AI reasoning available'); first.appendChild(i); }
       if (r.ic === 'alert') { var a = el('span', 'fs-alert', '!'); a.setAttribute('title', 'Flagged variance'); first.appendChild(a); }
       tr.appendChild(first);
+      if (planOnly) {
+        tr.appendChild(el('td', null, pct ? pc(r.p / base.p * 100) : fB(r.p, r.dec)));
+        tbody.appendChild(tr);
+        return;
+      }
       tr.appendChild(el('td', null, pct ? pc(r.a / base.a * 100) : fB(r.a, r.dec)));
       if (pva) tr.appendChild(el('td', null, pct ? pc(r.p / base.p * 100) : fB(r.p, r.dec)));
       var cc = zero ? 'nil' : (r.t === 'tot' ? '' : x.c);
       var vt = el('td', cc, zero ? '–' : (pct ? sPc(x.pp) : sM(x.v)));
       if (r.bd) vt.appendChild(el('span', 'fs-badge', r.bd));
       tr.appendChild(vt);
-      if (!pct) tr.appendChild(el('td', cc, zero ? '–' : sPc(x.pp)));
+      if (!pct && !usd) tr.appendChild(el('td', cc, zero ? '–' : sPc(x.pp)));
       tbody.appendChild(tr);
     });
   }
@@ -2392,14 +2489,54 @@
     $('fs-bs-sub').textContent = ytd ? 'Actual vs. plan · point-in-time balances, same in Period and YTD' : 'Actual vs. plan · AI reasoning on hover for each material variance';
   }
 
+  /* Headline cards and the three CFO tables are static markup: toggles show/hide parts of it */
+  var HT = ['cfo-headline-kpis-table', 'cfo-consolidated-pl-table', 'cfo-operational-metrics-table'];
+  var PLAN_HEAD = { 'Sep Act': 'Sep Plan', 'YTD Act': 'YTD Plan', 'FY OctFcst': 'FY Plan' };
+  function applyHeadline() {
+    var plan = st.cmp === 'plan', usd = st.fmt === 'usd', hk = $('headline-kpis');
+    if (hk) { hk.setAttribute('data-cmp', st.cmp); hk.setAttribute('data-fmt', st.fmt); }
+    HT.forEach(function (id) {
+      var t = $(id); if (!t) return;
+      t.classList.toggle('tg-plan', plan); t.classList.toggle('tg-usd', usd);
+      Array.prototype.forEach.call(t.tHead.querySelectorAll('th'), function (th) {
+        if (!th.hasAttribute('data-orig')) th.setAttribute('data-orig', th.textContent);
+        var o = th.getAttribute('data-orig'); th.textContent = plan && PLAN_HEAD[o] ? PLAN_HEAD[o] : o;
+      });
+      Array.prototype.forEach.call(t.tBodies[0].querySelectorAll('td'), function (td) {
+        if (td.hasAttribute('data-plan')) {
+          if (!td.hasAttribute('data-orig')) td.setAttribute('data-orig', td.innerHTML);
+          if (plan) {
+            td.textContent = td.getAttribute('data-plan');
+            if (td.hasAttribute('data-plan-sub')) { var d = document.createElement('div'); d.className = 'row-subtext'; d.textContent = td.getAttribute('data-plan-sub'); td.appendChild(d); }
+          } else td.innerHTML = td.getAttribute('data-orig');
+        } else if (td.hasAttribute('data-vpct')) {
+          if (!td.hasAttribute('data-orig')) td.setAttribute('data-orig', td.innerHTML);
+          td.innerHTML = td.getAttribute('data-orig');
+          if (!usd && !plan) { var v = document.createElement('span'); v.className = 'vp'; v.textContent = td.getAttribute('data-vpct'); td.appendChild(v); }
+        }
+      });
+    });
+  }
+
   function render() {
     renderKpis();
-    renderNoi();
-    renderTrend();
-    renderStmt('tbl-pl', PL[st.range].rows, 'rev', true);
-    renderStmt('tbl-bs', BS, 'ta', false);
-    renderText();
+    if ($('svg-noi')) renderNoi();
+    if ($('svg-nas') && $('svg-rs')) renderTrend();
+    if ($('tbl-pl')) renderStmt('tbl-pl', PL[st.range].rows, 'rev', true);
+    if ($('tbl-bs')) renderStmt('tbl-bs', BS, 'ta', false);
+    if ($('fs-pl-title') && $('fs-bs-sub')) renderText();
+    applyHeadline();
   }
+
+  /* Filter-row toggles */
+  var tgWrap = $('cfo-toggles');
+  if (tgWrap) Array.prototype.forEach.call(tgWrap.querySelectorAll('.cfo-tg button'), function (b) {
+    b.addEventListener('click', function () {
+      st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+      Array.prototype.forEach.call(b.parentNode.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      render();
+    });
+  });
 
   render();
 })();
