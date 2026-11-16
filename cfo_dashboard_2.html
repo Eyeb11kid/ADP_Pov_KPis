@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFO Dashboard 2 — Revenue Analytics — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px; --panel-w:300px;
+    --drawer-w:500px; --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-name { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-sublabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 16px 2px 28px; }
+  .sb-note { font-size: 11px; color: var(--muted); padding: 10px 16px; line-height: 1.4; }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 22px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .title-ctrls { display: flex; align-items: center; gap: 10px; flex: none; margin-top: 2px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill-select { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .illustrative { font-size: 11px; color: var(--muted); font-style: italic; }
+  .content { padding: 0 0 32px; flex: 1; }
+  .wrap { max-width: none; }
+  .footer { margin: 28px 20px 0; padding-top: 10px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--muted); }
+  /* Dashboard content styles */
+  .note { background: var(--tile); border: 1px solid var(--line); border-left: 4px solid #7B68B0; padding: 8px 14px; font-size: 12px; color: var(--muted); margin: 14px 20px; }
+  .up { color: var(--green); font-weight: 600; }
+  .dn { color: var(--red); font-weight: 600; }
+  /* Headline banner */
+  .banner { background: var(--tile); border: 1px solid var(--line); margin: 14px 0 0; padding: 14px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+  .banner-headline { font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.25; }
+  .banner-sub { font-size: 12px; color: var(--muted); }
+  .banner-ytd { text-align: right; flex: none; }
+  .banner-ytd-val { font-size: 26px; font-weight: 600; color: var(--navy); }
+  .banner-ytd-var { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 2px; }
+  .banner-ytd-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .help-link { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 600; color: var(--red); text-decoration: none; cursor: pointer; }
+  .help-link:hover { text-decoration: underline; }
+  /* Filter bar */
+  .filterbar { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .fb-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .fb-toggle { display: flex; }
+  .fb-toggle button { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--inner); color: var(--muted); cursor: pointer; }
+  .fb-toggle button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .fb-toggle button:first-child { border-radius: 3px 0 0 3px; }
+  .fb-toggle button:last-child { border-radius: 0 3px 3px 0; }
+  .fb-chip { font-size: 11px; font-weight: 600; background: var(--navy); color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
+  .bu-wrap { position: relative; }
+  .bu-btn { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12px; font-weight: 600; color: var(--navy); background: var(--inner); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .bu-btn:hover, .bu-btn[aria-expanded="true"] { background: var(--hover); }
+  .bu-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .bu-menu { position: absolute; right: 0; top: 100%; z-index: 50; min-width: 170px; background: var(--tile); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.15); padding: 4px 0; margin-top: 2px; }
+  .bu-menu[hidden] { display: none; }
+  .bu-item { display: flex; align-items: center; width: 100%; font: inherit; font-size: 13px; background: transparent; border: 0; border-left: 3px solid transparent; padding: 8px 14px; text-align: left; text-decoration: none; color: var(--navy); cursor: pointer; }
+  .bu-item:hover { background: #edf4ff; }
+  .bu-item.bu-on { font-weight: 700; border-left-color: var(--blue); color: var(--blue); cursor: default; }
+  .cmp-menu { left: 0; right: auto; }
+  .fb-link { font-size: 12px; color: var(--blue); text-decoration: none; cursor: pointer; }
+  .fb-link:hover { text-decoration: underline; }
+  .fb-note { font-size: 11px; color: var(--muted); font-style: italic; }
+  /* KPI strip */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); background: var(--tile); margin: 14px 20px; }
+  .kpi { background: var(--tile); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 16px 18px 14px; }
+  .kpi:nth-child(4n) { border-right: 0; }
+  .kpi:nth-last-child(-n+4) { border-bottom: 0; }
+  .kpi-val { font-size: 26px; font-weight: 600; color: var(--p-navy); line-height: 1.1; margin-bottom: 4px; }
+  .kpi-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 11px; }
+  /* Headline KPI row: five cards on one line at any width */
+  .kpis.kpis-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; }
+  .kpis.kpis-5 > .kpi { border: 1px solid var(--line); border-top: 2px solid var(--red); padding: 14px 14px 12px; min-width: 0; }
+  .kpis.kpis-5 .kpi-val { font-size: clamp(18px, 1.9vw, 26px); }
+  .kpis.kpis-5 .kpi-label { margin-bottom: 2px; font-weight: 600; color: var(--p-navy); }
+  .kpis.kpis-5 .kpi-desc { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="usd"] .m-both { display: none; }
+  /* Filter-row toggles (right aligned): $ + % / $ and Plan / Plan vs Actual */
+  .cfo-tg-wrap { margin-left: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cfo-tg { display: inline-flex; border: 1px solid #8d8d8d; background: #fff; }
+  .cfo-tg button { font: inherit; font-size: 12px; font-weight: 500; line-height: 1; padding: 9px 12px; background: #fff; color: #161616; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #8d8d8d; }
+  .cfo-tg button:hover { background: #e8e8e8; }
+  .cfo-tg button[aria-pressed="true"] { background: #161616; color: #fff; }
+  .cfo-tg button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+  /* Table columns: 3/6/9 = vs Plan, 4/7/10 = YoY Gr % */
+  .cfo-tbl table.pl.tg-plan :is(th, td):is(:nth-child(3), :nth-child(4), :nth-child(6), :nth-child(7), :nth-child(9), :nth-child(10)),
+  .cfo-tbl table.pl.tg-usd :is(th, td):is(:nth-child(4), :nth-child(7), :nth-child(10)) { display: none; }
+  .cfo-tbl table.pl td .vp { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* ── Charts Grid Section ── */
+  .charts-section { margin: 14px 0 0; }
+  .charts-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .charts-grid-1 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .chart-card { background: var(--tile); border: 1px solid var(--line); padding: 14px 16px; position: relative; }
+  .chart-hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+  .chart-title-main { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .chart-sub-text { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .chart-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-size: 11px; color: var(--muted); }
+  .chart-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+  .chart-legend-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-legend-line { width: 14px; height: 3px; display: inline-block; }
+  .chart-cap { font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 8px; margin-top: 10px; line-height: 1.4; }
+  @media (max-width: 1100px) {
+    .charts-grid-2 { grid-template-columns: 1fr; }
+  }
+
+  .nd { stroke: #fff; stroke-width: 1; cursor: pointer; outline: none; transition: stroke .15s, opacity .15s; }
+  .nd:hover, .nd:focus { stroke: #1a1a1a; stroke-width: 2; opacity: 0.9; }
+  .tip { position: fixed; z-index: 2000; pointer-events: none; background: #1a1a1a; color: #fff; font-size: 12px; line-height: 1.4; padding: 6px 10px; border-radius: 3px; white-space: nowrap; opacity: 0; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+  .tip.on { opacity: 1; }
+
+  /* CFO tables */
+  .cfo-tbl .section-hdr-band { background: #e8e9eb; padding: 10px 16px; display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .cfo-tbl .section-title { font-size: 14px; font-weight: 700; color: #161616; }
+  .cfo-tbl .section-sub { font-size: 11.5px; color: #525252; margin: 0; padding: 0; flex: 1; }
+  .cfo-tbl .tbl-wrap { overflow-x: auto; }
+  .cfo-tbl table.pl { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+  .cfo-tbl table.pl th { text-align: right; font-size: 11px; font-weight: 600; color: var(--muted); padding: 7px 10px; background: var(--inner); border-bottom: 2px solid var(--line); }
+  .cfo-tbl table.pl th:first-child { text-align: left; position: sticky; left: 0; background: var(--inner); }
+  .cfo-tbl table.pl td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  .cfo-tbl table.pl td:first-child { text-align: left; position: sticky; left: 0; background: var(--tile); }
+  .cfo-tbl table.pl tr:hover td, .cfo-tbl table.pl tr:hover td:first-child { background: var(--hover); }
+  .cfo-tbl table.pl tr.bold > td { font-weight: 700; }
+  .cfo-tbl table.pl tr.l1 td:first-child { padding-left: 24px; }
+  .cfo-tbl table.pl td.na { color: var(--muted); }
+  .cfo-tbl .row-main { color: var(--navy); }
+  .cfo-tbl .row-subtext { font-size: 11px; color: var(--muted); font-weight: normal; margin-top: 2px; line-height: 1.35; white-space: normal; max-width: 420px; }
+  
+  /* ── Drawer & Floating elements ── */
+  .drawer { position: fixed; top: 0; right: 0; width: var(--drawer-w); height: 100vh; background: #fff; border-left: 1px solid var(--line); box-shadow: -4px 0 24px rgba(0,0,0,.12); display: flex; flex-direction: column; z-index: 1300; transform: translateX(var(--drawer-w)); transition: transform .28s cubic-bezier(.4,0,.2,1); }
+  .drawer.drawer-open { transform: translateX(0); }
+  .drawer-open-body .main { margin-right: var(--drawer-w); }
+  .drawer-hdr { flex: none; display: flex; align-items: center; gap: 10px; padding: 0 16px; height: 48px; border-bottom: 1px solid var(--line); background: #fff; }
+  .drawer-icon { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#141E50,#4066C8); flex: none; }
+  .drawer-title { font-size: 13px; font-weight: 700; color: var(--navy); flex: 1; }
+  .drawer-close { font: inherit; font-size: 20px; line-height: 1; width: 32px; height: 32px; background: none; border: 0; color: var(--muted); cursor: pointer; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+  .drawer-close:hover { background: var(--hover); color: var(--navy); }
+  .drawer-tabs { flex: none; display: flex; border-bottom: 1px solid var(--line); background: #fff; }
+  .drawer-tab { flex: 1; font: inherit; font-size: 12px; font-weight: 600; padding: 10px 0; background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); cursor: pointer; }
+  .drawer-tab.active { color: var(--p-navy); border-bottom-color: var(--p-blue); }
+  .drawer-pane { display: none; flex: 1; flex-direction: column; overflow: hidden; min-height: 0; }
+  .drawer-pane.active { display: flex; }
+  .drawer-fab { position: fixed; bottom: 76px; right: 28px; z-index: 1200; display: inline-flex; align-items: center; gap: 9px; background: #141E50; color: #fff; border: 0; border-radius: 24px; padding: 11px 20px 11px 14px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 18px rgba(0,0,0,.22); }
+  .drawer-fab:hover { background: #1B2A7A; box-shadow: 0 6px 24px rgba(0,0,0,.3); }
+  .drawer-open-body .drawer-fab { transform: translateX(calc(-1 * var(--drawer-w))); }
+  .drawer-fab-icon { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; flex: none; }
+  
+  .snap-star { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; background: transparent; border: 0; border-radius: 3px; cursor: pointer; color: var(--muted); }
+  .snap-star svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.2; }
+  .snap-star:hover { color: #b7791f; background: #fdf3dc; }
+</style>
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="site_footer.css">
+<link rel="stylesheet" href="rs_filterrow.css">
+<link rel="stylesheet" href="rs_tools.css">
+</head>
+<body>
+
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><img src="images/ADP-logo.png" alt="ADP" style="height:22px;display:block;"></a>
+    Project Polaris
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <a href="#" class="help-link">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" style="flex:none;"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.8A5.8 5.8 0 1 1 8 2.2a5.8 5.8 0 0 1 0 11.6zM8 10.5a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7zm0-6.8c-1.4 0-2.4.9-2.4 2.2 0 .3.2.5.5.5s.5-.2.5-.5c0-.8.7-1.3 1.4-1.3.8 0 1.4.5 1.4 1.2 0 .6-.4 1-.9 1.4-.6.5-1 1-1 1.9v.3a.5.5 0 0 0 1 0v-.2c0-.6.3-.9.8-1.3.6-.5 1.1-1.1 1.1-2.1C9.9 4.6 8.9 3.7 8 3.7z"/></svg>
+      <span>Need help?</span>
+    </a>
+    <b>FP&amp;A Lead</b>
+    <div class="avatar">JL</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">Close Review · September</div>
+    </div>
+    <div class="sb-section">Corporate</div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="cfo_dashboard.html">CFO Dashboard</a></summary>
+      <a class="sb-link sub active" href="cfo_dashboard_2.html">CFO Dashboard 2</a>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+      <a class="sb-link sub" href="cfo_details.html">CFO details</a>
+      <a class="sb-link sub" href="sec_report.html">SEC</a>
+    </details>
+    <div class="sb-divider"></div>
+    <div class="sb-section">BU Close Review</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="nas_dashboard.html">NAS dashboard</a></summary>
+      <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
+      <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
+      <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
+      <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
+    </details>
+    <div class="sb-divider"></div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="rs_dashboard.html">RS dashboard</a></summary>
+      <a class="sb-link sub" href="management_pl_RS.html">Revenue Analysis</a>
+      <a class="sb-link sub2" href="rs_transaction_detail.html">RS transaction detail</a>
+      <a class="sb-link sub" href="expense_pl_RS.html">Expense P&amp;L</a>
+    </details>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Home</a>
+  </nav>
+
+  <main class="main">
+    <div class="titlebar">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>CFO Dashboard 2</div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">Corporate CFO Dashboard 2 — Revenue Analytics</div>
+          <div class="page-sub" id="page-sub">Executive Revenue Drivers · Variance Waterfall, Quality of Revenue &amp; Portfolio Growth Matrix · September Close</div>
+        </div>
+        <div class="title-ctrls">
+          <div class="pill-select">September close&nbsp;<svg viewBox="0 0 12 12" width="11" height="11"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filterrow" id="filterrow">
+      <div class="fr-wrap" data-f="prod"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Product</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Product filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="geo"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Geography</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Geography filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="ch"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Channel</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Channel filter" hidden>&times;</button></div></div>
+      <div class="fr-wrap" data-f="period"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Period</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Period filter" hidden>&times;</button></div></div>
+      <a class="fb-link fr-clear" id="fr-clear" href="#" role="button">Clear Filters</a>
+      <div class="cfo-tg-wrap" id="cfo-toggles">
+        <div class="cfo-tg" role="group" aria-label="Value format" data-k="fmt">
+          <button type="button" data-v="both" aria-pressed="true">$ + %</button>
+          <button type="button" data-v="usd" aria-pressed="false">$</button>
+        </div>
+        <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
+          <button type="button" data-v="plan" aria-pressed="false">Plan</button>
+          <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="wrap">
+
+<!-- Headline banner -->
+<div class="banner">
+  <div>
+    <div class="banner-label" id="banner-label">September Close · Corporate CFO</div>
+    <div class="banner-headline" id="banner-headline">Total revenue $5.24B (+1.2% vs plan), driven by ESI and PEO volume upside.</div>
+    <div class="banner-sub" id="banner-sub">ESI +$34M · PEO +$28M · OpEx +$132M over plan · EBITDA $1.59B (−$107M) · Net Income $1.07B (−$72M)</div>
+  </div>
+  <div class="banner-ytd">
+    <div class="banner-ytd-label" id="banner-ytd-label">YTD revenue through September</div>
+    <div class="banner-ytd-val" id="banner-ytd-val">$15.33B</div>
+    <div class="banner-ytd-var" id="banner-ytd-var" style="color:var(--green)">+$170M / +1.1% vs plan</div>
+  </div>
+</div>
+
+<!-- Headline KPIs: Total revenue, Adj. EBIT margin, bookings, FTEs, retention -->
+<div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+  <div class="kpi" id="hkpi-rev">
+    <div class="kpi-val"><span class="m-pva">$5.24B</span><span class="m-plan">$5.18B</span></div>
+    <div class="kpi-label">Total revenue</div>
+    <div class="kpi-desc">Total ADP Revenue</div>
+    <div class="kpi-var m-pva"><span class="fav">▲ +$62M</span><span class="m-both"> (+1.2%)</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>$5.18B</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>+5.1%</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.9%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-ebit">
+    <div class="kpi-val"><span class="m-pva">27.5%</span><span class="m-plan">29.9%</span></div>
+    <div class="kpi-label">Adj. EBIT margin %</div>
+    <div class="kpi-desc">With Adj. EBIT $; variance in bps</div>
+    <div class="kpi-var m-pva"><span class="unf">▼ −240 bps</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Adj. EBIT</span><b>$1.44B</b></div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>29.9% · $1.55B</b></div>
+    <div class="kpi-row m-plan"><span>Adj. EBIT (plan)</span><b>$1.55B</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+150 bps</b></div>
+  </div>
+  <div class="kpi" id="hkpi-nbb">
+    <div class="kpi-val"><span class="m-pva">$486M</span><span class="m-plan">$470M</span></div>
+    <div class="kpi-label">New business bookings</div>
+    <div class="kpi-desc">ES and PEO</div>
+    <div class="kpi-var m-pva"><span class="fav">▲ +$16M</span><span class="m-both"> (+3.4%)</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>$470M</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.3%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-fte">
+    <div class="kpi-val"><span class="m-pva">64,820</span><span class="m-plan">65,300</span></div>
+    <div class="kpi-label">Average total FTEs</div>
+    <div class="kpi-desc">With ending headcount</div>
+    <div class="kpi-var m-pva"><span class="fav">▼ 480 lower</span><span class="m-both"> (−0.7%)</span> than plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Ending headcount</span><b>65,140</b></div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>65,300</b></div>
+    <div class="kpi-row m-plan"><span>Ending headcount (plan)</span><b>65,300</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.7%</b></div>
+  </div>
+  <div class="kpi" id="hkpi-ret">
+    <div class="kpi-val"><span class="m-pva">92.1%</span><span class="m-plan">92.4%</span></div>
+    <div class="kpi-label">Retention</div>
+    <div class="kpi-desc">ES and PEO</div>
+    <div class="kpi-var m-pva"><span class="unf">▼ −30 bps</span> vs plan</div>
+    <div class="kpi-var m-plan">Plan · September</div>
+    <div class="kpi-row m-pva"><span>Plan</span><b>92.4%</b></div>
+    <div class="kpi-row m-pva m-both"><span>YoY</span><b>−10 bps</b></div>
+    <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+20 bps</b></div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 1st 3 CFO-Level Revenue Visualizations                                    -->
+<!-- ========================================================================= -->
+<div class="charts-section">
+
+  <!-- Top Row: Chart 1 (Waterfall) & Chart 2 (Quality of Revenue) -->
+  <div class="charts-grid-2">
+    
+    <!-- Chart 1: Revenue Variance Waterfall (Plan-to-Actual Walk) -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">1. Revenue Variance Waterfall (Plan vs. Actual)</div>
+          <div class="chart-sub-text">September Close · $M · Drivers of +$62M (+1.2%) Revenue Beat</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add waterfall chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+      
+      <svg id="svg-rev-waterfall" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Revenue variance waterfall from Plan $5,180M to Actual $5,242M">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="505" y2="30"/>
+          <line x1="45" y1="75" x2="505" y2="75"/>
+          <line x1="45" y1="120" x2="505" y2="120"/>
+          <line x1="45" y1="165" x2="505" y2="165"/>
+        </g>
+        <!-- Y-Axis labels -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$5,250M</text>
+          <text x="38" y="79">$5,200M</text>
+          <text x="38" y="124">$5,150M</text>
+          <text x="38" y="169">$5,100M</text>
+        </g>
+        
+        <!-- Connectors (dashed) -->
+        <g stroke="#8d8d8d" stroke-dasharray="3 3" stroke-width="1">
+          <line x1="105" y1="92" x2="125" y2="92"/>
+          <line x1="180" y1="62" x2="200" y2="62"/>
+          <line x1="255" y1="36" x2="275" y2="36"/>
+          <line x1="330" y1="36" x2="350" y2="36"/>
+          <line x1="405" y1="36" x2="425" y2="36"/>
+        </g>
+
+        <!-- Bar 1: Plan Revenue ($5,180M) -->
+        <rect class="nd" x="50" y="92" width="55" height="73" fill="#141E50" rx="2" data-tip="Plan Revenue: $5,180M (Baseline Budget)" tabindex="0"/>
+        <text x="77" y="84" text-anchor="middle" font-weight="700" fill="#141E50" font-size="11">$5,180M</text>
+        <text x="77" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Plan</text>
+
+        <!-- Bar 2: ES Volume & Mix (+$34M) -->
+        <rect class="nd" x="125" y="62" width="55" height="30" fill="#2e7d32" rx="2" data-tip="ES Volume &amp; Mix: +$34M (+1.0% vs plan) · Strong Major Accounts processing" tabindex="0"/>
+        <text x="152" y="54" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="11">+ $34M</text>
+        <text x="152" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">ES Vol/Mix</text>
+
+        <!-- Bar 3: PEO Volume (+$28M) -->
+        <rect class="nd" x="200" y="36" width="55" height="26" fill="#2e7d32" rx="2" data-tip="PEO Volume: +$28M (+1.5% vs plan) · Average WSEs +4.2K upside" tabindex="0"/>
+        <text x="227" y="28" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="11">+ $28M</text>
+        <text x="227" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">PEO Volume</text>
+
+        <!-- Bar 4: CFI Float Yield ($0M / Flat) -->
+        <rect class="nd" x="275" y="34" width="55" height="4" fill="#8d8d8d" rx="1" data-tip="Client Funds Interest (CFI): $260M (Flat to Plan · Yield 2.45%)" tabindex="0"/>
+        <text x="302" y="26" text-anchor="middle" font-weight="600" fill="#525252" font-size="10">– $0M</text>
+        <text x="302" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">CFI Yield</text>
+
+        <!-- Bar 5: Pass-Through (ZMPT) -->
+        <rect class="nd" x="350" y="36" width="55" height="0" fill="#009D9A" rx="1" data-tip="Pass-Through / Exclusions: Zero net impact on margin" tabindex="0"/>
+        <text x="377" y="26" text-anchor="middle" font-weight="600" fill="#525252" font-size="10">Pass-thru</text>
+        <text x="377" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Other</text>
+
+        <!-- Bar 6: Actual Revenue ($5,242M) -->
+        <rect class="nd" x="425" y="36" width="55" height="129" fill="#0f62fe" rx="2" data-tip="Actual Total Revenue: $5,242M (+5.1% YoY, +$62M vs plan)" tabindex="0"/>
+        <text x="452" y="28" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="11">$5,242M</text>
+        <text x="452" y="184" text-anchor="middle" fill="#0f62fe" font-size="10" font-weight="700">Actual</text>
+      </svg>
+      
+      <div class="chart-cap">
+        <strong>Takeaway:</strong> Upside of <strong>+$62M</strong> (+1.2%) was led by Employer Services (<span class="up">+$34M</span>) and PEO WSE growth (<span class="up">+$28M</span>), while Client Funds Interest remained exactly on plan.
+      </div>
+    </div>
+
+    <!-- Chart 2: Quality of Revenue Decomposition (Core vs CFI vs Pass-Through) -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">2. Quality of Revenue &amp; Core Growth</div>
+          <div class="chart-sub-text">Quarterly Run-Rate ($M) · Isolating Core Recurring from Float &amp; Pass-Throughs</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add quality of revenue chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-rev-quality" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Stacked bar chart showing Core Revenue, CFI float, and Pass-throughs with organic YoY trendline">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="465" y2="30"/>
+          <line x1="45" y1="75" x2="465" y2="75"/>
+          <line x1="45" y1="120" x2="465" y2="120"/>
+          <line x1="45" y1="165" x2="465" y2="165"/>
+        </g>
+        <!-- Left Y-Axis ($M) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$6.0B</text>
+          <text x="38" y="79">$4.0B</text>
+          <text x="38" y="124">$2.0B</text>
+          <text x="38" y="169">$0.0B</text>
+        </g>
+        <!-- Right Y-Axis (YoY Gr %) -->
+        <g fill="#b7791f" font-size="10" text-anchor="start">
+          <text x="472" y="34">6.0%</text>
+          <text x="472" y="79">4.0%</text>
+          <text x="472" y="124">2.0%</text>
+          <text x="472" y="169">0.0%</text>
+        </g>
+
+        <!-- Q1 Act ($5,242M total: Core $3,802M, CFI $260M, ZMPT $1,180M) -->
+        <rect class="nd" x="70" y="80" width="60" height="85" fill="#0f62fe" data-tip="Q1 Core Revenue: $3,802M (72.5% of total)" tabindex="0"/>
+        <rect class="nd" x="70" y="74" width="60" height="6" fill="#009D9A" data-tip="Q1 Client Funds Interest: $260M (5.0%)" tabindex="0"/>
+        <rect class="nd" x="70" y="47" width="60" height="27" fill="#7B68B0" data-tip="Q1 Pass-Through (ZMPT): $1,180M (22.5%)" tabindex="0"/>
+        <text x="100" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Q1 Act</text>
+
+        <!-- Q2 Plan ($5,060M total: Core $3,680M, CFI $255M, ZMPT $1,125M) -->
+        <rect class="nd" x="170" y="82" width="60" height="83" fill="#0f62fe" data-tip="Q2 Plan Core Revenue: $3,680M" tabindex="0"/>
+        <rect class="nd" x="170" y="76" width="60" height="6" fill="#009D9A" data-tip="Q2 Plan CFI Interest: $255M" tabindex="0"/>
+        <rect class="nd" x="170" y="51" width="60" height="25" fill="#7B68B0" data-tip="Q2 Plan Pass-Through: $1,125M" tabindex="0"/>
+        <text x="200" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Q2 Plan</text>
+
+        <!-- Q3 Plan ($5,180M total: Core $3,760M, CFI $260M, ZMPT $1,160M) -->
+        <rect class="nd" x="270" y="80" width="60" height="85" fill="#0f62fe" data-tip="Q3 Plan Core Revenue: $3,760M" tabindex="0"/>
+        <rect class="nd" x="270" y="74" width="60" height="6" fill="#009D9A" data-tip="Q3 Plan CFI Interest: $260M" tabindex="0"/>
+        <rect class="nd" x="270" y="48" width="60" height="26" fill="#7B68B0" data-tip="Q3 Plan Pass-Through: $1,160M" tabindex="0"/>
+        <text x="300" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Q3 Plan</text>
+
+        <!-- Q4 Plan ($5,298M total: Core $3,848M, CFI $265M, ZMPT $1,185M) -->
+        <rect class="nd" x="370" y="78" width="60" height="87" fill="#0f62fe" data-tip="Q4 Plan Core Revenue: $3,848M" tabindex="0"/>
+        <rect class="nd" x="370" y="72" width="60" height="6" fill="#009D9A" data-tip="Q4 Plan CFI Interest: $265M" tabindex="0"/>
+        <rect class="nd" x="370" y="45" width="60" height="27" fill="#7B68B0" data-tip="Q4 Plan Pass-Through: $1,185M" tabindex="0"/>
+        <text x="400" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Q4 Plan</text>
+
+        <!-- Polyline Trend: Organic YoY Growth % (Q1 +4.7%, Q2 +4.8%, Q3 +4.9%, Q4 +5.0%) -->
+        <polyline points="100,60 200,57 300,55 400,52" fill="none" stroke="#E5A83F" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle class="nd" cx="100" cy="60" r="4" fill="#E5A83F" data-tip="Q1 Organic Core YoY Growth: +4.7%" tabindex="0"/>
+        <circle class="nd" cx="200" cy="57" r="4" fill="#E5A83F" data-tip="Q2 Projected Organic YoY Growth: +4.8%" tabindex="0"/>
+        <circle class="nd" cx="300" cy="55" r="4" fill="#E5A83F" data-tip="Q3 Projected Organic YoY Growth: +4.9%" tabindex="0"/>
+        <circle class="nd" cx="400" cy="52" r="4" fill="#E5A83F" data-tip="Q4 Projected Organic YoY Growth: +5.0%" tabindex="0"/>
+        
+        <text x="100" y="52" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">+4.7%</text>
+        <text x="200" y="49" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">+4.8%</text>
+        <text x="300" y="47" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">+4.9%</text>
+        <text x="400" y="44" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">+5.0%</text>
+      </svg>
+
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0f62fe"></span> Core Revenue (ex-CFI/ZMPT)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#009D9A"></span> Client Funds Interest (CFI)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#7B68B0"></span> Pass-Through (ZMPT)</span>
+        <span class="chart-legend-item"><span class="chart-legend-line" style="background:#E5A83F"></span> Organic Core Growth % (Right Axis)</span>
+      </div>
+
+      <div class="chart-cap">
+        <strong>Takeaway:</strong> High-margin <strong>Core Recurring Revenue</strong> represents <strong>72.5%</strong> of the portfolio, sustaining steady <strong>+4.7%</strong> organic YoY expansion without relying on float rate surges.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Row: Chart 3 (Segment Growth vs. Margin Matrix) -->
+  <div class="charts-grid-1">
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">3. Business Unit &amp; Segment Portfolio Performance Matrix</div>
+          <div class="chart-sub-text">Revenue Size ($M) vs. YoY Organic Growth (%) · Bubble Size Proportional to EBIT $ Contribution</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add segment portfolio matrix to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-portfolio-matrix" viewBox="0 0 1060 250" width="100%" height="250" role="img" aria-label="Portfolio bubble matrix of Revenue Growth vs Margin by Business Unit">
+        <!-- Quadrant Background Tints -->
+        <rect x="520" y="20" width="500" height="95" fill="#f0fdf4" opacity="0.6"/>
+        <text x="1000" y="36" text-anchor="end" font-size="10" font-weight="700" fill="#2e7d32">HIGH GROWTH · HIGH VOLUME (Stars)</text>
+        
+        <rect x="50" y="20" width="470" height="95" fill="#f8fafc" opacity="0.5"/>
+        <text x="60" y="36" text-anchor="start" font-size="10" font-weight="700" fill="#0043ce">HIGH GROWTH · NICHE (Emerging)</text>
+
+        <rect x="520" y="115" width="500" height="95" fill="#fbfbfa" opacity="0.6"/>
+        <text x="1000" y="200" text-anchor="end" font-size="10" font-weight="700" fill="#525252">CORE STABLE · CASH COWS</text>
+
+        <!-- Grid Lines -->
+        <line x1="50" y1="20" x2="1020" y2="20" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="50" y1="67" x2="1020" y2="67" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="50" y1="115" x2="1020" y2="115" stroke="#161616" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <line x1="50" y1="162" x2="1020" y2="162" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="50" y1="210" x2="1020" y2="210" stroke="#e0e0e0" stroke-width="1"/>
+
+        <line x1="520" y1="20" x2="520" y2="210" stroke="#161616" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+        <!-- Y-Axis (YoY Growth %) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="42" y="24">+10.0%</text>
+          <text x="42" y="71">+7.5%</text>
+          <text x="42" y="119">+5.0%</text>
+          <text x="42" y="166">+2.5%</text>
+          <text x="42" y="214">0.0%</text>
+        </g>
+
+        <!-- X-Axis (Revenue $M) -->
+        <g fill="#525252" font-size="10" text-anchor="middle">
+          <text x="50" y="228">$0M</text>
+          <text x="290" y="228">$500M</text>
+          <text x="520" y="228">$1,000M (Benchmark)</text>
+          <text x="760" y="228">$1,500M</text>
+          <text x="1000" y="228">$2,000M</text>
+        </g>
+
+        <!-- Bubble 1: PEO Services ($1,838M Rev, +8.9% Growth, 12.9% Margin, $237M EBIT) -->
+        <circle class="nd" cx="920" cy="41" r="24" fill="#2e7d32" opacity="0.85" data-tip="PEO Services: Revenue $1,838M (+8.9% YoY) · Adj. EBIT Margin 12.9% ($237M) · WSE Growth +4.6%" tabindex="0"/>
+        <text x="920" y="44" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">PEO</text>
+        <text x="920" y="75" text-anchor="middle" fill="#2e7d32" font-weight="700" font-size="10">$1,838M (+8.9%)</text>
+
+        <!-- Bubble 2: ES Major Accounts ($1,420M Rev, +4.2% Growth, 36.5% Margin, $518M EBIT) -->
+        <circle class="nd" cx="720" cy="130" r="30" fill="#0f62fe" opacity="0.85" data-tip="ES Major Accounts: Revenue $1,420M (+4.2% YoY) · Adj. EBIT Margin 36.5% ($518M) · High Cash Generation" tabindex="0"/>
+        <text x="720" y="134" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">Major Accts</text>
+        <text x="720" y="172" text-anchor="middle" fill="#0f62fe" font-weight="700" font-size="10">$1,420M (+4.2%)</text>
+
+        <!-- Bubble 3: ES National Accounts / NAS ($1,150M Rev, +3.8% Growth, 38.0% Margin, $437M EBIT) -->
+        <circle class="nd" cx="590" cy="138" r="28" fill="#0f62fe" opacity="0.85" data-tip="ES National Accounts (NAS): Revenue $1,150M (+3.8% YoY) · Adj. EBIT Margin 38.0% ($437M)" tabindex="0"/>
+        <text x="590" y="142" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">NAS</text>
+        <text x="590" y="178" text-anchor="middle" fill="#0f62fe" font-weight="700" font-size="10">$1,150M (+3.8%)</text>
+
+        <!-- Bubble 4: ES Small Business / SBS ($834M Rev, +5.6% Growth, 32.4% Margin, $270M EBIT) -->
+        <circle class="nd" cx="440" cy="104" r="22" fill="#009D9A" opacity="0.85" data-tip="ES Small Business (SBS): Revenue $834M (+5.6% YoY) · Adj. EBIT Margin 32.4% ($270M)" tabindex="0"/>
+        <text x="440" y="107" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">SBS</text>
+        <text x="440" y="136" text-anchor="middle" fill="#009D9A" font-weight="700" font-size="10">$834M (+5.6%)</text>
+
+        <!-- Bubble 5: Retirement Services / RS ($320M Rev, +6.1% Growth, 28.5% Margin, $91M EBIT) -->
+        <circle class="nd" cx="200" cy="94" r="16" fill="#7B68B0" opacity="0.85" data-tip="Retirement Services (RS): Revenue $320M (+6.1% YoY) · Adj. EBIT Margin 28.5% ($91M)" tabindex="0"/>
+        <text x="200" y="97" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">RS</text>
+        <text x="200" y="122" text-anchor="middle" fill="#7B68B0" font-weight="700" font-size="10">$320M (+6.1%)</text>
+      </svg>
+
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#2e7d32"></span> PEO (High Growth Driver)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0f62fe"></span> ES Enterprise &amp; Major (Core Cash Engines, ~37% Margin)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#009D9A"></span> ES SBS (Accelerating Mid-Market)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#7B68B0"></span> RS &amp; Adjacent Lines</span>
+        <span class="chart-legend-item" style="margin-left:auto;font-style:italic">Bubble radius corresponds to Adj. EBIT dollar generation</span>
+      </div>
+
+      <div class="chart-cap">
+        <strong>Strategic Allocation:</strong> <strong>PEO</strong> acts as the primary top-line growth engine (<strong>+8.9% YoY</strong>), while <strong>ES Enterprise &amp; Major Accounts</strong> deliver <strong>$955M+</strong> in monthly Adj. EBIT to fund reinvestment and float operations.
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Chart 4 (Leading Indicators & NNB) & Chart 5 (Full-Year Forecast Trajectory) -->
+  <div class="charts-grid-2" style="margin-top:12px;">
+    
+    <!-- Chart 4: Revenue Pipeline & Leading Indicators Walk -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">4. Revenue Pipeline &amp; Leading Indicators (NNB Walk)</div>
+          <div class="chart-sub-text">September Close · Bookings $486M (+3.4%) · Starts ($412M) vs. Losses ($318M) = NNB $94M</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add pipeline leading indicators chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-pipeline-nnb" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Waterfall chart of sales bookings, starts, losses and Net New Business">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="505" y2="30"/>
+          <line x1="45" y1="75" x2="505" y2="75"/>
+          <line x1="45" y1="120" x2="505" y2="120"/>
+          <line x1="45" y1="165" x2="505" y2="165"/>
+        </g>
+        <!-- Y-Axis labels -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$500M</text>
+          <text x="38" y="79">$375M</text>
+          <text x="38" y="124">$250M</text>
+          <text x="38" y="169">$0M</text>
+        </g>
+
+        <!-- Dashed connectors -->
+        <g stroke="#8d8d8d" stroke-dasharray="3 3" stroke-width="1">
+          <line x1="105" y1="34" x2="135" y2="34"/>
+          <line x1="195" y1="54" x2="225" y2="54"/>
+          <line x1="285" y1="139" x2="315" y2="139"/>
+        </g>
+
+        <!-- Bar 1: New Business Bookings ($486M) -->
+        <rect class="nd" x="50" y="34" width="55" height="131" fill="#141E50" rx="2" data-tip="New Business Bookings: $486M (+3.4% vs Plan $470M, +6.8% YoY)" tabindex="0"/>
+        <text x="77" y="26" text-anchor="middle" font-weight="700" fill="#141E50" font-size="11">$486M</text>
+        <text x="77" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Bookings</text>
+
+        <!-- Bar 2: Starts (+$412M) -->
+        <rect class="nd" x="140" y="54" width="55" height="111" fill="#2e7d32" rx="2" data-tip="Starts (New Implementations): +$412M (+1.7% vs plan, +5.4% YoY)" tabindex="0"/>
+        <text x="167" y="46" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="11">+$412M</text>
+        <text x="167" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Starts (+)</text>
+
+        <!-- Bar 3: Losses (-$318M) -->
+        <rect class="nd" x="230" y="54" width="55" height="85" fill="#c8322f" rx="2" data-tip="Losses (Client Churn): -$318M (-4.3% unfavorable vs plan $305M)" tabindex="0"/>
+        <text x="257" y="46" text-anchor="middle" font-weight="700" fill="#c8322f" font-size="11">−$318M</text>
+        <text x="257" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Losses (−)</text>
+
+        <!-- Bar 4: Net New Business (= +$94M) -->
+        <rect class="nd" x="320" y="139" width="55" height="26" fill="#0f62fe" rx="2" data-tip="Net New Business (NNB): +$94M (+8.0% YoY growth in net recurring base)" tabindex="0"/>
+        <text x="347" y="131" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="11">+$94M</text>
+        <text x="347" y="184" text-anchor="middle" fill="#0f62fe" font-size="10" font-weight="700">NNB (=)</text>
+
+        <!-- Retention Metric Callout Box (Right Side) -->
+        <g transform="translate(405, 45)">
+          <rect class="nd" x="0" y="0" width="105" height="115" fill="#f8fafc" stroke="#e0e0e0" rx="3" data-tip="Revenue Retention: 92.1% (Plan: 92.4% · Variance: -30 bps vs plan, -10 bps YoY)" tabindex="0"/>
+          <text x="52" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#525252" letter-spacing="0.04em">RETENTION</text>
+          <text x="52" y="55" text-anchor="middle" font-size="20" font-weight="800" fill="#141E50">92.1%</text>
+          <text x="52" y="75" text-anchor="middle" font-size="10" font-weight="700" fill="#c8322f">▼ −30 bps vs plan</text>
+          <text x="52" y="94" text-anchor="middle" font-size="9" fill="#525252">Plan: 92.4% · YoY: −10 bps</text>
+        </g>
+      </svg>
+
+      <div class="chart-cap">
+        <strong>Leading Indicator:</strong> Strong sales execution drove <strong>$486M</strong> in Bookings (<span class="up">+$16M</span> beat), generating <strong>+$94M in Net New Business</strong>, while Retention tracked slightly soft at <strong>92.1%</strong> (<span class="dn">−30 bps</span>).
+      </div>
+    </div>
+
+    <!-- Chart 5: Full-Year Trajectory & Landing Zone -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">5. Full-Year Landing Zone &amp; Forecast Trajectory</div>
+          <div class="chart-sub-text">FY OctFcst $20,780M (+0.9% / +$190M vs Plan $20,590M) · Scenario Cone ($M)</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add forecast trajectory chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-landing-zone" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Full-year revenue landing zone and scenario cone chart">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="495" y2="30"/>
+          <line x1="45" y1="75" x2="495" y2="75"/>
+          <line x1="45" y1="120" x2="495" y2="120"/>
+          <line x1="45" y1="165" x2="495" y2="165"/>
+        </g>
+        <!-- Y-Axis ($B) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$21.5B</text>
+          <text x="38" y="79">$21.0B</text>
+          <text x="38" y="124">$20.5B</text>
+          <text x="38" y="169">$20.0B</text>
+        </g>
+
+        <!-- Scenario Cone Shading (Oct through FY Close) -->
+        <polygon points="180,105 460,35 460,135 180,105" fill="#edf5ff" opacity="0.8"/>
+        
+        <!-- Target Guidelines -->
+        <!-- Baseline Plan Line: $20.59B -->
+        <line x1="50" y1="116" x2="480" y2="116" stroke="#8d8d8d" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="485" y="119" fill="#525252" font-size="9" font-weight="600">Plan $20.59B</text>
+
+        <!-- Bull Case Boundary: $20.95B -->
+        <line x1="180" y1="105" x2="460" y2="35" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <circle class="nd" cx="460" cy="35" r="4" fill="#2e7d32" data-tip="Bull Case Scenario: $20,950M (+ $360M upside, strong WSE/PPC expansion)" tabindex="0"/>
+        <text x="466" y="38" fill="#2e7d32" font-size="9" font-weight="700">Bull $20.95B</text>
+
+        <!-- Current Working Forecast (OctFcst): $20.78B -->
+        <polyline points="60,155 120,130 180,105 270,88 360,70 460,54" fill="none" stroke="#0f62fe" stroke-width="3" stroke-linejoin="round"/>
+        <circle class="nd" cx="60" cy="155" r="4" fill="#0f62fe" data-tip="Jul Act: $5,020M (On Plan)" tabindex="0"/>
+        <circle class="nd" cx="120" cy="130" r="4" fill="#0f62fe" data-tip="Aug Act: $5,068M (+0.8% beat)" tabindex="0"/>
+        <circle class="nd" cx="180" cy="105" r="5" fill="#0f62fe" stroke="#fff" stroke-width="2" data-tip="Sep Close (Q1 Act): $15,330M YTD (+1.1% vs plan)" tabindex="0"/>
+        <circle class="nd" cx="270" cy="88" r="3.5" fill="#0f62fe" data-tip="Q2 OctFcst: $5,120M" tabindex="0"/>
+        <circle class="nd" cx="360" cy="70" r="3.5" fill="#0f62fe" data-tip="Q3 OctFcst: $5,240M" tabindex="0"/>
+        <circle class="nd" cx="460" cy="54" r="5" fill="#0f62fe" stroke="#fff" stroke-width="2" data-tip="FY OctFcst Landing Zone: $20,780M (+$190M / +0.9% vs Plan $20,590M)" tabindex="0"/>
+        <text x="466" y="58" fill="#0f62fe" font-size="10" font-weight="800">OctFcst $20.78B</text>
+
+        <!-- Bear Case Boundary: $20.45B -->
+        <line x1="180" y1="105" x2="460" y2="135" stroke="#c8322f" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <circle class="nd" cx="460" cy="135" r="4" fill="#c8322f" data-tip="Bear Case Scenario: $20,450M (-$140M downside risk from hiring slowdown)" tabindex="0"/>
+        <text x="466" y="139" fill="#c8322f" font-size="9" font-weight="700">Bear $20.45B</text>
+
+        <!-- X-Axis Labels -->
+        <g fill="#525252" font-size="10" text-anchor="middle">
+          <text x="60" y="184">Jul Act</text>
+          <text x="120" y="184">Aug Act</text>
+          <text x="180" y="184" font-weight="700" fill="#141E50">Sep (Q1)</text>
+          <text x="270" y="184">Q2 Fcst</text>
+          <text x="360" y="184">Q3 Fcst</text>
+          <text x="460" y="184" font-weight="700" fill="#0f62fe">FY Landing</text>
+        </g>
+      </svg>
+
+      <div class="chart-cap">
+        <strong>Forecast Runway:</strong> The working <strong>FY OctFcst of $20,780M</strong> puts the company <strong>+$190M ahead of Plan</strong> (+4.9% YoY). The scenario landing band ranges from $20.45B (Bear) to $20.95B (Bull).
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 4: Chart 6 (Client Funds Interest Float & Rate Sensitivity) -->
+  <div class="charts-grid-1" style="margin-top:12px;">
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">6. Client Funds Interest (CFI) Float &amp; Interest Rate Sensitivity Curve</div>
+          <div class="chart-sub-text">Average Daily Float $38.5B · Realized Yield 2.70% (270 bps) · Annualized Revenue Impact of Fed Rate Shifts (±25–100 bps)</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add CFI float sensitivity chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-cfi-sensitivity" viewBox="0 0 1060 220" width="100%" height="220" role="img" aria-label="Chart showing Client Funds Interest revenue sensitivity across Fed rate adjustment scenarios">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="50" y1="30" x2="1010" y2="30"/>
+          <line x1="50" y1="75" x2="1010" y2="75"/>
+          <line x1="50" y1="120" x2="1010" y2="120"/>
+          <line x1="50" y1="165" x2="1010" y2="165"/>
+        </g>
+        <!-- Y-Axis ($M Annualized Impact) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="42" y="34">+$400M</text>
+          <text x="42" y="79">+$200M</text>
+          <text x="42" y="124">$0M (Base)</text>
+          <text x="42" y="169">−$400M</text>
+        </g>
+        
+        <!-- Zero baseline -->
+        <line x1="50" y1="120" x2="1010" y2="120" stroke="#161616" stroke-width="1.5"/>
+
+        <!-- Scenario Bars: -100bps, -50bps, -25bps, Baseline 0bps, +25bps, +50bps, +100bps -->
+        <!-- 1: -100 bps (-$385M) -->
+        <rect class="nd" x="100" y="120" width="75" height="42" fill="#c8322f" opacity="0.85" rx="2" data-tip="-100 bps Shift: -$385M annualized CFI Revenue impact · FY Revenue drops to $675M" tabindex="0"/>
+        <text x="137" y="176" text-anchor="middle" fill="#c8322f" font-weight="700" font-size="11">−$385M</text>
+        <text x="137" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">−100 bps</text>
+
+        <!-- 2: -50 bps (-$192M) -->
+        <rect class="nd" x="240" y="120" width="75" height="21" fill="#c8322f" opacity="0.85" rx="2" data-tip="-50 bps Shift: -$192M annualized CFI Revenue impact · FY Revenue drops to $868M" tabindex="0"/>
+        <text x="277" y="155" text-anchor="middle" fill="#c8322f" font-weight="700" font-size="11">−$192M</text>
+        <text x="277" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">−50 bps</text>
+
+        <!-- 3: -25 bps (-$96M) -->
+        <rect class="nd" x="380" y="120" width="75" height="11" fill="#f0605d" opacity="0.85" rx="2" data-tip="-25 bps Shift: -$96M annualized CFI Revenue impact · FY Revenue drops to $964M" tabindex="0"/>
+        <text x="417" y="145" text-anchor="middle" fill="#c8322f" font-weight="700" font-size="11">−$96M</text>
+        <text x="417" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">−25 bps</text>
+
+        <!-- 4: Base 0 bps ($1,060M FY Baseline) -->
+        <rect class="nd" x="520" y="45" width="75" height="75" fill="#141E50" rx="2" data-tip="Current Base Yield: 2.70% on $38.5B Float · FY OctFcst CFI Revenue: $1,060M" tabindex="0"/>
+        <text x="557" y="38" text-anchor="middle" fill="#141E50" font-weight="800" font-size="11">$1,060M (Base)</text>
+        <text x="557" y="196" text-anchor="middle" fill="#141E50" font-size="10" font-weight="700">Baseline (2.70%)</text>
+
+        <!-- 5: +25 bps (+$96M) -->
+        <rect class="nd" x="660" y="109" width="75" height="11" fill="#3a9a3a" opacity="0.85" rx="2" data-tip="+25 bps Shift: +$96M annualized CFI Revenue upside · FY Revenue rises to $1,156M" tabindex="0"/>
+        <text x="697" y="103" text-anchor="middle" fill="#2e7d32" font-weight="700" font-size="11">+$96M</text>
+        <text x="697" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">+25 bps</text>
+
+        <!-- 6: +50 bps (+$192M) -->
+        <rect class="nd" x="800" y="99" width="75" height="21" fill="#2e7d32" opacity="0.85" rx="2" data-tip="+50 bps Shift: +$192M annualized CFI Revenue upside · FY Revenue rises to $1,252M" tabindex="0"/>
+        <text x="837" y="93" text-anchor="middle" fill="#2e7d32" font-weight="700" font-size="11">+$192M</text>
+        <text x="837" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">+50 bps</text>
+
+        <!-- 7: +100 bps (+$385M) -->
+        <rect class="nd" x="930" y="78" width="75" height="42" fill="#2e7d32" opacity="0.85" rx="2" data-tip="+100 bps Shift: +$385M annualized CFI Revenue upside · FY Revenue rises to $1,445M" tabindex="0"/>
+        <text x="967" y="72" text-anchor="middle" fill="#2e7d32" font-weight="700" font-size="11">+$385M</text>
+        <text x="967" y="196" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">+100 bps</text>
+      </svg>
+
+      <div class="chart-cap">
+        <strong>Yield Sensitivity:</strong> With <strong>$38.5B</strong> in daily client balances, every <strong>±25 bps</strong> shift in the effective yield moves annualized high-margin revenue by <strong>±$96M</strong>. The baseline is modeled at 2.70% yield delivering <strong>$1,060M FY CFI revenue</strong>.
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- ========================================================================= -->
+
+<!-- Headline KPIs (proposed set, CFO-02, OQ-21) -->
+<div class="section cfo-tbl" id="sec-cfo-headline-kpis" style="background:var(--tile);border:1px solid var(--line);margin:14px 0 0;">
+  <div class="section-hdr-band">
+    <div class="section-title">Headline KPIs (proposed set, CFO-02, OQ-21)</div>
+    <div class="section-sub">$M unless stated</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="pl" id="cfo-headline-kpis-table">
+      <thead>
+        <tr>
+          <th style="min-width:260px">Line</th><th>Sep Act</th><th>vs Plan</th><th>YoY Gr %</th><th>YTD Act</th><th>vs Plan</th><th>YoY Gr %</th><th>FY OctFcst</th><th>vs Plan</th><th>YoY Gr %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bold"><td><div class="row-main">Total revenue</div><div class="row-subtext">Total ADP Revenue; the exclusions (ZMPT, CFI) are rows in the summary below (C33)</div></td><td data-plan="5,180">5,242</td><td data-vpct="+1.2%" class="fav">+62</td><td>+5.1%</td><td data-plan="15,160">15,330</td><td data-vpct="+1.1%" class="fav">+170</td><td>+4.8%</td><td data-plan="20,590">20,780</td><td data-vpct="+0.9%" class="fav">+190</td><td>+4.9%</td></tr>
+        <tr class="bold"><td><div class="row-main">Adj. EBIT margin %</div><div class="row-subtext">With Adj. EBIT $; variance in bps</div></td><td data-plan="29.9%" data-plan-sub="$1,549">27.5%<div class="row-subtext">$1,442</div></td><td class="unf">(240) bps</td><td class="unf">(90) bps</td><td data-plan="29.7%" data-plan-sub="$4,502">27.9%<div class="row-subtext">$4,277</div></td><td class="unf">(180) bps</td><td class="unf">(70) bps</td><td data-plan="29.6%" data-plan-sub="$6,094">28.1%<div class="row-subtext">$5,839</div></td><td class="unf">(150) bps</td><td class="unf">(60) bps</td></tr>
+        <tr class="bold"><td><div class="row-main">New business bookings</div><div class="row-subtext">ES and PEO</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr class="bold"><td><div class="row-main">Retention</div><div class="row-subtext">ES and PEO</div></td><td data-plan="92.4%">92.1%</td><td class="unf">(30) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.3%</td><td class="unf">(20) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.4%</td><td class="unf">(10) bps</td><td>0 bps</td></tr>
+        <tr class="bold"><td><div class="row-main">Average total FTEs</div><div class="row-subtext">With ending headcount</div></td><td data-plan="65,300" data-plan-sub="65,300 ending">64,820<div class="row-subtext">65,140 ending</div></td><td data-vpct="(0.7%)" class="fav">(480)</td><td>+1.9%</td><td data-plan="65,000" data-plan-sub="65,300 ending">64,610<div class="row-subtext">65,140 ending</div></td><td data-vpct="(0.6%)" class="fav">(390)</td><td>+2.1%</td><td data-plan="65,250" data-plan-sub="65,250 ending">64,900<div class="row-subtext">65,000 ending</div></td><td data-vpct="(0.5%)" class="fav">(350)</td><td>+2.0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Consolidated P&L summary (XCOM slide 3) -->
+<div class="section cfo-tbl" id="sec-cfo-consolidated-pl" style="background:var(--tile);border:1px solid var(--line);margin:14px 0 0;">
+  <div class="section-hdr-band">
+    <div class="section-title">Consolidated P&amp;L summary (XCOM slide 3)</div>
+    <div class="section-sub">$M · favorable / (unfavorable)</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="pl" id="cfo-consolidated-pl-table">
+      <thead>
+        <tr>
+          <th style="min-width:260px">Line</th><th>Sep Act</th><th>vs Plan</th><th>YoY Gr %</th><th>YTD Act</th><th>vs Plan</th><th>YoY Gr %</th><th>FY OctFcst</th><th>vs Plan</th><th>YoY Gr %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bold"><td><div class="row-main">Total revenue</div></td><td data-plan="5,180">5,242</td><td data-vpct="+1.2%" class="fav">+62</td><td>+5.1%</td><td data-plan="15,160">15,330</td><td data-vpct="+1.1%" class="fav">+170</td><td>+4.8%</td><td data-plan="20,590">20,780</td><td data-vpct="+0.9%" class="fav">+190</td><td>+4.9%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. ZMPT</div></td><td data-plan="4,024">4,062</td><td data-vpct="+0.9%" class="fav">+38</td><td>+3.7%</td><td data-plan="11,740">11,840</td><td data-vpct="+0.9%" class="fav">+100</td><td>+3.3%</td><td data-plan="15,975">16,080</td><td data-vpct="+0.7%" class="fav">+105</td><td>+3.5%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. CFI</div></td><td data-plan="4,920">4,982</td><td data-vpct="+1.3%" class="fav">+62</td><td>+6.3%</td><td data-plan="14,380">14,560</td><td data-vpct="+1.3%" class="fav">+180</td><td>+5.9%</td><td data-plan="19,515">19,720</td><td data-vpct="+1.1%" class="fav">+205</td><td>+5.9%</td></tr>
+        <tr class="l1"><td><div class="row-main">Revenue excl. CFI and ZMPT</div></td><td data-plan="3,764">3,802</td><td data-vpct="+1.0%" class="fav">+38</td><td>+5.1%</td><td data-plan="10,960">11,070</td><td data-vpct="+1.0%" class="fav">+110</td><td>+4.7%</td><td data-plan="14,900">15,020</td><td data-vpct="+0.8%" class="fav">+120</td><td>+4.7%</td></tr>
+        <tr class="bold"><td><div class="row-main">ES revenue</div></td><td data-plan="3,370">3,404</td><td data-vpct="+1.0%" class="fav">+34</td><td>+3.2%</td><td data-plan="9,860">9,950</td><td data-vpct="+0.9%" class="fav">+90</td><td>+2.9%</td><td data-plan="13,330">13,430</td><td data-vpct="+0.8%" class="fav">+100</td><td>+3.0%</td></tr>
+        <tr class="l1"><td><div class="row-main">ES revenue excl. CFI</div></td><td data-plan="3,110">3,144</td><td data-vpct="+1.1%" class="fav">+34</td><td>+4.8%</td><td data-plan="9,080">9,180</td><td data-vpct="+1.1%" class="fav">+100</td><td>+4.4%</td><td data-plan="12,255">12,370</td><td data-vpct="+0.9%" class="fav">+115</td><td>+4.4%</td></tr>
+        <tr class="bold"><td><div class="row-main">PEO revenue</div></td><td data-plan="1,810">1,838</td><td data-vpct="+1.5%" class="fav">+28</td><td>+8.9%</td><td data-plan="5,300">5,380</td><td data-vpct="+1.5%" class="fav">+80</td><td>+8.5%</td><td data-plan="7,260">7,350</td><td data-vpct="+1.2%" class="fav">+90</td><td>+8.6%</td></tr>
+        <tr class="l1"><td><div class="row-main">PEO revenue excl. ZMPT</div></td><td data-plan="654">658</td><td data-vpct="+0.6%" class="fav">+4</td><td>+6.5%</td><td data-plan="1,880">1,890</td><td data-vpct="+0.5%" class="fav">+10</td><td>+5.6%</td><td data-plan="2,645">2,650</td><td data-vpct="+0.2%" class="fav">+5</td><td>+6.0%</td></tr>
+        <tr class="bold"><td><div class="row-main">CFI revenue</div><div class="row-subtext">The CFR adds a manual adjustment row (r181).</div></td><td data-plan="260">260</td><td>–</td><td>(13.3%)</td><td data-plan="780">770</td><td data-vpct="(1.3%)" class="unf">(10)</td><td>(12.5%)</td><td data-plan="1,075">1,060</td><td data-vpct="(1.4%)" class="unf">(15)</td><td>(10.9%)</td></tr>
+        <tr class="bold"><td><div class="row-main">Total expenses</div></td><td data-plan="3,631">3,800</td><td data-vpct="(4.7%)" class="unf">(169)</td><td>+6.4%</td><td data-plan="10,658">11,053</td><td data-vpct="(3.7%)" class="unf">(395)</td><td>+5.8%</td><td data-plan="14,496">14,941</td><td data-vpct="(3.1%)" class="unf">(445)</td><td>+5.8%</td></tr>
+        <tr class="l1"><td><div class="row-main">ZMPT</div></td><td data-plan="1,156">1,180</td><td data-vpct="(2.1%)" class="unf">(24)</td><td>+10.3%</td><td data-plan="3,420">3,490</td><td data-vpct="(2.0%)" class="unf">(70)</td><td>+10.1%</td><td data-plan="4,615">4,700</td><td data-vpct="(1.8%)" class="unf">(85)</td><td>+10.1%</td></tr>
+        <tr class="l1"><td><div class="row-main">NDE</div></td><td data-plan="2,361">2,504</td><td data-vpct="(6.1%)" class="unf">(143)</td><td>+4.6%</td><td data-plan="6,903">7,223</td><td data-vpct="(4.6%)" class="unf">(320)</td><td>+3.7%</td><td data-plan="9,426">9,781</td><td data-vpct="(3.8%)" class="unf">(355)</td><td>+3.7%</td></tr>
+        <tr class="l1"><td><div class="row-main">Total PEO pass-through</div><div class="row-subtext">Includes ZMPT, WC and SUI; test that the member covers SUI</div></td><td data-plan="1,270">1,296</td><td data-vpct="(2.0%)" class="unf">(26)</td><td>+10.0%</td><td data-plan="3,755">3,830</td><td data-vpct="(2.0%)" class="unf">(75)</td><td>+10.1%</td><td data-plan="5,070">5,160</td><td data-vpct="(1.8%)" class="unf">(90)</td><td>+10.0%</td></tr>
+        <tr class="bold"><td><div class="row-main">Adj. EBIT</div></td><td data-plan="1,549">1,442</td><td data-vpct="(6.9%)" class="unf">(107)</td><td>+1.8%</td><td data-plan="4,502">4,277</td><td data-vpct="(5.0%)" class="unf">(225)</td><td>+2.2%</td><td data-plan="6,094">5,839</td><td data-vpct="(4.2%)" class="unf">(255)</td><td>+2.7%</td></tr>
+        <tr class="bold"><td><div class="row-main">Margin %</div><div class="row-subtext">Variance in bps</div></td><td data-plan="29.9%">27.5%</td><td class="unf">(240) bps</td><td class="unf">(90) bps</td><td data-plan="29.7%">27.9%</td><td class="unf">(180) bps</td><td class="unf">(70) bps</td><td data-plan="29.6%">28.1%</td><td class="unf">(150) bps</td><td class="unf">(60) bps</td></tr>
+        <tr class="l1"><td><div class="row-main">Margin % excl. CFI</div></td><td data-plan="26.2%">23.7%</td><td class="unf">(250) bps</td><td class="unf">(10) bps</td><td data-plan="25.9%">24.1%</td><td class="unf">(180) bps</td><td class="fav">+10 bps</td><td data-plan="25.7%">24.2%</td><td class="unf">(150) bps</td><td class="fav">+10 bps</td></tr>
+        <tr class="l1"><td><div class="row-main">ES margin % (and excl. CFI)</div></td><td data-plan="38.9%" data-plan-sub="excl. CFI 33.8%">35.4%<div class="row-subtext">excl. CFI 30.1%</div></td><td class="unf">(350) bps<div class="row-subtext">excl. CFI (370) bps</div></td><td class="unf">(110) bps<div class="row-subtext">excl. CFI 0 bps</div></td><td data-plan="38.6%" data-plan-sub="excl. CFI 33.3%">36.0%<div class="row-subtext">excl. CFI 30.6%</div></td><td class="unf">(260) bps<div class="row-subtext">excl. CFI (270) bps</div></td><td class="unf">(70) bps<div class="row-subtext">excl. CFI +30 bps</div></td><td data-plan="38.5%" data-plan-sub="excl. CFI 33.1%">36.3%<div class="row-subtext">excl. CFI 30.9%</div></td><td class="unf">(220) bps<div class="row-subtext">excl. CFI (220) bps</div></td><td class="unf">(50) bps<div class="row-subtext">excl. CFI +40 bps</div></td></tr>
+        <tr class="l1"><td><div class="row-main">PEO margin %</div></td><td data-plan="13.2%">12.9%</td><td class="unf">(30) bps</td><td class="fav">+20 bps</td><td data-plan="13.3%">13.0%</td><td class="unf">(30) bps</td><td class="fav">+10 bps</td><td data-plan="13.3%">13.1%</td><td class="unf">(20) bps</td><td class="fav">+10 bps</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 4 Operational Metrics Visualizations (Above Operational Metrics Table)    -->
+<!-- ========================================================================= -->
+<div class="charts-section">
+  <div style="background:#e8e9eb;padding:10px 16px;border:1px solid var(--line);border-bottom:0;display:flex;align-items:baseline;gap:12px;">
+    <div style="font-size:14px;font-weight:700;color:#161616;">Operational Metrics Analytics (XCOM slide 2 Visuals)</div>
+    <div style="font-size:11.5px;color:#525252;">Client Flow, Global Shoring Mix, PEO WSE Scale &amp; Headcount Productivity</div>
+  </div>
+
+  <div class="charts-grid-2">
+    
+    <!-- Op Chart 1: Commercial Net ARR Flow & Churn Bridge -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">1. Commercial Net ARR Flow &amp; Churn Bridge</div>
+          <div class="chart-sub-text">September Close · Bookings $486M (+3.4%) · Starts ($412M) − Losses ($318M) = NNB $94M</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add commercial net flow chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-op-nnb-bridge" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Commercial Net ARR Bridge of sales bookings, starts, losses, and net new business">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="505" y2="30"/>
+          <line x1="45" y1="75" x2="505" y2="75"/>
+          <line x1="45" y1="120" x2="505" y2="120"/>
+          <line x1="45" y1="165" x2="505" y2="165"/>
+        </g>
+        <!-- Y-Axis labels -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$500M</text>
+          <text x="38" y="79">$375M</text>
+          <text x="38" y="124">$250M</text>
+          <text x="38" y="169">$0M</text>
+        </g>
+
+        <!-- Dashed connectors -->
+        <g stroke="#8d8d8d" stroke-dasharray="3 3" stroke-width="1">
+          <line x1="105" y1="34" x2="135" y2="34"/>
+          <line x1="195" y1="54" x2="225" y2="54"/>
+          <line x1="285" y1="139" x2="315" y2="139"/>
+        </g>
+
+        <!-- Bar 1: Bookings ($486M) -->
+        <rect class="nd" x="50" y="34" width="55" height="131" fill="#141E50" rx="2" data-tip="New Business Bookings: $486M (+3.4% vs Plan $470M, +6.8% YoY)" tabindex="0"/>
+        <text x="77" y="26" text-anchor="middle" font-weight="700" fill="#141E50" font-size="11">$486M</text>
+        <text x="77" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Bookings</text>
+
+        <!-- Bar 2: Starts (+$412M) -->
+        <rect class="nd" x="140" y="54" width="55" height="111" fill="#2e7d32" rx="2" data-tip="Starts (New Implementations): +$412M (+1.7% vs plan, +5.4% YoY)" tabindex="0"/>
+        <text x="167" y="46" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="11">+$412M</text>
+        <text x="167" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Starts (+)</text>
+
+        <!-- Bar 3: Losses (-$318M) -->
+        <rect class="nd" x="230" y="54" width="55" height="85" fill="#c8322f" rx="2" data-tip="Losses (Client Churn): -$318M (-4.3% unfavorable vs plan $305M)" tabindex="0"/>
+        <text x="257" y="46" text-anchor="middle" font-weight="700" fill="#c8322f" font-size="11">−$318M</text>
+        <text x="257" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Losses (−)</text>
+
+        <!-- Bar 4: Net New Business (= +$94M) -->
+        <rect class="nd" x="320" y="139" width="55" height="26" fill="#0f62fe" rx="2" data-tip="Net New Business (NNB): +$94M (+8.0% YoY growth in net recurring base)" tabindex="0"/>
+        <text x="347" y="131" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="11">+$94M</text>
+        <text x="347" y="184" text-anchor="middle" fill="#0f62fe" font-size="10" font-weight="700">NNB (=)</text>
+
+        <!-- Retention Callout Card -->
+        <g transform="translate(405, 45)">
+          <rect class="nd" x="0" y="0" width="105" height="115" fill="#f8fafc" stroke="#e0e0e0" rx="3" data-tip="Revenue Retention: 92.1% (Plan: 92.4% · Variance: -30 bps vs plan, -10 bps YoY)" tabindex="0"/>
+          <text x="52" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#525252" letter-spacing="0.04em">RETENTION</text>
+          <text x="52" y="55" text-anchor="middle" font-size="20" font-weight="800" fill="#141E50">92.1%</text>
+          <text x="52" y="75" text-anchor="middle" font-size="10" font-weight="700" fill="#c8322f">▼ −30 bps vs plan</text>
+          <text x="52" y="94" text-anchor="middle" font-size="9" fill="#525252">Plan: 92.4% · YoY: −10 bps</text>
+        </g>
+      </svg>
+
+      <div class="chart-cap">
+        <strong>Commercial Flow:</strong> Bookings beat plan by <span class="up">+$16M</span> to reach <strong>$486M</strong>, generating <strong>+$94M in Net New Business</strong>, while Retention tracked at <strong>92.1%</strong> (<span class="dn">−30 bps</span>).
+      </div>
+    </div>
+
+    <!-- Op Chart 2: Global Workforce & Shoring Optimization Mix -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">2. Global Workforce &amp; Shoring Optimization Mix</div>
+          <div class="chart-sub-text">Average FTEs (64,820) · Traditional (−2.1%) vs. Offshore (+16.6%) &amp; Contingent (−9.1%)</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add workforce shoring mix chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-op-shoring-mix" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Stacked bar chart of workforce composition and offshore shoring ratio percentage">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="465" y2="30"/>
+          <line x1="45" y1="75" x2="465" y2="75"/>
+          <line x1="45" y1="120" x2="465" y2="120"/>
+          <line x1="45" y1="165" x2="465" y2="165"/>
+        </g>
+        <!-- Left Y-Axis (Headcount K) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">70K</text>
+          <text x="38" y="79">50K</text>
+          <text x="38" y="124">30K</text>
+          <text x="38" y="169">0K</text>
+        </g>
+        <!-- Right Y-Axis (Shoring Ratio %) -->
+        <g fill="#b7791f" font-size="10" text-anchor="start">
+          <text x="472" y="34">40%</text>
+          <text x="472" y="79">30%</text>
+          <text x="472" y="124">20%</text>
+          <text x="472" y="169">0%</text>
+        </g>
+
+        <!-- Bar 1: Sep PY (63,600 total: Onshore 42,140, Offshore 15,800, Contingent 5,660) -->
+        <rect class="nd" x="65" y="85" width="60" height="80" fill="#141E50" data-tip="Sep PY Onshore Traditional: 42,140 FTEs (66.3%)" tabindex="0"/>
+        <rect class="nd" x="65" y="55" width="60" height="30" fill="#009D9A" data-tip="Sep PY Offshore / Nearshore: 15,800 FTEs (24.8%)" tabindex="0"/>
+        <rect class="nd" x="65" y="44" width="60" height="11" fill="#7B68B0" data-tip="Sep PY Contingent &amp; Overtime: 5,660 FTEs (8.9%)" tabindex="0"/>
+        <text x="95" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep PY</text>
+
+        <!-- Bar 2: Sep Plan (65,300 total: Onshore 41,610, Offshore 18,360, Contingent 5,330) -->
+        <rect class="nd" x="165" y="86" width="60" height="79" fill="#141E50" data-tip="Sep Plan Onshore Traditional: 41,610 FTEs (63.7%)" tabindex="0"/>
+        <rect class="nd" x="165" y="51" width="60" height="35" fill="#009D9A" data-tip="Sep Plan Offshore / Nearshore: 18,360 FTEs (28.1%)" tabindex="0"/>
+        <rect class="nd" x="165" y="41" width="60" height="10" fill="#7B68B0" data-tip="Sep Plan Contingent &amp; Overtime: 5,330 FTEs (8.2%)" tabindex="0"/>
+        <text x="195" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep Plan</text>
+
+        <!-- Bar 3: Sep Act (64,820 total: Onshore 41,250, Offshore 18,420, Contingent 5,150) -->
+        <rect class="nd" x="265" y="87" width="60" height="78" fill="#141E50" data-tip="Sep Act Onshore Traditional: 41,250 FTEs (-360 lower than plan)" tabindex="0"/>
+        <rect class="nd" x="265" y="52" width="60" height="35" fill="#009D9A" data-tip="Sep Act Offshore / Nearshore: 18,420 FTEs (+60 higher than plan, +16.6% YoY)" tabindex="0"/>
+        <rect class="nd" x="265" y="42" width="60" height="10" fill="#7B68B0" data-tip="Sep Act Contingent &amp; Overtime: 5,150 FTEs (-180 lower than plan)" tabindex="0"/>
+        <text x="295" y="184" text-anchor="middle" fill="#0f62fe" font-size="10" font-weight="700">Sep Act</text>
+
+        <!-- Bar 4: FY OctFcst (64,900 total: Onshore 41,500, Offshore 18,200, Contingent 5,200) -->
+        <rect class="nd" x="365" y="86" width="60" height="79" fill="#141E50" data-tip="FY OctFcst Onshore: 41,500 FTEs" tabindex="0"/>
+        <rect class="nd" x="365" y="51" width="60" height="35" fill="#009D9A" data-tip="FY OctFcst Offshore: 18,200 FTEs (+16.7% YoY)" tabindex="0"/>
+        <rect class="nd" x="365" y="41" width="60" height="10" fill="#7B68B0" data-tip="FY OctFcst Contingent: 5,200 FTEs" tabindex="0"/>
+        <text x="395" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">FY Fcst</text>
+
+        <!-- Polyline: Shoring Ratio % (24.8% -> 28.1% -> 28.4% -> 28.0%) -->
+        <polyline points="95,95 195,83 295,81 395,83" fill="none" stroke="#E5A83F" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle class="nd" cx="95" cy="95" r="4" fill="#E5A83F" data-tip="Sep PY Offshore Ratio: 24.8%" tabindex="0"/>
+        <circle class="nd" cx="195" cy="83" r="4" fill="#E5A83F" data-tip="Sep Plan Offshore Ratio: 28.1%" tabindex="0"/>
+        <circle class="nd" cx="295" cy="81" r="4.5" fill="#E5A83F" stroke="#fff" stroke-width="1.5" data-tip="Sep Act Offshore Ratio: 28.4% (+360 bps YoY)" tabindex="0"/>
+        <circle class="nd" cx="395" cy="83" r="4" fill="#E5A83F" data-tip="FY OctFcst Offshore Ratio: 28.0%" tabindex="0"/>
+
+        <text x="95" y="112" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">24.8%</text>
+        <text x="195" y="73" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">28.1%</text>
+        <text x="295" y="71" text-anchor="middle" fill="#b7791f" font-weight="800" font-size="10">28.4%</text>
+        <text x="395" y="73" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="10">28.0%</text>
+      </svg>
+
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#141E50"></span> Onshore / OneADP (63.6%)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#009D9A"></span> Offshore / Nearshore (28.4%)</span>
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#7B68B0"></span> Contingent &amp; OT (8.0%)</span>
+        <span class="chart-legend-item"><span class="chart-legend-line" style="background:#E5A83F"></span> Shoring Ratio % (Right Axis)</span>
+      </div>
+
+      <div class="chart-cap">
+        <strong>Labor Arbitrage:</strong> Offshore &amp; Nearshore delivery expanded to <strong>28.4% of headcount (+360 bps YoY)</strong>, allowing total FTE costs to remain favorable by <strong>−480 FTEs vs plan</strong>.
+      </div>
+    </div>
+
+    <!-- Op Chart 3: PEO Worksite Employee Scale & Expansion -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">3. PEO Worksite Employee (WSE) Scale &amp; Expansion</div>
+          <div class="chart-sub-text">Average WSEs 748.2K (+4.6% YoY, +4.2K vs Plan) · PEO Revenue Run-Rate &amp; Unit Economics</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add PEO WSE scale chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-op-wse-scale" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Dual-axis chart of PEO average worksite employees and revenue per WSE">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="465" y2="30"/>
+          <line x1="45" y1="75" x2="465" y2="75"/>
+          <line x1="45" y1="120" x2="465" y2="120"/>
+          <line x1="45" y1="165" x2="465" y2="165"/>
+        </g>
+        <!-- Left Y-Axis (Average WSEs in Thousands) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">760K</text>
+          <text x="38" y="79">740K</text>
+          <text x="38" y="124">720K</text>
+          <text x="38" y="169">700K</text>
+        </g>
+        <!-- Right Y-Axis (Annualized Rev/WSE $) -->
+        <g fill="#141E50" font-size="10" text-anchor="start">
+          <text x="472" y="34">$10.0K</text>
+          <text x="472" y="79">$9.8K</text>
+          <text x="472" y="124">$9.6K</text>
+          <text x="472" y="169">$9.4K</text>
+        </g>
+
+        <!-- WSE Bars (715.0K PY, 744.0K Plan, 748.2K Act, 750.0K FY Fcst) -->
+        <rect class="nd" x="65" y="132" width="60" height="33" fill="#2e7d32" opacity="0.85" rx="2" data-tip="Sep PY Average WSEs: 715.0K" tabindex="0"/>
+        <text x="95" y="125" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="10">715.0K</text>
+        <text x="95" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep PY</text>
+
+        <rect class="nd" x="165" y="66" width="60" height="99" fill="#2e7d32" opacity="0.85" rx="2" data-tip="Sep Plan Average WSEs: 744.0K" tabindex="0"/>
+        <text x="195" y="58" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="10">744.0K</text>
+        <text x="195" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep Plan</text>
+
+        <rect class="nd" x="265" y="57" width="60" height="108" fill="#0f62fe" rx="2" data-tip="Sep Act Average WSEs: 748.2K (+4.6% YoY, +4.2K vs plan)" tabindex="0"/>
+        <text x="295" y="49" text-anchor="middle" font-weight="800" fill="#0f62fe" font-size="11">748.2K</text>
+        <text x="295" y="184" text-anchor="middle" fill="#0f62fe" font-size="10" font-weight="700">Sep Act</text>
+
+        <rect class="nd" x="365" y="53" width="60" height="112" fill="#2e7d32" opacity="0.85" rx="2" data-tip="FY OctFcst Average WSEs: 750.0K (+4.4% YoY)" tabindex="0"/>
+        <text x="395" y="45" text-anchor="middle" font-weight="700" fill="#2e7d32" font-size="10">750.0K</text>
+        <text x="395" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">FY Fcst</text>
+
+        <!-- Overlay Line: Annualized Revenue per WSE ($9.58K -> $9.73K -> $9.82K -> $9.80K) -->
+        <polyline points="95,124 195,91 295,71 395,75" fill="none" stroke="#141E50" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle class="nd" cx="95" cy="124" r="4" fill="#141E50" data-tip="Sep PY Revenue/WSE: $9,580/yr" tabindex="0"/>
+        <circle class="nd" cx="195" cy="91" r="4" fill="#141E50" data-tip="Sep Plan Revenue/WSE: $9,730/yr" tabindex="0"/>
+        <circle class="nd" cx="295" cy="71" r="4.5" fill="#141E50" stroke="#fff" stroke-width="1.5" data-tip="Sep Act Revenue/WSE: $9,820/yr (+2.5% YoY yield growth)" tabindex="0"/>
+        <circle class="nd" cx="395" cy="75" r="4" fill="#141E50" data-tip="FY OctFcst Revenue/WSE: $9,800/yr" tabindex="0"/>
+
+        <text x="95" y="142" text-anchor="middle" fill="#141E50" font-weight="700" font-size="9">$9.58K</text>
+        <text x="195" y="107" text-anchor="middle" fill="#141E50" font-weight="700" font-size="9">$9.73K</text>
+        <text x="295" y="87" text-anchor="middle" fill="#141E50" font-weight="800" font-size="9">$9.82K</text>
+        <text x="395" y="91" text-anchor="middle" fill="#141E50" font-weight="700" font-size="9">$9.80K</text>
+      </svg>
+
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#2e7d32"></span> Average WSEs (K) (Left Axis)</span>
+        <span class="chart-legend-item"><span class="chart-legend-line" style="background:#141E50"></span> Annualized Rev per WSE ($K) (Right Axis)</span>
+      </div>
+
+      <div class="chart-cap">
+        <strong>Unit Economics:</strong> PEO volume hit a record <strong>748.2K WSEs</strong> (<span class="up">+4.2K beat</span>), while revenue yield per WSE expanded to <strong>$9,820/year (+2.5% YoY)</strong>, proving compounding operating scale.
+      </div>
+    </div>
+
+    <!-- Op Chart 4: Workforce Productivity & Operating Leverage -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div>
+          <div class="chart-title-main">4. Workforce Productivity &amp; Operating Leverage</div>
+          <div class="chart-sub-text">Annualized Revenue ($323K) &amp; EBIT ($89.0K) Generated per Average FTE ($K)</div>
+        </div>
+        <button type="button" class="snap-star" title="Add to insights" aria-label="Add workforce productivity chart to insights">
+          <svg viewBox="0 0 16 16"><path d="M8 1.3l2.1 4.3 4.7.7-3.4 3.3.8 4.7L8 12l-4.2 2.3.8-4.7L1.2 6.3l4.7-.7L8 1.3z"/></svg>
+        </button>
+      </div>
+
+      <svg id="svg-op-productivity" viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Workforce productivity chart showing revenue per FTE and EBIT per FTE">
+        <!-- Grid lines -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="45" y1="30" x2="465" y2="30"/>
+          <line x1="45" y1="75" x2="465" y2="75"/>
+          <line x1="45" y1="120" x2="465" y2="120"/>
+          <line x1="45" y1="165" x2="465" y2="165"/>
+        </g>
+        <!-- Left Y-Axis (Revenue per FTE in $K) -->
+        <g fill="#525252" font-size="10" text-anchor="end">
+          <text x="38" y="34">$350K</text>
+          <text x="38" y="79">$300K</text>
+          <text x="38" y="124">$250K</text>
+          <text x="38" y="169">$0K</text>
+        </g>
+        <!-- Right Y-Axis (EBIT per FTE in $K) -->
+        <g fill="#b7791f" font-size="10" text-anchor="start">
+          <text x="472" y="34">$100K</text>
+          <text x="472" y="79">$90K</text>
+          <text x="472" y="124">$80K</text>
+          <text x="472" y="169">$0K</text>
+        </g>
+
+        <!-- Revenue per FTE Bars ($312K PY, $318K Plan, $323K Act, $320K FY Fcst) -->
+        <rect class="nd" x="65" y="58" width="60" height="107" fill="#0f62fe" opacity="0.85" rx="2" data-tip="Sep PY Revenue per FTE: $312K/year" tabindex="0"/>
+        <text x="95" y="50" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="10">$312K</text>
+        <text x="95" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep PY</text>
+
+        <rect class="nd" x="165" y="53" width="60" height="112" fill="#0f62fe" opacity="0.85" rx="2" data-tip="Sep Plan Revenue per FTE: $318K/year" tabindex="0"/>
+        <text x="195" y="45" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="10">$318K</text>
+        <text x="195" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">Sep Plan</text>
+
+        <rect class="nd" x="265" y="48" width="60" height="117" fill="#141E50" rx="2" data-tip="Sep Act Revenue per FTE: $323K/year (+3.5% YoY productivity gain)" tabindex="0"/>
+        <text x="295" y="40" text-anchor="middle" font-weight="800" fill="#141E50" font-size="11">$323K</text>
+        <text x="295" y="184" text-anchor="middle" fill="#141E50" font-size="10" font-weight="700">Sep Act</text>
+
+        <rect class="nd" x="365" y="51" width="60" height="114" fill="#0f62fe" opacity="0.85" rx="2" data-tip="FY OctFcst Revenue per FTE: $320K/year" tabindex="0"/>
+        <text x="395" y="43" text-anchor="middle" font-weight="700" fill="#0f62fe" font-size="10">$320K</text>
+        <text x="395" y="184" text-anchor="middle" fill="#525252" font-size="10" font-weight="600">FY Fcst</text>
+
+        <!-- EBIT per FTE Line ($87.2K -> $94.9K -> $89.0K -> $90.0K) -->
+        <polyline points="95,87 195,53 295,79 395,75" fill="none" stroke="#E5A83F" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle class="nd" cx="95" cy="87" r="4" fill="#E5A83F" data-tip="Sep PY EBIT per FTE: $87.2K" tabindex="0"/>
+        <circle class="nd" cx="195" cy="53" r="4" fill="#E5A83F" data-tip="Sep Plan EBIT per FTE: $94.9K" tabindex="0"/>
+        <circle class="nd" cx="295" cy="79" r="4.5" fill="#E5A83F" stroke="#fff" stroke-width="1.5" data-tip="Sep Act EBIT per FTE: $89.0K (+2.1% YoY)" tabindex="0"/>
+        <circle class="nd" cx="395" cy="75" r="4" fill="#E5A83F" data-tip="FY OctFcst EBIT per FTE: $90.0K" tabindex="0"/>
+
+        <text x="95" y="103" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="9">$87.2K</text>
+        <text x="195" y="45" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="9">$94.9K</text>
+        <text x="295" y="95" text-anchor="middle" fill="#b7791f" font-weight="800" font-size="9">$89.0K</text>
+        <text x="395" y="67" text-anchor="middle" fill="#b7791f" font-weight="700" font-size="9">$90.0K</text>
+      </svg>
+
+      <div class="chart-legend">
+        <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#0f62fe"></span> Revenue per FTE ($K) (Left Axis)</span>
+        <span class="chart-legend-item"><span class="chart-legend-line" style="background:#E5A83F"></span> Adj. EBIT per FTE ($K) (Right Axis)</span>
+      </div>
+
+      <div class="chart-cap">
+        <strong>Operating Leverage:</strong> Revenue expansion (<strong>+5.1% YoY</strong>) continues to outpace headcount growth (<strong>+1.9% YoY</strong>), expanding revenue productivity to <strong>$323K/FTE (+3.5% YoY)</strong>.
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ========================================================================= -->
+
+<!-- Operational metrics (XCOM slide 2) -->
+<div class="section cfo-tbl" id="sec-cfo-operational-metrics" style="background:var(--tile);border:1px solid var(--line);margin:14px 0 0;">
+  <div class="section-hdr-band">
+    <div class="section-title">Operational metrics (XCOM slide 2)</div>
+    <div class="section-sub">$M unless stated · FTEs higher / (lower)</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="pl" id="cfo-operational-metrics-table">
+      <thead>
+        <tr>
+          <th style="min-width:260px">Line</th><th>Sep Act</th><th>vs Plan</th><th>YoY Gr %</th><th>YTD Act</th><th>vs Plan</th><th>YoY Gr %</th><th>FY OctFcst</th><th>vs Plan</th><th>YoY Gr %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bold"><td><div class="row-main">New business bookings</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr class="l1"><td><div class="row-main">ES and PEO new business bookings</div></td><td data-plan="470">486</td><td data-vpct="+3.4%" class="fav">+16</td><td>+6.8%</td><td data-plan="1,342">1,380</td><td data-vpct="+2.8%" class="fav">+38</td><td>+5.9%</td><td data-plan="1,866">1,910</td><td data-vpct="+2.4%" class="fav">+44</td><td>+5.2%</td></tr>
+        <tr><td><div class="row-main">Starts</div></td><td data-plan="405">412</td><td data-vpct="+1.7%" class="fav">+7</td><td>+5.4%</td><td data-plan="1,150">1,180</td><td data-vpct="+2.6%" class="fav">+30</td><td>+4.9%</td><td data-plan="1,580">1,620</td><td data-vpct="+2.5%" class="fav">+40</td><td>+4.6%</td></tr>
+        <tr><td><div class="row-main">Losses</div></td><td data-plan="305">318</td><td data-vpct="(4.3%)" class="unf">(13)</td><td>+4.6%</td><td data-plan="900">925</td><td data-vpct="(2.8%)" class="unf">(25)</td><td>+3.8%</td><td data-plan="1,225">1,255</td><td data-vpct="(2.4%)" class="unf">(30)</td><td>+3.5%</td></tr>
+        <tr class="bold"><td><div class="row-main">NNB</div></td><td data-plan="100">94</td><td data-vpct="(6.0%)" class="unf">(6)</td><td>+8.0%</td><td data-plan="250">255</td><td data-vpct="+2.0%" class="fav">+5</td><td>+9.0%</td><td data-plan="355">365</td><td data-vpct="+2.8%" class="fav">+10</td><td>+8.6%</td></tr>
+        <tr><td><div class="row-main">Retention: ES and PEO</div><div class="row-subtext">OneData source to confirm (OQ-21)</div></td><td data-plan="92.4%">92.1%</td><td class="unf">(30) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.3%</td><td class="unf">(20) bps</td><td class="unf">(10) bps</td><td data-plan="92.5%">92.4%</td><td class="unf">(10) bps</td><td>0 bps</td></tr>
+        <tr><td><div class="row-main">Average WSEs (K)</div></td><td data-plan="744.0">748.2</td><td data-vpct="+0.6%" class="fav">+4.2</td><td>+4.6%</td><td data-plan="738.0">741.5</td><td data-vpct="+0.5%" class="fav">+3.5</td><td>+4.3%</td><td data-plan="745.5">750.0</td><td data-vpct="+0.6%" class="fav">+4.5</td><td>+4.4%</td></tr>
+        <tr class="bold"><td><div class="row-main">Average total FTEs</div></td><td data-plan="65,300">64,820</td><td data-vpct="(0.7%)" class="fav">(480)</td><td>+1.9%</td><td data-plan="65,000">64,610</td><td data-vpct="(0.6%)" class="fav">(390)</td><td>+2.1%</td><td data-plan="65,250">64,900</td><td data-vpct="(0.5%)" class="fav">(350)</td><td>+2.0%</td></tr>
+        <tr class="l1"><td><div class="row-main">Traditional, OneADP</div></td><td data-plan="41,610">41,250</td><td data-vpct="(0.9%)" class="fav">(360)</td><td>(2.1%)</td><td data-plan="41,720">41,420</td><td data-vpct="(0.7%)" class="fav">(300)</td><td>(2.1%)</td><td data-plan="41,770">41,500</td><td data-vpct="(0.6%)" class="fav">(270)</td><td>(2.0%)</td></tr>
+        <tr class="l1"><td><div class="row-main">Offshore and nearshore</div></td><td data-plan="18,360">18,420</td><td data-vpct="+0.3%" class="unf">+60</td><td>+16.6%</td><td data-plan="18,040">18,080</td><td data-vpct="+0.2%" class="unf">+40</td><td>+17.0%</td><td data-plan="18,170">18,200</td><td data-vpct="+0.2%" class="unf">+30</td><td>+16.7%</td></tr>
+        <tr class="l1"><td><div class="row-main">Contingent, overtime</div></td><td data-plan="5,330">5,150</td><td data-vpct="(3.4%)" class="fav">(180)</td><td>(9.1%)</td><td data-plan="5,240">5,110</td><td data-vpct="(2.5%)" class="fav">(130)</td><td>(7.6%)</td><td data-plan="5,310">5,200</td><td data-vpct="(2.1%)" class="fav">(110)</td><td>(8.4%)</td></tr>
+        <tr class="bold"><td><div class="row-main">Ending headcount</div></td><td data-plan="65,300">65,140</td><td data-vpct="(0.2%)" class="fav">(160)</td><td>+1.9%</td><td data-plan="65,300">65,140</td><td data-vpct="(0.2%)" class="fav">(160)</td><td>+1.9%</td><td data-plan="65,250">65,000</td><td data-vpct="(0.4%)" class="fav">(250)</td><td>+1.9%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div><!-- /wrap -->
+    </div><!-- /content -->
+    <footer class="site-footer"><div><span class="sf-brand">ADP Project Polaris</span> · September close review · Illustrative figures for internal review only</div><div class="sf-links"><a href="index.html">Home</a><a href="cfo_dashboard.html">Corporate</a><a href="nas_dashboard.html">NAS</a><a href="rs_dashboard.html">RS</a></div></footer>
+  </main>
+
+</div><!-- /shell -->
+
+<!-- ── Floating launch button ── -->
+<button type="button" class="drawer-fab" id="drawer-fab" aria-label="Open AI Assistant &amp; Commentary">
+  <span class="drawer-fab-icon">
+    <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M7.5 1.5a.5.5 0 0 1 .5.5v1.2a4.5 4.5 0 0 1 3.8 3.8h1.2a.5.5 0 0 1 0 1h-1.2A4.5 4.5 0 0 1 8 11.8v1.2a.5.5 0 0 1-1 0v-1.2A4.5 4.5 0 0 1 3.2 8H2a.5.5 0 0 1 0-1h1.2A4.5 4.5 0 0 1 7 3.2V2a.5.5 0 0 1 .5-.5z"/></svg>
+  </span>
+  Polaris Assistant
+</button>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+(function () {
+  /* Tooltip logic */
+  var tip = document.getElementById('tip');
+  function showTip(e) {
+    var t = e.target.closest('[data-tip]');
+    if (!t) return;
+    tip.textContent = t.getAttribute('data-tip');
+    tip.classList.add('on');
+    var rect = t.getBoundingClientRect();
+    var top = rect.top - tip.offsetHeight - 6;
+    var left = rect.left + (rect.width - tip.offsetWidth) / 2;
+    if (top < 8) top = rect.bottom + 6;
+    if (left < 8) left = 8;
+    if (left + tip.offsetWidth > window.innerWidth - 8) left = window.innerWidth - tip.offsetWidth - 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.classList.remove('on'); }
+  document.addEventListener('mouseover', showTip);
+  document.addEventListener('mouseout', hideTip);
+  document.addEventListener('focusin', showTip);
+  document.addEventListener('focusout', hideTip);
+
+  /* Toggles */
+  var st = { fmt: 'both', cmp: 'pva' };
+  var tgWrap = document.getElementById('cfo-toggles');
+  var hk = document.getElementById('headline-kpis');
+  var HT = ['cfo-headline-kpis-table', 'cfo-consolidated-pl-table', 'cfo-operational-metrics-table'];
+
+  function applyHeadline() {
+    var plan = st.cmp === 'plan', usd = st.fmt === 'usd';
+    if (hk) { hk.setAttribute('data-cmp', st.cmp); hk.setAttribute('data-fmt', st.fmt); }
+    HT.forEach(function (id) {
+      var t = document.getElementById(id); if (!t) return;
+      t.classList.toggle('tg-plan', plan); t.classList.toggle('tg-usd', usd);
+    });
+  }
+
+  if (tgWrap) {
+    tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+        b.parentNode.querySelectorAll('button').forEach(function (x) {
+          x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+        });
+        applyHeadline();
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
