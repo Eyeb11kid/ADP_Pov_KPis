@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAS Expense P&L 2 — Executive Close — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #5b2fc0; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Layout Shell */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Workspace */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #fee2e2; color: #b91c1c; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #fecaca; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Headline 5-KPI Strip */
+  .headline-kpi-bar {
+    background: #fff;
+    border: 1px solid var(--line);
+    margin: 14px 20px 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .hkpi-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hkpi-bar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--p-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hkpi-bar-badge {
+    background: #fee2e2;
+    color: var(--adp);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
+  .cfo-tg button:hover { background: #f1f5f9; }
+  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+
+  .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 1100px) { .kpis.kpis-5 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
+
+  .kpis.kpis-5 > .kpi {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: 3px solid var(--adp);
+    border-radius: 4px;
+    padding: 12px 14px 10px;
+    min-width: 0;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .kpis.kpis-5 > .kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
+    background: #ffffff;
+  }
+  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #c8322f; }
+  .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #e5a83f; }
+  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #0f62fe; }
+  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #5b2fc0; }
+  .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #009d9a; }
+
+  .kpi-val { font-size: 22px; font-weight: 700; color: #0f172a; line-height: 1.15; margin-bottom: 2px; }
+  .kpi-label { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 1px; }
+  .kpi-desc { font-size: 10.5px; color: #64748b; margin-bottom: 4px; }
+  .kpi-var { font-size: 11px; margin-top: auto; padding-top: 4px; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+  .kpi-row { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; padding-top: 2px; }
+  .kpi-row b { color: #1e293b; font-weight: 600; }
+  .kpi-drill { font-size: 10.5px; color: var(--blue); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 2px; margin-top: 3px; }
+  .kpi-drill:hover { text-decoration: underline; }
+
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* Mode data controls for Headline */
+  [data-cmp="pva"] .m-plan { display: none !important; }
+  [data-cmp="plan"] .m-pva { display: none !important; }
+  [data-fmt="val"] .m-both { display: none !important; }
+
+  /* Two-Column EPM Layout */
+  .epm-layout-grid {
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    gap: 16px;
+    padding: 16px 20px 24px;
+    align-items: start;
+  }
+  @media (max-width: 1200px) {
+    .epm-layout-grid { grid-template-columns: 1fr; }
+  }
+
+  .left-col, .right-col { display: flex; flex-direction: column; gap: 16px; }
+
+  /* EPM Cards / Boxes */
+  .epm-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .epm-box-hdr {
+    background: #1e293b;
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .epm-box-hdr.light {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .epm-box-hdr .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+
+  /* Right Tabstrip within Card */
+  .right-tabstrip {
+    display: flex;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+    padding: 0 8px;
+    overflow-x: auto;
+  }
+  .right-tab {
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .right-tab:hover { color: #fff; }
+  .right-tab.active {
+    color: #fff;
+    border-bottom-color: #38bdf8;
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Account Hierarchy sub-tabs (Employee / Non-Employee) */
+  .acct-total-strip {
+    display: flex; flex-wrap: wrap; gap: 6px 24px;
+    padding: 8px 12px; background: #e2e8f0; border-bottom: 1px solid #cbd5e1;
+    font-size: 12px; color: #0f172a;
+  }
+  .acct-total-strip > div { display: flex; align-items: baseline; gap: 6px; }
+  .acct-total-lbl { font-size: 10.5px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
+  .sub-tabstrip { display: flex; background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0 8px; overflow-x: auto; }
+  .sub-tab {
+    padding: 7px 14px; font-size: 11.5px; font-weight: 600; color: #475569;
+    background: transparent; border: 0; border-bottom: 2px solid transparent;
+    cursor: pointer; white-space: nowrap; transition: all 0.15s;
+  }
+  .sub-tab:hover { color: #0f172a; }
+  .sub-tab.active { color: #0f172a; border-bottom-color: #38bdf8; background: #fff; }
+
+  /* Tables */
+  .epm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .epm-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 6px 10px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .epm-table th:first-child { text-align: left; }
+  .epm-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: right;
+    color: #1e293b;
+    font-variant-numeric: tabular-nums;
+  }
+  .epm-table td:first-child { text-align: left; }
+  .epm-table tr:hover td { background: #f8fafc; }
+  
+  .epm-table tr.summary-row td {
+    font-weight: 700;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .epm-table tr.group-hdr td {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #cbd5e1;
+  }
+
+  .indent { padding-left: 20px !important; }
+  .indent2 { padding-left: 32px !important; }
+  .indent3 { padding-left: 44px !important; }
+  .indent4 { padding-left: 56px !important; }
+
+  /* Expand/Collapse Chevron Toggles */
+  .exp-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    background: #e2e8f0;
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 6px;
+    user-select: none;
+    line-height: 1;
+  }
+  .exp-toggle:hover { background: #cbd5e1; color: #000; }
+  .child-row { display: none; }
+  .child-row.open { display: table-row; }
+  .expand-ctrls { font-size: 11px; color: var(--blue); cursor: pointer; text-decoration: underline; }
+
+  /* Tooltip Container */
+  .tip {
+    position: fixed;
+    z-index: 9999;
+    background: #161616;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.45;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .tip.on { opacity: 1; }
+
+  /* Site Footer */
+  .site-footer {
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 12px 20px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- Top Chrome -->
+<header class="chrome">
+  <div class="chrome-l">
+    <span class="chrome-logo">ADP</span>
+    <span>Project Polaris · Executive Planning &amp; Close</span>
+  </div>
+  <div class="chrome-r">
+    <span>Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span>FP&amp;A Lead: <b>Marcus Vance (BU CFO NAS)</b></span>
+    <div class="avatar" title="NAS Business Unit Lead">MV</div>
+  </div>
+</header>
+
+<!-- EPM Application Header Bar -->
+<div class="epm-topbar">
+  <div class="epm-title-block">
+    <span class="epm-app-badge">NAS EXPENSE 2</span>
+    <div class="epm-plan-select" id="planDropdownBtn">
+      <span>BUDGET FY27 Q1 Close with Actuals (NAS Lyric)</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="epm-meta-links">
+    <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a>
+    <span>|</span>
+    <a href="nas_dashboard_2.html">NAS Cockpit 2</a>
+    <span>|</span>
+    <a href="revenue_analysis_NAS_2.html">NAS Revenue 2</a>
+    <span>|</span>
+    <a href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+    <span>|</span>
+    <a href="expense_pl_NAS_2.html" style="color:#fff;font-weight:700;">NAS Expense 2</a>
+    <span>|</span>
+    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
+  </div>
+</div>
+
+<!-- EPM Sub Filter Strip -->
+<div class="epm-filter-strip">
+  <span class="ef-label">Filters:</span>
+  <span class="ef-pill active" data-filter="scope">Entity: NAS (Lyric Cons)</span>
+  <span class="ef-pill" data-filter="cost-cat">Costs: All Controllable</span>
+  <span class="ef-pill" data-filter="dept">Dept: All Departments</span>
+  <span class="ef-sep"></span>
+  <span class="ef-label">View:</span>
+  <span class="ef-pill active" id="pill-pva">PVA (Plan vs Actual)</span>
+  <span class="ef-pill" id="pill-plan">Plan Baseline</span>
+  <span class="ef-pill" id="pill-yoy">YoY Comparison</span>
+  <span class="ef-sep"></span>
+  <span class="ef-label">Units:</span>
+  <span class="ef-pill active" id="pill-k">$K USD</span>
+  <span class="ef-pill" id="pill-m">$M USD</span>
+</div>
+
+<!-- Navigation Tabs Strip -->
+<nav class="epm-tabstrip" id="mainTabStrip" aria-label="EPM Main Views">
+  <a class="epm-tab active" data-tab="exp-overview" onclick="switchMainTab('exp-overview')">Expense P&amp;L Cockpit</a>
+  <a class="epm-tab" data-tab="account-hier" onclick="switchRightTabByDirect('tab-accounthier')">Account Hierarchy (FEX-01)</a>
+  <a class="epm-tab" data-tab="dept-breakdown" onclick="switchRightTabByDirect('tab-deptbreak')">Department &amp; Cost Centers (FEX-03)</a>
+  <a class="epm-tab" data-tab="alloc-nde" onclick="switchRightTabByDirect('tab-allocnde')">Shared Allocations &amp; NDE</a>
+  <a class="epm-tab" data-tab="hc-org" onclick="switchRightTabByDirect('tab-hcorg')">Headcount &amp; Organization (FEX-02)</a>
+</nav>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+    </div>
+    
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub active" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <details class="sb-acc" name="sb-acc" open>
+      <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard 2</a>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="nas_dashboard_2.html">NAS Cockpit 2</a><span>/</span>Expense P&amp;L 2</div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            <span>NAS Expense P&amp;L 2 — Controllable Costs &amp; Functional Governance</span>
+            <span class="badge">EPM · Level 2 Drilldown</span>
+          </div>
+          <div class="page-sub">National Account Services · September Close (M3/Q1 FY27) · Comprehensive Field Expense Governance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Headline 5-KPI Strip -->
+    <div class="headline-kpi-bar">
+      <div class="hkpi-top-row">
+        <div class="hkpi-bar-title">
+          <span>Expense Headline Performance (September Close)</span>
+          <span class="hkpi-bar-badge">NAS Expense</span>
+        </div>
+        <div class="cfo-tg-wrap" id="cfo-toggles">
+          <div class="cfo-tg" data-k="fmt">
+            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
+            <button type="button" data-v="val" aria-pressed="false">$ only</button>
+          </div>
+          <div class="cfo-tg" data-k="cmp">
+            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+            <button type="button" data-v="plan" aria-pressed="false">Plan only</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+        
+        <!-- 1. Total Field Expense -->
+        <div class="kpi nd" id="hkpi-fieldexp" data-tip="<b>Total Controllable Field Expense</b><br>Actual: $60,800.0K vs Plan $59,000.0K (−$1,800.0K / +3.0% overspend)<br>YTD: $174,600.0K (+$3,400.0K / +2.0% vs plan)">
+          <div class="kpi-val"><span class="m-pva">$60.8M</span><span class="m-plan">$59.0M</span></div>
+          <div class="kpi-label">Field Expense</div>
+          <div class="kpi-desc">Controllable Business Unit Cost</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$1.8M</span><span class="m-both"> (+3.0%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>YTD Act</span><b>$174.6M (+2.0%)</b></div>
+          <div class="kpi-row m-pva m-both"><span>% of Rev</span><b>50.7% (Plan 50.9%)</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.1%</b></div>
+        </div>
+
+        <!-- 2. EE-Related Expense -->
+        <div class="kpi nd" id="hkpi-eeexp" data-tip="<b>Employee-Related Expenses</b><br>Actual: $34,200.0K vs Plan $33,000.0K (−$1,200.0K / +3.6% overspend)<br>Salary +$0.6M · Benefits +$0.1M · Overtime +$0.1M">
+          <div class="kpi-val"><span class="m-pva">$34.2M</span><span class="m-plan">$33.0M</span></div>
+          <div class="kpi-label">EE-Related Expense</div>
+          <div class="kpi-desc">Compensation &amp; Benefits</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$1.2M</span><span class="m-both"> (+3.6%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Mix</span><b>56.3% of Field Exp</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+4.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+1.2%</b></div>
+        </div>
+
+        <!-- 3. Non-EE Direct & Facility Costs -->
+        <div class="kpi nd" id="hkpi-noneeexp" data-tip="<b>Non-Employee Direct &amp; Facility Costs</b><br>Actual: $26,600.0K vs Plan $26,000.0K (−$600.0K variance)<br>Direct Costs $2.4M · Consulting $22.7M · Facility $0.6M · Offset ($0.5M)">
+          <div class="kpi-val"><span class="m-pva">$26.6M</span><span class="m-plan">$26.0M</span></div>
+          <div class="kpi-label">Non-EE &amp; Technology</div>
+          <div class="kpi-desc">Direct Operations &amp; Consulting</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$0.6M</span><span class="m-both"> (+2.3%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Mix</span><b>43.7% of Field Exp</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+3.5%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+1.2%</b></div>
+        </div>
+
+        <!-- 4. Headcount (Ending FTE) -->
+        <div class="kpi nd" id="hkpi-hcexp" data-tip="<b>Ending Headcount (FTEs)</b><br>Actual: 860 FTEs vs Plan 850 FTEs (+10 FTE variance)<br>Onshore 575 · Offshore GBS 285 (33.1% shoring mix)">
+          <div class="kpi-val"><span class="m-pva">860</span><span class="m-plan">850</span></div>
+          <div class="kpi-label">Headcount (Ending)</div>
+          <div class="kpi-desc">Active Workforce Capacity</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ +10 FTEs</span><span class="m-both"> (+1.2%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Shoring Mix</span><b>33.1% Offshore</b></div>
+          <div class="kpi-row m-pva m-both"><span>Target</span><b>35.0% by FY28</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY</span><b>+2.4%</b></div>
+        </div>
+
+        <!-- 5. Expense per FTE -->
+        <div class="kpi nd" id="hkpi-expfte" data-tip="<b>Monthly Field Expense per FTE</b><br>Actual: $70.7K vs Plan $68.9K (−$1.8K / +2.6% over plan)<br>Reflects temporary implementation surge for Lyric">
+          <div class="kpi-val"><span class="m-pva">$70.7K</span><span class="m-plan">$68.9K</span></div>
+          <div class="kpi-label">Expense / FTE</div>
+          <div class="kpi-desc">Unit Workforce Cost</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$1.8K</span><span class="m-both"> (+2.6%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Rev / FTE</span><b>$139.5K (+2.2%)</b></div>
+          <div class="kpi-row m-pva m-both"><span>Spread</span><b>+$68.8K / FTE</b></div>
+          <div class="kpi-row m-plan m-both"><span>Target</span><b>+$67.6K</b></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN EPM LAYOUT -->
+    <div id="cockpit-container">
+      <div class="epm-layout-grid">
+
+        <!-- LEFT COLUMN: Management Expense Summary & Cost Center Breakdown -->
+        <div class="left-col">
+
+          <!-- Section 1: Management Expense Summary -->
+          <div class="epm-box">
+            <div class="epm-box-hdr">
+              <span>MANAGEMENT EXPENSE P&amp;L ($K)</span>
+              <div class="tools"><span>September Close</span></div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Cost Category</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>% of Rev</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row" style="background:#edf2f7;">
+                    <td>Total revenue (reference)</td>
+                    <td>120,000.0</td>
+                    <td>116,000.0</td>
+                    <td class="fav">+4,000.0</td>
+                    <td>100.0%</td>
+                  </tr>
+                  <tr>
+                    <td>Field expense (Controllable)</td>
+                    <td>60,800.0</td>
+                    <td>59,000.0</td>
+                    <td class="unf">(1,800.0)</td>
+                    <td>50.7%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#e0f2fe;">
+                    <td>Field NOI (Controllable Profit)</td>
+                    <td>59,200.0</td>
+                    <td>57,000.0</td>
+                    <td class="fav">+2,200.0</td>
+                    <td class="fav">49.3%</td>
+                  </tr>
+                  <tr>
+                    <td>NDE (National Dedicated Expense)</td>
+                    <td>18,200.0</td>
+                    <td>18,900.0</td>
+                    <td class="fav">+700.0</td>
+                    <td>15.2%</td>
+                  </tr>
+                  <tr>
+                    <td>Shared service allocations (excl. NDE)</td>
+                    <td>13,000.0</td>
+                    <td>13,600.0</td>
+                    <td class="fav">+600.0</td>
+                    <td>10.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f1f5f9;">
+                    <td>Total expenses</td>
+                    <td>92,000.0</td>
+                    <td>91,500.0</td>
+                    <td class="unf">(500.0)</td>
+                    <td>76.7%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #c8322f;">
+                    <td>NOI (Operating Profit / EBIT)</td>
+                    <td>28,000.0</td>
+                    <td>24,500.0</td>
+                    <td class="fav">+3,500.0</td>
+                    <td class="fav">23.3%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 2: Department Breakdown -->
+          <div class="epm-box">
+            <div class="epm-box-hdr light">
+              <span>FIELD EXPENSE BY DEPARTMENT (FEX-03)</span>
+              <span style="font-size:10px;color:#64748b;">POV Functional View ($K)</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Department</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>% of Field</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Base Department (Client Service &amp; Ops)</td><td>22,400.0</td><td>22,000.0</td><td class="unf">(400.0)</td><td>36.8%</td></tr>
+                  <tr><td>Implementation Department (Onboarding)</td><td>18,600.0</td><td>17,800.0</td><td class="unf">(800.0)</td><td>30.6%</td></tr>
+                  <tr><td>Account Management &amp; Retention</td><td>11,200.0</td><td>10,900.0</td><td class="unf">(300.0)</td><td>18.4%</td></tr>
+                  <tr><td>Technology Support &amp; Local Cloud Ops</td><td>8,600.0</td><td>8,300.0</td><td class="unf">(300.0)</td><td>14.2%</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;">
+                    <td>Total Field Expense Subtotal</td>
+                    <td>60,800.0</td>
+                    <td>59,000.0</td>
+                    <td class="unf">(1,800.0)</td>
+                    <td>100.0%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Tabbed Detailed Views -->
+        <div class="right-col">
+
+          <div class="epm-box">
+            <!-- Right Tab Strip -->
+            <div class="right-tabstrip">
+              <button class="right-tab active" onclick="switchRightTab(this, 'tab-accounthier')">Account Hierarchy (FEX-01)</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-allocnde')">Allocations &amp; NDE</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-hcorg')">Headcount &amp; Shoring (FEX-02)</button>
+            </div>
+
+            <!-- TAB 1: Account Hierarchy (Full Screenshot 1 Columns 2, 3, 4) -->
+            <div id="tab-accounthier" class="right-tab-pane">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Granular Expense P&amp;L (Full Account Hierarchy)</span>
+                <span class="expand-ctrls" onclick="toggleAllRows('tab-accounthier')">Expand / Collapse All</span>
+              </div>
+              <div class="acct-total-strip">
+                <div><span class="acct-total-lbl">Total Field expense</span><b>60,800.0</b></div>
+                <div><span class="acct-total-lbl">Plan</span><b>59,000.0</b></div>
+                <div><span class="acct-total-lbl">Var</span><b class="unf">(1,800.0)</b></div>
+                <div><span class="acct-total-lbl">QTD Act</span><b>174,600.0</b></div>
+              </div>
+
+              <!-- Sub-tabs: Employee / Non-Employee -->
+              <div class="sub-tabstrip" id="acctSubTabs">
+                <button type="button" class="sub-tab active" onclick="switchAcctSubTab(this, 'acct-sub-ee')">Employee Related Expense</button>
+                <button type="button" class="sub-tab" onclick="switchAcctSubTab(this, 'acct-sub-nonee')">Non-Employee Related Expense</button>
+              </div>
+
+              <!-- SUB-TAB 1: Employee Related Expense -->
+              <div id="acct-sub-ee" class="acct-sub-pane">
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width:300px;">Account Line &amp; Description</th>
+                      <th>Sep Act $K</th>
+                      <th>Plan $K</th>
+                      <th>Var $K</th>
+                      <th>QTD Act $K</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- 1. Employee related -->
+                    <tr class="group-hdr"><td colspan="5">Employee related ($34,200.0K)</td></tr>
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'comp-fex-rows')">−</span>Total compensation</td>
+                      <td>30,341.9</td>
+                      <td>29,200.0</td>
+                      <td class="unf">(1,141.9)</td>
+                      <td>87,400.0</td>
+                    </tr>
+                    
+                    <!-- Salary - Trad sub-hierarchy -->
+                    <tr class="child-row open comp-fex-rows">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'sal-trad-fex')">−</span>Salary - Trad</td>
+                      <td>14,800.0</td>
+                      <td>14,200.0</td>
+                      <td class="unf">(600.0)</td>
+                      <td>42,600.0</td>
+                    </tr>
+                    <tr class="child-row open sal-trad-fex"><td class="indent2">Core Trad Salary</td><td>14,390.0</td><td>13,800.0</td><td class="unf">(590.0)</td><td>41,400.0</td></tr>
+                    <tr class="child-row open sal-trad-fex">
+                      <td class="indent2"><span class="exp-toggle" onclick="toggleRow(this, 'ic-charges-fex')">−</span>Intercompany Charges</td>
+                      <td>410.0</td>
+                      <td>400.0</td>
+                      <td class="unf">(10.0)</td>
+                      <td>1,200.0</td>
+                    </tr>
+                    <tr class="child-row open ic-charges-fex"><td class="indent3">IC Income</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open ic-charges-fex"><td class="indent3">IC Expense</td><td>410.0</td><td>400.0</td><td class="unf">(10.0)</td><td>1,200.0</td></tr>
+                    <tr class="child-row open sal-trad-fex"><td class="indent2">Salary - OneADP</td><td>4,950.0</td><td>4,800.0</td><td class="unf">(150.0)</td><td>14,200.0</td></tr>
+                    <tr class="child-row open sal-trad-fex"><td class="indent2">Overtime - Trad</td><td>102.0</td><td>90.0</td><td class="unf">(12.0)</td><td>295.0</td></tr>
+                    <tr class="child-row open sal-trad-fex"><td class="indent2">Overtime - OneADP</td><td>52.0</td><td>45.0</td><td class="unf">(7.0)</td><td>150.0</td></tr>
+
+                    <!-- Offshore Salary -->
+                    <tr class="child-row open comp-fex-rows">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'offshore-fex')">−</span>Total Offshore Salary</td>
+                      <td>1,990.0</td>
+                      <td>1,900.0</td>
+                      <td class="unf">(90.0)</td>
+                      <td>5,700.0</td>
+                    </tr>
+                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - India</td><td>1,715.0</td><td>1,640.0</td><td class="unf">(75.0)</td><td>4,920.0</td></tr>
+                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - Philippines</td><td>275.0</td><td>260.0</td><td class="unf">(15.0)</td><td>780.0</td></tr>
+                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - Romania</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - FEC Offshore</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+
+                    <tr class="child-row open comp-fex-rows"><td class="indent">Outside Labor</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open comp-fex-rows"><td class="indent">Bonus</td><td>1,485.0</td><td>1,420.0</td><td class="unf">(65.0)</td><td>4,250.0</td></tr>
+                    <tr class="child-row open comp-fex-rows"><td class="indent">P/R Taxes</td><td>1,195.0</td><td>1,150.0</td><td class="unf">(45.0)</td><td>3,450.0</td></tr>
+                    <tr class="child-row open comp-fex-rows"><td class="indent">Benefits</td><td>3,610.0</td><td>3,500.0</td><td class="unf">(110.0)</td><td>10,400.0</td></tr>
+                    <tr class="child-row open comp-fex-rows"><td class="indent">Stock Based Comp (Deactivated)</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td></tr>
+                    <tr class="child-row open comp-fex-rows"><td class="indent">Stock Based Comp Allocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+
+                    <!-- Total employee other -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'emp-other-fex')">−</span>Total employee other</td>
+                      <td>3,848.1</td>
+                      <td>3,790.0</td>
+                      <td class="unf">(58.1)</td>
+                      <td>11,000.0</td>
+                    </tr>
+                    <tr class="child-row open emp-other-fex"><td class="indent">T&amp;E (Travel &amp; Entertainment)</td><td>1,400.0</td><td>1,350.0</td><td class="unf">(50.0)</td><td>4,000.0</td></tr>
+                    <tr class="child-row open emp-other-fex"><td class="indent">Severance</td><td>18.0</td><td>20.0</td><td class="fav">+2.0</td><td>55.0</td></tr>
+                    <tr class="child-row open emp-other-fex"><td class="indent">Relocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open emp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'hr-tuition-fex')">−</span>HR/Training/Tuition/Awards/Workers Comp/Other</td>
+                      <td>2,430.1</td>
+                      <td>2,420.0</td>
+                      <td class="unf">(10.1)</td>
+                      <td>6,945.0</td>
+                    </tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Tuition</td><td>298.0</td><td>295.0</td><td class="unf">(3.0)</td><td>850.0</td></tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Training</td><td>180.0</td><td>180.0</td><td>0.0</td><td>520.0</td></tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Internal Exp Rev Offset GBS Non Salary</td><td>24.0</td><td>25.0</td><td class="fav">+1.0</td><td>70.0</td></tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Auto Allowance</td><td>56.0</td><td>55.0</td><td class="unf">(1.0)</td><td>160.0</td></tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Employee Activities</td><td>810.0</td><td>805.0</td><td class="unf">(5.0)</td><td>2,320.0</td></tr>
+                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Recruiting &amp; Contests</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+
+                  </tbody>
+                </table>
+              </div>
+              </div>
+
+              <!-- SUB-TAB 2: Non-Employee Related Expense -->
+              <div id="acct-sub-nonee" class="acct-sub-pane" style="display:none;">
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width:300px;">Account Line &amp; Description</th>
+                      <th>Sep Act $K</th>
+                      <th>Plan $K</th>
+                      <th>Var $K</th>
+                      <th>QTD Act $K</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- 2. Non-Employee Related -->
+                    <tr class="group-hdr"><td colspan="5">Non-employee related ($26,600.0K)</td></tr>
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-cost-fex')">−</span>Total direct costs</td>
+                      <td>2,420.0</td>
+                      <td>2,400.0</td>
+                      <td class="unf">(20.0)</td>
+                      <td>6,950.0</td>
+                    </tr>
+                    <tr class="child-row open direct-cost-fex"><td class="indent">Bad Debt Trade</td><td>352.0</td><td>350.0</td><td class="unf">(2.0)</td><td>1,010.0</td></tr>
+                    <tr class="child-row open direct-cost-fex"><td class="indent">SASS Vendor Costs</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open direct-cost-fex"><td class="indent">Rebillable Expenses</td><td>21.0</td><td>20.0</td><td class="unf">(1.0)</td><td>60.0</td></tr>
+                    <tr class="child-row open direct-cost-fex"><td class="indent">W-2 Expense</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row open direct-cost-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'other-dir-fex')">−</span>Other Direct Costs</td>
+                      <td>44.0</td>
+                      <td>45.0</td>
+                      <td class="fav">+1.0</td>
+                      <td>125.0</td>
+                    </tr>
+                    <tr class="child-row open other-dir-fex"><td class="indent2">Allowance NSF</td><td>43.6</td><td>44.0</td><td class="fav">+0.4</td><td>124.0</td></tr>
+                    <tr class="child-row open other-dir-fex"><td class="indent2">Forms and Cards</td><td>0.4</td><td>1.0</td><td class="fav">+0.6</td><td>1.0</td></tr>
+
+                    <!-- Total expense other -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'exp-other-fex')">−</span>Total expense other</td>
+                      <td>24,638.0</td>
+                      <td>24,000.0</td>
+                      <td class="unf">(638.0)</td>
+                      <td>70,800.0</td>
+                    </tr>
+                    <tr class="child-row open exp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fac-fex')">−</span>Total Facility Related</td>
+                      <td>564.0</td>
+                      <td>550.0</td>
+                      <td class="unf">(14.0)</td>
+                      <td>1,620.0</td>
+                    </tr>
+                    <tr class="child-row open fac-fex"><td class="indent2">Maintenance Contracts</td><td>31.0</td><td>30.0</td><td class="unf">(1.0)</td><td>90.0</td></tr>
+                    <tr class="child-row open fac-fex"><td class="indent2">Non-Capital Purchases &amp; Software</td><td>523.0</td><td>510.0</td><td class="unf">(13.0)</td><td>1,500.0</td></tr>
+                    <tr class="child-row open fac-fex"><td class="indent2">Other Facility/Equipment Maintenance</td><td>10.0</td><td>10.0</td><td>0.0</td><td>30.0</td></tr>
+
+                    <!-- Total Other Fees and Costs -->
+                    <tr class="child-row open exp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fees-fex')">−</span>Total Other Fees and Costs</td>
+                      <td>24,064.0</td>
+                      <td>23,440.0</td>
+                      <td class="unf">(624.0)</td>
+                      <td>69,150.0</td>
+                    </tr>
+                    <tr class="child-row open fees-fex"><td class="indent2">License Fees</td><td>1,325.0</td><td>1,300.0</td><td class="unf">(25.0)</td><td>3,800.0</td></tr>
+                    <tr class="child-row open fees-fex"><td class="indent2">OBE (Operating Business Expense)</td><td>1.4</td><td>1.5</td><td class="fav">+0.1</td><td>4.0</td></tr>
+                    <tr class="child-row open fees-fex"><td class="indent2">Consulting/Professional Fees</td><td>22,735.0</td><td>22,135.0</td><td class="unf">(600.0)</td><td>65,340.0</td></tr>
+                    <tr class="child-row open fees-fex"><td class="indent2">Dues, Subscriptions &amp; Insurance</td><td>1.0</td><td>1.2</td><td class="fav">+0.2</td><td>3.0</td></tr>
+                    <tr class="child-row open fees-fex"><td class="indent2">Delivery and Mailing</td><td>0.2</td><td>0.3</td><td class="fav">+0.1</td><td>0.6</td></tr>
+
+                    <!-- Expense Revenue Offsets -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'offset-fex')">−</span>Total expense revenue offset</td>
+                      <td>(502.0)</td>
+                      <td>(490.0)</td>
+                      <td class="fav">+12.0</td>
+                      <td>(1,450.0)</td>
+                    </tr>
+                    <tr class="child-row open offset-fex"><td class="indent">WGPS Recovery</td><td>(165.0)</td><td>(160.0)</td><td class="fav">+5.0</td><td>(475.0)</td></tr>
+                    <tr class="child-row open offset-fex"><td class="indent">UCM Recovery</td><td>(297.0)</td><td>(290.0)</td><td class="fav">+7.0</td><td>(860.0)</td></tr>
+                    <tr class="child-row open offset-fex"><td class="indent">Internal Rev Offset Processing</td><td>(496.0)</td><td>(490.0)</td><td class="fav">+6.0</td><td>(1,430.0)</td></tr>
+                    <tr class="child-row open offset-fex"><td class="indent">Internal Exp Rev Offset Set Up</td><td>(5.0)</td><td>(5.0)</td><td>0.0</td><td>(15.0)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Allocations & NDE -->
+            <div id="tab-allocnde" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Shared Service Allocations &amp; NDE Governance</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Allocation Component</th>
+                      <th>Sep Act $K</th>
+                      <th>Plan $K</th>
+                      <th>Var $K</th>
+                      <th>Methodology</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>NDE (National Dedicated Expense)</td><td>18,200.0</td><td>18,900.0</td><td class="fav">+700.0</td><td>Direct Field Dedicated Cost</td></tr>
+                    <tr class="group-hdr"><td colspan="5">Shared Service Allocations (Excl. NDE)</td></tr>
+                    <tr><td class="indent">R&amp;D Allocation (Next-Gen Architecture)</td><td>5,200.0</td><td>5,400.0</td><td class="fav">+200.0</td><td>Platform Roadmap Hours</td></tr>
+                    <tr><td class="indent">Product Management Allocation</td><td>3,100.0</td><td>3,300.0</td><td class="fav">+200.0</td><td>Product Strategy Weighting</td></tr>
+                    <tr><td class="indent">GETS Global Technology Infrastructure</td><td>3,500.0</td><td>3,650.0</td><td class="fav">+150.0</td><td>Data Center / Cloud Usage</td></tr>
+                    <tr><td class="indent">Other Corporate Shared Services</td><td>1,200.0</td><td>1,250.0</td><td class="fav">+50.0</td><td>Revenue/Headcount Blend</td></tr>
+                    <tr class="summary-row" style="background:#e0f2fe;">
+                      <td>Total Shared Service Allocations</td>
+                      <td>13,000.0</td>
+                      <td>13,600.0</td>
+                      <td class="fav">+600.0</td>
+                      <td>Corporate Cost Allocation Beat</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 3: Headcount & Shoring (FEX-02) -->
+            <div id="tab-hcorg" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Headcount, FTE Counts &amp; Location Governance (FEX-02)</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Workforce Category &amp; Location</th>
+                      <th>Ending FTE</th>
+                      <th>Plan FTE</th>
+                      <th>Var</th>
+                      <th>Cost / FTE ($K)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="summary-row"><td>Total Headcount (Ending)</td><td>860</td><td>850</td><td class="unf">(10)</td><td>$70.7K</td></tr>
+                    <tr><td class="indent">Traditional (US Onshore)</td><td>380</td><td>375</td><td class="unf">(5)</td><td>$98.2K</td></tr>
+                    <tr><td class="indent">OneADP (US Onshore Hubs)</td><td>195</td><td>195</td><td>0</td><td>$74.5K</td></tr>
+                    <tr class="group-hdr"><td colspan="5">Offshore Delivery Centers (GBS)</td></tr>
+                    <tr><td class="indent">India (Hyderabad &amp; Chennai)</td><td>235</td><td>230</td><td class="unf">(5)</td><td>$22.8K</td></tr>
+                    <tr><td class="indent">Philippines (Manila Center)</td><td>50</td><td>50</td><td>0</td><td>$21.4K</td></tr>
+                    <tr><td class="indent">Romania &amp; Other Offshore</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
+                    <tr class="summary-row" style="background:#f8fafc;">
+                      <td>Offshore Shoring Mix %</td>
+                      <td>33.1%</td>
+                      <td>32.9%</td>
+                      <td class="fav">+20 bps</td>
+                      <td>Target 35.0%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · National Account Services (NAS) Expense P&amp;L 2 · September Close Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="nas_dashboard_2.html">NAS Dashboard 2</a>
+    <a href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+    <a href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+    <a href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<!-- Tooltip Container -->
+<div class="tip" id="tip"></div>
+
+<script>
+  (function initTooltips() {
+    var tip = document.getElementById('tip');
+    if (!tip) return;
+    document.addEventListener('mouseover', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (!t) return;
+      tip.innerHTML = t.getAttribute('data-tip');
+      tip.classList.add('on');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!tip.classList.contains('on')) return;
+      var x = e.clientX + 14, y = e.clientY + 14;
+      if (x + tip.offsetWidth > window.innerWidth - 12) x = e.clientX - tip.offsetWidth - 14;
+      if (y + tip.offsetHeight > window.innerHeight - 12) y = e.clientY - tip.offsetHeight - 14;
+      tip.style.left = Math.max(8, x) + 'px';
+      tip.style.top = Math.max(8, y) + 'px';
+    });
+    document.addEventListener('mouseout', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (t) tip.classList.remove('on');
+    });
+  })();
+
+  function switchAcctSubTab(btn, paneId) {
+    document.querySelectorAll('#acctSubTabs .sub-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('#tab-accounthier .acct-sub-pane').forEach(function(p) { p.style.display = 'none'; });
+    btn.classList.add('active');
+    var target = document.getElementById(paneId);
+    if (target) target.style.display = 'block';
+  }
+
+  function switchRightTab(btn, paneId) {
+    var tabs = document.querySelectorAll('.right-tab');
+    var panes = document.querySelectorAll('.right-tab-pane');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    btn.classList.add('active');
+    var target = document.getElementById(paneId);
+    if (target) target.style.display = 'block';
+  }
+
+  function switchRightTabByDirect(paneId) {
+    var panes = document.querySelectorAll('.right-tab-pane');
+    var tabs = document.querySelectorAll('.right-tab');
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    
+    var target = document.getElementById(paneId);
+    if (target) {
+      target.style.display = 'block';
+      tabs.forEach(function(t) {
+        if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(paneId) !== -1) {
+          t.classList.add('active');
+        }
+      });
+    }
+  }
+
+  function switchMainTab(tabKey) {
+    var tabs = document.querySelectorAll('#mainTabStrip .epm-tab');
+    tabs.forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tabKey);
+    });
+  }
+
+  function toggleRow(toggleBtn, groupClass) {
+    var rows = document.querySelectorAll('tr.' + groupClass);
+    var isOpen = toggleBtn.textContent.trim() === '−';
+    if (isOpen) {
+      toggleBtn.textContent = '+';
+      rows.forEach(function(r) { r.classList.remove('open'); });
+    } else {
+      toggleBtn.textContent = '−';
+      rows.forEach(function(r) { r.classList.add('open'); });
+    }
+  }
+
+  function toggleAllRows(paneId) {
+    var pane = document.getElementById(paneId);
+    if (!pane) return;
+    var toggles = pane.querySelectorAll('.exp-toggle');
+    var childRows = pane.querySelectorAll('tr.child-row');
+    var anyClosed = false;
+    childRows.forEach(function(r) { if (!r.classList.contains('open')) anyClosed = true; });
+    if (anyClosed) {
+      childRows.forEach(function(r) { r.classList.add('open'); });
+      toggles.forEach(function(t) { t.textContent = '−'; });
+    } else {
+      childRows.forEach(function(r) { r.classList.remove('open'); });
+      toggles.forEach(function(t) { t.textContent = '+'; });
+    }
+  }
+
+  (function initHeadlineToggles() {
+    var st = { fmt: 'both', cmp: 'pva' };
+    var tgWrap = document.getElementById('cfo-toggles');
+    var hk = document.getElementById('headline-kpis');
+
+    function applyHeadline() {
+      if (hk) {
+        hk.setAttribute('data-cmp', st.cmp);
+        hk.setAttribute('data-fmt', st.fmt);
+      }
+    }
+
+    if (tgWrap) {
+      tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+          b.parentNode.querySelectorAll('button').forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          applyHeadline();
+        });
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

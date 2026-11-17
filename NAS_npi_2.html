@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAS NPI P&L 2 (Lyric) — Executive Close — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #5b2fc0; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Layout Shell */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Workspace */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #ede9fe; color: #5b2fc0; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #ddd6fe; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Headline 5-KPI Strip */
+  .headline-kpi-bar {
+    background: #fff;
+    border: 1px solid var(--line);
+    margin: 14px 20px 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .hkpi-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hkpi-bar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--p-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hkpi-bar-badge {
+    background: #ede9fe;
+    color: #5b2fc0;
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
+  .cfo-tg button:hover { background: #f1f5f9; }
+  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+
+  .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 1100px) { .kpis.kpis-5 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
+
+  .kpis.kpis-5 > .kpi {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: 3px solid var(--adp);
+    border-radius: 4px;
+    padding: 12px 14px 10px;
+    min-width: 0;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .kpis.kpis-5 > .kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
+    background: #ffffff;
+  }
+  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #5b2fc0; }
+  .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #0f62fe; }
+  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #0284c7; }
+  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #2e7d32; }
+  .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #e5a83f; }
+
+  .kpi-val { font-size: 22px; font-weight: 700; color: #0f172a; line-height: 1.15; margin-bottom: 2px; }
+  .kpi-label { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 1px; }
+  .kpi-desc { font-size: 10.5px; color: #64748b; margin-bottom: 4px; }
+  .kpi-var { font-size: 11px; margin-top: auto; padding-top: 4px; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+  .kpi-row { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; padding-top: 2px; }
+  .kpi-row b { color: #1e293b; font-weight: 600; }
+  .kpi-drill { font-size: 10.5px; color: var(--blue); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 2px; margin-top: 3px; }
+  .kpi-drill:hover { text-decoration: underline; }
+
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  /* Mode data controls for Headline */
+  [data-cmp="pva"] .m-plan { display: none !important; }
+  [data-cmp="plan"] .m-pva { display: none !important; }
+  [data-fmt="val"] .m-both { display: none !important; }
+
+  /* Two-Column EPM Layout */
+  .epm-layout-grid {
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    gap: 16px;
+    padding: 16px 20px 24px;
+    align-items: start;
+  }
+  @media (max-width: 1200px) {
+    .epm-layout-grid { grid-template-columns: 1fr; }
+  }
+
+  .left-col, .right-col { display: flex; flex-direction: column; gap: 16px; }
+
+  /* EPM Cards / Boxes */
+  .epm-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .epm-box-hdr {
+    background: #1e293b;
+    color: #fff;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .epm-box-hdr.light {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .epm-box-hdr .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #94a3b8;
+  }
+
+  /* Right Tabstrip within Card */
+  .right-tabstrip {
+    display: flex;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+    padding: 0 8px;
+    overflow-x: auto;
+  }
+  .right-tab {
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .right-tab:hover { color: #fff; }
+  .right-tab.active {
+    color: #fff;
+    border-bottom-color: #38bdf8;
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Tables */
+  .epm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .epm-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 6px 10px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .epm-table th:first-child { text-align: left; }
+  .epm-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: right;
+    color: #1e293b;
+    font-variant-numeric: tabular-nums;
+  }
+  .epm-table td:first-child { text-align: left; }
+  .epm-table tr:hover td { background: #f8fafc; }
+  
+  .epm-table tr.summary-row td {
+    font-weight: 700;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .epm-table tr.group-hdr td {
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #cbd5e1;
+  }
+
+  .indent { padding-left: 20px !important; }
+  .indent2 { padding-left: 32px !important; }
+  .indent3 { padding-left: 44px !important; }
+
+  /* Expand/Collapse Chevron Toggles */
+  .exp-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    background: #e2e8f0;
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 6px;
+    user-select: none;
+    line-height: 1;
+  }
+  .exp-toggle:hover { background: #cbd5e1; color: #000; }
+  .child-row { display: none; }
+  .child-row.open { display: table-row; }
+  .expand-ctrls { font-size: 11px; color: var(--blue); cursor: pointer; text-decoration: underline; }
+
+  /* Tooltip Container */
+  .tip {
+    position: fixed;
+    z-index: 9999;
+    background: #161616;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.45;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .tip.on { opacity: 1; }
+
+  /* Site Footer */
+  .site-footer {
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 12px 20px;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- Top Chrome -->
+<header class="chrome">
+  <div class="chrome-l">
+    <span class="chrome-logo">ADP</span>
+    <span>Project Polaris · Executive Planning &amp; Close</span>
+  </div>
+  <div class="chrome-r">
+    <span>Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span>FP&amp;A Lead: <b>Marcus Vance (BU CFO NAS)</b></span>
+    <div class="avatar" title="NAS Business Unit Lead">MV</div>
+  </div>
+</header>
+
+<!-- EPM Application Header Bar -->
+<div class="epm-topbar">
+  <div class="epm-title-block">
+    <span class="epm-app-badge">NAS NPI P&amp;L 2</span>
+    <div class="epm-plan-select" id="planDropdownBtn">
+      <span>BUDGET FY27 Q1 Close with Actuals (Next-Gen Lyric)</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="epm-meta-links">
+    <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a>
+    <span>|</span>
+    <a href="nas_dashboard_2.html">NAS Cockpit 2</a>
+    <span>|</span>
+    <a href="revenue_analysis_NAS_2.html">NAS Revenue 2</a>
+    <span>|</span>
+    <a href="NAS_npi_2.html" style="color:#fff;font-weight:700;">NAS NPI P&amp;L 2</a>
+    <span>|</span>
+    <a href="expense_pl_NAS_2.html">NAS Expense 2</a>
+    <span>|</span>
+    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
+  </div>
+</div>
+
+<!-- EPM Sub Filter Strip -->
+<div class="epm-filter-strip">
+  <span class="ef-label">Filters:</span>
+  <span class="ef-pill active" data-filter="scope">Platform: Next-Gen Lyric</span>
+  <span class="ef-pill" data-filter="contract">Contract: Direct &amp; Partner</span>
+  <span class="ef-pill" data-filter="tier">Tier: Enterprise (1000+)</span>
+  <span class="ef-sep"></span>
+  <span class="ef-label">View:</span>
+  <span class="ef-pill active" id="pill-pva">PVA (Plan vs Actual)</span>
+  <span class="ef-pill" id="pill-plan">Plan Baseline</span>
+  <span class="ef-pill" id="pill-yoy">YoY Comparison</span>
+  <span class="ef-sep"></span>
+  <span class="ef-label">Units:</span>
+  <span class="ef-pill active" id="pill-k">$K USD</span>
+  <span class="ef-pill" id="pill-m">$M USD</span>
+</div>
+
+<!-- Navigation Tabs Strip -->
+<nav class="epm-tabstrip" id="mainTabStrip" aria-label="EPM Main Views">
+  <a class="epm-tab active" data-tab="npi-overview" onclick="switchMainTab('npi-overview')">NPI Overview &amp; Margin</a>
+  <a class="epm-tab" data-tab="dept-costs" onclick="switchRightTabByDirect('tab-deptcosts')">Controllable Department Costs</a>
+  <a class="epm-tab" data-tab="alloc-rd" onclick="switchRightTabByDirect('tab-allocrd')">Shared Allocations &amp; Platform R&amp;D</a>
+  <a class="epm-tab" data-tab="golives-pipe" onclick="switchRightTabByDirect('tab-golives')">Go-Lives &amp; Delivery Pipeline</a>
+</nav>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+    </div>
+    
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub active" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <details class="sb-acc" name="sb-acc" open>
+      <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard 2</a>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+    </details>
+    
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="nas_dashboard_2.html">NAS Cockpit 2</a><span>/</span>NPI P&amp;L 2 (Lyric)</div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            <span>NAS NPI P&amp;L 2 — Next-Gen Lyric Platform Economics</span>
+            <span class="badge">EPM · NPI Economics</span>
+          </div>
+          <div class="page-sub">Next-Gen Lyric Commercial Engine · Base vs Implementation Revenue, Department Controllable Costs &amp; Net Margin</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Headline 5-KPI Strip -->
+    <div class="headline-kpi-bar">
+      <div class="hkpi-top-row">
+        <div class="hkpi-bar-title">
+          <span>Lyric NPI Performance (September Close)</span>
+          <span class="hkpi-bar-badge">Lyric Economics</span>
+        </div>
+        <div class="cfo-tg-wrap" id="cfo-toggles">
+          <div class="cfo-tg" data-k="fmt">
+            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
+            <button type="button" data-v="val" aria-pressed="false">$ only</button>
+          </div>
+          <div class="cfo-tg" data-k="cmp">
+            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+            <button type="button" data-v="plan" aria-pressed="false">Plan only</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+        
+        <!-- 1. NPI Total Revenue -->
+        <div class="kpi nd" id="hkpi-npirev" data-tip="<b>NPI Total Revenue (Lyric Platform)</b><br>Actual: $24,000.0K vs Plan $24,000.0K (Flat vs plan)<br>YoY Growth: +18.5% ($3.75M expansion)">
+          <div class="kpi-val"><span class="m-pva">$24.0M</span><span class="m-plan">$24.0M</span></div>
+          <div class="kpi-label">NPI Revenue</div>
+          <div class="kpi-desc">Total Lyric Platform Run-Rate</div>
+          <div class="kpi-var m-pva"><span class="fav">On Target</span><span class="m-both"> (0.0% vs plan)</span></div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>YoY Growth</span><b>+18.5%</b></div>
+          <div class="kpi-row m-pva m-both"><span>QTD Act</span><b>$69.5M</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+18.5%</b></div>
+        </div>
+
+        <!-- 2. Base Revenue -->
+        <div class="kpi nd" id="hkpi-baserev" data-tip="<b>Base Recurring Processing Revenue</b><br>Actual: $18,000.0K vs Plan $17,200.0K (+$800.0K / +4.7%)<br>Recurring PEPM base from live Lyric accounts">
+          <div class="kpi-val"><span class="m-pva">$18.0M</span><span class="m-plan">$17.2M</span></div>
+          <div class="kpi-label">Base Revenue</div>
+          <div class="kpi-desc">Recurring Live Processing</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$0.8M</span><span class="m-both"> (+4.7%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Mix</span><b>75.0% of NPI</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+22.4%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+17.0%</b></div>
+        </div>
+
+        <!-- 3. Implementation Revenue -->
+        <div class="kpi nd" id="hkpi-implrev" data-tip="<b>Implementation &amp; Professional Services</b><br>Actual: $6,000.0K vs Plan $6,800.0K (−$800.0K / −11.8%)<br>Milestone recognition timing on Enterprise contracts">
+          <div class="kpi-val"><span class="m-pva">$6.0M</span><span class="m-plan">$6.8M</span></div>
+          <div class="kpi-label">Implementation Rev</div>
+          <div class="kpi-desc">Setup &amp; Go-Live Services</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$0.8M</span><span class="m-both"> (−11.8%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Mix</span><b>25.0% of NPI</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+8.1%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+22.5%</b></div>
+        </div>
+
+        <!-- 4. NPI Contribution -->
+        <div class="kpi nd" id="hkpi-npicontrib" data-tip="<b>NPI Operating Contribution</b><br>Actual: $7,500.0K vs Plan $8,200.0K (−$700.0K / −8.5%)<br>Contribution Margin: 31.3% (Plan 34.2%)">
+          <div class="kpi-val"><span class="m-pva">$7.5M</span><span class="m-plan">$8.2M</span></div>
+          <div class="kpi-label">NPI Contribution</div>
+          <div class="kpi-desc">Net Platform Margin (31.3%)</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −$0.7M</span><span class="m-both"> (−8.5%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Margin</span><b>31.3%</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+12.0%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+22.5%</b></div>
+        </div>
+
+        <!-- 5. Implementation Go-Lives -->
+        <div class="kpi nd" id="hkpi-golives" data-tip="<b>Implementation Go-Lives</b><br>Actual: 36 Enterprise accounts vs Plan 40 accounts (−4 timing shift)<br>Active Pipeline: 142 accounts in onboarding">
+          <div class="kpi-val"><span class="m-pva">36</span><span class="m-plan">40</span></div>
+          <div class="kpi-label">Go-Lives (Month)</div>
+          <div class="kpi-desc">New Live Enterprise Deployments</div>
+          <div class="kpi-var m-pva"><span class="unf">▼ −4</span><span class="m-both"> (−10.0%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Pipeline</span><b>142 In-Flight</b></div>
+          <div class="kpi-row m-pva m-both"><span>QTD Live</span><b>98 Accounts</b></div>
+          <div class="kpi-row m-plan m-both"><span>Target</span><b>105 Accounts</b></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN EPM LAYOUT -->
+    <div id="cockpit-container">
+      <div class="epm-layout-grid">
+
+        <!-- LEFT COLUMN: NPI P&L Summary & Composition -->
+        <div class="left-col">
+
+          <!-- Section 1: NPI P&L Summary -->
+          <div class="epm-box">
+            <div class="epm-box-hdr">
+              <span>LYRIC NPI MANAGEMENT P&amp;L ($K)</span>
+              <div class="tools"><span>September Close</span></div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>P&amp;L Line</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>Margin / %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row" style="background:#edf2f7;">
+                    <td>NPI Revenue (Gross)</td>
+                    <td>24,400.0</td>
+                    <td>24,400.0</td>
+                    <td>0.0</td>
+                    <td>101.7%</td>
+                  </tr>
+                  <tr><td class="indent">Less: Pass-Through Revenue (ZMPT)</td><td>(400.0)</td><td>(400.0)</td><td>0.0</td><td>−1.7%</td></tr>
+                  <tr class="summary-row" style="background:#e0f2fe;">
+                    <td>NPI Revenue (excl. ZMPT)</td>
+                    <td>24,000.0</td>
+                    <td>24,000.0</td>
+                    <td>0.0</td>
+                    <td>100.0%</td>
+                  </tr>
+                  <tr>
+                    <td>Department Controllable Expenses</td>
+                    <td>13,200.0</td>
+                    <td>12,700.0</td>
+                    <td class="unf">(500.0)</td>
+                    <td>55.0%</td>
+                  </tr>
+                  <tr>
+                    <td>Shared Service Allocations (GETS, R&amp;D, HQ)</td>
+                    <td>3,300.0</td>
+                    <td>3,100.0</td>
+                    <td class="unf">(200.0)</td>
+                    <td>13.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f1f5f9;">
+                    <td>Total NPI Expenses (excl. ZMPT)</td>
+                    <td>16,500.0</td>
+                    <td>15,800.0</td>
+                    <td class="unf">(700.0)</td>
+                    <td>68.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #5b2fc0;">
+                    <td>NPI Net Contribution (Operating EBIT)</td>
+                    <td>7,500.0</td>
+                    <td>8,200.0</td>
+                    <td class="unf">(700.0)</td>
+                    <td class="fav">31.3%</td>
+                  </tr>
+                  <tr>
+                    <td>NPI Margin %</td>
+                    <td>31.3%</td>
+                    <td>34.2%</td>
+                    <td class="unf">(290 bps)</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 2: Revenue Composition -->
+          <div class="epm-box">
+            <div class="epm-box-hdr light">
+              <span>NPI REVENUE STREAMS ($K)</span>
+              <span style="font-size:10px;color:#64748b;">Recurring vs Implementation Setup</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Revenue Stream</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>% of Rev</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>Processing Revenue (Live PEPM)</td><td>18,000.0</td><td>17,200.0</td><td class="fav">+800.0</td><td>75.0%</td></tr>
+                  <tr><td>Project Services &amp; Professional Fees</td><td>3,800.0</td><td>4,400.0</td><td class="unf">(600.0)</td><td>15.8%</td></tr>
+                  <tr><td>License, Amendment &amp; Maintenance Fees</td><td>1,400.0</td><td>1,400.0</td><td>0.0</td><td>5.8%</td></tr>
+                  <tr><td>Other Recurring Platform Revenue</td><td>1,200.0</td><td>1,400.0</td><td class="unf">(200.0)</td><td>5.0%</td></tr>
+                  <tr><td>Less: Pass-Through (ZMPT)</td><td>(400.0)</td><td>(400.0)</td><td>0.0</td><td>−1.6%</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;">
+                    <td>Total NPI Revenue (excl. ZMPT)</td>
+                    <td>24,000.0</td>
+                    <td>24,000.0</td>
+                    <td>0.0</td>
+                    <td>100.0%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Tabbed Detailed Views -->
+        <div class="right-col">
+
+          <div class="epm-box">
+            <!-- Right Tab Strip -->
+            <div class="right-tabstrip">
+              <button class="right-tab active" onclick="switchRightTab(this, 'tab-deptcosts')">Department Controllable Costs</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-allocrd')">Shared Allocations &amp; R&amp;D</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-golives')">Go-Lives &amp; Pipeline Delivery</button>
+            </div>
+
+            <!-- TAB 1: Department Controllable Costs -->
+            <div id="tab-deptcosts" class="right-tab-pane">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">NPI Department Expenses (Excl. W-2, D&amp;A &amp; Money Movement)</span>
+                <span class="expand-ctrls" onclick="toggleAllRows('tab-deptcosts')">Expand / Collapse All</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width:280px;">Department / Functional Line</th>
+                      <th>Sep Act $K</th>
+                      <th>Plan $K</th>
+                      <th>Var $K</th>
+                      <th>QTD Act $K</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="summary-row"><td>Total Controllable Department Expenses</td><td>13,200.0</td><td>12,700.0</td><td class="unf">(500.0)</td><td>38,400.0</td></tr>
+
+                    <!-- Service Department -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'svc-npi-rows')">−</span>Service Department (Client Success &amp; Support)</td>
+                      <td>4,200.0</td>
+                      <td>4,000.0</td>
+                      <td class="unf">(200.0)</td>
+                      <td>12,200.0</td>
+                    </tr>
+                    <tr class="child-row open svc-npi-rows"><td class="indent">Dedicated Account Management</td><td>2,400.0</td><td>2,300.0</td><td class="unf">(100.0)</td><td>7,000.0</td></tr>
+                    <tr class="child-row open svc-npi-rows"><td class="indent">Technical Application Support Tier 2/3</td><td>1,200.0</td><td>1,150.0</td><td class="unf">(50.0)</td><td>3,500.0</td></tr>
+                    <tr class="child-row open svc-npi-rows"><td class="indent">Client Training &amp; Adoption Workshops</td><td>600.0</td><td>550.0</td><td class="unf">(50.0)</td><td>1,700.0</td></tr>
+
+                    <!-- Production Department -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'prod-npi-rows')">−</span>Production Department (Payroll Operations &amp; Tax)</td>
+                      <td>3,100.0</td>
+                      <td>3,000.0</td>
+                      <td class="unf">(100.0)</td>
+                      <td>9,000.0</td>
+                    </tr>
+                    <tr class="child-row open prod-npi-rows"><td class="indent">Payroll Engine Operations</td><td>1,800.0</td><td>1,750.0</td><td class="unf">(50.0)</td><td>5,200.0</td></tr>
+                    <tr class="child-row open prod-npi-rows"><td class="indent">Statutory Tax &amp; Year-End Compliance</td><td>900.0</td><td>850.0</td><td class="unf">(50.0)</td><td>2,600.0</td></tr>
+                    <tr class="child-row open prod-npi-rows"><td class="indent">Money Movement Settlement Operations</td><td>400.0</td><td>400.0</td><td>0.0</td><td>1,200.0</td></tr>
+
+                    <!-- Product Direct Costs -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-npi-rows')">−</span>Product Direct Costs (Excl. ZMPT &amp; D&amp;A)</td>
+                      <td>2,200.0</td>
+                      <td>2,100.0</td>
+                      <td class="unf">(100.0)</td>
+                      <td>6,400.0</td>
+                    </tr>
+                    <tr class="child-row open direct-npi-rows"><td class="indent">Cloud Infrastructure Usage (AWS / OCI)</td><td>1,400.0</td><td>1,350.0</td><td class="unf">(50.0)</td><td>4,100.0</td></tr>
+                    <tr class="child-row open direct-npi-rows"><td class="indent">Third-Party Verification &amp; API Connectors</td><td>500.0</td><td>480.0</td><td class="unf">(20.0)</td><td>1,450.0</td></tr>
+                    <tr class="child-row open direct-npi-rows"><td class="indent">License &amp; Middleware Maintenance</td><td>300.0</td><td>270.0</td><td class="unf">(30.0)</td><td>850.0</td></tr>
+
+                    <!-- G&A / HQ & Strategy -->
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'hq-npi-rows')">−</span>G&amp;A / HQ, Strategy &amp; Transformation</td>
+                      <td>3,700.0</td>
+                      <td>3,600.0</td>
+                      <td class="unf">(100.0)</td>
+                      <td>10,800.0</td>
+                    </tr>
+                    <tr class="child-row open hq-npi-rows"><td class="indent">G&amp;A / Executive Headquarters</td><td>1,800.0</td><td>1,750.0</td><td class="unf">(50.0)</td><td>5,200.0</td></tr>
+                    <tr class="child-row open hq-npi-rows"><td class="indent">Business Transformation Office</td><td>900.0</td><td>880.0</td><td class="unf">(20.0)</td><td>2,650.0</td></tr>
+                    <tr class="child-row open hq-npi-rows"><td class="indent">Product Strategy &amp; Program Office</td><td>600.0</td><td>580.0</td><td class="unf">(20.0)</td><td>1,750.0</td></tr>
+                    <tr class="child-row open hq-npi-rows"><td class="indent">Procurement, Legal &amp; Compliance</td><td>400.0</td><td>390.0</td><td class="unf">(10.0)</td><td>1,200.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 2: Shared Allocations & R&D -->
+            <div id="tab-allocrd" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Shared Service Allocations by Department (GETS is Largest)</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Shared Allocation Line</th>
+                      <th>Sep Act $K</th>
+                      <th>Plan $K</th>
+                      <th>Var $K</th>
+                      <th>Allocation Key</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Global Enterprise Tech Solutions (GETS)</td><td>1,800.0</td><td>1,700.0</td><td class="unf">(100.0)</td><td>Cloud Platform Server Units</td></tr>
+                    <tr><td>R&amp;D Platform Engineering Allocation</td><td>850.0</td><td>800.0</td><td class="unf">(50.0)</td><td>Core Architecture Hours</td></tr>
+                    <tr><td>Corporate IT Security &amp; SOC Allocation</td><td>300.0</td><td>280.0</td><td class="unf">(20.0)</td><td>User Security Endpoints</td></tr>
+                    <tr><td>Shared Finance, HR &amp; Legal Services</td><td>250.0</td><td>230.0</td><td class="unf">(20.0)</td><td>Revenue &amp; Headcount Mix</td></tr>
+                    <tr><td>Strategic Sourcing &amp; Vendor Management</td><td>100.0</td><td>90.0</td><td class="unf">(10.0)</td><td>Vendor Contract Spend</td></tr>
+                    <tr class="summary-row" style="background:#e0f2fe;">
+                      <td>Total Shared Service Allocations</td>
+                      <td>3,300.0</td>
+                      <td>3,100.0</td>
+                      <td class="unf">(200.0)</td>
+                      <td>13.8% of NPI Revenue</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 3: Go-Lives & Delivery Pipeline -->
+            <div id="tab-golives" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Enterprise Lyric Implementation Cohorts &amp; Velocity</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Deployment Stage / Cohort</th>
+                      <th>Active Accounts</th>
+                      <th>Scheduled Revenue</th>
+                      <th>Avg Deal Size</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="summary-row"><td>September Delivered Go-Lives</td><td>36</td><td>$6,000.0K</td><td>$166.7K</td><td class="fav">Live in Production</td></tr>
+                    <tr><td class="indent">Tier 1 Mega-Enterprise (10K+ EEs)</td><td>6</td><td>$2,400.0K</td><td>$400.0K</td><td>First Live Payroll Passed</td></tr>
+                    <tr><td class="indent">Tier 2 Large Enterprise (2.5K-10K EEs)</td><td>18</td><td>$2,700.0K</td><td>$150.0K</td><td>Parallel Runs Complete</td></tr>
+                    <tr><td class="indent">Tier 3 Mid-Enterprise (1K-2.5K EEs)</td><td>12</td><td>$900.0K</td><td>$75.0K</td><td>Full Cutover Complete</td></tr>
+                    <tr class="summary-row" style="background:#f1f5f9;"><td colspan="5">In-Flight Onboarding Backlog</td></tr>
+                    <tr><td>User Acceptance Testing (UAT Phase)</td><td>48</td><td>$8,200.0K</td><td>$170.8K</td><td>Q2 Go-Live Expected</td></tr>
+                    <tr><td>Data Migration &amp; Mapping Phase</td><td>56</td><td>$9,500.0K</td><td>$169.6K</td><td>On Track</td></tr>
+                    <tr><td>Initial Discovery &amp; Configuration</td><td>38</td><td>$6,100.0K</td><td>$160.5K</td><td>New Kickoffs</td></tr>
+                    <tr class="summary-row" style="background:#f0fdf4;">
+                      <td>Total Active Implementation Backlog</td>
+                      <td>142</td>
+                      <td>$23,800.0K</td>
+                      <td>$167.6K</td>
+                      <td>+14% Pipeline Expansion</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · National Account Services (NAS) NPI P&amp;L 2 (Lyric) · September Close Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="nas_dashboard_2.html">NAS Dashboard 2</a>
+    <a href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+    <a href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+    <a href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<!-- Tooltip Container -->
+<div class="tip" id="tip"></div>
+
+<script>
+  (function initTooltips() {
+    var tip = document.getElementById('tip');
+    if (!tip) return;
+    document.addEventListener('mouseover', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (!t) return;
+      tip.innerHTML = t.getAttribute('data-tip');
+      tip.classList.add('on');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!tip.classList.contains('on')) return;
+      var x = e.clientX + 14, y = e.clientY + 14;
+      if (x + tip.offsetWidth > window.innerWidth - 12) x = e.clientX - tip.offsetWidth - 14;
+      if (y + tip.offsetHeight > window.innerHeight - 12) y = e.clientY - tip.offsetHeight - 14;
+      tip.style.left = Math.max(8, x) + 'px';
+      tip.style.top = Math.max(8, y) + 'px';
+    });
+    document.addEventListener('mouseout', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (t) tip.classList.remove('on');
+    });
+  })();
+
+  function switchRightTab(btn, paneId) {
+    var tabs = document.querySelectorAll('.right-tab');
+    var panes = document.querySelectorAll('.right-tab-pane');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    btn.classList.add('active');
+    var target = document.getElementById(paneId);
+    if (target) target.style.display = 'block';
+  }
+
+  function switchRightTabByDirect(paneId) {
+    var panes = document.querySelectorAll('.right-tab-pane');
+    var tabs = document.querySelectorAll('.right-tab');
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    
+    var target = document.getElementById(paneId);
+    if (target) {
+      target.style.display = 'block';
+      tabs.forEach(function(t) {
+        if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(paneId) !== -1) {
+          t.classList.add('active');
+        }
+      });
+    }
+  }
+
+  function switchMainTab(tabKey) {
+    var tabs = document.querySelectorAll('#mainTabStrip .epm-tab');
+    tabs.forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tabKey);
+    });
+  }
+
+  function toggleRow(toggleBtn, groupClass) {
+    var rows = document.querySelectorAll('tr.' + groupClass);
+    var isOpen = toggleBtn.textContent.trim() === '−';
+    if (isOpen) {
+      toggleBtn.textContent = '+';
+      rows.forEach(function(r) { r.classList.remove('open'); });
+    } else {
+      toggleBtn.textContent = '−';
+      rows.forEach(function(r) { r.classList.add('open'); });
+    }
+  }
+
+  function toggleAllRows(paneId) {
+    var pane = document.getElementById(paneId);
+    if (!pane) return;
+    var toggles = pane.querySelectorAll('.exp-toggle');
+    var childRows = pane.querySelectorAll('tr.child-row');
+    var anyClosed = false;
+    childRows.forEach(function(r) { if (!r.classList.contains('open')) anyClosed = true; });
+    if (anyClosed) {
+      childRows.forEach(function(r) { r.classList.add('open'); });
+      toggles.forEach(function(t) { t.textContent = '−'; });
+    } else {
+      childRows.forEach(function(r) { r.classList.remove('open'); });
+      toggles.forEach(function(t) { t.textContent = '+'; });
+    }
+  }
+
+  (function initHeadlineToggles() {
+    var st = { fmt: 'both', cmp: 'pva' };
+    var tgWrap = document.getElementById('cfo-toggles');
+    var hk = document.getElementById('headline-kpis');
+
+    function applyHeadline() {
+      if (hk) {
+        hk.setAttribute('data-cmp', st.cmp);
+        hk.setAttribute('data-fmt', st.fmt);
+      }
+    }
+
+    if (tgWrap) {
+      tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+          b.parentNode.querySelectorAll('button').forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          applyHeadline();
+        });
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

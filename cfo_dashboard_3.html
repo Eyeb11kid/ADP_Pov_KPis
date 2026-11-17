@@ -250,6 +250,29 @@
   /* Charts Container Toggleable View */
   #visualizations-container { display: none; }
   #visualizations-container.show { display: block; }
+  #sec-10k-container { display: none; }
+  /* SEC report: collapsible rows */
+  .sr-table tr[data-parent] { display: none; }
+  .sr-table tr[data-parent].open { display: table-row; }
+  .sr-table tr.sr-sub { background: #f1f5f9; font-weight: 600; }
+  .sr-table td.p0 { padding-left: 8px; }
+  .sr-table td.p1 { padding-left: 32px; }
+  .sr-table td.l0 { padding-left: 31px; }
+  .sr-table td.l1 { padding-left: 38px; font-weight: 400; }
+  .sr-table td.l2 { padding-left: 62px; font-weight: 400; }
+  .sr-table td.na { color: var(--muted); font-weight: 400; }
+  .sr-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; margin-right: 8px; padding: 0; background: #e2e8f0; border: 0; border-radius: 2px; font: inherit; font-size: 11px; font-weight: 700; line-height: 1; color: #334155; cursor: pointer; vertical-align: middle; }
+  .sr-toggle:hover { background: #cbd5e1; }
+  .sr-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+  .sr-ctrl { color: #93c5fd; font-size: 11px; font-weight: 600; text-decoration: none; }
+  .sr-ctrl:hover { text-decoration: underline; }
+  .sec-kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (max-width: 1200px) { .sec-kpi-strip { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 768px) { .sec-kpi-strip { grid-template-columns: repeat(2, 1fr); } }
+  .sec-kpi-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; }
+  .sec-kpi-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
+  .sec-kpi-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
+  .sec-kpi-sub { font-size: 11px; font-weight: 600; margin-top: 2px; }
   .viz-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 10px; }
   @media (max-width: 1000px) { .viz-card-grid { grid-template-columns: 1fr; } }
   .viz-card { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; padding: 12px 14px; }
@@ -294,15 +317,15 @@
     </div>
   </div>
   <div class="epm-meta-links">
-    <a href="cfo_dashboard.html">CFO Summary</a>
+    <a href="cfo_dashboard_3.html" style="color:#fff;font-weight:700;">Corporate CFO (EPM)</a>
     <span>|</span>
-    <a href="cfo_dashboard_2.html">Revenue Analytics</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
     <span>|</span>
-    <a href="sec_report.html">SEC Reporting</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
     <span>|</span>
-    <a href="cfo_details.html">Financial Drilldown</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
     <span>|</span>
-    <span>Source: <b>ADP Hyperion / Db2 Financial Lake</b></span>
+    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
   </div>
 </div>
 
@@ -328,6 +351,7 @@
 <nav class="epm-tabstrip" id="mainTabStrip">
   <a class="epm-tab active" data-tab="cockpit" onclick="switchMainTab('cockpit')">Executive Cockpit &amp; KPIs</a>
   <a class="epm-tab" data-tab="visualizations" onclick="switchMainTab('visualizations')">Revenue &amp; Operational Analytics (Charts)</a>
+  <a class="epm-tab" data-tab="sec-10k" onclick="switchMainTab('sec-10k')">SEC Report</a>
   <a class="epm-tab" data-tab="es-drill" onclick="filterSegment('es')">Employer Services (NAS / MAS / SBS)</a>
   <a class="epm-tab" data-tab="peo-drill" onclick="filterSegment('peo')">PEO &amp; Worksite Employees</a>
   <a class="epm-tab" data-tab="cfi-drill" onclick="filterSegment('cfi')">Client Funds (CFI) Float &amp; Yield</a>
@@ -340,34 +364,32 @@
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">Close Review · September</div>
+      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
     </div>
     <div class="sb-section">Corporate Executive</div>
     <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="cfo_dashboard.html">CFO Dashboard</a></summary>
-      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard 2</a>
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO</a></summary>
       <a class="sb-link sub active" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
-      <a class="sb-link sub" href="cfo_details.html">CFO details</a>
-      <a class="sb-link sub" href="sec_report.html">SEC</a>
     </details>
     <div class="sb-divider"></div>
-    <div class="sb-section">BU Close Review</div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="nas_dashboard.html">NAS dashboard</a></summary>
-      <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
-      <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
-      <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
-      <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc" name="sb-acc" open>
+      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
     </details>
     <div class="sb-divider"></div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="rs_dashboard.html">RS dashboard</a></summary>
-      <a class="sb-link sub" href="management_pl_RS.html">Revenue Analysis</a>
-      <a class="sb-link sub2" href="rs_transaction_detail.html">RS transaction detail</a>
-      <a class="sb-link sub" href="expense_pl_RS.html">Expense P&amp;L</a>
+    <details class="sb-acc" name="sb-acc" open>
+      <summary><a href="rs_dashboard_3.html">RS Dashboard 3</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
     </details>
     <div class="sb-divider"></div>
-    <a class="sb-ext" href="index.html">&larr; Home</a>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
   </nav>
 
   <!-- Main Content Area -->
@@ -375,7 +397,7 @@
 
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cfo_dashboard.html">Corporate CFO</a><span>/</span>CFO Dashboard 3 (EPM Cockpit)</div>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Corporate CFO EPM Cockpit</div>
       <div class="title-row">
         <div>
           <div class="page-title">
@@ -392,6 +414,10 @@
           <button class="view-btn" id="btnViewViz" onclick="switchMainTab('visualizations')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             Executive Visualizations (10 Charts)
+          </button>
+          <button class="view-btn" id="btnViewSec" onclick="switchMainTab('sec-10k')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            SEC Report
           </button>
         </div>
       </div>
@@ -743,6 +769,7 @@
               <button class="right-tab" onclick="switchRightTab(this, 'tab-opex')">OpEx &amp; SG&amp;A</button>
               <button class="right-tab" onclick="switchRightTab(this, 'tab-margin')">EBIT Margin &amp; Profit</button>
               <button class="right-tab" onclick="switchRightTab(this, 'tab-wf')">FTE Productivity</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-sec')">SEC 10-K P&amp;L</button>
             </div>
 
             <!-- TAB 1: Hierarchical Revenue Table -->
@@ -880,6 +907,63 @@
                     <tr><td>Offshoring Ratio %</td><td>28.4%</td><td>27.3%</td><td class="fav">+110 bps</td><td>+360 bps</td></tr>
                     <tr><td>Annualized Rev / FTE ($K)</td><td>$323K</td><td>$317K</td><td class="fav">+$6K</td><td>+3.5%</td></tr>
                     <tr class="summary-row"><td>Annualized EBIT / FTE ($K)</td><td>$89.0K</td><td>$94.9K</td><td class="unf">($5.9K)</td><td>(2.1%)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 5: SEC Form 10-K Statutory Summary -->
+            <div id="tab-sec" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Statutory SEC Form 10-K Statement ($M)</span>
+                <span style="font-size:10.5px;color:#0f62fe;cursor:pointer;font-weight:600;" onclick="switchMainTab('sec-10k')">Open Full 10-K View &rarr;</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>10-K Financial Line Item</th>
+                      <th>PY Act</th>
+                      <th>Plan</th>
+                      <th>Close Act</th>
+                      <th>Var $</th>
+                      <th>YoY %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="group-hdr"><td colspan="6">Revenues</td></tr>
+                    <tr><td class="indent">Operating Revenues (excl. CFI)</td><td>4,748</td><td>4,922</td><td>4,982</td><td class="fav">+60</td><td>+4.9%</td></tr>
+                    <tr><td class="indent">Interest on Funds Held for Clients</td><td>240</td><td>258</td><td>260</td><td class="fav">+2</td><td>+8.3%</td></tr>
+                    <tr class="summary-row"><td>Total Revenues</td><td>4,988</td><td>5,180</td><td>5,242</td><td class="fav">+62</td><td>+5.1%</td></tr>
+
+                    <tr class="group-hdr"><td colspan="6">Costs and Expenses</td></tr>
+                    <tr><td class="indent">Operating Expenses (Pass-Through &amp; Ops)</td><td>2,380</td><td>2,430</td><td>2,510</td><td class="unf">(80)</td><td>+5.5%</td></tr>
+                    <tr><td class="indent">Systems Development &amp; Programming</td><td>380</td><td>395</td><td>410</td><td class="unf">(15)</td><td>+7.9%</td></tr>
+                    <tr><td class="indent">Depreciation &amp; Amortization</td><td>140</td><td>150</td><td>150</td><td>0</td><td>+7.1%</td></tr>
+                    <tr class="summary-row"><td>Total Costs of Revenues</td><td>2,900</td><td>2,975</td><td>3,070</td><td class="unf">(95)</td><td>+5.9%</td></tr>
+                    <tr><td class="indent">Selling, General &amp; Administrative (SG&amp;A)</td><td>1,110</td><td>1,155</td><td>1,180</td><td class="unf">(25)</td><td>+6.3%</td></tr>
+                    <tr><td class="indent">Interest Expense &amp; Other Net</td><td>40</td><td>40</td><td>18</td><td class="fav">+22</td><td>-</td></tr>
+                    <tr class="summary-row"><td>Total Expenses</td><td>4,050</td><td>4,170</td><td>4,268</td><td class="unf">(98)</td><td>+5.4%</td></tr>
+
+                    <tr class="group-hdr"><td colspan="6">Earnings &amp; Taxes</td></tr>
+                    <tr><td class="indent">Earnings Before Income Taxes (EBT)</td><td>1,338</td><td>1,510</td><td>1,410</td><td class="unf">(100)</td><td>+5.4%</td></tr>
+                    <tr><td class="indent">Provision for Income Taxes (24.0%)</td><td>318</td><td>362</td><td>338</td><td class="fav">+24</td><td>+6.3%</td></tr>
+                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;">
+                      <td>NET EARNINGS (GAAP)</td>
+                      <td>1,020</td>
+                      <td>1,148</td>
+                      <td>1,072</td>
+                      <td class="unf">(76)</td>
+                      <td class="fav">+5.1%</td>
+                    </tr>
+                    <tr style="font-weight:700;color:#1e293b;">
+                      <td>Diluted Earnings Per Share ($)</td>
+                      <td>$2.44</td>
+                      <td>$2.75</td>
+                      <td>$2.58</td>
+                      <td class="unf">($0.17)</td>
+                      <td class="fav">+5.7%</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -1056,6 +1140,138 @@
 
     </div>
 
+    <!-- SEC REPORT VIEW (line items from sec_report.html · sample data · collapsible groups) -->
+    <div id="sec-10k-container" style="padding:14px 20px 28px;">
+
+      <!-- Top Section Banner -->
+      <div class="banner" style="background:#fff;border:1px solid var(--line);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em;">SEC report · Placeholder 10-K layout</div>
+          <div style="font-size:16px;font-weight:700;color:var(--p-navy);">Consolidated Statement of Earnings &amp; Segment Results</div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Automatic Data Processing, Inc. · September close · $M unless noted · Illustrative sample data</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="view-btn" onclick="switchMainTab('cockpit')">&larr; Return to Cockpit Tables</button>
+          <button class="view-btn" onclick="switchMainTab('visualizations')">Executive Charts &rarr;</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- 1. Consolidated statement of earnings -->
+        <div class="epm-box" id="sec-box-earnings">
+          <div class="epm-box-hdr">
+            <span>CONSOLIDATED STATEMENT OF EARNINGS</span>
+            <div class="tools">
+              <span>$M · quarter and fiscal year to date</span>
+              <a class="sr-ctrl" href="#" onclick="secExpandAll('sec-earnings-table', true); return false;">Expand all</a>
+              <a class="sr-ctrl" href="#" onclick="secExpandAll('sec-earnings-table', false); return false;">Collapse all</a>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="epm-table sr-table" id="sec-earnings-table">
+              <thead>
+                <tr>
+                  <th style="min-width:340px;">Line</th>
+                  <th>Q1 Act</th>
+                  <th>Q1 PY</th>
+                  <th>Growth %</th>
+                  <th>YTD Act</th>
+                  <th>YTD PY</th>
+                  <th>Growth %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="summary-row" data-id="rev">
+                  <td class="p0"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Total revenues</td>
+                  <td>5,242</td><td>4,988</td><td class="fav">+5.1%</td><td>15,600</td><td>14,825</td><td class="fav">+5.2%</td>
+                </tr>
+                <tr data-parent="rev"><td class="l1">Revenues, excluding interest on funds held for clients</td><td>4,982</td><td>4,748</td><td class="fav">+4.9%</td><td>14,820</td><td>14,110</td><td class="fav">+5.0%</td></tr>
+                <tr data-parent="rev"><td class="l1">Interest on funds held for clients</td><td>260</td><td>240</td><td class="fav">+8.3%</td><td>780</td><td>715</td><td class="fav">+9.1%</td></tr>
+
+                <tr class="summary-row" data-id="exp">
+                  <td class="p0"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Total expenses</td>
+                  <td>3,844</td><td>3,660</td><td>+5.0%</td><td>11,444</td><td>10,883</td><td>+5.2%</td>
+                </tr>
+                <tr data-id="cor" data-parent="exp" class="sr-sub">
+                  <td class="p1"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Total costs of revenues</td>
+                  <td>2,470</td><td>2,342</td><td>+5.5%</td><td>7,380</td><td>6,976</td><td>+5.8%</td>
+                </tr>
+                <tr data-parent="cor"><td class="l2">Operating expenses</td><td>2,060</td><td>1,960</td><td>+5.1%</td><td>6,150</td><td>5,830</td><td>+5.5%</td></tr>
+                <tr data-parent="cor"><td class="l2">Systems development and programming costs</td><td>290</td><td>270</td><td>+7.4%</td><td>870</td><td>810</td><td>+7.4%</td></tr>
+                <tr data-parent="cor"><td class="l2">Depreciation and amortization</td><td>120</td><td>112</td><td>+7.1%</td><td>360</td><td>336</td><td>+7.1%</td></tr>
+                <tr data-parent="exp"><td class="l1">Selling, general and administrative expenses</td><td>1,356</td><td>1,302</td><td>+4.1%</td><td>4,010</td><td>3,860</td><td>+3.9%</td></tr>
+                <tr data-parent="exp"><td class="l1">Interest expense</td><td>18</td><td>16</td><td>+12.5%</td><td>54</td><td>47</td><td>+14.9%</td></tr>
+
+                <tr><td class="l0">Other (income) / expense, net</td><td>(12)</td><td>(10)</td><td class="na">n/m</td><td>(30)</td><td>(24)</td><td class="na">n/m</td></tr>
+                <tr class="summary-row"><td class="l0">Earnings before income taxes</td><td>1,410</td><td>1,338</td><td class="fav">+5.4%</td><td>4,186</td><td>3,966</td><td class="fav">+5.5%</td></tr>
+                <tr><td class="l0">Provision for income taxes</td><td>338</td><td>318</td><td>+6.3%</td><td>1,005</td><td>944</td><td>+6.5%</td></tr>
+                <tr class="summary-row"><td class="l0">Net earnings</td><td>1,072</td><td>1,020</td><td class="fav">+5.1%</td><td>3,181</td><td>3,022</td><td class="fav">+5.3%</td></tr>
+                <tr><td class="l0">Basic and diluted earnings per share ($)</td><td>$2.58</td><td>$2.44</td><td class="fav">+5.7%</td><td>$7.66</td><td>$7.23</td><td class="fav">+5.9%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. Segment results -->
+        <div class="epm-box" id="sec-box-segments">
+          <div class="epm-box-hdr">
+            <span>SEGMENT RESULTS</span>
+            <div class="tools">
+              <span>$M · Employer Services and PEO Services; Other holds unallocated corporate</span>
+              <a class="sr-ctrl" href="#" onclick="secExpandAll('sec-segments-table', true); return false;">Expand all</a>
+              <a class="sr-ctrl" href="#" onclick="secExpandAll('sec-segments-table', false); return false;">Collapse all</a>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="epm-table sr-table" id="sec-segments-table">
+              <thead>
+                <tr>
+                  <th style="min-width:340px;">Line</th>
+                  <th>Q1 Act</th>
+                  <th>Q1 PY</th>
+                  <th>Growth %</th>
+                  <th>YTD Act</th>
+                  <th>YTD PY</th>
+                  <th>Growth %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="summary-row" data-id="segrev">
+                  <td class="p0"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Revenues · Total revenues</td>
+                  <td>5,242</td><td>4,988</td><td class="fav">+5.1%</td><td>15,600</td><td>14,825</td><td class="fav">+5.2%</td>
+                </tr>
+                <tr data-parent="segrev"><td class="l1">Employer Services</td><td>3,480</td><td>3,300</td><td class="fav">+5.5%</td><td>10,420</td><td>9,880</td><td class="fav">+5.5%</td></tr>
+                <tr data-parent="segrev"><td class="l1">PEO Services</td><td>1,502</td><td>1,414</td><td class="fav">+6.2%</td><td>4,490</td><td>4,235</td><td class="fav">+6.0%</td></tr>
+                <tr data-parent="segrev"><td class="l1">Other</td><td>260</td><td>274</td><td class="unf">(5.1%)</td><td>690</td><td>710</td><td class="unf">(2.8%)</td></tr>
+
+                <tr class="summary-row" data-id="segebt">
+                  <td class="p0"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Earnings before income taxes · Total consolidated</td>
+                  <td>1,410</td><td>1,338</td><td class="fav">+5.4%</td><td>4,186</td><td>3,966</td><td class="fav">+5.5%</td>
+                </tr>
+                <tr data-id="segtot" data-parent="segebt" class="sr-sub">
+                  <td class="p1"><button type="button" class="sr-toggle" aria-expanded="false" onclick="secToggle(this)">+</button>Total segment earnings before income taxes</td>
+                  <td>1,437</td><td>1,342</td><td class="fav">+7.1%</td><td>4,300</td><td>4,040</td><td class="fav">+6.4%</td>
+                </tr>
+                <tr data-parent="segtot"><td class="l2">Employer Services</td><td>1,205</td><td>1,125</td><td class="fav">+7.1%</td><td>3,610</td><td>3,395</td><td class="fav">+6.3%</td></tr>
+                <tr data-parent="segtot"><td class="l2">PEO Services</td><td>232</td><td>217</td><td class="fav">+6.9%</td><td>690</td><td>645</td><td class="fav">+7.0%</td></tr>
+                <tr data-parent="segebt"><td class="l1">Other (reconciling items)</td><td>(27)</td><td>(4)</td><td class="na">n/m</td><td>(114)</td><td>(74)</td><td class="na">n/m</td></tr>
+
+                <tr class="summary-row" data-id="segmgn">
+                  <td class="p0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>Segment margin</td>
+                  <td colspan="6" class="na" style="text-align:left;font-weight:500;">Earnings before income taxes as % of segment revenues</td>
+                </tr>
+                <tr data-parent="segmgn"><td class="l1">Employer Services margin %</td><td>34.6%</td><td>34.1%</td><td class="fav">+50 bps</td><td>34.6%</td><td>34.4%</td><td class="fav">+30 bps</td></tr>
+                <tr data-parent="segmgn"><td class="l1">PEO Services margin %</td><td>15.4%</td><td>15.3%</td><td class="fav">+10 bps</td><td>15.4%</td><td>15.2%</td><td class="fav">+10 bps</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 </div>
 
@@ -1063,12 +1279,12 @@
 <footer class="site-footer">
   <div><b style="color:var(--adp)">ADP Project Polaris</b> · EPM Production Cockpit · September Close Review · Illustrative Data for Internal Executive Use</div>
   <div>
-    <a href="cfo_dashboard.html">CFO Summary</a>
-    <a href="cfo_dashboard_2.html">Revenue Analytics</a>
-    <a href="cfo_dashboard_3.html">EPM Cockpit</a>
-    <a href="nas_dashboard.html">NAS</a>
-    <a href="rs_dashboard.html">RS</a>
-    <a href="sec_report.html">SEC</a>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
   </div>
 </footer>
 
@@ -1100,12 +1316,61 @@
     });
   })();
 
+  // SEC report: expand / collapse rows
+  function secSetOpen(table, id, open) {
+    table.querySelectorAll('tr[data-parent="' + id + '"]').forEach(function(r) {
+      if (open) {
+        r.classList.add('open');
+      } else {
+        r.classList.remove('open');
+        var t = r.querySelector('.sr-toggle');
+        if (t) {
+          t.textContent = '+';
+          t.setAttribute('aria-expanded', 'false');
+          if (r.getAttribute('data-id')) secSetOpen(table, r.getAttribute('data-id'), false);
+        }
+      }
+    });
+  }
+
+  function secToggle(btn) {
+    var row = btn.closest('tr');
+    var table = btn.closest('table');
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? '−' : '+';
+    secSetOpen(table, row.getAttribute('data-id'), open);
+  }
+
+  function secExpandAll(tableId, open) {
+    var table = document.getElementById(tableId);
+    if (!table) return;
+    table.querySelectorAll('tr[data-parent]').forEach(function(r) {
+      r.classList.toggle('open', open);
+    });
+    table.querySelectorAll('.sr-toggle').forEach(function(t) {
+      t.textContent = open ? '−' : '+';
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Default state: all groups collapsed except Segment margin
+  (function initSecReport() {
+    secExpandAll('sec-earnings-table', false);
+    secExpandAll('sec-segments-table', false);
+    var m = document.querySelector('#sec-segments-table tr[data-id="segmgn"] .sr-toggle');
+    if (m) secToggle(m);
+  })();
+
+
   // Main Tab Switcher
   function switchMainTab(tabId) {
     var cockpit = document.getElementById('cockpit-container');
     var viz = document.getElementById('visualizations-container');
+    var sec = document.getElementById('sec-10k-container');
     var btnCockpit = document.getElementById('btnViewCockpit');
     var btnViz = document.getElementById('btnViewViz');
+    var btnSec = document.getElementById('btnViewSec');
     var tabs = document.querySelectorAll('#mainTabStrip .epm-tab');
 
     tabs.forEach(function(t) {
@@ -1114,15 +1379,26 @@
     });
 
     if (tabId === 'visualizations') {
-      cockpit.style.display = 'none';
-      viz.style.display = 'block';
-      btnViz.classList.add('active');
-      btnCockpit.classList.remove('active');
+      if (cockpit) cockpit.style.display = 'none';
+      if (viz) viz.style.display = 'block';
+      if (sec) sec.style.display = 'none';
+      if (btnViz) btnViz.classList.add('active');
+      if (btnCockpit) btnCockpit.classList.remove('active');
+      if (btnSec) btnSec.classList.remove('active');
+    } else if (tabId === 'sec-10k') {
+      if (cockpit) cockpit.style.display = 'none';
+      if (viz) viz.style.display = 'none';
+      if (sec) sec.style.display = 'block';
+      if (btnSec) btnSec.classList.add('active');
+      if (btnCockpit) btnCockpit.classList.remove('active');
+      if (btnViz) btnViz.classList.remove('active');
     } else {
-      cockpit.style.display = 'block';
-      viz.style.display = 'none';
-      btnCockpit.classList.add('active');
-      btnViz.classList.remove('active');
+      if (cockpit) cockpit.style.display = 'block';
+      if (viz) viz.style.display = 'none';
+      if (sec) sec.style.display = 'none';
+      if (btnCockpit) btnCockpit.classList.add('active');
+      if (btnViz) btnViz.classList.remove('active');
+      if (btnSec) btnSec.classList.remove('active');
     }
   }
 
@@ -1144,6 +1420,7 @@
     else if (seg === 'cfi') switchRightTab(document.querySelectorAll('.right-tab')[0], 'tab-rev');
     else if (seg === 'comm') switchMainTab('cockpit');
     else if (seg === 'wf') switchRightTab(document.querySelectorAll('.right-tab')[3], 'tab-wf');
+    else if (seg === 'sec') switchMainTab('sec-10k');
   }
 
   // Interactive Filter pills toggle

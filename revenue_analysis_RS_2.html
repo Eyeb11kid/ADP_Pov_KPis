@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS Revenue Analysis 2 — Retirement Services — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Layout Shell */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Workspace */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #e0e7ff; color: #4338ca; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #c7d2fe; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Headline 5-KPI Strip */
+  .headline-kpi-bar {
+    background: #fff;
+    border: 1px solid var(--line);
+    margin: 14px 20px 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .hkpi-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hkpi-bar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--p-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hkpi-bar-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
+  .cfo-tg button:hover { background: #f1f5f9; }
+  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+
+  .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 1100px) { .kpis.kpis-5 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
+
+  .kpis.kpis-5 > .kpi {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: 3px solid var(--adp);
+    border-radius: 4px;
+    padding: 12px 14px 10px;
+    min-width: 0;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .kpis.kpis-5 > .kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
+    background: #ffffff;
+  }
+  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #0f62fe; }
+  .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #0284c7; }
+  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #7c3aed; }
+  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #0d9488; }
+  .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #e5a83f; }
+
+  .kpi-val { font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: var(--p-navy); line-height: 1.1; margin-bottom: 2px; }
+  .kpi-label { font-size: 12px; font-weight: 700; color: var(--p-navy); margin-bottom: 1px; }
+  .kpi-desc { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 11px; font-weight: 600; }
+  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-row b { color: var(--navy); }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="usd"] .m-both { display: none; }
+
+  /* 2-Column Split Layout Grid */
+  .epm-layout-grid { display: grid; grid-template-columns: minmax(560px, 1.25fr) minmax(500px, 1.4fr); gap: 14px; padding: 14px 20px 28px; }
+  @media (max-width: 1280px) {
+    .epm-layout-grid { grid-template-columns: 1fr; }
+  }
+
+  .left-col, .right-col { display: flex; flex-direction: column; gap: 14px; }
+  
+  .epm-box { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
+  .epm-box-hdr { background: #162436; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
+  .epm-box-hdr.light { background: #f6f8fa; color: var(--p-navy); border-bottom: 1px solid #d0d7de; font-weight: 700; }
+  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: normal; color: #a0aec0; }
+  .epm-box-body { padding: 12px; }
+
+  /* Tables */
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
+  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e2e8f0; white-space: nowrap; }
+  .epm-table th { background: #f1f5f9; color: #334155; font-weight: 700; font-size: 11px; text-align: right; }
+  .epm-table th:first-child, .epm-table td:first-child { text-align: left; font-weight: 500; }
+  .epm-table tr:hover { background: #f8fafc; }
+  .epm-table tr.summary-row { background: #e2e8f0; font-weight: 700; color: #0f172a; }
+  .epm-table tr.group-hdr { background: #edf2f7; font-weight: 700; color: #1e293b; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.04em; }
+  .epm-table .indent { padding-left: 18px; }
+  .epm-table .indent2 { padding-left: 30px; }
+
+  /* Expandable Row Styling */
+  .exp-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; background: #e2e8f0; border-radius: 2px; font-size: 11px; font-weight: bold; color: #334155; cursor: pointer; margin-right: 6px; user-select: none; }
+  .exp-toggle:hover { background: #cbd5e1; }
+  tr.child-row { display: none; }
+  tr.child-row.open { display: table-row; }
+  .expand-ctrls { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #0f62fe; cursor: pointer; }
+  .expand-ctrls:hover { text-decoration: underline; }
+
+  /* Right Column Tab Strip */
+  .right-tabstrip { display: flex; border-bottom: 1px solid #d0d7de; background: #f6f8fa; overflow-x: auto; }
+  .right-tab { padding: 7px 12px; font-size: 11px; font-weight: 600; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .right-tab:hover { color: var(--navy); background: #eaeef2; }
+  .right-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
+
+  /* Bottom Highlight Bar */
+  .service-banner { background: #0f1d2e; color: #e2e8f0; padding: 7px 14px; font-size: 11px; font-weight: 600; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
+  .service-banner span.tag { background: #4066C8; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 9.5px; text-transform: uppercase; margin-right: 6px; }
+
+  /* Tooltip standard */
+  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip.on { opacity: 1; }
+  .nd { cursor: pointer; }
+  .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
+
+  /* Site Footer */
+  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- Top Global Chrome -->
+<header class="chrome">
+  <div class="chrome-l">
+    <span class="chrome-logo">ADP</span>
+    <span>Project Polaris · Retirement Services (RS) Revenue Analysis Drilldown</span>
+  </div>
+  <div class="chrome-r">
+    <span>Reporting Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span>Data: <b style="color:var(--green)">Hyperion RS Verified</b></span>
+    <div class="avatar" title="RS Revenue Organization">RS</div>
+  </div>
+</header>
+
+<!-- EPM Top Bar -->
+<div class="epm-topbar">
+  <div class="epm-title-block">
+    <span class="epm-app-badge">RS Revenue 2 · EPM Cockpit</span>
+    <div class="epm-plan-select" id="planDropdownBtn">
+      <span>BUDGET FY27 Q1 Close · RS Revenue Model with Actuals</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="epm-meta-links">
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <span>|</span>
+    <a href="revenue_analysis_RS_2.html" style="color:#fff;font-weight:700;">RS Revenue Analysis 2</a>
+    <span>|</span>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    <span>|</span>
+    <a href="cfo_dashboard_3.html">Corporate CFO EPM</a>
+    <span>|</span>
+    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
+  </div>
+</div>
+
+<!-- EPM Sub Filter Strip (Active RS Header Filter Drill-Down) -->
+<div class="epm-filter-strip">
+  <span class="ef-label">RS Drill Filter:</span>
+  <span class="ef-pill active" data-filter="scope" onclick="filterRevScope('all')">All RS Revenue ($93.4M)</span>
+  <span class="ef-pill" data-filter="scope" onclick="filterRevScope('asset')">Asset Revenue ($22.7M)</span>
+  <span class="ef-pill" data-filter="scope" onclick="filterRevScope('hard')">Hard Dollar Fees ($70.6M)</span>
+  <span class="ef-pill" data-filter="scope" onclick="filterRevScope('nonproc')">Non-Processing ($95.3K)</span>
+  <div class="ef-sep"></div>
+  <span class="ef-label">Period:</span>
+  <span class="ef-pill active" data-period="mth">September Close</span>
+  <span class="ef-pill" data-period="qtd">Q1 QTD ($93.4M)</span>
+  <span class="ef-pill" data-period="ytd">YTD ($350.0M)</span>
+  <span class="ef-pill" data-period="fy">FY OctFcst ($385.0M)</span>
+  <div class="ef-sep"></div>
+  <span class="ef-label">Selling BU:</span>
+  <span class="ef-pill active" data-chan="all">All Channels</span>
+  <span class="ef-pill" data-chan="rs">RS Direct ($9.8M)</span>
+  <span class="ef-pill" data-chan="nas">NAS ($4.1M)</span>
+  <span class="ef-pill" data-chan="sbs">SBS RUN ($3.9M)</span>
+</div>
+
+<!-- EPM Navigation Tab Strip -->
+<nav class="epm-tabstrip" id="mainTabStrip">
+  <a class="epm-tab active" data-tab="rev-overview" onclick="switchRightTabByDirect('tab-byprod')">Processing Revenue by Product</a>
+  <a class="epm-tab" data-tab="sor-walk" onclick="switchRightTabByDirect('tab-sorwalk')">Sources of Revenue (SOR Walk)</a>
+  <a class="epm-tab" data-tab="sales-starts" onclick="switchRightTabByDirect('tab-saleswalk')">Sales, Starts &amp; Channel Flows</a>
+  <a class="epm-tab" data-tab="qtd-ytd" onclick="switchRightTabByDirect('tab-periodcomp')">Period Comparison (QTD / YTD / FY)</a>
+  <a class="epm-tab" data-tab="yield-aum" onclick="switchRightTabByDirect('tab-yield')">AUM Yield &amp; Fee Velocity</a>
+  <a class="epm-tab" data-tab="rs-dash3" href="rs_dashboard_3.html">&larr; Return to RS Dashboard 3</a>
+</nav>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+    </div>
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="rs_dashboard_3.html">RS Dashboard 3</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub active" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+    </details>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>/</span>
+        <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a><span>/</span>
+        <a href="rs_dashboard_3.html">RS Dashboard 3</a><span>/</span>
+        RS Revenue Analysis 2
+      </div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            RS Revenue Analysis 2 — Product &amp; Channel Deep-Dive
+            <span class="badge">Drilldown View</span>
+          </div>
+          <div class="page-sub">Comprehensive revenue inspection: Processing breakdown (Asset vs Hard Dollar), Sources of Revenue (SOR) walk, Channel Sales velocity &amp; Volume statistics</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. Headline KPIs Strip (5 Key Revenue Performance Metrics) -->
+    <div class="headline-kpi-bar">
+      <div class="hkpi-top-row">
+        <div class="hkpi-bar-title">
+          <span>RS Revenue Performance Highlights · September</span>
+          <span class="hkpi-bar-badge">Revenue Deck</span>
+        </div>
+        <div class="cfo-tg-wrap" id="cfo-toggles">
+          <div class="cfo-tg" role="group" aria-label="Value format" data-k="fmt">
+            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
+            <button type="button" data-v="usd" aria-pressed="false">$</button>
+          </div>
+          <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
+            <button type="button" data-v="plan" aria-pressed="false">Plan</button>
+            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+        <!-- 1. Processing Revenue -->
+        <div class="kpi nd" id="hkpi-proc" data-tip="<b>Processing Revenue</b><br>Act: $93,308.1K vs Plan $89,310.0K (+$3,998.1K / +4.5%)<br>YoY: +6.8% (Plan +4.2%)<br>99.9% of Total RS Revenue">
+          <div class="kpi-val"><span class="m-pva">$93.3M</span><span class="m-plan">$89.3M</span></div>
+          <div class="kpi-label">Processing Revenue</div>
+          <div class="kpi-desc">Core K, Simple &amp; Other</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$4.0M</span><span class="m-both"> (+4.5%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$89.3M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.2%</b></div>
+        </div>
+
+        <!-- 2. Asset Revenue -->
+        <div class="kpi nd" id="hkpi-asset" data-tip="<b>Asset-Based Revenue (AUM Basis)</b><br>Act: $22,692.8K vs Plan $22,000.0K (+$692.8K / +3.2%)<br>Driven by market gains (+$1.5M UBV impact)<br>24.3% of total revenue">
+          <div class="kpi-val"><span class="m-pva">$22.7M</span><span class="m-plan">$22.0M</span></div>
+          <div class="kpi-label">Asset Revenue</div>
+          <div class="kpi-desc">AUM Basis (R0010_MGT)</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$693K</span><span class="m-both"> (+3.2%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$22.0M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+7.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.5%</b></div>
+        </div>
+
+        <!-- 3. Hard Dollar Fees -->
+        <div class="kpi nd" id="hkpi-fees" data-tip="<b>Hard Dollar Fee Revenue</b><br>Act: $70,615.3K vs Plan $67,310.0K (+$3,305.3K / +4.9%)<br>Participant & Base recordkeeping fees<br>75.6% of total revenue">
+          <div class="kpi-val"><span class="m-pva">$70.6M</span><span class="m-plan">$67.3M</span></div>
+          <div class="kpi-label">Hard Dollar Fees</div>
+          <div class="kpi-desc">Participant &amp; Base Fees</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$3.3M</span><span class="m-both"> (+4.9%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$67.3M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.5%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.1%</b></div>
+        </div>
+
+        <!-- 4. Period-End AUM -->
+        <div class="kpi nd" id="hkpi-aum" data-tip="<b>401(k) Assets Under Management</b><br>Period-End AUM: $194,823.3M ($194.8B)<br>YoY Growth: +7.4% ($13.5B AUM expansion)<br>Average AUM: $191.5B">
+          <div class="kpi-val"><span class="m-pva">$194.8B</span><span class="m-plan">$188.0B</span></div>
+          <div class="kpi-label">Period-End AUM</div>
+          <div class="kpi-desc">401(k) Asset Base</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$6.8B</span><span class="m-both"> (+3.6%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan AUM</span><b>$188.0B</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+7.4%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.8%</b></div>
+        </div>
+
+        <!-- 5. Sales Dollars -->
+        <div class="kpi nd" id="hkpi-sales" data-tip="<b>Sales Dollars (New Business Bookings)</b><br>Act: $25,666.7K vs Plan $22,840.0K (+$2,826.7K / +12.4%)<br>Direct $14.2M · NAS $4.1M · SBS $3.9M · MAS $2.1M · GES $1.3M">
+          <div class="kpi-val"><span class="m-pva">$25.7M</span><span class="m-plan">$22.8M</span></div>
+          <div class="kpi-label">Sales Dollars</div>
+          <div class="kpi-desc">All Selling Channels</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$2.8M</span><span class="m-both"> (+12.4%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$22.8M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+14.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+6.2%</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN VIEW -->
+    <div id="cockpit-container">
+      <div class="epm-layout-grid">
+
+        <!-- LEFT COLUMN: Revenue Structure, Sources of Revenue Walk & Volume Statistics -->
+        <div class="left-col">
+
+          <!-- Section 1: Revenue Line Items (from management_pl_RS.html #rev-lines) -->
+          <div class="epm-box" id="sec-revlines">
+            <div class="epm-box-hdr">
+              <span>REVENUE SUMMARY &amp; PROCESSING SPLIT</span>
+              <div class="tools"><span>$K USD · September Close</span></div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Line Item</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>Var %</th>
+                    <th>YoY %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row" style="background:#edf2f7;">
+                    <td>Total revenue</td>
+                    <td>93,403.4</td>
+                    <td>89,400.0</td>
+                    <td class="fav">+4,003.4</td>
+                    <td class="fav">+4.5%</td>
+                    <td class="fav">+6.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f1f5f9;">
+                    <td class="indent">Processing revenue</td>
+                    <td>93,308.1</td>
+                    <td>89,310.0</td>
+                    <td class="fav">+3,998.1</td>
+                    <td class="fav">+4.5%</td>
+                    <td class="fav">+6.8%</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Asset revenue</td>
+                    <td>22,692.8</td>
+                    <td>22,000.0</td>
+                    <td class="fav">+692.8</td>
+                    <td class="fav">+3.2%</td>
+                    <td class="fav">+7.8%</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Hard dollar fees</td>
+                    <td>70,615.3</td>
+                    <td>67,310.0</td>
+                    <td class="fav">+3,305.3</td>
+                    <td class="fav">+4.9%</td>
+                    <td class="fav">+6.5%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f8fafc;">
+                    <td class="indent">Non-processing revenue</td>
+                    <td>95.3</td>
+                    <td>90.0</td>
+                    <td class="fav">+5.3</td>
+                    <td class="fav">+5.9%</td>
+                    <td>+3.6%</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Setup revenue</td>
+                    <td>66.6</td>
+                    <td>62.0</td>
+                    <td class="fav">+4.6</td>
+                    <td class="fav">+7.4%</td>
+                    <td>+4.2%</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Other recurring revenue (DCIO fees)</td>
+                    <td>9.4</td>
+                    <td>9.0</td>
+                    <td class="fav">+0.4</td>
+                    <td>+4.4%</td>
+                    <td>+2.2%</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Offset revenue &amp; interest (client funds float)</td>
+                    <td>19.3</td>
+                    <td>19.0</td>
+                    <td class="fav">+0.3</td>
+                    <td>+1.6%</td>
+                    <td>+2.1%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 2: Sources of Revenue (from management_pl_RS.html #sources-of-revenue) -->
+          <div class="epm-box" id="sec-sor">
+            <div class="epm-box-hdr light">
+              <span>SOURCES OF REVENUE (SOR WALK)</span>
+              <span style="font-size:10px;color:#64748b;">Year-over-Year Processing Revenue Bridge ($K)</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Bridge Component</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>Description / Drivers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row">
+                    <td>Prior year processing revenue</td>
+                    <td>81,319.6</td>
+                    <td>81,319.6</td>
+                    <td>0.0</td>
+                    <td>Baseline FY26 September</td>
+                  </tr>
+                  <tr>
+                    <td class="indent">Starts revenue impact</td>
+                    <td>20,212.5</td>
+                    <td>19,500.0</td>
+                    <td class="fav">+712.5</td>
+                    <td>Live ARR converted</td>
+                  </tr>
+                  <tr>
+                    <td class="indent">Losses revenue impact</td>
+                    <td>(7,259.5)</td>
+                    <td>(7,400.0)</td>
+                    <td class="fav">+140.5</td>
+                    <td>Favorable lower churn</td>
+                  </tr>
+                  <tr>
+                    <td class="indent">Price increase</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>No active price adjustments</td>
+                  </tr>
+                  <tr>
+                    <td class="indent">Concessions &amp; Float</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>Baseline float pass-through</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f1f5f9;">
+                    <td class="indent">Unit-Based Variance (UBV)</td>
+                    <td>(964.5)</td>
+                    <td>(4,109.6)</td>
+                    <td class="fav">+3,145.1</td>
+                    <td>Net volume &amp; asset mix</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Market impact</td>
+                    <td>1,501.2</td>
+                    <td>600.0</td>
+                    <td class="fav">+901.2</td>
+                    <td>Equity market appreciation</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Asset-related fees</td>
+                    <td>163.8</td>
+                    <td>120.0</td>
+                    <td class="fav">+43.8</td>
+                    <td>Net contributions &amp; RIA trailers</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Participant-related fees</td>
+                    <td>2,739.9</td>
+                    <td>2,400.0</td>
+                    <td class="fav">+339.9</td>
+                    <td>Loans, 3(16) admin, mailings</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Client-related fees</td>
+                    <td>(362.5)</td>
+                    <td>(320.0)</td>
+                    <td class="unf">(42.5)</td>
+                    <td>Base rates, transfers, 5500</td>
+                  </tr>
+                  <tr>
+                    <td class="indent2">Promos, discounts and credits</td>
+                    <td>(1,252.4)</td>
+                    <td>(1,150.0)</td>
+                    <td class="unf">(102.4)</td>
+                    <td>Sales incentives &amp; fee credits</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;">
+                    <td>Current year processing revenue</td>
+                    <td>93,308.1</td>
+                    <td>89,310.0</td>
+                    <td class="fav">+3,998.1</td>
+                    <td>Total Processing Result</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 3: Volume & AUM Statistics (from management_pl_RS.html #volume-statistics) -->
+          <div class="epm-box" id="sec-vol">
+            <div class="epm-box-hdr light">
+              <span>VOLUME &amp; AUM STATISTICS</span>
+              <span style="font-size:10px;color:#64748b;">Plan Counts &amp; Participant Scale</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Volume Metric</th>
+                    <th>Sep Act</th>
+                    <th>Plan</th>
+                    <th>Var</th>
+                    <th>YoY %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row">
+                    <td>Clients (net active controls)</td>
+                    <td>219,224</td>
+                    <td>214,500</td>
+                    <td class="fav">+4,724</td>
+                    <td class="fav">+4.8%</td>
+                  </tr>
+                  <tr>
+                    <td>Active Participants</td>
+                    <td>4,987,208</td>
+                    <td>4,850,000</td>
+                    <td class="fav">+137,208</td>
+                    <td class="fav">+5.4%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#e0f2fe;">
+                    <td>401(k) Assets Under Management ($M, period end)</td>
+                    <td>$194,823.3M</td>
+                    <td>$188,000.0M</td>
+                    <td class="fav">+$6,823.3M</td>
+                    <td class="fav">+7.4%</td>
+                  </tr>
+                  <tr>
+                    <td>401(k) Average AUM ($M)</td>
+                    <td>$191,450.0M</td>
+                    <td>$185,200.0M</td>
+                    <td class="fav">+$6,250.0M</td>
+                    <td class="fav">+7.1%</td>
+                  </tr>
+                  <tr>
+                    <td>Average Plan Size ($K AUM / Client)</td>
+                    <td>$888.7K</td>
+                    <td>$876.5K</td>
+                    <td class="fav">+$12.2K</td>
+                    <td>+2.5%</td>
+                  </tr>
+                  <tr>
+                    <td>Average Balance per Participant</td>
+                    <td>$39,064</td>
+                    <td>$38,760</td>
+                    <td class="fav">+$304</td>
+                    <td>+1.9%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Detailed Tabbed Deep-Dive Tables with Expandable Rows -->
+        <div class="right-col">
+
+          <div class="epm-box">
+            <!-- Right Tab Strip -->
+            <div class="right-tabstrip">
+              <button class="right-tab active" onclick="switchRightTab(this, 'tab-byprod')">Processing by Product</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-saleswalk')">Sales &amp; Channels</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-periodcomp')">Period View (QTD/YTD/FY)</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-yield')">Yield &amp; Fee Economics</button>
+              <button class="right-tab" id="btnTabGl" onclick="switchRightTab(this, 'tab-gltxn')">GL Transactions</button>
+            </div>
+
+            <!-- TAB 1: Processing Revenue by Product (from management_pl_RS.html #proc-rev-by-product) -->
+            <div id="tab-byprod" class="right-tab-pane">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Processing Revenue by Product &amp; Fee Type ($K)</span>
+                <span class="expand-ctrls" onclick="toggleAllRows('tab-byprod')">Expand / Collapse All</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Product Line Item</th>
+                      <th>Asset $K</th>
+                      <th>Hard Fee $K</th>
+                      <th>Total $K</th>
+                      <th>Plan $K</th>
+                      <th>Var %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Core K Asset Revenue -->
+                    <tr class="group-hdr"><td colspan="6">1. Asset revenue (R0010_MGT) by product: Core K</td></tr>
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'asset-prod')">−</span>Total Asset Revenue (Core K)</td>
+                      <td>20,999.1</td>
+                      <td>-</td>
+                      <td>20,999.1</td>
+                      <td>20,380.0</td>
+                      <td class="fav">+3.0%</td>
+                    </tr>
+                    <tr class="child-row open asset-prod"><td class="indent">401K Small (&lt;50 Lives)</td><td>18,047.2</td><td>-</td><td>18,047.2</td><td>17,500.0</td><td class="fav">+3.1%</td></tr>
+                    <tr class="child-row open asset-prod"><td class="indent">401K Mid (50-500 Lives)</td><td>2,779.5</td><td>-</td><td>2,779.5</td><td>2,700.0</td><td class="fav">+2.9%</td></tr>
+                    <tr class="child-row open asset-prod"><td class="indent">401K Large (&gt;500 Lives)</td><td>172.4</td><td>-</td><td>172.4</td><td>180.0</td><td class="unf">(4.2%)</td></tr>
+                    <tr class="child-row open asset-prod"><td class="indent">401K Custom</td><td>0.0</td><td>-</td><td>0.0</td><td>0.0</td><td>0.0%</td></tr>
+
+                    <!-- Hard Dollar Fees by Product -->
+                    <tr class="group-hdr"><td colspan="6">2. Hard dollar fees by product (Processing less Asset)</td></tr>
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'fee-prod')">−</span>Total Hard Dollar Fees (Core K)</td>
+                      <td>-</td>
+                      <td>68,153.2</td>
+                      <td>68,153.2</td>
+                      <td>64,950.0</td>
+                      <td class="fav">+4.9%</td>
+                    </tr>
+                    <tr class="child-row open fee-prod"><td class="indent">401K Small (&lt;50 Lives)</td><td>-</td><td>52,319.5</td><td>52,319.5</td><td>49,850.0</td><td class="fav">+5.0%</td></tr>
+                    <tr class="child-row open fee-prod"><td class="indent">401K Mid (50-500 Lives)</td><td>-</td><td>12,551.0</td><td>12,551.0</td><td>12,000.0</td><td class="fav">+4.6%</td></tr>
+                    <tr class="child-row open fee-prod"><td class="indent">401K Large (&gt;500 Lives)</td><td>-</td><td>3,086.6</td><td>3,086.6</td><td>2,910.0</td><td class="fav">+6.1%</td></tr>
+                    <tr class="child-row open fee-prod"><td class="indent">401K Custom</td><td>-</td><td>196.1</td><td>196.1</td><td>190.0</td><td class="fav">+3.2%</td></tr>
+
+                    <!-- Other Products -->
+                    <tr class="group-hdr"><td colspan="6">3. Other products (Processing_Revenue_and_Float)</td></tr>
+                    <tr class="summary-row">
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'other-prod')">−</span>Total Other Products</td>
+                      <td>1,693.7</td>
+                      <td>2,462.1</td>
+                      <td>4,155.8</td>
+                      <td>3,980.0</td>
+                      <td class="fav">+4.4%</td>
+                    </tr>
+                    <tr class="child-row open other-prod"><td class="indent">Simple IRA</td><td>1,680.0</td><td>2,375.7</td><td>4,055.7</td><td>3,880.0</td><td class="fav">+4.5%</td></tr>
+                    <tr class="child-row open other-prod"><td class="indent">SEP IRA</td><td>0.0</td><td>1.0</td><td>1.0</td><td>1.0</td><td>0.0%</td></tr>
+                    <tr class="child-row open other-prod"><td class="indent">Executive Deferred Comp (EDC)</td><td>11.2</td><td>76.1</td><td>87.3</td><td>84.0</td><td class="fav">+3.9%</td></tr>
+                    <tr class="child-row open other-prod"><td class="indent">EasyPay</td><td>2.5</td><td>9.3</td><td>11.8</td><td>15.0</td><td class="unf">(21.3%)</td></tr>
+                    <tr class="child-row open other-prod"><td class="indent">All other (balances to total)</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0%</td></tr>
+
+                    <!-- Total Processing Summary -->
+                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;border-top:2px solid #0f62fe;">
+                      <td>TOTAL PROCESSING REVENUE</td>
+                      <td>22,692.8</td>
+                      <td>70,615.3</td>
+                      <td>93,308.1</td>
+                      <td>89,310.0</td>
+                      <td class="fav">+4.5%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 2: Sales, Starts, Losses & Retention (from management_pl_RS.html #sales-starts-losses) -->
+            <div id="tab-saleswalk" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Commercial Pipeline &amp; Channel Distribution ($K)</span>
+                <span style="font-size:10.5px;color:#64748b;">Selling BU Breakdown</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Channel / Line Item</th>
+                      <th>Sales $K</th>
+                      <th>Plan $K</th>
+                      <th>Starts $K</th>
+                      <th>Losses $K</th>
+                      <th>Net ARR $K</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="summary-row" style="background:#edf2f7;">
+                      <td><b>Sales dollars (Total)</b></td>
+                      <td><b>25,666.7</b></td>
+                      <td><b>22,840.0</b></td>
+                      <td><b>19,087.6</b></td>
+                      <td><b>(7,308.3)</b></td>
+                      <td class="fav"><b>+11,779.3</b></td>
+                    </tr>
+                    <tr class="group-hdr"><td colspan="6">Sales by selling business unit</td></tr>
+                    <tr><td class="indent">Retirement Services (RS Direct)</td><td>14,210.0</td><td>12,400.0</td><td>11,840.0</td><td>(4,520.0)</td><td class="fav">+7,320.0</td></tr>
+                    <tr><td class="indent">National Accounts Services (NAS)</td><td>4,120.0</td><td>3,800.0</td><td>2,850.0</td><td>(1,120.0)</td><td class="fav">+1,730.0</td></tr>
+                    <tr><td class="indent">Small Business Services (SBS RUN)</td><td>3,850.0</td><td>3,450.0</td><td>2,680.0</td><td>(980.0)</td><td class="fav">+1,700.0</td></tr>
+                    <tr><td class="indent">Major Account Services (MAS)</td><td>2,140.0</td><td>2,000.0</td><td>1,050.0</td><td>(480.0)</td><td class="fav">+570.0</td></tr>
+                    <tr><td class="indent">Global Enterprise &amp; Other (GES/CAN)</td><td>1,346.7</td><td>1,190.0</td><td>667.6</td><td>(208.3)</td><td class="fav">+459.3</td></tr>
+
+                    <tr class="group-hdr"><td colspan="6">Flow &amp; Retention Performance</td></tr>
+                    <tr><td>Start dollars</td><td>19,087.6</td><td>17,500.0</td><td colspan="3" class="fav">83.3% conversion velocity</td></tr>
+                    <tr><td>Loss dollars</td><td>(7,308.3)</td><td>(7,400.0)</td><td colspan="3" class="fav">Terminations down 3.8% YoY</td></tr>
+                    <tr class="summary-row" style="background:#f0fdf4;"><td>Net new business (NNB)</td><td>11,779.3</td><td>10,100.0</td><td colspan="3" class="fav">+$1,679.3K Ahead of Plan</td></tr>
+                    <tr class="summary-row"><td>Retention % (1 - Losses / Revenue)</td><td>92.2%</td><td>91.7%</td><td colspan="3" class="fav">+50 bps vs Plan</td></tr>
+
+                    <tr class="group-hdr"><td colspan="6">Sales and revenue ratios</td></tr>
+                    <tr><td>NDE % of sales</td><td>80.0%</td><td>85.2%</td><td colspan="3" class="fav">Favorable (520 bps)</td></tr>
+                    <tr><td>Revenue per FTE</td><td>$137.4K</td><td>$131.5K</td><td colspan="3" class="fav">+$5.9K / FTE</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 3: Period Comparison (QTD / YTD / ROY / FY) -->
+            <div id="tab-periodcomp" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Full Period Trajectory &amp; Growth ($K)</span>
+                <span style="font-size:10.5px;color:#64748b;">Month · QTD · YTD · FY OctFcst</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Line Item</th>
+                      <th>Sep Act</th>
+                      <th>Plan</th>
+                      <th>Var %</th>
+                      <th>QTD Act</th>
+                      <th>YTD Act</th>
+                      <th>FY OctFcst</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="summary-row">
+                      <td>Total Revenue ($K)</td>
+                      <td>93,403.4</td>
+                      <td>89,400.0</td>
+                      <td class="fav">+4.5%</td>
+                      <td>93,403.4</td>
+                      <td>350,000.0</td>
+                      <td>385,000.0</td>
+                    </tr>
+                    <tr>
+                      <td class="indent">Processing Revenue</td>
+                      <td>93,308.1</td>
+                      <td>89,310.0</td>
+                      <td class="fav">+4.5%</td>
+                      <td>93,308.1</td>
+                      <td>349,620.0</td>
+                      <td>384,600.0</td>
+                    </tr>
+                    <tr>
+                      <td class="indent2">Asset Revenue</td>
+                      <td>22,692.8</td>
+                      <td>22,000.0</td>
+                      <td class="fav">+3.2%</td>
+                      <td>22,692.8</td>
+                      <td>88,400.0</td>
+                      <td>95,200.0</td>
+                    </tr>
+                    <tr>
+                      <td class="indent2">Hard Dollar Fees</td>
+                      <td>70,615.3</td>
+                      <td>67,310.0</td>
+                      <td class="fav">+4.9%</td>
+                      <td>70,615.3</td>
+                      <td>261,220.0</td>
+                      <td>289,400.0</td>
+                    </tr>
+                    <tr>
+                      <td class="indent">Non-Processing Revenue</td>
+                      <td>95.3</td>
+                      <td>90.0</td>
+                      <td class="fav">+5.9%</td>
+                      <td>95.3</td>
+                      <td>380.0</td>
+                      <td>400.0</td>
+                    </tr>
+                    <tr class="summary-row" style="background:#f1f5f9;">
+                      <td>Sales Dollars ($K)</td>
+                      <td>25,666.7</td>
+                      <td>22,840.0</td>
+                      <td class="fav">+12.4%</td>
+                      <td>25,666.7</td>
+                      <td>72,400.0</td>
+                      <td>102,000.0</td>
+                    </tr>
+                    <tr>
+                      <td>Start Dollars ($K)</td>
+                      <td>19,087.6</td>
+                      <td>17,500.0</td>
+                      <td class="fav">+9.1%</td>
+                      <td>19,087.6</td>
+                      <td>54,200.0</td>
+                      <td>76,000.0</td>
+                    </tr>
+                    <tr>
+                      <td>Loss Dollars ($K)</td>
+                      <td>(7,308.3)</td>
+                      <td>(7,400.0)</td>
+                      <td class="fav">+1.2%</td>
+                      <td>(7,308.3)</td>
+                      <td>(28,400.0)</td>
+                      <td>(34,500.0)</td>
+                    </tr>
+                    <tr class="summary-row" style="background:#f0fdf4;">
+                      <td>Net New Business ($K)</td>
+                      <td>11,779.3</td>
+                      <td>10,100.0</td>
+                      <td class="fav">+16.6%</td>
+                      <td>11,779.3</td>
+                      <td>25,800.0</td>
+                      <td>41,500.0</td>
+                    </tr>
+                    <tr>
+                      <td>Retention %</td>
+                      <td>92.2%</td>
+                      <td>91.7%</td>
+                      <td class="fav">+50 bps</td>
+                      <td>92.2%</td>
+                      <td>92.5%</td>
+                      <td>92.6%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 4: Yield & Fee Economics -->
+            <div id="tab-yield" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">AUM Basis Points &amp; Participant Economics</span>
+                <span style="font-size:10.5px;color:#0f62fe;">Unit Economics</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table">
+                  <thead>
+                    <tr>
+                      <th>Economic Metric</th>
+                      <th>September Actual</th>
+                      <th>Plan Target</th>
+                      <th>Variance</th>
+                      <th>Benchmark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Effective Asset Bps Yield (Annualized)</td><td>11.65 bps</td><td>11.70 bps</td><td class="unf">(0.05 bps)</td><td>11.50 bps Industry</td></tr>
+                    <tr><td>Average Monthly Hard Fee / Participant</td><td>$1.18</td><td>$1.16</td><td class="fav">+$0.02</td><td>$1.15 Industry</td></tr>
+                    <tr><td>Total Revenue per Active Participant</td><td>$1.56 / mo</td><td>$1.53 / mo</td><td class="fav">+$0.03</td><td>$18.72 / yr</td></tr>
+                    <tr><td>Average Monthly Revenue per Plan (Client)</td><td>$426.1 / mo</td><td>$416.8 / mo</td><td class="fav">+$9.3 / mo</td><td>$5,113 / yr</td></tr>
+                    <tr class="summary-row"><td>Gross Profit Contribution %</td><td>48.2%</td><td>47.4%</td><td class="fav">+80 bps</td><td>Field NOI / Rev</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 5: Contextual GL Journal Lines Inspector -->
+            <div id="tab-gltxn" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div>
+                  <span style="font-size:11px;font-weight:700;color:#1e293b;">Oracle GL Revenue Journal Lines ($)</span>
+                  <span style="font-size:10.5px;color:#64748b;margin-left:6px;" id="glInspectorSub">Top Variance Drivers</span>
+                </div>
+                <a href="rs_transaction_detail_2.html" class="btn btn-primary" style="padding:3px 10px;font-size:10.5px;text-decoration:none;">
+                  Open Full GL Ledger &rarr;
+                </a>
+              </div>
+              <div style="padding:6px 12px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:6px;font-size:10.5px;">
+                <span style="font-weight:700;color:#475569;">Filter:</span>
+                <span class="ef-pill active" style="font-size:10px;padding:1px 6px;" onclick="filterGlTab('all')">All Drivers</span>
+                <span class="ef-pill" style="font-size:10px;padding:1px 6px;" onclick="filterGlTab('ASSET')">Asset Fees</span>
+                <span class="ef-pill" style="font-size:10px;padding:1px 6px;" onclick="filterGlTab('ERISA')">ERISA True-up</span>
+                <span class="ef-pill" style="font-size:10px;padding:1px 6px;" onclick="filterGlTab('HD')">Hard Dollar</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="epm-table" id="tabGlTable">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Invoice / Doc</th>
+                      <th>Account</th>
+                      <th>Category</th>
+                      <th>Journal Description</th>
+                      <th class="num">Net ($)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-glcat="ERISA">
+                      <td>04-Oct-22</td>
+                      <td><b>INV-2300100</b></td>
+                      <td>60101-6102</td>
+                      <td><span style="background:#fef3c7;color:#92400e;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">AR-ERISA</span></td>
+                      <td>Apr'23 EBA ACRL Mid Mkt Advisory Fee</td>
+                      <td class="num fav">(12,450.00)</td>
+                    </tr>
+                    <tr data-glcat="ASSET">
+                      <td>05-Jan-23</td>
+                      <td><b>INV-2300211</b></td>
+                      <td>60110-5001</td>
+                      <td><span style="background:#dbeafe;color:#1e40af;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">ASSET</span></td>
+                      <td>Monthly billing 401K Small Market Asset Basis</td>
+                      <td class="num fav">(45,120.00)</td>
+                    </tr>
+                    <tr data-glcat="ERISA">
+                      <td>02-Dec-22</td>
+                      <td><b>INV-2300174</b></td>
+                      <td>60101-6103</td>
+                      <td><span style="background:#fef3c7;color:#92400e;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">AR-ERISA</span></td>
+                      <td>Month-end true-up Small Mkt Plan Sponsor</td>
+                      <td class="num fav">(8,870.25)</td>
+                    </tr>
+                    <tr data-glcat="ASSET">
+                      <td>05-Jul-23</td>
+                      <td><b>INV-2300433</b></td>
+                      <td>60110-5001</td>
+                      <td><span style="background:#dbeafe;color:#1e40af;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">ASSET</span></td>
+                      <td>Journal Import Created - Custodial Trueup</td>
+                      <td class="num fav">(31,250.50)</td>
+                    </tr>
+                    <tr data-glcat="HD">
+                      <td>03-Nov-22</td>
+                      <td><b>INV-2300137</b></td>
+                      <td>60102-9900</td>
+                      <td><span style="background:#e0e7ff;color:#3730a3;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">HD</span></td>
+                      <td>Journal Import Created - Participant Reclass</td>
+                      <td class="num unf">3,200.50</td>
+                    </tr>
+                    <tr data-glcat="ASSET">
+                      <td>05-Jan-23</td>
+                      <td><b>INV-2300655</b></td>
+                      <td>60110-5001</td>
+                      <td><span style="background:#dbeafe;color:#1e40af;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">ASSET</span></td>
+                      <td>Monthly billing 401K Mid Market Asset Growth</td>
+                      <td class="num fav">(23,190.00)</td>
+                    </tr>
+                    <tr data-glcat="ERISA">
+                      <td>04-Oct-22</td>
+                      <td><b>INV-2300544</b></td>
+                      <td>60101-6102</td>
+                      <td><span style="background:#fef3c7;color:#92400e;padding:1px 4px;border-radius:2px;font-size:9.5px;font-weight:700;">AR-ERISA</span></td>
+                      <td>Apr'23 EBA ACRL Mid Mkt Major Advisory Run</td>
+                      <td class="num fav">(66,010.00)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="padding:6px 12px;background:#f8fafc;border-top:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:#64748b;">
+                <span>Displaying 7 key variance drivers</span>
+                <a href="rs_transaction_detail_2.html" style="color:#0f62fe;font-weight:600;text-decoration:none;">View all 20 lines in full ledger &rarr;</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · RS Revenue Analysis 2 (Dashboard 2) · September Close Review · Illustrative Figures for Internal Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<!-- Standard Tooltip Container -->
+<div class="tip" id="tip"></div>
+
+<script>
+  // Tooltip event handler
+  (function initTooltips() {
+    var tip = document.getElementById('tip');
+    if (!tip) return;
+    document.addEventListener('mouseover', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (!t) return;
+      tip.innerHTML = t.getAttribute('data-tip');
+      tip.classList.add('on');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!tip.classList.contains('on')) return;
+      var x = e.clientX + 14, y = e.clientY + 14;
+      if (x + tip.offsetWidth > window.innerWidth - 12) x = e.clientX - tip.offsetWidth - 14;
+      if (y + tip.offsetHeight > window.innerHeight - 12) y = e.clientY - tip.offsetHeight - 14;
+      tip.style.left = Math.max(8, x) + 'px';
+      tip.style.top = Math.max(8, y) + 'px';
+    });
+    document.addEventListener('mouseout', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (t) tip.classList.remove('on');
+    });
+  })();
+
+  // Right Column Tab Switcher
+  function switchRightTab(btn, paneId) {
+    var tabs = document.querySelectorAll('.right-tab');
+    var panes = document.querySelectorAll('.right-tab-pane');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    btn.classList.add('active');
+    var target = document.getElementById(paneId);
+    if (target) target.style.display = 'block';
+  }
+
+  function switchRightTabByDirect(paneId) {
+    var panes = document.querySelectorAll('.right-tab-pane');
+    var tabs = document.querySelectorAll('.right-tab');
+    var mainTabs = document.querySelectorAll('#mainTabStrip .epm-tab');
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    
+    var target = document.getElementById(paneId);
+    if (target) {
+      target.style.display = 'block';
+      tabs.forEach(function(t) {
+        if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(paneId) !== -1) {
+          t.classList.add('active');
+        }
+      });
+    }
+  }
+
+  // Contextual GL Inspector Filter
+  function filterGlTab(cat) {
+    var rows = document.querySelectorAll('#tabGlTable tbody tr');
+    var pills = document.querySelectorAll('#tab-gltxn .ef-pill');
+    pills.forEach(function(p) {
+      if ((cat === 'all' && p.textContent.includes('All')) || p.textContent.toUpperCase().includes(cat.toUpperCase())) {
+        p.classList.add('active');
+      } else {
+        p.classList.remove('active');
+      }
+    });
+
+    rows.forEach(function(r) {
+      var rCat = r.getAttribute('data-glcat');
+      if (cat === 'all' || rCat === cat) {
+        r.style.display = '';
+      } else {
+        r.style.display = 'none';
+      }
+    });
+  }
+
+  function inspectGlCategory(cat, label) {
+    var btn = document.getElementById('btnTabGl');
+    if (btn) switchRightTab(btn, 'tab-gltxn');
+    if (cat) filterGlTab(cat);
+    var sub = document.getElementById('glInspectorSub');
+    if (sub && label) sub.textContent = 'Filtered: ' + label;
+  }
+
+  // Row Expand / Collapse Logic
+  function toggleRow(toggleBtn, groupClass) {
+    var rows = document.querySelectorAll('tr.' + groupClass);
+    var isOpen = toggleBtn.textContent.trim() === '−';
+    if (isOpen) {
+      toggleBtn.textContent = '+';
+      rows.forEach(function(r) { r.classList.remove('open'); });
+    } else {
+      toggleBtn.textContent = '−';
+      rows.forEach(function(r) { r.classList.add('open'); });
+    }
+  }
+
+  function toggleAllRows(paneId) {
+    var pane = document.getElementById(paneId);
+    if (!pane) return;
+    var toggles = pane.querySelectorAll('.exp-toggle');
+    var childRows = pane.querySelectorAll('tr.child-row');
+    var anyClosed = false;
+    childRows.forEach(function(r) { if (!r.classList.contains('open')) anyClosed = true; });
+    if (anyClosed) {
+      childRows.forEach(function(r) { r.classList.add('open'); });
+      toggles.forEach(function(t) { t.textContent = '−'; });
+    } else {
+      childRows.forEach(function(r) { r.classList.remove('open'); });
+      toggles.forEach(function(t) { t.textContent = '+'; });
+    }
+  }
+
+  // Toggles for Headline KPIs ($ + % vs $ and Plan vs Plan vs Actual)
+  (function initHeadlineToggles() {
+    var st = { fmt: 'both', cmp: 'pva' };
+    var tgWrap = document.getElementById('cfo-toggles');
+    var hk = document.getElementById('headline-kpis');
+
+    function applyHeadline() {
+      if (hk) {
+        hk.setAttribute('data-cmp', st.cmp);
+        hk.setAttribute('data-fmt', st.fmt);
+      }
+    }
+
+    if (tgWrap) {
+      tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+          b.parentNode.querySelectorAll('button').forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          applyHeadline();
+        });
+      });
+    }
+  })();
+
+  // Filter Pill helper for RS Drilldown
+  function filterRevScope(scope) {
+    if (scope === 'asset') {
+      switchRightTabByDirect('tab-byprod');
+      var assetRows = document.querySelectorAll('tr.asset-prod');
+      assetRows.forEach(function(r) { r.classList.add('open'); });
+    } else if (scope === 'hard') {
+      switchRightTabByDirect('tab-byprod');
+      var feeRows = document.querySelectorAll('tr.fee-prod');
+      feeRows.forEach(function(r) { r.classList.add('open'); });
+    } else if (scope === 'nonproc') {
+      switchRightTabByDirect('tab-periodcomp');
+    } else {
+      switchRightTabByDirect('tab-byprod');
+    }
+  }
+
+  document.querySelectorAll('.ef-pill').forEach(function(p) {
+    p.addEventListener('click', function() {
+      var attr = this.getAttribute('data-filter') ? 'data-filter' : (this.getAttribute('data-period') ? 'data-period' : 'data-chan');
+      var val = this.getAttribute(attr);
+      if (val) {
+        this.parentElement.querySelectorAll('[' + attr + ']').forEach(function(s) { s.classList.remove('active'); });
+        this.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

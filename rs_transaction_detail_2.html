@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS Revenue Transaction Detail 2 — Oracle GL Journal Lines — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Shell Layout */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Area */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #fde68a; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Control Banner */
+  .ctrl-bar { background: #fff; border: 1px solid var(--line); border-radius: 4px; margin: 14px 20px 0; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ctrl-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .search-input { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 240px; }
+  .search-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+  .filter-select { font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; }
+  .btn { font: inherit; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #141E50; color: #fff; border-color: #141E50; }
+  .btn-primary:hover { background: #1b2a7a; }
+
+  /* Content area */
+  .content { padding: 14px 20px 28px; flex: 1; }
+  
+  /* Metric Strip */
+  .metric-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  .m-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 14px; }
+  .m-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
+  .m-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
+  .m-sub { font-size: 11px; color: #15803d; font-weight: 600; margin-top: 2px; }
+
+  /* EPM Box & Table */
+  .epm-box { background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .epm-box-hdr { background: #141E50; color: #fff; padding: 8px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
+  .epm-box-hdr .tools { font-size: 11px; font-weight: 400; color: #93c5fd; }
+  
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; white-space: nowrap; }
+  .epm-table th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; padding: 7px 10px; border-bottom: 2px solid #cbd5e1; font-size: 11px; }
+  .epm-table th.num, .epm-table td.num { text-align: right; }
+  .epm-table td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; color: #1e293b; }
+  .epm-table tr:hover td { background: #f8fafc; }
+  .epm-table tr.highlight td { background: #fef9c3 !important; }
+  .tag-cat { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .tag-asset { background: #dbeafe; color: #1e40af; }
+  .tag-erisa { background: #fef3c7; color: #92400e; }
+  .tag-hd { background: #e0e7ff; color: #3730a3; }
+  .tag-setup { background: #f1f5f9; color: #475569; }
+  .tag-dcio { background: #dcfce7; color: #166534; }
+  
+  .num-neg { color: var(--red); font-weight: 600; }
+  .num-pos { color: var(--green); font-weight: 600; }
+
+  /* Tooltip */
+  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip.on { opacity: 1; }
+  .nd { cursor: pointer; }
+</style>
+<link rel="stylesheet" href="site_footer.css">
+</head>
+<body>
+
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><span class="chrome-logo">ADP</span></a>
+    Project Polaris · Level-3 GL Ledger Inspector
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>RS Controller &amp; FP&amp;A</b>
+    <div class="avatar">RS</div>
+  </div>
+</div>
+
+<!-- EPM CA Style Top Bar -->
+<div class="epm-topbar">
+  <div class="epm-title-block">
+    <span class="epm-app-badge">RS GL Detail 2 · EPM Cockpit</span>
+    <div class="epm-plan-select" id="planDropdownBtn">
+      <span>BUDGET FY27 Q1 Close · Oracle GL Subledger Transactions</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="epm-meta-links">
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <span>|</span>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <span>|</span>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    <span>|</span>
+    <a href="rs_transaction_detail_2.html" style="color:#fff;font-weight:700;">RS Revenue Transaction Detail 2</a>
+    <span>|</span>
+    <a href="cfo_dashboard_3.html">Corporate CFO EPM</a>
+    <span>|</span>
+    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
+  </div>
+</div>
+
+<!-- EPM Sub Filter Strip -->
+<div class="epm-filter-strip">
+  <span class="ef-label">GL Source:</span>
+  <span class="ef-pill active" onclick="filterSource('all')">All Sources (22 Lines)</span>
+  <span class="ef-pill" onclick="filterSource('Routine')">Routine Accruals</span>
+  <span class="ef-pill" onclick="filterSource('Spreadsheet')">Spreadsheet Adjustments</span>
+  <span class="ef-pill" onclick="filterSource('Subledger')">Subledger Billing</span>
+  <span class="ef-pill" onclick="filterSource('OTC_Receivables')">OTC Receivables</span>
+  <div class="ef-sep"></div>
+  <span class="ef-label">Ledger:</span>
+  <span class="ef-pill active">USD / US01 · LOB 2260</span>
+  <div class="ef-sep"></div>
+  <span class="ef-label">Period:</span>
+  <span class="ef-pill active">FY23 Full Year Journal Walk</span>
+</div>
+
+<!-- EPM Tabstrip Navigation -->
+<nav class="epm-tabstrip" id="mainTabStrip">
+  <a class="epm-tab" href="rs_dashboard_3.html">&larr; Return to RS Dashboard 3</a>
+  <a class="epm-tab" href="revenue_analysis_RS_2.html">&larr; Revenue Analysis 2 (SOR Walk)</a>
+  <a class="epm-tab active" href="rs_transaction_detail_2.html">Oracle GL Revenue Transactions (Level 3 Detail)</a>
+</nav>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+    </div>
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="rs_dashboard_3.html">RS Dashboard 3</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2 active" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+    </details>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>/</span>
+        <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a><span>/</span>
+        <a href="rs_dashboard_3.html">RS Dashboard 3</a><span>/</span>
+        <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a><span>/</span>
+        RS Revenue Transaction Detail 2
+      </div>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            RS Revenue Transaction Detail 2 — Oracle GL Journal Lines
+            <span class="badge">Level-3 Audit Ledger</span>
+          </div>
+          <div class="page-sub">Granular general ledger entries backing the RS Processing Revenue Analysis &middot; Local currency USD as posted &middot; Automatic Data Processing, LLC (Entity US01, LOB 2260)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Search & Control Bar -->
+    <div class="ctrl-bar">
+      <div class="ctrl-left">
+        <input type="text" id="glSearch" class="search-input" placeholder="Search by Invoice #, Journal Name, Account (e.g. 60101, INV-2300100)..." oninput="filterTable()">
+        <select id="catSelect" class="filter-select" onchange="filterTable()">
+          <option value="all">All Revenue Categories</option>
+          <option value="AR-ERISA">AR-ERISA (Advisory True-ups)</option>
+          <option value="ASSET">ASSET (Asset-Based Fees)</option>
+          <option value="HD">HD (Hard Dollar Participant Fees)</option>
+          <option value="SETUP">SETUP (Plan Setup Fees)</option>
+          <option value="DCIO">DCIO (Fund Partner Fees)</option>
+        </select>
+        <select id="jeSelect" class="filter-select" onchange="filterTable()">
+          <option value="all">All JE Categories</option>
+          <option value="Revenue Recognition">Revenue Recognition</option>
+          <option value="Manual Adjustment">Manual Adjustment</option>
+          <option value="Accrual Reverse">Accrual Reverse</option>
+          <option value="OTC_Credit_Reclass">OTC Credit Reclass</option>
+        </select>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="exportCSV()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export GL Ledger (.CSV)
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Metric Strip -->
+      <div class="metric-strip">
+        <div class="m-card">
+          <div class="m-label">Total Journal Lines</div>
+          <div class="m-val" id="statCount">20 Lines</div>
+          <div class="m-sub">100% Filter Match</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Total Debits</div>
+          <div class="m-val" id="statDebit">$32,456.65</div>
+          <div class="m-sub" style="color:#64748b;">Adjustments &amp; True-ups</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Total Credits</div>
+          <div class="m-val" id="statCredit">$245,692.80</div>
+          <div class="m-sub" style="color:var(--green);">Earned Revenue Billings</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Net Posted Revenue</div>
+          <div class="m-val" id="statNet" style="color:var(--green);">($213,236.15)</div>
+          <div class="m-sub">Credit Balance (P&amp;L)</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">GL Audit Status</div>
+          <div class="m-val" style="font-size:15px;color:var(--green);">✓ Reconciled</div>
+          <div class="m-sub" style="color:#64748b;">Subledger Balanced</div>
+        </div>
+      </div>
+
+      <!-- Oracle GL Revenue Transactions Table -->
+      <div class="epm-box">
+        <div class="epm-box-hdr">
+          <span>ORACLE GL REVENUE TRANSACTIONS LEDGER (19 ATTRIBUTES)</span>
+          <div class="tools"><span id="tableMatchLabel">Showing 20 of 20 journal records</span></div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="epm-table" id="glTable">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Posted Date</th>
+                <th>Legal Entity</th>
+                <th>LOB</th>
+                <th>Dept</th>
+                <th>Account</th>
+                <th>Sub-Acct</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Account Description</th>
+                <th>Source</th>
+                <th>JE Category</th>
+                <th>Journal Name</th>
+                <th>JE Line</th>
+                <th>Journal Description</th>
+                <th>Document / Invoice</th>
+                <th class="num">Debit ($)</th>
+                <th class="num">Credit ($)</th>
+                <th class="num">Net ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-src="Routine" data-cat="AR-ERISA" data-je="Accrual Reverse">
+                <td>1 (FY23)</td>
+                <td>04-Oct-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6102</td>
+                <td>176</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Routine</td>
+                <td>Accrual Reverse Next Month</td>
+                <td>Reverses R01036MB_ERISA</td>
+                <td>10</td>
+                <td>Apr'23 EBA ACRL Mid Mkt Advisory Fee</td>
+                <td><b>INV-2300100</b></td>
+                <td class="num">0.00</td>
+                <td class="num">12,450.00</td>
+                <td class="num num-pos">(12,450.00)</td>
+              </tr>
+              <tr data-src="OTC_Receivables" data-cat="HD" data-je="OTC_Credit_Reclass">
+                <td>2 (FY23)</td>
+                <td>03-Nov-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60102</td>
+                <td>9900</td>
+                <td>11E</td>
+                <td><span class="tag-cat tag-hd">HD</span></td>
+                <td>ADP, LLC / Retirement Participant Fees</td>
+                <td>OTC_Receivables</td>
+                <td>OTC_Credit_Reclass</td>
+                <td>OTC_Receivables_Reclass</td>
+                <td>39</td>
+                <td>Journal Import Created - Participant Reclass</td>
+                <td><b>INV-2300137</b></td>
+                <td class="num">3,200.50</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">3,200.50</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
+                <td>3 (FY23)</td>
+                <td>02-Dec-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6103</td>
+                <td>177</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>RS Rev True-up Small Mkt</td>
+                <td>68</td>
+                <td>Month-end true-up Small Mkt Plan Sponsor</td>
+                <td><b>INV-2300174</b></td>
+                <td class="num">0.00</td>
+                <td class="num">8,870.25</td>
+                <td class="num num-pos">(8,870.25)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="ASSET" data-je="Revenue Recognition">
+                <td>4 (FY23)</td>
+                <td>05-Jan-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60110</td>
+                <td>5001</td>
+                <td>201</td>
+                <td><span class="tag-cat tag-asset">ASSET</span></td>
+                <td>ADP, LLC / Asset-Based Custodial Fee</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run AUM Jan</td>
+                <td>97</td>
+                <td>Monthly billing 401K Small Market Asset Basis</td>
+                <td><b>INV-2300211</b></td>
+                <td class="num">0.00</td>
+                <td class="num">45,120.00</td>
+                <td class="num num-pos">(45,120.00)</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SETUP" data-je="Accrual Reverse">
+                <td>5 (FY23)</td>
+                <td>02-Feb-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60120</td>
+                <td>7001</td>
+                <td>310</td>
+                <td><span class="tag-cat tag-setup">SETUP</span></td>
+                <td>ADP, LLC / Plan Conversion &amp; Setup</td>
+                <td>Routine</td>
+                <td>Accrual Reverse Next Month</td>
+                <td>Reverses R01036MB_Setup</td>
+                <td>126</td>
+                <td>Apr'23 EBA ACRL Mid Mkt Conversion</td>
+                <td><b>INV-2300248</b></td>
+                <td class="num">1,500.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">1,500.00</td>
+              </tr>
+              <tr data-src="OTC_Receivables" data-cat="DCIO" data-je="OTC_Credit_Reclass">
+                <td>6 (FY23)</td>
+                <td>03-Mar-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60130</td>
+                <td>8001</td>
+                <td>405</td>
+                <td><span class="tag-cat tag-dcio">DCIO</span></td>
+                <td>ADP, LLC / Fund Manager Partner Fees</td>
+                <td>OTC_Receivables</td>
+                <td>OTC_Credit_Reclass</td>
+                <td>OTC_Receivables_DCIO</td>
+                <td>155</td>
+                <td>Journal Import Created - Partner Share</td>
+                <td><b>INV-2300285</b></td>
+                <td class="num">0.00</td>
+                <td class="num">2,310.75</td>
+                <td class="num num-pos">(2,310.75)</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
+                <td>7 (FY23)</td>
+                <td>04-Apr-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6102</td>
+                <td>176</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>RS Rev True-up Apr</td>
+                <td>184</td>
+                <td>Month-end true-up Small Mkt Participant</td>
+                <td><b>INV-2300322</b></td>
+                <td class="num">0.00</td>
+                <td class="num">19,800.00</td>
+                <td class="num num-pos">(19,800.00)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="HD" data-je="Revenue Recognition">
+                <td>8 (FY23)</td>
+                <td>03-May-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60102</td>
+                <td>9900</td>
+                <td>11E</td>
+                <td><span class="tag-cat tag-hd">HD</span></td>
+                <td>ADP, LLC / Retirement Participant Fees</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run HD May</td>
+                <td>213</td>
+                <td>Monthly billing 401K Small Market Base Fees</td>
+                <td><b>INV-2300359</b></td>
+                <td class="num">760.40</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">760.40</td>
+              </tr>
+              <tr data-src="Routine" data-cat="AR-ERISA" data-je="Accrual Reverse">
+                <td>9 (FY23)</td>
+                <td>02-Jun-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6103</td>
+                <td>177</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Routine</td>
+                <td>Accrual Reverse Next Month</td>
+                <td>Reverses R01036MB_ERISA</td>
+                <td>242</td>
+                <td>Apr'23 EBA ACRL Mid Mkt Accrual</td>
+                <td><b>INV-2300396</b></td>
+                <td class="num">0.00</td>
+                <td class="num">5,400.00</td>
+                <td class="num num-pos">(5,400.00)</td>
+              </tr>
+              <tr data-src="OTC_Receivables" data-cat="ASSET" data-je="OTC_Credit_Reclass">
+                <td>10 (FY23)</td>
+                <td>05-Jul-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60110</td>
+                <td>5001</td>
+                <td>201</td>
+                <td><span class="tag-cat tag-asset">ASSET</span></td>
+                <td>ADP, LLC / Asset-Based Custodial Fee</td>
+                <td>OTC_Receivables</td>
+                <td>OTC_Credit_Reclass</td>
+                <td>OTC_Receivables_AUM</td>
+                <td>271</td>
+                <td>Journal Import Created - Custodial Trueup</td>
+                <td><b>INV-2300433</b></td>
+                <td class="num">0.00</td>
+                <td class="num">31,250.50</td>
+                <td class="num num-pos">(31,250.50)</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="SETUP" data-je="Manual Adjustment">
+                <td>11 (FY23)</td>
+                <td>03-Aug-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60120</td>
+                <td>7001</td>
+                <td>310</td>
+                <td><span class="tag-cat tag-setup">SETUP</span></td>
+                <td>ADP, LLC / Plan Conversion &amp; Setup</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>RS Rev True-up Setup</td>
+                <td>300</td>
+                <td>Month-end true-up Small Mkt Implementation</td>
+                <td><b>INV-2300470</b></td>
+                <td class="num">9,800.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">9,800.00</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="DCIO" data-je="Revenue Recognition">
+                <td>12 (FY23)</td>
+                <td>05-Sep-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60130</td>
+                <td>8001</td>
+                <td>405</td>
+                <td><span class="tag-cat tag-dcio">DCIO</span></td>
+                <td>ADP, LLC / Fund Manager Partner Fees</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run DCIO Sep</td>
+                <td>329</td>
+                <td>Monthly billing 401K Small Partner Revenue</td>
+                <td><b>INV-2300507</b></td>
+                <td class="num">0.00</td>
+                <td class="num">1,275.00</td>
+                <td class="num num-pos">(1,275.00)</td>
+              </tr>
+              <tr data-src="Routine" data-cat="AR-ERISA" data-je="Accrual Reverse">
+                <td>1 (FY23)</td>
+                <td>04-Oct-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6102</td>
+                <td>176</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Routine</td>
+                <td>Accrual Reverse Next Month</td>
+                <td>Reverses R01036MB_Major</td>
+                <td>358</td>
+                <td>Apr'23 EBA ACRL Mid Mkt Major Advisory Run</td>
+                <td><b>INV-2300544</b></td>
+                <td class="num">0.00</td>
+                <td class="num">66,010.00</td>
+                <td class="num num-pos">(66,010.00)</td>
+              </tr>
+              <tr data-src="OTC_Receivables" data-cat="HD" data-je="OTC_Credit_Reclass">
+                <td>2 (FY23)</td>
+                <td>03-Nov-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60102</td>
+                <td>9900</td>
+                <td>11E</td>
+                <td><span class="tag-cat tag-hd">HD</span></td>
+                <td>ADP, LLC / Retirement Participant Fees</td>
+                <td>OTC_Receivables</td>
+                <td>OTC_Credit_Reclass</td>
+                <td>OTC_Receivables_Batch2</td>
+                <td>387</td>
+                <td>Journal Import Created - Batch Fee Adjustment</td>
+                <td><b>INV-2300581</b></td>
+                <td class="num">420.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">420.00</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
+                <td>3 (FY23)</td>
+                <td>02-Dec-22</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6103</td>
+                <td>177</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>RS Rev True-up Dec</td>
+                <td>416</td>
+                <td>Month-end true-up Small Mkt Plan Retainage</td>
+                <td><b>INV-2300618</b></td>
+                <td class="num">0.00</td>
+                <td class="num">7,340.80</td>
+                <td class="num num-pos">(7,340.80)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="ASSET" data-je="Revenue Recognition">
+                <td>4 (FY23)</td>
+                <td>05-Jan-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60110</td>
+                <td>5001</td>
+                <td>201</td>
+                <td><span class="tag-cat tag-asset">ASSET</span></td>
+                <td>ADP, LLC / Asset-Based Custodial Fee</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run AUM Mid</td>
+                <td>445</td>
+                <td>Monthly billing 401K Mid Market Asset Growth</td>
+                <td><b>INV-2300655</b></td>
+                <td class="num">0.00</td>
+                <td class="num">23,190.00</td>
+                <td class="num num-pos">(23,190.00)</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SETUP" data-je="Accrual Reverse">
+                <td>5 (FY23)</td>
+                <td>02-Feb-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60120</td>
+                <td>7001</td>
+                <td>310</td>
+                <td><span class="tag-cat tag-setup">SETUP</span></td>
+                <td>ADP, LLC / Plan Conversion &amp; Setup</td>
+                <td>Routine</td>
+                <td>Accrual Reverse Next Month</td>
+                <td>Reverses R01036MB_Conv</td>
+                <td>474</td>
+                <td>Apr'23 EBA ACRL Mid Mkt Conversion Run</td>
+                <td><b>INV-2300692</b></td>
+                <td class="num">5,125.25</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">5,125.25</td>
+              </tr>
+              <tr data-src="OTC_Receivables" data-cat="DCIO" data-je="OTC_Credit_Reclass">
+                <td>6 (FY23)</td>
+                <td>03-Mar-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60130</td>
+                <td>8001</td>
+                <td>405</td>
+                <td><span class="tag-cat tag-dcio">DCIO</span></td>
+                <td>ADP, LLC / Fund Manager Partner Fees</td>
+                <td>OTC_Receivables</td>
+                <td>OTC_Credit_Reclass</td>
+                <td>OTC_Receivables_DCIO2</td>
+                <td>503</td>
+                <td>Journal Import Created - Partner Settlement</td>
+                <td><b>INV-2300729</b></td>
+                <td class="num">0.00</td>
+                <td class="num">980.00</td>
+                <td class="num num-pos">(980.00)</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
+                <td>7 (FY23)</td>
+                <td>04-Apr-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60101</td>
+                <td>6102</td>
+                <td>176</td>
+                <td><span class="tag-cat tag-erisa">AR-ERISA</span></td>
+                <td>ADP, LLC / Retirement Recordkeeping</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>RS Rev True-up Apr Batch</td>
+                <td>532</td>
+                <td>Month-end true-up Small Mkt Plan Conversion</td>
+                <td><b>INV-2300766</b></td>
+                <td class="num">0.00</td>
+                <td class="num">14,460.00</td>
+                <td class="num num-pos">(14,460.00)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="HD" data-je="Revenue Recognition">
+                <td>8 (FY23)</td>
+                <td>03-May-23</td>
+                <td>US01</td>
+                <td>2260</td>
+                <td>0000</td>
+                <td>60102</td>
+                <td>9900</td>
+                <td>11E</td>
+                <td><span class="tag-cat tag-hd">HD</span></td>
+                <td>ADP, LLC / Retirement Participant Fees</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run HD May2</td>
+                <td>561</td>
+                <td>Monthly billing 401K Small Base Fee Adjustment</td>
+                <td><b>INV-2300803</b></td>
+                <td class="num">0.00</td>
+                <td class="num">2,755.50</td>
+                <td class="num num-pos">(2,755.50)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · Level-3 Oracle GL Transaction Ledger (Dashboard 2) · September Close Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<script>
+  var currentSource = 'all';
+
+  function filterSource(src) {
+    currentSource = src;
+    var pills = document.querySelectorAll('.ef-pill');
+    pills.forEach(function(p) {
+      if (p.textContent.includes(src === 'all' ? 'All' : src)) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+    filterTable();
+  }
+
+  function filterTable() {
+    var query = document.getElementById('glSearch').value.toLowerCase().trim();
+    var cat = document.getElementById('catSelect').value;
+    var je = document.getElementById('jeSelect').value;
+    var rows = document.querySelectorAll('#glTable tbody tr');
+    
+    var visibleCount = 0;
+    var totalDebit = 0;
+    var totalCredit = 0;
+
+    rows.forEach(function(r) {
+      var rowText = r.textContent.toLowerCase();
+      var rSrc = r.getAttribute('data-src');
+      var rCat = r.getAttribute('data-cat');
+      var rJe = r.getAttribute('data-je');
+
+      var matchQuery = !query || rowText.includes(query);
+      var matchSrc = currentSource === 'all' || rSrc === currentSource;
+      var matchCat = cat === 'all' || rCat === cat;
+      var matchJe = je === 'all' || rJe === je;
+
+      if (matchQuery && matchSrc && matchCat && matchJe) {
+        r.style.display = '';
+        visibleCount++;
+        var cells = r.querySelectorAll('td.num');
+        if (cells.length >= 2) {
+          totalDebit += parseFloat(cells[0].textContent.replace(/,/g, '')) || 0;
+          totalCredit += parseFloat(cells[1].textContent.replace(/,/g, '')) || 0;
+        }
+      } else {
+        r.style.display = 'none';
+      }
+    });
+
+    var net = totalDebit - totalCredit;
+    document.getElementById('statCount').textContent = visibleCount + ' Lines';
+    document.getElementById('statDebit').textContent = '$' + totalDebit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('statCredit').textContent = '$' + totalCredit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('statNet').textContent = '(' + '$' + Math.abs(net).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ')';
+    document.getElementById('tableMatchLabel').textContent = 'Showing ' + visibleCount + ' of ' + rows.length + ' journal records';
+  }
+
+  function exportCSV() {
+    var rows = document.querySelectorAll('#glTable tr');
+    var csv = [];
+    rows.forEach(function(r) {
+      if (r.style.display !== 'none') {
+        var rowData = [];
+        r.querySelectorAll('th, td').forEach(function(c) {
+          var t = c.textContent.trim().replace(/"/g, '""');
+          rowData.push('"' + t + '"');
+        });
+        csv.push(rowData.join(','));
+      }
+    });
+    var blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'RS_Oracle_GL_Transactions_September_Close.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+</script>
+</body>
+</html>
