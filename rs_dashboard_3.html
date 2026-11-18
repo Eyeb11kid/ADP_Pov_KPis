@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RS Dashboard 3 — Retirement Services Monthly Close Cockpit — ADP Project Polaris</title>
+<link rel="stylesheet" href="polaris_header.css">
 <style>
   :root {
     --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
@@ -156,10 +157,12 @@
   .kpi-var { font-size: 11px; font-weight: 600; }
   .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
+  .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e2e8f0; font-size: 10.5px; font-weight: 600; color: var(--blue); text-decoration: none; }
+  .kpi-link:hover, .kpi-link:focus-visible { text-decoration: underline; }
   .fav { color: var(--green); font-weight: 600; }
   .unf { color: var(--red); font-weight: 600; }
 
-  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="usd"] .m-both { display: none; }
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
   /* 2-Column Split Layout Grid */
   .epm-layout-grid { display: grid; grid-template-columns: minmax(560px, 1.25fr) minmax(500px, 1.4fr); gap: 14px; padding: 14px 20px 28px; }
@@ -174,6 +177,12 @@
   .epm-box-hdr.light { background: #f6f8fa; color: var(--p-navy); border-bottom: 1px solid #d0d7de; font-weight: 700; }
   .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: normal; color: #a0aec0; }
   .epm-box-body { padding: 12px; }
+  .chart-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .chart-cap { font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; margin-top: 6px; line-height: 1.4; }
+  .charts-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
 
   /* Tables */
   .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
@@ -216,7 +225,7 @@
   .site-footer a:hover { text-decoration: underline; }
 </style>
 </head>
-<body>
+<body data-pf-page="P03" data-pf-bu="RS">
 
 <!-- Top Global Chrome -->
 <header class="chrome">
@@ -231,64 +240,12 @@
   </div>
 </header>
 
-<!-- EPM Top Bar -->
-<div class="epm-topbar">
-  <div class="epm-title-block">
-    <span class="epm-app-badge">RS BU Close · Polaris 12.4</span>
-    <div class="epm-plan-select" id="planDropdownBtn">
-      <span>BUDGET FY27 Q1 Close · Retirement Services with Actuals</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="epm-meta-links">
-    <a href="rs_dashboard_3.html" style="color:#fff;font-weight:700;">RS Dashboard 3</a>
-    <span>|</span>
-    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
-    <span>|</span>
-    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
-    <span>|</span>
-    <a href="cfo_dashboard_3.html">Corporate CFO EPM</a>
-    <span>|</span>
-    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
-  </div>
-</div>
-
-<!-- EPM Sub Filter Strip -->
-<div class="epm-filter-strip">
-  <span class="ef-label">RS Filter:</span>
-  <span class="ef-pill active" data-filter="scope">All RS Offerings</span>
-  <a class="ef-pill" href="revenue_analysis_RS_2.html" title="Drill into RS Revenue Analysis 2" style="text-decoration:none;">Processing Revenue Drilldown &rarr;</a>
-  <a class="ef-pill" href="expense_pl_RS_2.html" title="Drill into RS Expense P&L 2" style="text-decoration:none;">Field Expense Drilldown &rarr;</a>
-  <span class="ef-pill" data-filter="scope">Non-Processing Revenue</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Period:</span>
-  <span class="ef-pill active" data-period="mth">September Close</span>
-  <span class="ef-pill" data-period="qtd">Q1 QTD Act</span>
-  <span class="ef-pill" data-period="ytd">YTD ($350.0M)</span>
-  <span class="ef-pill" data-period="fy">FY OctFcst ($385.0M)</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Channel:</span>
-  <span class="ef-pill active" data-chan="all">All Channels (Direct + Partner + Digital)</span>
-  <span class="ef-pill" data-chan="dir">Direct (69%)</span>
-  <span class="ef-pill" data-chan="part">Partner/Advisor (24%)</span>
-</div>
-
-<!-- EPM Tabstrip -->
-<nav class="epm-tabstrip" id="mainTabStrip">
-  <a class="epm-tab active" data-tab="mgt-pl" onclick="switchRightTabByDirect('tab-mgtpl')">Management P&amp;L Summary</a>
-  <a class="epm-tab" data-tab="rev-detail" onclick="switchRightTabByDirect('tab-revdrill')">Revenue (Processing &amp; Non-Processing)</a>
-  <a class="epm-tab" data-tab="exp-detail" onclick="switchRightTabByDirect('tab-expdetail')">Expense P&amp;L (Employee &amp; Non-Employee)</a>
-  <a class="epm-tab" data-tab="alloc-detail" onclick="switchRightTabByDirect('tab-alloc')">Allocations &amp; NOI</a>
-  <a class="epm-tab" data-tab="dept-detail" onclick="switchRightTabByDirect('tab-dept')">By Department (7 Field Depts + Impl)</a>
-  <a class="epm-tab" data-tab="starts-stops" onclick="switchRightTabByDirect('tab-mgtpl')">Starts, Stops &amp; Retention</a>
-</nav>
-
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+      <div class="sb-bu-label">Polaris</div>
     </div>
     <div class="sb-section">BU Executive Cockpit</div>
     <details class="sb-acc" name="sb-acc">
@@ -319,16 +276,18 @@
   <!-- Main Content Area -->
   <main class="main">
 
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a><span>/</span>RS Dashboard 3 (Monthly Close)</div>
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
       <div class="title-row">
         <div>
           <div class="page-title">
             Retirement Services (RS) Management P&amp;L &amp; Close Cockpit
             <span class="badge">Approved Structure</span>
           </div>
-          <div class="page-sub">Single-view monthly close cockpit strictly structured according to the proposed RS financial lines, excluding struck-through items</div>
         </div>
       </div>
     </div>
@@ -341,10 +300,6 @@
           <span class="hkpi-bar-badge">September Close</span>
         </div>
         <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" role="group" aria-label="Value format" data-k="fmt">
-            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
-            <button type="button" data-v="usd" aria-pressed="false">$</button>
-          </div>
           <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
             <button type="button" data-v="plan" aria-pressed="false">Plan</button>
             <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
@@ -363,6 +318,8 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>$89.4M</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.2%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Analyze in RS Revenue Analysis &rarr;</a>
+
         </div>
 
         <!-- 2. NOI -->
@@ -376,6 +333,8 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>34.0% · $30.4M</b></div>
           <div class="kpi-row m-plan"><span>NOI (plan)</span><b>$30.4M</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+180 bps</b></div>
+          <a class="kpi-link" href="expense_pl_RS_2.html#sec-mgmt-pl">Analyze in RS Expense P&amp;L &rarr;</a>
+
         </div>
 
         <!-- 3. Sales -->
@@ -388,6 +347,8 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>$12.4M</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+12.4%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+5.8%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Analyze in RS Revenue Analysis &rarr;</a>
+
         </div>
 
         <!-- 4. Retention % -->
@@ -400,10 +361,12 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>94.2%</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+20 bps</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+10 bps</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Analyze in RS Revenue Analysis &rarr;</a>
+
         </div>
 
         <!-- 5. Clients -->
-        <div class="kpi nd" id="hkpi-clients" data-tip="<b>Clients (Active Plans) (Screenshot 1)</b><br>Act: 154,200 vs Plan 151,800 (+2,400 / +1.6%)">
+        <div class="kpi nd" id="hkpi-clients" data-pf-unsupported="product" data-tip="<b>Clients (Active Plans) (Screenshot 1)</b><br>Act: 154,200 vs Plan 151,800 (+2,400 / +1.6%)">
           <div class="kpi-val"><span class="m-pva">154.2K</span><span class="m-plan">151.8K</span></div>
           <div class="kpi-label">Clients</div>
           <div class="kpi-desc">Active 401(k) &amp; IRA Plans</div>
@@ -412,6 +375,8 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>151,800</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+4.8%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.2%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html#sec-volume">Analyze in RS Revenue Analysis &rarr;</a>
+
         </div>
       </div>
     </div>
@@ -516,81 +481,55 @@
             </div>
           </div>
 
-          <!-- Section B: Revenue Structure (from Screenshot 1: Revenue) -->
+          <!-- Section B: Revenue + Starts, Stops and Retention (combined) -->
           <div class="epm-box">
             <div class="epm-box-hdr light">
-              <span>REVENUE (Screenshot 1)</span>
-              <span style="font-size:10px;color:#64748b;">Processing &amp; Non-Processing ($K)</span>
+              <span>REVENUE, STARTS, STOPS AND RETENTION</span>
+              <span style="font-size:10px;color:#64748b;">$K · Sep Act, Plan, Var, QTD, YTD, ROY (FY less YTD), FY</span>
             </div>
             <div style="overflow-x:auto;">
               <table class="epm-table">
                 <thead>
                   <tr>
-                    <th>Revenue Category</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>% of Rev</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row">
-                    <td>Total revenue</td>
-                    <td>93,403.4</td>
-                    <td>89,400.0</td>
-                    <td class="fav">+4,003.4</td>
-                    <td>100.0%</td>
-                  </tr>
-                  <tr class="group-hdr"><td colspan="5">Processing revenue</td></tr>
-                  <tr><td class="indent">Asset revenue</td><td>22,692.8</td><td>22,000.0</td><td class="fav">+692.8</td><td>24.3%</td></tr>
-                  <tr><td class="indent">Hard dollar fees</td><td>70,615.3</td><td>67,310.0</td><td class="fav">+3,305.3</td><td>75.6%</td></tr>
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td>99.9%</td></tr>
-                  
-                  <tr class="group-hdr"><td colspan="5">Non-processing revenue</td></tr>
-                  <tr><td class="indent">Setup revenue</td><td>66.6</td><td>62.0</td><td class="fav">+4.6</td><td>0.07%</td></tr>
-                  <tr><td class="indent">Other recurring revenue (DCIO fees)</td><td>9.4</td><td>9.0</td><td class="fav">+0.4</td><td>0.01%</td></tr>
-                  <tr><td class="indent">Offset revenue and interest (client funds interest)</td><td>19.3</td><td>19.0</td><td class="fav">+0.3</td><td>0.02%</td></tr>
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td>0.1%</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section C: Starts, Stops and Retention (from Screenshot 2: Starts, stops and retention) -->
-          <div class="epm-box">
-            <div class="epm-box-hdr light">
-              <span>STARTS, STOPS AND RETENTION (Screenshot 2)</span>
-              <span style="font-size:10px;color:#64748b;">Sales &amp; Efficiency Ratios</span>
-            </div>
-            <div style="overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Commercial Metric</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
+                    <th>Line Item</th>
+                    <th>Sep Act</th>
+                    <th>Plan</th>
                     <th>Var</th>
-                    <th>Note</th>
+                    <th>QTD</th>
+                    <th>YTD</th>
+                    <th>ROY</th>
+                    <th>FY</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="group-hdr"><td colspan="5">Sales, starts, losses and retention</td></tr>
-                  <tr class="summary-row"><td>Sales dollars</td><td>14,210.0</td><td>12,400.0</td><td class="fav">+1,810.0</td><td>New Bookings</td></tr>
-                  <tr><td class="indent">Sales by channel: Direct</td><td>9,800.0</td><td>8,500.0</td><td class="fav">+1,300.0</td><td>69.0% mix</td></tr>
-                  <tr><td class="indent">Sales by channel: Advisor / Partner</td><td>3,410.0</td><td>3,000.0</td><td class="fav">+410.0</td><td>24.0% mix</td></tr>
-                  <tr><td class="indent">Sales by channel: Digital RUN</td><td>1,000.0</td><td>900.0</td><td class="fav">+100.0</td><td>7.0% mix</td></tr>
-                  <tr><td>Start dollars</td><td>11,840.0</td><td>11,300.0</td><td class="fav">+540.0</td><td>Live Conversion</td></tr>
-                  <tr><td>Loss dollars</td><td>(8,420.0)</td><td>(8,600.0)</td><td class="fav">+180.0</td><td>Terminations</td></tr>
-                  <tr class="summary-row" style="background:#f0fdf4;"><td>Net new business</td><td>3,420.0</td><td>2,700.0</td><td class="fav">+720.0</td><td>Starts - Losses</td></tr>
-                  <tr><td>Retention %</td><td>94.6%</td><td>94.2%</td><td class="fav">+40 bps</td><td>Annualized</td></tr>
+                  <tr class="group-hdr"><td colspan="8">Revenue</td></tr>
+                  <tr class="summary-row"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td>93,403.4</td><td>350,000.0</td><td>35,000.0</td><td>385,000.0</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td>93,308.1</td><td>349,620.0</td><td>34,980.0</td><td>384,600.0</td></tr>
+                  <tr><td class="indent2">Asset revenue</td><td>22,692.8</td><td>22,000.0</td><td class="fav">+692.8</td><td>22,692.8</td><td>88,400.0</td><td>6,800.0</td><td>95,200.0</td></tr>
+                  <tr><td class="indent2">Hard dollar fees</td><td>70,615.3</td><td>67,310.0</td><td class="fav">+3,305.3</td><td>70,615.3</td><td>261,220.0</td><td>28,180.0</td><td>289,400.0</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td>95.3</td><td>380.0</td><td>20.0</td><td>400.0</td></tr>
+                  <tr><td class="indent2">Setup revenue</td><td>66.6</td><td>62.0</td><td class="fav">+4.6</td><td>66.6</td><td>265.6</td><td>13.9</td><td>279.5</td></tr>
+                  <tr><td class="indent2">Other recurring revenue (DCIO fees)</td><td>9.4</td><td>9.0</td><td class="fav">+0.4</td><td>9.4</td><td>37.5</td><td>2.0</td><td>39.5</td></tr>
+                  <tr><td class="indent2">Offset revenue and interest (client funds interest)</td><td>19.3</td><td>19.0</td><td class="fav">+0.3</td><td>19.3</td><td>76.9</td><td>4.1</td><td>81.0</td></tr>
 
-                  <tr class="group-hdr"><td colspan="5">Ratios</td></tr>
-                  <tr><td>NDE % of sales</td><td>36.0%</td><td>40.3%</td><td class="fav">(430 bps)</td><td>Cost Efficiency</td></tr>
-                  <tr><td>Revenue per FTE</td><td>$137.4K</td><td>$131.5K</td><td class="fav">+$5.9K</td><td>680 FTEs</td></tr>
+                  <tr class="group-hdr"><td colspan="8">Sales, starts, losses and retention</td></tr>
+                  <tr class="summary-row"><td>Sales dollars</td><td>14,210.0</td><td>12,400.0</td><td class="fav">+1,810.0</td><td>14,210.0</td><td>40,083.2</td><td>16,387.6</td><td>56,470.8</td></tr>
+                  <tr><td class="indent">Sales by channel: Direct</td><td>9,800.0</td><td>8,500.0</td><td class="fav">+1,300.0</td><td>9,800.0</td><td>27,643.6</td><td>11,301.8</td><td>38,945.4</td></tr>
+                  <tr><td class="indent">Sales by channel: Advisor / Partner</td><td>3,410.0</td><td>3,000.0</td><td class="fav">+410.0</td><td>3,410.0</td><td>9,618.8</td><td>3,932.6</td><td>13,551.4</td></tr>
+                  <tr><td class="indent">Sales by channel: Digital RUN</td><td>1,000.0</td><td>900.0</td><td class="fav">+100.0</td><td>1,000.0</td><td>2,820.8</td><td>1,153.2</td><td>3,974.0</td></tr>
+                  <tr><td>Start dollars</td><td>11,840.0</td><td>11,300.0</td><td class="fav">+540.0</td><td>11,840.0</td><td>33,620.2</td><td>13,522.4</td><td>47,142.6</td></tr>
+                  <tr><td>Loss dollars</td><td>(8,420.0)</td><td>(8,600.0)</td><td class="fav">+180.0</td><td>(8,420.0)</td><td>(32,720.1)</td><td>(7,027.9)</td><td>(39,748.0)</td></tr>
+                  <tr class="summary-row" style="background:#f0fdf4;"><td>Net new business (Starts - Losses)</td><td>3,420.0</td><td>2,700.0</td><td class="fav">+720.0</td><td>3,420.0</td><td>900.1</td><td>6,494.5</td><td>7,394.6</td></tr>
+                  <tr><td>Retention % (annualized)</td><td>94.6%</td><td>94.2%</td><td class="fav">+40 bps</td><td>94.6%</td><td>-</td><td>-</td><td>-</td></tr>
+
+                  <tr class="group-hdr"><td colspan="8">Ratios</td></tr>
+                  <tr><td>NDE % of sales</td><td>36.0%</td><td>40.3%</td><td class="fav">(430 bps)</td><td>36.0%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>Revenue per FTE (680 FTEs)</td><td>$137.4K</td><td>$131.5K</td><td class="fav">+$5.9K</td><td>$137.4K</td><td>-</td><td>-</td><td>-</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
+
 
         </div>
 
@@ -603,6 +542,7 @@
               <button class="right-tab active" onclick="switchRightTab(this, 'tab-expdetail')">Expense P&amp;L Detail</button>
               <button class="right-tab" onclick="switchRightTab(this, 'tab-alloc')">Allocations &amp; NOI</button>
               <button class="right-tab" onclick="switchRightTab(this, 'tab-dept')">By Department</button>
+              <button class="right-tab" onclick="switchRightTab(this, 'tab-charts')">Charts</button>
             </div>
 
             <!-- TAB 1: Granular Expense P&L (Strictly from Screenshots 1 & 2 without struck-through items) -->
@@ -629,89 +569,89 @@
                     <!-- Employee related -->
                     <tr class="group-hdr"><td colspan="4">Employee related</td></tr>
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'comp-rows')">−</span>Total compensation</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'comp-rows')">+</span>Total compensation</td>
                       <td>25,480.0</td>
                       <td>24,650.0</td>
                       <td class="unf">(830.0)</td>
                     </tr>
-                    <tr class="child-row open comp-rows"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'sal-rows')">−</span>Salary with Overtime incl Intercompany</td><td>19,020.0</td><td>18,400.0</td><td class="unf">(620.0)</td></tr>
-                    <tr class="child-row open sal-rows"><td class="indent2">Salary</td><td>18,400.0</td><td>17,900.0</td><td class="unf">(500.0)</td></tr>
-                    <tr class="child-row open sal-rows"><td class="indent2">Overtime</td><td>620.0</td><td>500.0</td><td class="unf">(120.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Global Business Solutions</td><td>1,450.0</td><td>1,400.0</td><td class="unf">(50.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Contingent</td><td>920.0</td><td>880.0</td><td class="unf">(40.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Bonus</td><td>1,850.0</td><td>1,800.0</td><td class="unf">(50.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Commissions</td><td>1,640.0</td><td>1,580.0</td><td class="unf">(60.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Draw</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Payroll Taxes</td><td>1,240.0</td><td>1,200.0</td><td class="unf">(40.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Benefits</td><td>1,980.0</td><td>1,920.0</td><td class="unf">(60.0)</td></tr>
-                    <tr class="child-row open comp-rows"><td class="indent">Stock Based Comp</td><td>410.0</td><td>400.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'sal-rows')">+</span>Salary with Overtime incl Intercompany</td><td>19,020.0</td><td>18,400.0</td><td class="unf">(620.0)</td></tr>
+                    <tr class="child-row sal-rows"><td class="indent2">Salary</td><td>18,400.0</td><td>17,900.0</td><td class="unf">(500.0)</td></tr>
+                    <tr class="child-row sal-rows"><td class="indent2">Overtime</td><td>620.0</td><td>500.0</td><td class="unf">(120.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Global Business Solutions</td><td>1,450.0</td><td>1,400.0</td><td class="unf">(50.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Contingent</td><td>920.0</td><td>880.0</td><td class="unf">(40.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Bonus</td><td>1,850.0</td><td>1,800.0</td><td class="unf">(50.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Commissions</td><td>1,640.0</td><td>1,580.0</td><td class="unf">(60.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Draw</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Payroll Taxes</td><td>1,240.0</td><td>1,200.0</td><td class="unf">(40.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Benefits</td><td>1,980.0</td><td>1,920.0</td><td class="unf">(60.0)</td></tr>
+                    <tr class="child-row comp-rows"><td class="indent">Stock Based Comp</td><td>410.0</td><td>400.0</td><td class="unf">(10.0)</td></tr>
 
                     <!-- Total employee other -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'emp-other')">−</span>Total employee other</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'emp-other')">+</span>Total employee other</td>
                       <td>1,660.0</td>
                       <td>1,550.0</td>
                       <td class="unf">(110.0)</td>
                     </tr>
-                    <tr class="child-row open emp-other"><td class="indent">Travel and Entertainment incl Intercompany</td><td>820.0</td><td>750.0</td><td class="unf">(70.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Auto Allowance</td><td>140.0</td><td>135.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Relocation</td><td>45.0</td><td>40.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Employee Activities</td><td>65.0</td><td>60.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Recruiting</td><td>110.0</td><td>100.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Tuition</td><td>35.0</td><td>35.0</td><td>0.0</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Employee Verification</td><td>25.0</td><td>25.0</td><td>0.0</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Training</td><td>65.0</td><td>65.0</td><td>0.0</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Other Employee Related incl Intercompany</td><td>60.0</td><td>55.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">GBS Non Salary</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Severance</td><td>90.0</td><td>90.0</td><td>0.0</td></tr>
-                    <tr class="child-row open emp-other"><td class="indent">Contests</td><td>25.0</td><td>25.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Travel and Entertainment incl Intercompany</td><td>820.0</td><td>750.0</td><td class="unf">(70.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Auto Allowance</td><td>140.0</td><td>135.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Relocation</td><td>45.0</td><td>40.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Employee Activities</td><td>65.0</td><td>60.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Recruiting</td><td>110.0</td><td>100.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Tuition</td><td>35.0</td><td>35.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Employee Verification</td><td>25.0</td><td>25.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Training</td><td>65.0</td><td>65.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Other Employee Related incl Intercompany</td><td>60.0</td><td>55.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">GBS Non Salary</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Severance</td><td>90.0</td><td>90.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other"><td class="indent">Contests</td><td>25.0</td><td>25.0</td><td>0.0</td></tr>
 
                     <!-- Non-employee related -->
                     <tr class="group-hdr"><td colspan="4">Non-employee related</td></tr>
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-cost')">−</span>Total direct costs</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-cost')">+</span>Total direct costs</td>
                       <td>1,050.0</td>
                       <td>1,010.0</td>
                       <td class="unf">(40.0)</td>
                     </tr>
-                    <tr class="child-row open direct-cost"><td class="indent">Bad Debt Trade</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open direct-cost"><td class="indent">Supply and Other Expense Operating</td><td>420.0</td><td>410.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open direct-cost"><td class="indent">Rebillable Supplies and Expenses</td><td>310.0</td><td>300.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open direct-cost"><td class="indent">Forms and Cards</td><td>140.0</td><td>130.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row direct-cost"><td class="indent">Bad Debt Trade</td><td>180.0</td><td>170.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row direct-cost"><td class="indent">Supply and Other Expense Operating</td><td>420.0</td><td>410.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row direct-cost"><td class="indent">Rebillable Supplies and Expenses</td><td>310.0</td><td>300.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row direct-cost"><td class="indent">Forms and Cards</td><td>140.0</td><td>130.0</td><td class="unf">(10.0)</td></tr>
 
                     <!-- Total Trustee Service Fees (Struck-through excluded) -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'trustee-cost')">−</span>Total Trustee Service Fees</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'trustee-cost')">+</span>Total Trustee Service Fees</td>
                       <td>6,970.2</td>
                       <td>6,800.0</td>
                       <td class="unf">(170.2)</td>
                     </tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Trailer Fees</td><td>2,410.0</td><td>2,350.0</td><td class="unf">(60.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Allowance NSF Mvmt</td><td>85.0</td><td>80.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Bank Fees</td><td>620.0</td><td>600.0</td><td class="unf">(20.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Implementation Expense</td><td>1,240.0</td><td>1,200.0</td><td class="unf">(40.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total ADP Ceded Premium Expense</td><td>340.0</td><td>330.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Client Equipment Costs</td><td>190.0</td><td>185.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total W2 Supplies</td><td>95.0</td><td>90.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Cost of Goods Sold</td><td>1,820.0</td><td>1,790.0</td><td class="unf">(30.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Client Printing</td><td>410.0</td><td>395.0</td><td class="unf">(15.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Passback Expense</td><td>160.0</td><td>150.0</td><td class="unf">(10.0)</td></tr>
-                    <tr class="child-row open trustee-cost"><td class="indent">Total Bad Debt Non AR Trade</td><td>30.0</td><td>30.0</td><td>0.0</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Trailer Fees</td><td>2,410.0</td><td>2,350.0</td><td class="unf">(60.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Allowance NSF Mvmt</td><td>85.0</td><td>80.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Bank Fees</td><td>620.0</td><td>600.0</td><td class="unf">(20.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Implementation Expense</td><td>1,240.0</td><td>1,200.0</td><td class="unf">(40.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total ADP Ceded Premium Expense</td><td>340.0</td><td>330.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Client Equipment Costs</td><td>190.0</td><td>185.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total W2 Supplies</td><td>95.0</td><td>90.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Cost of Goods Sold</td><td>1,820.0</td><td>1,790.0</td><td class="unf">(30.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Client Printing</td><td>410.0</td><td>395.0</td><td class="unf">(15.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Passback Expense</td><td>160.0</td><td>150.0</td><td class="unf">(10.0)</td></tr>
+                    <tr class="child-row trustee-cost"><td class="indent">Total Bad Debt Non AR Trade</td><td>30.0</td><td>30.0</td><td>0.0</td></tr>
 
                     <!-- Total expense other -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'other-exp')">−</span>Total expense other</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'other-exp')">+</span>Total expense other</td>
                       <td>8,100.0</td>
                       <td>7,930.0</td>
                       <td class="unf">(170.0)</td>
                     </tr>
-                    <tr class="child-row open other-exp"><td class="indent">Facility Related</td><td>3,120.0</td><td>3,080.0</td><td class="unf">(40.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Consulting and Professional Fees</td><td>1,850.0</td><td>1,800.0</td><td class="unf">(50.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Advertising and Marketing</td><td>2,400.0</td><td>2,350.0</td><td class="unf">(50.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Delivery and Mailing: Freight</td><td>280.0</td><td>260.0</td><td class="unf">(20.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Other Tax</td><td>110.0</td><td>105.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Meetings &amp; Program</td><td>340.0</td><td>335.0</td><td class="unf">(5.0)</td></tr>
-                    <tr class="child-row open other-exp"><td class="indent">Restructuring Expense</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Facility Related</td><td>3,120.0</td><td>3,080.0</td><td class="unf">(40.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Consulting and Professional Fees</td><td>1,850.0</td><td>1,800.0</td><td class="unf">(50.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Advertising and Marketing</td><td>2,400.0</td><td>2,350.0</td><td class="unf">(50.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Delivery and Mailing: Freight</td><td>280.0</td><td>260.0</td><td class="unf">(20.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Other Tax</td><td>110.0</td><td>105.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Meetings &amp; Program</td><td>340.0</td><td>335.0</td><td class="unf">(5.0)</td></tr>
+                    <tr class="child-row other-exp"><td class="indent">Restructuring Expense</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
 
                     <!-- Other EBIT items & Intercompany -->
                     <tr class="group-hdr"><td colspan="4">Other EBIT items &amp; Intercompany (Screenshot 1 &amp; 2)</td></tr>
@@ -819,6 +759,157 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            <!-- TAB 4: Charts -->
+            <div id="tab-charts" class="right-tab-pane" style="display:none;">
+              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-weight:700;color:#1e293b;">Charts: Field NOI Bridge, Revenue Mix &amp; YoY Trend</span>
+                <span style="font-size:10.5px;color:#64748b;">September close</span>
+              </div>
+              <div class="epm-box-body">
+      <div class="charts-row">
+
+        <!-- Chart 1: Field NOI bridge (waterfall) — P&L Summary: plan 42,400.0 + revenue var 4,003.4 - field expense var 1,390.2 = actual 45,013.2 -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>BRIDGE · FIELD NOI PLAN TO ACTUAL</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">$M · September close · axis starts at $40M</div>
+            <div class="chart-legend">
+              <span><i style="background:#BDB4DC"></i> Plan</span>
+              <span><i style="background:#3A9A3A"></i> Favorable</span>
+              <span><i style="background:#F0605D"></i> Unfavorable</span>
+              <span><i style="background:#7B68B0"></i> Actual</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Waterfall: Field NOI plan 42.4 million, revenue plus 4.0, field expense minus 1.4, actual 45.0 million">
+              <line x1="40" y1="30"  x2="390" y2="30"  stroke="#ececec"/>
+              <line x1="40" y1="65"  x2="390" y2="65"  stroke="#ececec"/>
+              <line x1="40" y1="100" x2="390" y2="100" stroke="#ececec"/>
+              <line x1="40" y1="135" x2="390" y2="135" stroke="#ececec"/>
+              <line x1="40" y1="170" x2="390" y2="170" stroke="#cbd5e1"/>
+              <text x="34" y="33"  text-anchor="end" font-size="10" fill="#474747">48</text>
+              <text x="34" y="68"  text-anchor="end" font-size="10" fill="#474747">46</text>
+              <text x="34" y="103" text-anchor="end" font-size="10" fill="#474747">44</text>
+              <text x="34" y="138" text-anchor="end" font-size="10" fill="#474747">42</text>
+              <text x="34" y="173" text-anchor="end" font-size="10" fill="#474747">40</text>
+              <rect class="nd" data-tip="<b>Plan Field NOI</b><br>$42.4M ($42,400.0K)" x="50" y="128" width="62" height="42" fill="#BDB4DC"/>
+              <text x="81" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">42.4</text>
+              <line x1="112" y1="128" x2="138" y2="128" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Revenue vs plan</b><br>+$4.0M (+$4,003.4K)" x="138" y="58" width="62" height="70" fill="#3A9A3A"/>
+              <text x="169" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">+4.0</text>
+              <line x1="200" y1="58" x2="226" y2="58" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Field expense vs plan</b><br>−$1.4M (−$1,390.2K)" x="226" y="58" width="62" height="24.3" fill="#F0605D"/>
+              <text x="257" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">−1.4</text>
+              <line x1="288" y1="82.3" x2="314" y2="82.3" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Actual Field NOI</b><br>$45.0M ($45,013.2K) · +$2.6M vs plan" x="314" y="82.3" width="62" height="87.7" fill="#7B68B0"/>
+              <text x="345" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">45.0</text>
+              <text x="81"  y="188" text-anchor="middle" font-size="10" fill="#474747">Plan</text>
+              <text x="169" y="188" text-anchor="middle" font-size="10" fill="#474747">Revenue</text>
+              <text x="257" y="188" text-anchor="middle" font-size="10" fill="#474747">Field expense</text>
+              <text x="345" y="188" text-anchor="middle" font-size="10" fill="#474747">Actual</text>
+            </svg>
+            <div class="chart-cap">Field NOI = revenue less field expense. Shared services (incl. NDE) sit below Field NOI on the way to NOI (EBIT).</div>
+          </div>
+        </div>
+
+        <!-- Chart 2: Revenue mix (bar) — values from the Revenue table -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>REVENUE MIX · BY CATEGORY</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">$M · September actual vs plan</div>
+            <div class="chart-legend">
+              <span><i style="background:#7B68B0"></i> Actual</span>
+              <span><i style="background:#BDB4DC"></i> Plan</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Revenue by category, actual vs plan: asset fee revenue 22.7 vs 22.0, hard dollar revenue 70.6 vs 67.3, other 0.095 vs 0.090 million">
+              <line x1="40" y1="20"  x2="390" y2="20"  stroke="#ececec"/>
+              <line x1="40" y1="55"  x2="390" y2="55"  stroke="#ececec"/>
+              <line x1="40" y1="90"  x2="390" y2="90"  stroke="#ececec"/>
+              <line x1="40" y1="125" x2="390" y2="125" stroke="#ececec"/>
+              <line x1="40" y1="160" x2="390" y2="160" stroke="#cbd5e1"/>
+              <text x="34" y="23"  text-anchor="end" font-size="10" fill="#474747">80</text>
+              <text x="34" y="58"  text-anchor="end" font-size="10" fill="#474747">60</text>
+              <text x="34" y="93"  text-anchor="end" font-size="10" fill="#474747">40</text>
+              <text x="34" y="128" text-anchor="end" font-size="10" fill="#474747">20</text>
+              <text x="34" y="163" text-anchor="end" font-size="10" fill="#474747">0</text>
+              <!-- Asset fee revenue (RS-16) -->
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Actual</b><br>$22.7M ($22,692.8K) · 24.3% of revenue" x="71" y="120.3" width="28" height="39.7" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Plan</b><br>$22.0M ($22,000.0K)" x="101" y="121.5" width="28" height="38.5" fill="#BDB4DC"/>
+              <text x="85"  y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">22.7</text>
+              <text x="115" y="115" text-anchor="middle" font-size="10" fill="#474747">22.0</text>
+              <text x="100" y="176" text-anchor="middle" font-size="10" fill="#474747">Asset fee revenue</text>
+              <text x="100" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-16)</text>
+              <!-- Hard dollar revenue (RS-17*) -->
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Actual</b><br>$70.6M ($70,615.3K) · 75.6% of revenue" x="186" y="36.4" width="28" height="123.6" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Plan</b><br>$67.3M ($67,310.0K)" x="216" y="42.2" width="28" height="117.8" fill="#BDB4DC"/>
+              <text x="200" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">70.6</text>
+              <text x="230" y="36" text-anchor="middle" font-size="10" fill="#474747">67.3</text>
+              <text x="215" y="176" text-anchor="middle" font-size="10" fill="#474747">Hard dollar revenue</text>
+              <text x="215" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-17*)</text>
+              <!-- Other -->
+              <rect class="nd" data-tip="<b>Other · Actual</b><br>$95.3K: setup $66.6K, other recurring $9.4K, client funds interest $19.3K" x="301" y="158" width="28" height="2" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Other · Plan</b><br>$90.0K: setup $62.0K, other recurring $9.0K, client funds interest $19.0K" x="331" y="158" width="28" height="2" fill="#BDB4DC"/>
+              <text x="315" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">$95K</text>
+              <text x="345" y="152" text-anchor="middle" font-size="10" fill="#474747">$90K</text>
+              <text x="330" y="176" text-anchor="middle" font-size="10" fill="#474747">Other</text>
+              <text x="330" y="188" text-anchor="middle" font-size="9" fill="#64748b">setup, recurring, interest</text>
+            </svg>
+            <div class="chart-cap">Total revenue $93.4M vs plan $89.4M (+$4.0M). Next drill: revenue by product.</div>
+          </div>
+        </div>
+
+        <!-- Chart 3: YoY revenue growth (line). Apr–Aug are illustrative; September (+6.8% actual, +4.2% plan) matches the headline KPI. -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>TREND · YEAR-OVER-YEAR REVENUE GROWTH</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">% YoY · last 6 months to September close</div>
+            <div class="chart-legend">
+              <span><i style="background:#7B68B0"></i> Actual YoY</span>
+              <span><i style="background:#4066C8"></i> Plan YoY</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Year-over-year revenue growth, April to September: actual rises from 3.9 percent to 6.8 percent, plan 4.0 to 4.2 percent">
+              <line x1="40" y1="30"    x2="390" y2="30"    stroke="#ececec"/>
+              <line x1="40" y1="76.7"  x2="390" y2="76.7"  stroke="#ececec"/>
+              <line x1="40" y1="123.3" x2="390" y2="123.3" stroke="#ececec"/>
+              <line x1="40" y1="170"   x2="390" y2="170"   stroke="#cbd5e1"/>
+              <text x="34" y="33"    text-anchor="end" font-size="10" fill="#474747">8%</text>
+              <text x="34" y="79.7"  text-anchor="end" font-size="10" fill="#474747">6%</text>
+              <text x="34" y="126.3" text-anchor="end" font-size="10" fill="#474747">4%</text>
+              <text x="34" y="173"   text-anchor="end" font-size="10" fill="#474747">2%</text>
+              <polyline points="60,123.3 122,123.3 184,121 246,121 308,118.7 370,118.7" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
+              <polyline points="60,125.7 122,114 184,97.7 246,86 308,72 370,58" fill="none" stroke="#7B68B0" stroke-width="2.4" stroke-linejoin="round"/>
+              <circle class="nd" data-tip="<b>Apr</b> · Actual YoY +3.9% · Plan +4.0%" cx="60"  cy="125.7" r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>May</b> · Actual YoY +4.4% · Plan +4.0%" cx="122" cy="114"   r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jun</b> · Actual YoY +5.1% · Plan +4.1%" cx="184" cy="97.7"  r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jul</b> · Actual YoY +5.6% · Plan +4.1%" cx="246" cy="86"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Aug</b> · Actual YoY +6.2% · Plan +4.2%" cx="308" cy="72"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Sep</b> · Actual YoY +6.8% · Plan +4.2%" cx="370" cy="58"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <text x="60"  y="116" text-anchor="middle" font-size="10" fill="#474747">3.9%</text>
+              <text x="122" y="105" text-anchor="middle" font-size="10" fill="#474747">4.4%</text>
+              <text x="184" y="89"  text-anchor="middle" font-size="10" fill="#474747">5.1%</text>
+              <text x="246" y="77"  text-anchor="middle" font-size="10" fill="#474747">5.6%</text>
+              <text x="308" y="63"  text-anchor="middle" font-size="10" fill="#474747">6.2%</text>
+              <text x="370" y="49"  text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">6.8%</text>
+              <text x="370" y="136" text-anchor="middle" font-size="10" fill="#4066C8">4.2%</text>
+              <text x="60"  y="188" text-anchor="middle" font-size="10" fill="#474747">Apr</text>
+              <text x="122" y="188" text-anchor="middle" font-size="10" fill="#474747">May</text>
+              <text x="184" y="188" text-anchor="middle" font-size="10" fill="#474747">Jun</text>
+              <text x="246" y="188" text-anchor="middle" font-size="10" fill="#474747">Jul</text>
+              <text x="308" y="188" text-anchor="middle" font-size="10" fill="#474747">Aug</text>
+              <text x="370" y="188" text-anchor="middle" font-size="10" fill="#474747">Sep</text>
+            </svg>
+            <div class="chart-cap">September ties to the headline KPI. Apr–Aug values are illustrative placeholders.</div>
+          </div>
+        </div>
+
+      </div>
               </div>
             </div>
 
@@ -940,7 +1031,6 @@
     function applyHeadline() {
       if (hk) {
         hk.setAttribute('data-cmp', st.cmp);
-        hk.setAttribute('data-fmt', st.fmt);
       }
     }
 
@@ -957,17 +1047,7 @@
     }
   })();
 
-  // Filter Pill helper
-  document.querySelectorAll('.ef-pill').forEach(function(p) {
-    p.addEventListener('click', function() {
-      var attr = this.getAttribute('data-filter') ? 'data-filter' : (this.getAttribute('data-period') ? 'data-period' : 'data-chan');
-      var val = this.getAttribute(attr);
-      if (val) {
-        this.parentElement.querySelectorAll('[' + attr + ']').forEach(function(s) { s.classList.remove('active'); });
-        this.classList.add('active');
-      }
-    });
-  });
 </script>
+<script src="polaris_header.js"></script>
 </body>
 </html>

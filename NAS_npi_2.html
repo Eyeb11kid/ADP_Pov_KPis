@@ -349,8 +349,9 @@
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
 </style>
+<link rel="stylesheet" href="polaris_header.css">
 </head>
-<body>
+<body data-pf-page="P06" data-pf-bu="NAS">
 
 <!-- Top Chrome -->
 <header class="chrome">
@@ -365,61 +366,12 @@
   </div>
 </header>
 
-<!-- EPM Application Header Bar -->
-<div class="epm-topbar">
-  <div class="epm-title-block">
-    <span class="epm-app-badge">NAS NPI P&amp;L 2</span>
-    <div class="epm-plan-select" id="planDropdownBtn">
-      <span>BUDGET FY27 Q1 Close with Actuals (Next-Gen Lyric)</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="epm-meta-links">
-    <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a>
-    <span>|</span>
-    <a href="nas_dashboard_2.html">NAS Cockpit 2</a>
-    <span>|</span>
-    <a href="revenue_analysis_NAS_2.html">NAS Revenue 2</a>
-    <span>|</span>
-    <a href="NAS_npi_2.html" style="color:#fff;font-weight:700;">NAS NPI P&amp;L 2</a>
-    <span>|</span>
-    <a href="expense_pl_NAS_2.html">NAS Expense 2</a>
-    <span>|</span>
-    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
-  </div>
-</div>
-
-<!-- EPM Sub Filter Strip -->
-<div class="epm-filter-strip">
-  <span class="ef-label">Filters:</span>
-  <span class="ef-pill active" data-filter="scope">Platform: Next-Gen Lyric</span>
-  <span class="ef-pill" data-filter="contract">Contract: Direct &amp; Partner</span>
-  <span class="ef-pill" data-filter="tier">Tier: Enterprise (1000+)</span>
-  <span class="ef-sep"></span>
-  <span class="ef-label">View:</span>
-  <span class="ef-pill active" id="pill-pva">PVA (Plan vs Actual)</span>
-  <span class="ef-pill" id="pill-plan">Plan Baseline</span>
-  <span class="ef-pill" id="pill-yoy">YoY Comparison</span>
-  <span class="ef-sep"></span>
-  <span class="ef-label">Units:</span>
-  <span class="ef-pill active" id="pill-k">$K USD</span>
-  <span class="ef-pill" id="pill-m">$M USD</span>
-</div>
-
-<!-- Navigation Tabs Strip -->
-<nav class="epm-tabstrip" id="mainTabStrip" aria-label="EPM Main Views">
-  <a class="epm-tab active" data-tab="npi-overview" onclick="switchMainTab('npi-overview')">NPI Overview &amp; Margin</a>
-  <a class="epm-tab" data-tab="dept-costs" onclick="switchRightTabByDirect('tab-deptcosts')">Controllable Department Costs</a>
-  <a class="epm-tab" data-tab="alloc-rd" onclick="switchRightTabByDirect('tab-allocrd')">Shared Allocations &amp; Platform R&amp;D</a>
-  <a class="epm-tab" data-tab="golives-pipe" onclick="switchRightTabByDirect('tab-golives')">Go-Lives &amp; Delivery Pipeline</a>
-</nav>
-
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+      <div class="sb-bu-label">Polaris</div>
     </div>
     
     <div class="sb-section">BU Executive Cockpit</div>
@@ -455,16 +407,18 @@
   <!-- Main Content Area -->
   <main class="main">
 
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="nas_dashboard_2.html">NAS Cockpit 2</a><span>/</span>NPI P&amp;L 2 (Lyric)</div>
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
       <div class="title-row">
         <div>
           <div class="page-title">
             <span>NAS NPI P&amp;L 2 — Next-Gen Lyric Platform Economics</span>
             <span class="badge">EPM · NPI Economics</span>
           </div>
-          <div class="page-sub">Next-Gen Lyric Commercial Engine · Base vs Implementation Revenue, Department Controllable Costs &amp; Net Margin</div>
         </div>
       </div>
     </div>
@@ -477,10 +431,6 @@
           <span class="hkpi-bar-badge">Lyric Economics</span>
         </div>
         <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" data-k="fmt">
-            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
-            <button type="button" data-v="val" aria-pressed="false">$ only</button>
-          </div>
           <div class="cfo-tg" data-k="cmp">
             <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
             <button type="button" data-v="plan" aria-pressed="false">Plan only</button>
@@ -945,7 +895,6 @@
     function applyHeadline() {
       if (hk) {
         hk.setAttribute('data-cmp', st.cmp);
-        hk.setAttribute('data-fmt', st.fmt);
       }
     }
 
@@ -963,5 +912,6 @@
   })();
 </script>
 
+<script src="polaris_header.js"></script>
 </body>
 </html>

@@ -168,7 +168,7 @@
   .fav { color: var(--green); font-weight: 600; }
   .unf { color: var(--red); font-weight: 600; }
 
-  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="usd"] .m-both { display: none; }
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
   /* 2-Column Split Master Grid (similar to EPM screenshot) */
   .epm-layout-grid { display: grid; grid-template-columns: minmax(600px, 1.45fr) minmax(420px, 1fr); gap: 14px; padding: 14px 20px 28px; }
@@ -291,8 +291,9 @@
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
 </style>
+<link rel="stylesheet" href="polaris_header.css">
 </head>
-<body>
+<body data-pf-page="P01">
 
 <!-- Top Global Chrome -->
 <header class="chrome">
@@ -307,64 +308,12 @@
   </div>
 </header>
 
-<!-- EPM CA Style Top Bar -->
-<div class="epm-topbar">
-  <div class="epm-title-block">
-    <span class="epm-app-badge">EPM Polaris 12.4</span>
-    <div class="epm-plan-select" id="planDropdownBtn">
-      <span>BUDGET FY27 Q1 Close with Actuals</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="epm-meta-links">
-    <a href="cfo_dashboard_3.html" style="color:#fff;font-weight:700;">Corporate CFO (EPM)</a>
-    <span>|</span>
-    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
-    <span>|</span>
-    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
-    <span>|</span>
-    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
-    <span>|</span>
-    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
-  </div>
-</div>
-
-<!-- EPM Sub Filter Strip (modeled from screenshot) -->
-<div class="epm-filter-strip">
-  <span class="ef-label">Filters:</span>
-  <span class="ef-pill active" data-filter="scope">All Segments (ES + PEO + CFI)</span>
-  <span class="ef-pill" data-filter="scope">Employer Services (NAS/MAS/SBS)</span>
-  <span class="ef-pill" data-filter="scope">PEO Services</span>
-  <span class="ef-pill" data-filter="scope">International</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Period:</span>
-  <span class="ef-pill active" data-period="mth">September (Close)</span>
-  <span class="ef-pill" data-period="ytd">YTD Actuals</span>
-  <span class="ef-pill" data-period="fy">FY OctFcst ($20.78B)</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Basis:</span>
-  <span class="ef-pill active" data-basis="pva">Plan vs Actual</span>
-  <span class="ef-pill" data-basis="yoy">YoY Growth %</span>
-</div>
-
-<!-- EPM Navigation Tab Strip -->
-<nav class="epm-tabstrip" id="mainTabStrip">
-  <a class="epm-tab active" data-tab="cockpit" onclick="switchMainTab('cockpit')">Executive Cockpit &amp; KPIs</a>
-  <a class="epm-tab" data-tab="visualizations" onclick="switchMainTab('visualizations')">Revenue &amp; Operational Analytics (Charts)</a>
-  <a class="epm-tab" data-tab="sec-10k" onclick="switchMainTab('sec-10k')">SEC Report</a>
-  <a class="epm-tab" data-tab="es-drill" onclick="filterSegment('es')">Employer Services (NAS / MAS / SBS)</a>
-  <a class="epm-tab" data-tab="peo-drill" onclick="filterSegment('peo')">PEO &amp; Worksite Employees</a>
-  <a class="epm-tab" data-tab="cfi-drill" onclick="filterSegment('cfi')">Client Funds (CFI) Float &amp; Yield</a>
-  <a class="epm-tab" data-tab="commercial" onclick="filterSegment('comm')">Bookings, Starts &amp; ARR Flow</a>
-  <a class="epm-tab" data-tab="workforce" onclick="filterSegment('wf')">Headcount &amp; Shoring Optimization</a>
-</nav>
-
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+      <div class="sb-bu-label">Polaris</div>
     </div>
     <div class="sb-section">Corporate Executive</div>
     <details class="sb-acc has-active" name="sb-acc" open>
@@ -395,16 +344,18 @@
   <!-- Main Content Area -->
   <main class="main">
 
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Corporate CFO EPM Cockpit</div>
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
       <div class="title-row">
         <div>
           <div class="page-title">
             Corporate CFO Executive Planning &amp; Close Cockpit
             <span class="badge">EPM Production Model</span>
           </div>
-          <div class="page-sub">Comprehensive multi-pane view integrating Revenue Drivers, Segment Portfolio Matrix, ACV / ARR Bookings &amp; Hierarchical Financial P&amp;L</div>
         </div>
         <div class="cockpit-view-ctrls">
           <button class="view-btn active" id="btnViewCockpit" onclick="switchMainTab('cockpit')">
@@ -431,10 +382,6 @@
           <span class="hkpi-bar-badge">Key CFO Metrics</span>
         </div>
         <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" role="group" aria-label="Value format" data-k="fmt">
-            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
-            <button type="button" data-v="usd" aria-pressed="false">$</button>
-          </div>
           <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
             <button type="button" data-v="plan" aria-pressed="false">Plan</button>
             <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
@@ -1453,7 +1400,6 @@
     function applyHeadline() {
       if (hk) {
         hk.setAttribute('data-cmp', st.cmp);
-        hk.setAttribute('data-fmt', st.fmt);
       }
     }
 
@@ -1470,5 +1416,6 @@
     }
   })();
 </script>
+<script src="polaris_header.js"></script>
 </body>
 </html>

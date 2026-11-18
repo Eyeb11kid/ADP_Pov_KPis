@@ -129,8 +129,9 @@
   .nd { cursor: pointer; }
 </style>
 <link rel="stylesheet" href="site_footer.css">
+<link rel="stylesheet" href="polaris_header.css">
 </head>
-<body>
+<body data-pf-page="P07" data-pf-bu="RS">
 
 <div class="chrome">
   <div class="chrome-l">
@@ -144,59 +145,12 @@
   </div>
 </div>
 
-<!-- EPM CA Style Top Bar -->
-<div class="epm-topbar">
-  <div class="epm-title-block">
-    <span class="epm-app-badge">RS GL Detail 2 · EPM Cockpit</span>
-    <div class="epm-plan-select" id="planDropdownBtn">
-      <span>BUDGET FY27 Q1 Close · Oracle GL Subledger Transactions</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="epm-meta-links">
-    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
-    <span>|</span>
-    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
-    <span>|</span>
-    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
-    <span>|</span>
-    <a href="rs_transaction_detail_2.html" style="color:#fff;font-weight:700;">RS Revenue Transaction Detail 2</a>
-    <span>|</span>
-    <a href="cfo_dashboard_3.html">Corporate CFO EPM</a>
-    <span>|</span>
-    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
-  </div>
-</div>
-
-<!-- EPM Sub Filter Strip -->
-<div class="epm-filter-strip">
-  <span class="ef-label">GL Source:</span>
-  <span class="ef-pill active" onclick="filterSource('all')">All Sources (22 Lines)</span>
-  <span class="ef-pill" onclick="filterSource('Routine')">Routine Accruals</span>
-  <span class="ef-pill" onclick="filterSource('Spreadsheet')">Spreadsheet Adjustments</span>
-  <span class="ef-pill" onclick="filterSource('Subledger')">Subledger Billing</span>
-  <span class="ef-pill" onclick="filterSource('OTC_Receivables')">OTC Receivables</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Ledger:</span>
-  <span class="ef-pill active">USD / US01 · LOB 2260</span>
-  <div class="ef-sep"></div>
-  <span class="ef-label">Period:</span>
-  <span class="ef-pill active">FY23 Full Year Journal Walk</span>
-</div>
-
-<!-- EPM Tabstrip Navigation -->
-<nav class="epm-tabstrip" id="mainTabStrip">
-  <a class="epm-tab" href="rs_dashboard_3.html">&larr; Return to RS Dashboard 3</a>
-  <a class="epm-tab" href="revenue_analysis_RS_2.html">&larr; Revenue Analysis 2 (SOR Walk)</a>
-  <a class="epm-tab active" href="rs_transaction_detail_2.html">Oracle GL Revenue Transactions (Level 3 Detail)</a>
-</nav>
-
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+      <div class="sb-bu-label">Polaris</div>
     </div>
     <div class="sb-section">BU Executive Cockpit</div>
     <details class="sb-acc" name="sb-acc">
@@ -227,22 +181,18 @@
   <!-- Main Content Area -->
   <main class="main">
 
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb">
-        <a href="index.html">Home</a><span>/</span>
-        <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a><span>/</span>
-        <a href="rs_dashboard_3.html">RS Dashboard 3</a><span>/</span>
-        <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a><span>/</span>
-        RS Revenue Transaction Detail 2
-      </div>
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
       <div class="title-row">
         <div>
           <div class="page-title">
             RS Revenue Transaction Detail 2 — Oracle GL Journal Lines
             <span class="badge">Level-3 Audit Ledger</span>
           </div>
-          <div class="page-sub">Granular general ledger entries backing the RS Processing Revenue Analysis &middot; Local currency USD as posted &middot; Automatic Data Processing, LLC (Entity US01, LOB 2260)</div>
         </div>
       </div>
     </div>
@@ -859,5 +809,6 @@
     document.body.removeChild(a);
   }
 </script>
+<script src="polaris_header.js"></script>
 </body>
 </html>

@@ -215,31 +215,10 @@
   }
 
   /* Right Tabstrip within Card */
-  .right-tabstrip {
-    display: flex;
-    background: #0f172a;
-    border-bottom: 1px solid #334155;
-    padding: 0 8px;
-    overflow-x: auto;
-  }
-  .right-tab {
-    padding: 8px 14px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #94a3b8;
-    background: transparent;
-    border: 0;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-  }
-  .right-tab:hover { color: #fff; }
-  .right-tab.active {
-    color: #fff;
-    border-bottom-color: #38bdf8;
-    background: rgba(255,255,255,0.05);
-  }
+  .right-tabstrip { display: flex; border-bottom: 1px solid #d0d7de; background: #f6f8fa; overflow-x: auto; }
+  .right-tab { padding: 7px 12px; font-size: 11px; font-weight: 600; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .right-tab:hover { color: var(--navy); background: #eaeef2; }
+  .right-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
 
   /* Account Hierarchy sub-tabs (Employee / Non-Employee) */
   .acct-total-strip {
@@ -249,7 +228,7 @@
   }
   .acct-total-strip > div { display: flex; align-items: baseline; gap: 6px; }
   .acct-total-lbl { font-size: 10.5px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; }
-  .sub-tabstrip { display: flex; background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0 8px; overflow-x: auto; }
+  .sub-tabstrip { display: flex; align-items: stretch; background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 0 8px; overflow-x: auto; }
   .sub-tab {
     padding: 7px 14px; font-size: 11.5px; font-weight: 600; color: #475569;
     background: transparent; border: 0; border-bottom: 2px solid transparent;
@@ -310,6 +289,7 @@
   .indent2 { padding-left: 32px !important; }
   .indent3 { padding-left: 44px !important; }
   .indent4 { padding-left: 56px !important; }
+  .indent5 { padding-left: 68px !important; }
 
   /* Expand/Collapse Chevron Toggles */
   .exp-toggle {
@@ -332,6 +312,17 @@
   .child-row { display: none; }
   .child-row.open { display: table-row; }
   .expand-ctrls { font-size: 11px; color: var(--blue); cursor: pointer; text-decoration: underline; }
+  .row-subtext { font-size: 10px; color: var(--muted); font-weight: normal; margin-top: 1px; line-height: 1.25; white-space: normal; }
+
+  /* Chart & Legend Components */
+  .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+  @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+  .chart-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 3px; padding: 12px; }
+  .chart-title { font-size: 12px; font-weight: 700; color: var(--p-navy); margin-bottom: 2px; }
+  .chart-sub { font-size: 10.5px; color: var(--muted); margin-bottom: 8px; }
+  .legend { display: flex; gap: 12px; margin-bottom: 8px; font-size: 10.5px; color: var(--muted); flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .legend i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
 
   /* Tooltip Container */
   .tip {
@@ -350,6 +341,8 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
   .tip.on { opacity: 1; }
+  .nd { cursor: pointer; }
+  .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
 
   /* Site Footer */
   .site-footer {
@@ -367,8 +360,9 @@
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
 </style>
+<link rel="stylesheet" href="polaris_header.css">
 </head>
-<body>
+<body data-pf-page="P05" data-pf-bu="NAS">
 
 <!-- Top Chrome -->
 <header class="chrome">
@@ -383,62 +377,12 @@
   </div>
 </header>
 
-<!-- EPM Application Header Bar -->
-<div class="epm-topbar">
-  <div class="epm-title-block">
-    <span class="epm-app-badge">NAS EXPENSE 2</span>
-    <div class="epm-plan-select" id="planDropdownBtn">
-      <span>BUDGET FY27 Q1 Close with Actuals (NAS Lyric)</span>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="epm-meta-links">
-    <a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a>
-    <span>|</span>
-    <a href="nas_dashboard_2.html">NAS Cockpit 2</a>
-    <span>|</span>
-    <a href="revenue_analysis_NAS_2.html">NAS Revenue 2</a>
-    <span>|</span>
-    <a href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
-    <span>|</span>
-    <a href="expense_pl_NAS_2.html" style="color:#fff;font-weight:700;">NAS Expense 2</a>
-    <span>|</span>
-    <a href="index.html" style="color:#93c5fd;">&larr; Switch Experience</a>
-  </div>
-</div>
-
-<!-- EPM Sub Filter Strip -->
-<div class="epm-filter-strip">
-  <span class="ef-label">Filters:</span>
-  <span class="ef-pill active" data-filter="scope">Entity: NAS (Lyric Cons)</span>
-  <span class="ef-pill" data-filter="cost-cat">Costs: All Controllable</span>
-  <span class="ef-pill" data-filter="dept">Dept: All Departments</span>
-  <span class="ef-sep"></span>
-  <span class="ef-label">View:</span>
-  <span class="ef-pill active" id="pill-pva">PVA (Plan vs Actual)</span>
-  <span class="ef-pill" id="pill-plan">Plan Baseline</span>
-  <span class="ef-pill" id="pill-yoy">YoY Comparison</span>
-  <span class="ef-sep"></span>
-  <span class="ef-label">Units:</span>
-  <span class="ef-pill active" id="pill-k">$K USD</span>
-  <span class="ef-pill" id="pill-m">$M USD</span>
-</div>
-
-<!-- Navigation Tabs Strip -->
-<nav class="epm-tabstrip" id="mainTabStrip" aria-label="EPM Main Views">
-  <a class="epm-tab active" data-tab="exp-overview" onclick="switchMainTab('exp-overview')">Expense P&amp;L Cockpit</a>
-  <a class="epm-tab" data-tab="account-hier" onclick="switchRightTabByDirect('tab-accounthier')">Account Hierarchy (FEX-01)</a>
-  <a class="epm-tab" data-tab="dept-breakdown" onclick="switchRightTabByDirect('tab-deptbreak')">Department &amp; Cost Centers (FEX-03)</a>
-  <a class="epm-tab" data-tab="alloc-nde" onclick="switchRightTabByDirect('tab-allocnde')">Shared Allocations &amp; NDE</a>
-  <a class="epm-tab" data-tab="hc-org" onclick="switchRightTabByDirect('tab-hcorg')">Headcount &amp; Organization (FEX-02)</a>
-</nav>
-
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
     <div class="sb-bu">
-      <div class="sb-bu-label">EPM Suite · Dashboard 2</div>
+      <div class="sb-bu-label">Polaris</div>
     </div>
     
     <div class="sb-section">BU Executive Cockpit</div>
@@ -474,16 +418,18 @@
   <!-- Main Content Area -->
   <main class="main">
 
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Title Bar -->
     <div class="titlebar">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="nas_dashboard_2.html">NAS Cockpit 2</a><span>/</span>Expense P&amp;L 2</div>
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
       <div class="title-row">
         <div>
           <div class="page-title">
             <span>NAS Expense P&amp;L 2 — Controllable Costs &amp; Functional Governance</span>
             <span class="badge">EPM · Level 2 Drilldown</span>
           </div>
-          <div class="page-sub">National Account Services · September Close (M3/Q1 FY27) · Comprehensive Field Expense Governance</div>
         </div>
       </div>
     </div>
@@ -496,10 +442,6 @@
           <span class="hkpi-bar-badge">NAS Expense</span>
         </div>
         <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" data-k="fmt">
-            <button type="button" data-v="both" aria-pressed="true">$ + %</button>
-            <button type="button" data-v="val" aria-pressed="false">$ only</button>
-          </div>
           <div class="cfo-tg" data-k="cmp">
             <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
             <button type="button" data-v="plan" aria-pressed="false">Plan only</button>
@@ -652,7 +594,7 @@
           </div>
 
           <!-- Section 2: Department Breakdown -->
-          <div class="epm-box">
+          <div class="epm-box" id="sec-dept-summary">
             <div class="epm-box-hdr light">
               <span>FIELD EXPENSE BY DEPARTMENT (FEX-03)</span>
               <span style="font-size:10px;color:#64748b;">POV Functional View ($K)</span>
@@ -734,7 +676,7 @@
                     <!-- 1. Employee related -->
                     <tr class="group-hdr"><td colspan="5">Employee related ($34,200.0K)</td></tr>
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'comp-fex-rows')">−</span>Total compensation</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'comp-fex-rows')">+</span>Total compensation</td>
                       <td>30,341.9</td>
                       <td>29,200.0</td>
                       <td class="unf">(1,141.9)</td>
@@ -742,71 +684,71 @@
                     </tr>
                     
                     <!-- Salary - Trad sub-hierarchy -->
-                    <tr class="child-row open comp-fex-rows">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'sal-trad-fex')">−</span>Salary - Trad</td>
+                    <tr class="child-row comp-fex-rows">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'sal-trad-fex')">+</span>Salary - Trad</td>
                       <td>14,800.0</td>
                       <td>14,200.0</td>
                       <td class="unf">(600.0)</td>
                       <td>42,600.0</td>
                     </tr>
-                    <tr class="child-row open sal-trad-fex"><td class="indent2">Core Trad Salary</td><td>14,390.0</td><td>13,800.0</td><td class="unf">(590.0)</td><td>41,400.0</td></tr>
-                    <tr class="child-row open sal-trad-fex">
-                      <td class="indent2"><span class="exp-toggle" onclick="toggleRow(this, 'ic-charges-fex')">−</span>Intercompany Charges</td>
+                    <tr class="child-row sal-trad-fex"><td class="indent2">Core Trad Salary</td><td>14,390.0</td><td>13,800.0</td><td class="unf">(590.0)</td><td>41,400.0</td></tr>
+                    <tr class="child-row sal-trad-fex">
+                      <td class="indent2"><span class="exp-toggle" onclick="toggleRow(this, 'ic-charges-fex')">+</span>Intercompany Charges</td>
                       <td>410.0</td>
                       <td>400.0</td>
                       <td class="unf">(10.0)</td>
                       <td>1,200.0</td>
                     </tr>
-                    <tr class="child-row open ic-charges-fex"><td class="indent3">IC Income</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open ic-charges-fex"><td class="indent3">IC Expense</td><td>410.0</td><td>400.0</td><td class="unf">(10.0)</td><td>1,200.0</td></tr>
-                    <tr class="child-row open sal-trad-fex"><td class="indent2">Salary - OneADP</td><td>4,950.0</td><td>4,800.0</td><td class="unf">(150.0)</td><td>14,200.0</td></tr>
-                    <tr class="child-row open sal-trad-fex"><td class="indent2">Overtime - Trad</td><td>102.0</td><td>90.0</td><td class="unf">(12.0)</td><td>295.0</td></tr>
-                    <tr class="child-row open sal-trad-fex"><td class="indent2">Overtime - OneADP</td><td>52.0</td><td>45.0</td><td class="unf">(7.0)</td><td>150.0</td></tr>
+                    <tr class="child-row ic-charges-fex"><td class="indent3">IC Income</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row ic-charges-fex"><td class="indent3">IC Expense</td><td>410.0</td><td>400.0</td><td class="unf">(10.0)</td><td>1,200.0</td></tr>
+                    <tr class="child-row sal-trad-fex"><td class="indent2">Salary - OneADP</td><td>4,950.0</td><td>4,800.0</td><td class="unf">(150.0)</td><td>14,200.0</td></tr>
+                    <tr class="child-row sal-trad-fex"><td class="indent2">Overtime - Trad</td><td>102.0</td><td>90.0</td><td class="unf">(12.0)</td><td>295.0</td></tr>
+                    <tr class="child-row sal-trad-fex"><td class="indent2">Overtime - OneADP</td><td>52.0</td><td>45.0</td><td class="unf">(7.0)</td><td>150.0</td></tr>
 
                     <!-- Offshore Salary -->
-                    <tr class="child-row open comp-fex-rows">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'offshore-fex')">−</span>Total Offshore Salary</td>
+                    <tr class="child-row comp-fex-rows">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'offshore-fex')">+</span>Total Offshore Salary</td>
                       <td>1,990.0</td>
                       <td>1,900.0</td>
                       <td class="unf">(90.0)</td>
                       <td>5,700.0</td>
                     </tr>
-                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - India</td><td>1,715.0</td><td>1,640.0</td><td class="unf">(75.0)</td><td>4,920.0</td></tr>
-                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - Philippines</td><td>275.0</td><td>260.0</td><td class="unf">(15.0)</td><td>780.0</td></tr>
-                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - Romania</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open offshore-fex"><td class="indent2">GBS Salary - FEC Offshore</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row offshore-fex"><td class="indent2">GBS Salary - India</td><td>1,715.0</td><td>1,640.0</td><td class="unf">(75.0)</td><td>4,920.0</td></tr>
+                    <tr class="child-row offshore-fex"><td class="indent2">GBS Salary - Philippines</td><td>275.0</td><td>260.0</td><td class="unf">(15.0)</td><td>780.0</td></tr>
+                    <tr class="child-row offshore-fex"><td class="indent2">GBS Salary - Romania</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row offshore-fex"><td class="indent2">GBS Salary - FEC Offshore</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
 
-                    <tr class="child-row open comp-fex-rows"><td class="indent">Outside Labor</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open comp-fex-rows"><td class="indent">Bonus</td><td>1,485.0</td><td>1,420.0</td><td class="unf">(65.0)</td><td>4,250.0</td></tr>
-                    <tr class="child-row open comp-fex-rows"><td class="indent">P/R Taxes</td><td>1,195.0</td><td>1,150.0</td><td class="unf">(45.0)</td><td>3,450.0</td></tr>
-                    <tr class="child-row open comp-fex-rows"><td class="indent">Benefits</td><td>3,610.0</td><td>3,500.0</td><td class="unf">(110.0)</td><td>10,400.0</td></tr>
-                    <tr class="child-row open comp-fex-rows"><td class="indent">Stock Based Comp (Deactivated)</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td></tr>
-                    <tr class="child-row open comp-fex-rows"><td class="indent">Stock Based Comp Allocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">Outside Labor</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">Bonus</td><td>1,485.0</td><td>1,420.0</td><td class="unf">(65.0)</td><td>4,250.0</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">P/R Taxes</td><td>1,195.0</td><td>1,150.0</td><td class="unf">(45.0)</td><td>3,450.0</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">Benefits</td><td>3,610.0</td><td>3,500.0</td><td class="unf">(110.0)</td><td>10,400.0</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">Stock Based Comp (Deactivated)</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td><td style="color:#94a3b8;">·</td></tr>
+                    <tr class="child-row comp-fex-rows"><td class="indent">Stock Based Comp Allocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
 
                     <!-- Total employee other -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'emp-other-fex')">−</span>Total employee other</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'emp-other-fex')">+</span>Total employee other</td>
                       <td>3,848.1</td>
                       <td>3,790.0</td>
                       <td class="unf">(58.1)</td>
                       <td>11,000.0</td>
                     </tr>
-                    <tr class="child-row open emp-other-fex"><td class="indent">T&amp;E (Travel &amp; Entertainment)</td><td>1,400.0</td><td>1,350.0</td><td class="unf">(50.0)</td><td>4,000.0</td></tr>
-                    <tr class="child-row open emp-other-fex"><td class="indent">Severance</td><td>18.0</td><td>20.0</td><td class="fav">+2.0</td><td>55.0</td></tr>
-                    <tr class="child-row open emp-other-fex"><td class="indent">Relocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open emp-other-fex">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'hr-tuition-fex')">−</span>HR/Training/Tuition/Awards/Workers Comp/Other</td>
+                    <tr class="child-row emp-other-fex"><td class="indent">T&amp;E (Travel &amp; Entertainment)</td><td>1,400.0</td><td>1,350.0</td><td class="unf">(50.0)</td><td>4,000.0</td></tr>
+                    <tr class="child-row emp-other-fex"><td class="indent">Severance</td><td>18.0</td><td>20.0</td><td class="fav">+2.0</td><td>55.0</td></tr>
+                    <tr class="child-row emp-other-fex"><td class="indent">Relocation</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row emp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'hr-tuition-fex')">+</span>HR/Training/Tuition/Awards/Workers Comp/Other</td>
                       <td>2,430.1</td>
                       <td>2,420.0</td>
                       <td class="unf">(10.1)</td>
                       <td>6,945.0</td>
                     </tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Tuition</td><td>298.0</td><td>295.0</td><td class="unf">(3.0)</td><td>850.0</td></tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Training</td><td>180.0</td><td>180.0</td><td>0.0</td><td>520.0</td></tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Internal Exp Rev Offset GBS Non Salary</td><td>24.0</td><td>25.0</td><td class="fav">+1.0</td><td>70.0</td></tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Auto Allowance</td><td>56.0</td><td>55.0</td><td class="unf">(1.0)</td><td>160.0</td></tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Employee Activities</td><td>810.0</td><td>805.0</td><td class="unf">(5.0)</td><td>2,320.0</td></tr>
-                    <tr class="child-row open hr-tuition-fex"><td class="indent2">Recruiting &amp; Contests</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Tuition</td><td>298.0</td><td>295.0</td><td class="unf">(3.0)</td><td>850.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Training</td><td>180.0</td><td>180.0</td><td>0.0</td><td>520.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Internal Exp Rev Offset GBS Non Salary</td><td>24.0</td><td>25.0</td><td class="fav">+1.0</td><td>70.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Auto Allowance</td><td>56.0</td><td>55.0</td><td class="unf">(1.0)</td><td>160.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Employee Activities</td><td>810.0</td><td>805.0</td><td class="unf">(5.0)</td><td>2,320.0</td></tr>
+                    <tr class="child-row hr-tuition-fex"><td class="indent2">Recruiting &amp; Contests</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
 
                   </tbody>
                 </table>
@@ -830,71 +772,71 @@
                     <!-- 2. Non-Employee Related -->
                     <tr class="group-hdr"><td colspan="5">Non-employee related ($26,600.0K)</td></tr>
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-cost-fex')">−</span>Total direct costs</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'direct-cost-fex')">+</span>Total direct costs</td>
                       <td>2,420.0</td>
                       <td>2,400.0</td>
                       <td class="unf">(20.0)</td>
                       <td>6,950.0</td>
                     </tr>
-                    <tr class="child-row open direct-cost-fex"><td class="indent">Bad Debt Trade</td><td>352.0</td><td>350.0</td><td class="unf">(2.0)</td><td>1,010.0</td></tr>
-                    <tr class="child-row open direct-cost-fex"><td class="indent">SASS Vendor Costs</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open direct-cost-fex"><td class="indent">Rebillable Expenses</td><td>21.0</td><td>20.0</td><td class="unf">(1.0)</td><td>60.0</td></tr>
-                    <tr class="child-row open direct-cost-fex"><td class="indent">W-2 Expense</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
-                    <tr class="child-row open direct-cost-fex">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'other-dir-fex')">−</span>Other Direct Costs</td>
+                    <tr class="child-row direct-cost-fex"><td class="indent">Bad Debt Trade</td><td>352.0</td><td>350.0</td><td class="unf">(2.0)</td><td>1,010.0</td></tr>
+                    <tr class="child-row direct-cost-fex"><td class="indent">SASS Vendor Costs</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row direct-cost-fex"><td class="indent">Rebillable Expenses</td><td>21.0</td><td>20.0</td><td class="unf">(1.0)</td><td>60.0</td></tr>
+                    <tr class="child-row direct-cost-fex"><td class="indent">W-2 Expense</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                    <tr class="child-row direct-cost-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'other-dir-fex')">+</span>Other Direct Costs</td>
                       <td>44.0</td>
                       <td>45.0</td>
                       <td class="fav">+1.0</td>
                       <td>125.0</td>
                     </tr>
-                    <tr class="child-row open other-dir-fex"><td class="indent2">Allowance NSF</td><td>43.6</td><td>44.0</td><td class="fav">+0.4</td><td>124.0</td></tr>
-                    <tr class="child-row open other-dir-fex"><td class="indent2">Forms and Cards</td><td>0.4</td><td>1.0</td><td class="fav">+0.6</td><td>1.0</td></tr>
+                    <tr class="child-row other-dir-fex"><td class="indent2">Allowance NSF</td><td>43.6</td><td>44.0</td><td class="fav">+0.4</td><td>124.0</td></tr>
+                    <tr class="child-row other-dir-fex"><td class="indent2">Forms and Cards</td><td>0.4</td><td>1.0</td><td class="fav">+0.6</td><td>1.0</td></tr>
 
                     <!-- Total expense other -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'exp-other-fex')">−</span>Total expense other</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'exp-other-fex')">+</span>Total expense other</td>
                       <td>24,638.0</td>
                       <td>24,000.0</td>
                       <td class="unf">(638.0)</td>
                       <td>70,800.0</td>
                     </tr>
-                    <tr class="child-row open exp-other-fex">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fac-fex')">−</span>Total Facility Related</td>
+                    <tr class="child-row exp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fac-fex')">+</span>Total Facility Related</td>
                       <td>564.0</td>
                       <td>550.0</td>
                       <td class="unf">(14.0)</td>
                       <td>1,620.0</td>
                     </tr>
-                    <tr class="child-row open fac-fex"><td class="indent2">Maintenance Contracts</td><td>31.0</td><td>30.0</td><td class="unf">(1.0)</td><td>90.0</td></tr>
-                    <tr class="child-row open fac-fex"><td class="indent2">Non-Capital Purchases &amp; Software</td><td>523.0</td><td>510.0</td><td class="unf">(13.0)</td><td>1,500.0</td></tr>
-                    <tr class="child-row open fac-fex"><td class="indent2">Other Facility/Equipment Maintenance</td><td>10.0</td><td>10.0</td><td>0.0</td><td>30.0</td></tr>
+                    <tr class="child-row fac-fex"><td class="indent2">Maintenance Contracts</td><td>31.0</td><td>30.0</td><td class="unf">(1.0)</td><td>90.0</td></tr>
+                    <tr class="child-row fac-fex"><td class="indent2">Non-Capital Purchases &amp; Software</td><td>523.0</td><td>510.0</td><td class="unf">(13.0)</td><td>1,500.0</td></tr>
+                    <tr class="child-row fac-fex"><td class="indent2">Other Facility/Equipment Maintenance</td><td>10.0</td><td>10.0</td><td>0.0</td><td>30.0</td></tr>
 
                     <!-- Total Other Fees and Costs -->
-                    <tr class="child-row open exp-other-fex">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fees-fex')">−</span>Total Other Fees and Costs</td>
+                    <tr class="child-row exp-other-fex">
+                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'fees-fex')">+</span>Total Other Fees and Costs</td>
                       <td>24,064.0</td>
                       <td>23,440.0</td>
                       <td class="unf">(624.0)</td>
                       <td>69,150.0</td>
                     </tr>
-                    <tr class="child-row open fees-fex"><td class="indent2">License Fees</td><td>1,325.0</td><td>1,300.0</td><td class="unf">(25.0)</td><td>3,800.0</td></tr>
-                    <tr class="child-row open fees-fex"><td class="indent2">OBE (Operating Business Expense)</td><td>1.4</td><td>1.5</td><td class="fav">+0.1</td><td>4.0</td></tr>
-                    <tr class="child-row open fees-fex"><td class="indent2">Consulting/Professional Fees</td><td>22,735.0</td><td>22,135.0</td><td class="unf">(600.0)</td><td>65,340.0</td></tr>
-                    <tr class="child-row open fees-fex"><td class="indent2">Dues, Subscriptions &amp; Insurance</td><td>1.0</td><td>1.2</td><td class="fav">+0.2</td><td>3.0</td></tr>
-                    <tr class="child-row open fees-fex"><td class="indent2">Delivery and Mailing</td><td>0.2</td><td>0.3</td><td class="fav">+0.1</td><td>0.6</td></tr>
+                    <tr class="child-row fees-fex"><td class="indent2">License Fees</td><td>1,325.0</td><td>1,300.0</td><td class="unf">(25.0)</td><td>3,800.0</td></tr>
+                    <tr class="child-row fees-fex"><td class="indent2">OBE (Operating Business Expense)</td><td>1.4</td><td>1.5</td><td class="fav">+0.1</td><td>4.0</td></tr>
+                    <tr class="child-row fees-fex"><td class="indent2">Consulting/Professional Fees</td><td>22,735.0</td><td>22,135.0</td><td class="unf">(600.0)</td><td>65,340.0</td></tr>
+                    <tr class="child-row fees-fex"><td class="indent2">Dues, Subscriptions &amp; Insurance</td><td>1.0</td><td>1.2</td><td class="fav">+0.2</td><td>3.0</td></tr>
+                    <tr class="child-row fees-fex"><td class="indent2">Delivery and Mailing</td><td>0.2</td><td>0.3</td><td class="fav">+0.1</td><td>0.6</td></tr>
 
                     <!-- Expense Revenue Offsets -->
                     <tr class="summary-row">
-                      <td><span class="exp-toggle" onclick="toggleRow(this, 'offset-fex')">−</span>Total expense revenue offset</td>
+                      <td><span class="exp-toggle" onclick="toggleRow(this, 'offset-fex')">+</span>Total expense revenue offset</td>
                       <td>(502.0)</td>
                       <td>(490.0)</td>
                       <td class="fav">+12.0</td>
                       <td>(1,450.0)</td>
                     </tr>
-                    <tr class="child-row open offset-fex"><td class="indent">WGPS Recovery</td><td>(165.0)</td><td>(160.0)</td><td class="fav">+5.0</td><td>(475.0)</td></tr>
-                    <tr class="child-row open offset-fex"><td class="indent">UCM Recovery</td><td>(297.0)</td><td>(290.0)</td><td class="fav">+7.0</td><td>(860.0)</td></tr>
-                    <tr class="child-row open offset-fex"><td class="indent">Internal Rev Offset Processing</td><td>(496.0)</td><td>(490.0)</td><td class="fav">+6.0</td><td>(1,430.0)</td></tr>
-                    <tr class="child-row open offset-fex"><td class="indent">Internal Exp Rev Offset Set Up</td><td>(5.0)</td><td>(5.0)</td><td>0.0</td><td>(15.0)</td></tr>
+                    <tr class="child-row offset-fex"><td class="indent">WGPS Recovery</td><td>(165.0)</td><td>(160.0)</td><td class="fav">+5.0</td><td>(475.0)</td></tr>
+                    <tr class="child-row offset-fex"><td class="indent">UCM Recovery</td><td>(297.0)</td><td>(290.0)</td><td class="fav">+7.0</td><td>(860.0)</td></tr>
+                    <tr class="child-row offset-fex"><td class="indent">Internal Rev Offset Processing</td><td>(496.0)</td><td>(490.0)</td><td class="fav">+6.0</td><td>(1,430.0)</td></tr>
+                    <tr class="child-row offset-fex"><td class="indent">Internal Exp Rev Offset Set Up</td><td>(5.0)</td><td>(5.0)</td><td>0.0</td><td>(15.0)</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -974,6 +916,181 @@
 
           </div>
 
+          <!-- Expense Waterfall & Trends (below the tabbed table) -->
+          <div class="epm-box" id="sec-waterfall">
+            <div class="epm-box-hdr">
+              <span>EXPENSE WATERFALL &amp; TRENDS</span>
+              <div class="tools"><span>Charts &amp; Visual Analytics</span></div>
+            </div>
+            <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+              <span style="font-size:11px;font-weight:700;color:#1e293b;">Field Expense Bridge, Category Mix, Shoring Mix &amp; Field-to-NOI Profile ($M)</span>
+            </div>
+            <div class="charts-grid">
+              <!-- Chart 1: Expense Waterfall: Plan to Actual -->
+              <div class="chart-card">
+                <div class="chart-title">Field Expense Bridge · Plan to Actual</div>
+                <div class="chart-sub">USD m · September ($59.0M Plan to $60.8M Actual) · axis starts at $58M</div>
+                <div class="legend">
+                  <span><i style="background:#7B68B0"></i> Base</span>
+                  <span><i style="background:#F0605D"></i> Over plan</span>
+                </div>
+                <svg viewBox="0 0 280 150" width="100%" role="img" aria-label="NAS field expense waterfall bridge">
+                  <line x1="40" y1="18" x2="272" y2="18" stroke="#e0e0e0"/>
+                  <line x1="40" y1="50" x2="272" y2="50" stroke="#e0e0e0"/>
+                  <line x1="40" y1="82" x2="272" y2="82" stroke="#e0e0e0"/>
+                  <line x1="40" y1="114" x2="272" y2="114" stroke="#e0e0e0"/>
+                  <text x="36" y="21" text-anchor="end" font-size="8.5" fill="#525252">61</text>
+                  <text x="36" y="53" text-anchor="end" font-size="8.5" fill="#525252">60</text>
+                  <text x="36" y="85" text-anchor="end" font-size="8.5" fill="#525252">59</text>
+                  <text x="36" y="117" text-anchor="end" font-size="8.5" fill="#525252">58</text>
+                  <!-- Plan bar: 59.0 -->
+                  <rect x="44" y="82" width="40" height="32" fill="#7B68B0"/>
+                  <text x="64" y="78" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">59.0</text>
+                  <text x="64" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Plan</text>
+                  <line x1="84" y1="82" x2="104" y2="82" stroke="#aaa" stroke-dasharray="3 2"/>
+                  <!-- EE-related +1.2 -->
+                  <rect x="104" y="43.6" width="40" height="38.4" fill="#F0605D"/>
+                  <text x="124" y="39" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">+1.20</text>
+                  <text x="124" y="126" text-anchor="middle" font-size="8.5" fill="#525252">EE-Related</text>
+                  <line x1="144" y1="43.6" x2="164" y2="43.6" stroke="#aaa" stroke-dasharray="3 2"/>
+                  <!-- Non-EE +0.6 -->
+                  <rect x="164" y="24.4" width="40" height="19.2" fill="#F0605D"/>
+                  <text x="184" y="20" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">+0.60</text>
+                  <text x="184" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Non-EE</text>
+                  <line x1="204" y1="24.4" x2="224" y2="24.4" stroke="#aaa" stroke-dasharray="3 2"/>
+                  <!-- Actual bar: 60.8 -->
+                  <rect x="224" y="24.4" width="40" height="89.6" fill="#7B68B0"/>
+                  <text x="244" y="20" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">60.8</text>
+                  <text x="244" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Actual</text>
+                </svg>
+              </div>
+
+              <!-- Chart 2: Expense by Major Category -->
+              <div class="chart-card">
+                <div class="chart-title">Expense by Major Category</div>
+                <div class="chart-sub">USD m · Actual vs Plan · revenue offset excluded</div>
+                <div class="legend">
+                  <span><i style="background:#F0605D"></i> Actual</span>
+                  <span><i style="background:#BDB4DC"></i> Plan</span>
+                </div>
+                <svg viewBox="0 0 240 150" width="100%" role="img" aria-label="NAS expense by category bar chart">
+                  <line x1="30" y1="29" x2="230" y2="29" stroke="#e0e0e0"/>
+                  <line x1="30" y1="58" x2="230" y2="58" stroke="#e0e0e0"/>
+                  <line x1="30" y1="86" x2="230" y2="86" stroke="#e0e0e0"/>
+                  <line x1="30" y1="115" x2="230" y2="115" stroke="#e0e0e0"/>
+                  <text x="26" y="32" text-anchor="end" font-size="8" fill="#525252">30</text>
+                  <text x="26" y="61" text-anchor="end" font-size="8" fill="#525252">20</text>
+                  <text x="26" y="89" text-anchor="end" font-size="8" fill="#525252">10</text>
+                  <text x="26" y="118" text-anchor="end" font-size="8" fill="#525252">0</text>
+                  <!-- EE Compensation: 30.34 vs 29.20 -->
+                  <rect x="38" y="28.3" width="18" height="86.7" fill="#F0605D"/>
+                  <rect x="58" y="31.6" width="18" height="83.4" fill="#BDB4DC"/>
+                  <text x="47" y="24" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">30.34</text>
+                  <text x="67" y="27" text-anchor="middle" font-size="7.5" fill="#525252">29.20</text>
+                  <text x="57" y="126" text-anchor="middle" font-size="7.5" fill="#525252">EE Comp</text>
+                  <!-- EE Other: 3.85 vs 3.79 -->
+                  <rect x="88" y="104" width="18" height="11" fill="#F0605D"/>
+                  <rect x="108" y="104.2" width="18" height="10.8" fill="#BDB4DC"/>
+                  <text x="97" y="100" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">3.85</text>
+                  <text x="117" y="100" text-anchor="middle" font-size="7.5" fill="#525252">3.79</text>
+                  <text x="107" y="126" text-anchor="middle" font-size="7.5" fill="#525252">EE Other</text>
+                  <!-- Direct Costs: 2.42 vs 2.40 -->
+                  <rect x="138" y="108.1" width="18" height="6.9" fill="#F0605D"/>
+                  <rect x="158" y="108.1" width="18" height="6.9" fill="#BDB4DC"/>
+                  <text x="147" y="104" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">2.42</text>
+                  <text x="167" y="104" text-anchor="middle" font-size="7.5" fill="#525252">2.40</text>
+                  <text x="157" y="126" text-anchor="middle" font-size="7.5" fill="#525252">Direct</text>
+                  <!-- Expense Other (Fees, Consulting, Facility): 24.64 vs 24.00 -->
+                  <rect x="188" y="44.6" width="18" height="70.4" fill="#F0605D"/>
+                  <rect x="208" y="46.4" width="18" height="68.6" fill="#BDB4DC"/>
+                  <text x="197" y="40" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">24.64</text>
+                  <text x="217" y="42" text-anchor="middle" font-size="7.5" fill="#525252">24.00</text>
+                  <text x="207" y="126" text-anchor="middle" font-size="7.5" fill="#525252">Exp Other</text>
+                </svg>
+              </div>
+
+              <!-- Chart 3: Headcount & Shoring Mix -->
+              <div class="chart-card">
+                <div class="chart-title">Ending Headcount by Location</div>
+                <div class="chart-sub">FTEs · September · 860 total · 33.1% offshore</div>
+                <div class="legend">
+                  <span><i style="background:#7B68B0"></i> Onshore</span>
+                  <span><i style="background:#F0605D"></i> Offshore GBS</span>
+                </div>
+                <svg viewBox="0 0 280 140" width="100%" role="img" aria-label="NAS ending headcount by location bar chart">
+                  <line x1="100" y1="10" x2="100" y2="124" stroke="#e0e0e0"/>
+                  <!-- Traditional 380 -->
+                  <text x="94" y="28" text-anchor="end" font-size="8" fill="#525252">Traditional</text>
+                  <rect x="100" y="16" width="152" height="18" fill="#7B68B0"/>
+                  <text x="256" y="28" font-size="8" font-weight="700" fill="#161616">380</text>
+                  <!-- OneADP 195 -->
+                  <text x="94" y="56" text-anchor="end" font-size="8" fill="#525252">OneADP</text>
+                  <rect x="100" y="44" width="78" height="18" fill="#7B68B0"/>
+                  <text x="182" y="56" font-size="8" font-weight="700" fill="#161616">195</text>
+                  <!-- India 235 -->
+                  <text x="94" y="84" text-anchor="end" font-size="8" fill="#525252">India GBS</text>
+                  <rect x="100" y="72" width="94" height="18" fill="#F0605D"/>
+                  <text x="198" y="84" font-size="8" font-weight="700" fill="#161616">235</text>
+                  <!-- Philippines 50 -->
+                  <text x="94" y="112" text-anchor="end" font-size="8" fill="#525252">Philippines</text>
+                  <rect x="100" y="100" width="20" height="18" fill="#F0605D"/>
+                  <text x="124" y="112" font-size="8" font-weight="700" fill="#161616">50</text>
+                </svg>
+              </div>
+
+              <!-- Chart 4: Field to NOI Profile -->
+              <div class="chart-card">
+                <div class="chart-title">NAS: Field-to-NOI Profile ($M)</div>
+                <div class="chart-sub">September · Actual vs Plan</div>
+                <div class="legend">
+                  <span><i style="background:#7B68B0"></i> Actual</span>
+                  <span><i style="background:#BDB4DC"></i> Plan</span>
+                </div>
+                <svg viewBox="0 0 280 140" width="100%" role="img" aria-label="NAS field expense to NOI profile bar chart">
+                  <line x1="30" y1="33" x2="270" y2="33" stroke="#e0e0e0"/>
+                  <line x1="30" y1="58" x2="270" y2="58" stroke="#e0e0e0"/>
+                  <line x1="30" y1="83" x2="270" y2="83" stroke="#e0e0e0"/>
+                  <line x1="30" y1="108" x2="270" y2="108" stroke="#e0e0e0"/>
+                  <text x="26" y="36" text-anchor="end" font-size="7.5" fill="#525252">60</text>
+                  <text x="26" y="61" text-anchor="end" font-size="7.5" fill="#525252">40</text>
+                  <text x="26" y="86" text-anchor="end" font-size="7.5" fill="#525252">20</text>
+                  <text x="26" y="111" text-anchor="end" font-size="7.5" fill="#525252">0</text>
+                  <!-- Field Expense: 60.8 vs 59.0 -->
+                  <rect x="40" y="31.6" width="18" height="76.4" fill="#7B68B0"/>
+                  <rect x="60" y="33.8" width="18" height="74.2" fill="#BDB4DC"/>
+                  <text x="49" y="27" text-anchor="middle" font-size="7.5" font-weight="700">60.8</text>
+                  <text x="69" y="30" text-anchor="middle" font-size="7.5" fill="#525252">59.0</text>
+                  <text x="59" y="120" text-anchor="middle" font-size="7.5" fill="#525252">Field Exp</text>
+                  <!-- Field NOI: 59.2 vs 57.0 -->
+                  <rect x="86" y="33.6" width="18" height="74.4" fill="#7B68B0"/>
+                  <rect x="106" y="36.3" width="18" height="71.7" fill="#BDB4DC"/>
+                  <text x="95" y="29" text-anchor="middle" font-size="7.5" font-weight="700">59.2</text>
+                  <text x="115" y="32" text-anchor="middle" font-size="7.5" fill="#525252">57.0</text>
+                  <text x="105" y="120" text-anchor="middle" font-size="7.5" fill="#525252">Field NOI</text>
+                  <!-- NDE: 18.2 vs 18.9 -->
+                  <rect x="132" y="85.1" width="18" height="22.9" fill="#7B68B0"/>
+                  <rect x="152" y="84.2" width="18" height="23.8" fill="#BDB4DC"/>
+                  <text x="141" y="81" text-anchor="middle" font-size="7.5" font-weight="700">18.2</text>
+                  <text x="161" y="80" text-anchor="middle" font-size="7.5" fill="#525252">18.9</text>
+                  <text x="151" y="120" text-anchor="middle" font-size="7.5" fill="#525252">NDE</text>
+                  <!-- Shared Allocations: 13.0 vs 13.6 -->
+                  <rect x="178" y="91.7" width="18" height="16.3" fill="#7B68B0"/>
+                  <rect x="198" y="90.9" width="18" height="17.1" fill="#BDB4DC"/>
+                  <text x="187" y="87" text-anchor="middle" font-size="7.5" font-weight="700">13.0</text>
+                  <text x="207" y="86" text-anchor="middle" font-size="7.5" fill="#525252">13.6</text>
+                  <text x="197" y="120" text-anchor="middle" font-size="7.5" fill="#525252">Shared Alloc</text>
+                  <!-- NOI: 28.0 vs 24.5 -->
+                  <rect x="224" y="72.8" width="18" height="35.2" fill="#7B68B0"/>
+                  <rect x="244" y="77.2" width="18" height="30.8" fill="#BDB4DC"/>
+                  <text x="233" y="68" text-anchor="middle" font-size="7.5" font-weight="700">28.0</text>
+                  <text x="253" y="73" text-anchor="middle" font-size="7.5" fill="#525252">24.5</text>
+                  <text x="243" y="120" text-anchor="middle" font-size="7.5" font-weight="700" fill="#525252">NOI</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+
         </div>
 
       </div>
@@ -999,6 +1116,9 @@
 <div class="tip" id="tip"></div>
 
 <script>
+  /* ===== Shared Dashboard Experience 2 behaviors (identical on NAS and RS Expense P&L) ===== */
+
+  // Tooltip
   (function initTooltips() {
     var tip = document.getElementById('tip');
     if (!tip) return;
@@ -1022,6 +1142,69 @@
     });
   })();
 
+  // Filter pills: one active pill per group (groups are separated by .ef-sep)
+  (function initFilterPills() {
+    document.addEventListener('click', function(e) {
+      var pill = e.target.closest('.epm-filter-strip .ef-pill');
+      if (!pill) return;
+      var sib = pill.previousElementSibling;
+      while (sib && !sib.classList.contains('ef-sep')) {
+        if (sib.classList.contains('ef-pill') && sib.getAttribute('data-filter') === pill.getAttribute('data-filter')) sib.classList.remove('active');
+        sib = sib.previousElementSibling;
+      }
+      sib = pill.nextElementSibling;
+      while (sib && !sib.classList.contains('ef-sep')) {
+        if (sib.classList.contains('ef-pill') && sib.getAttribute('data-filter') === pill.getAttribute('data-filter')) sib.classList.remove('active');
+        sib = sib.nextElementSibling;
+      }
+      pill.classList.add('active');
+    });
+  })();
+
+  // Right-column card tabs
+  function showRightPane(paneId) {
+    var target = document.getElementById(paneId);
+    if (!target) return false;
+    document.querySelectorAll('.right-tab-pane').forEach(function(p) { p.style.display = 'none'; });
+    target.style.display = 'block';
+    document.querySelectorAll('.right-tab').forEach(function(t) {
+      var oc = t.getAttribute('onclick') || '';
+      t.classList.toggle('active', oc.indexOf("'" + paneId + "'") !== -1);
+    });
+    return true;
+  }
+
+  function switchRightTab(btn, paneId) {
+    showRightPane(paneId);
+  }
+
+  function switchRightTabByDirect(paneId, navEl) {
+    if (!showRightPane(paneId)) return;
+    var strip = document.getElementById('mainTabStrip');
+    if (strip && navEl) {
+      strip.querySelectorAll('.epm-tab').forEach(function(t) { t.classList.remove('active'); });
+      navEl.classList.add('active');
+    }
+  }
+
+  function switchMainTab(tabKey) {
+    document.querySelectorAll('#mainTabStrip .epm-tab').forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tabKey);
+    });
+  }
+
+  function scrollToSection(sectionId, navEl) {
+    var el = document.getElementById(sectionId);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var strip = document.getElementById('mainTabStrip');
+    if (strip && navEl) {
+      strip.querySelectorAll('.epm-tab').forEach(function(t) { t.classList.remove('active'); });
+      navEl.classList.add('active');
+    }
+  }
+
+  // Account Hierarchy sub-tabs (Employee / Non-Employee)
   function switchAcctSubTab(btn, paneId) {
     document.querySelectorAll('#acctSubTabs .sub-tab').forEach(function(t) { t.classList.remove('active'); });
     document.querySelectorAll('#tab-accounthier .acct-sub-pane').forEach(function(p) { p.style.display = 'none'; });
@@ -1030,93 +1213,55 @@
     if (target) target.style.display = 'block';
   }
 
-  function switchRightTab(btn, paneId) {
-    var tabs = document.querySelectorAll('.right-tab');
-    var panes = document.querySelectorAll('.right-tab-pane');
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    panes.forEach(function(p) { p.style.display = 'none'; });
-    btn.classList.add('active');
-    var target = document.getElementById(paneId);
-    if (target) target.style.display = 'block';
-  }
-
-  function switchRightTabByDirect(paneId) {
-    var panes = document.querySelectorAll('.right-tab-pane');
-    var tabs = document.querySelectorAll('.right-tab');
-    panes.forEach(function(p) { p.style.display = 'none'; });
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    
-    var target = document.getElementById(paneId);
-    if (target) {
-      target.style.display = 'block';
-      tabs.forEach(function(t) {
-        if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(paneId) !== -1) {
-          t.classList.add('active');
-        }
-      });
-    }
-  }
-
-  function switchMainTab(tabKey) {
-    var tabs = document.querySelectorAll('#mainTabStrip .epm-tab');
-    tabs.forEach(function(t) {
-      t.classList.toggle('active', t.getAttribute('data-tab') === tabKey);
-    });
-  }
-
+  // Expand / collapse row groups
   function toggleRow(toggleBtn, groupClass) {
     var rows = document.querySelectorAll('tr.' + groupClass);
     var isOpen = toggleBtn.textContent.trim() === '−';
-    if (isOpen) {
-      toggleBtn.textContent = '+';
-      rows.forEach(function(r) { r.classList.remove('open'); });
-    } else {
-      toggleBtn.textContent = '−';
-      rows.forEach(function(r) { r.classList.add('open'); });
-    }
+    toggleBtn.textContent = isOpen ? '+' : '−';
+    rows.forEach(function(r) { r.classList.toggle('open', !isOpen); });
   }
 
   function toggleAllRows(paneId) {
     var pane = document.getElementById(paneId);
     if (!pane) return;
-    var toggles = pane.querySelectorAll('.exp-toggle');
-    var childRows = pane.querySelectorAll('tr.child-row');
+    // Only act on the visible sub-pane (if the pane has Employee / Non-Employee sub-tabs)
+    var scope = pane;
+    var subs = pane.querySelectorAll('.acct-sub-pane');
+    subs.forEach(function(s) { if (s.style.display !== 'none') scope = s; });
+    var toggles = scope.querySelectorAll('.exp-toggle');
+    var childRows = scope.querySelectorAll('tr.child-row');
     var anyClosed = false;
     childRows.forEach(function(r) { if (!r.classList.contains('open')) anyClosed = true; });
-    if (anyClosed) {
-      childRows.forEach(function(r) { r.classList.add('open'); });
-      toggles.forEach(function(t) { t.textContent = '−'; });
-    } else {
-      childRows.forEach(function(r) { r.classList.remove('open'); });
-      toggles.forEach(function(t) { t.textContent = '+'; });
-    }
+    childRows.forEach(function(r) { r.classList.toggle('open', anyClosed); });
+    toggles.forEach(function(t) { t.textContent = anyClosed ? '−' : '+'; });
   }
 
+  // Headline KPI toggle controls
   (function initHeadlineToggles() {
-    var st = { fmt: 'both', cmp: 'pva' };
-    var tgWrap = document.getElementById('cfo-toggles');
-    var hk = document.getElementById('headline-kpis');
-
-    function applyHeadline() {
-      if (hk) {
-        hk.setAttribute('data-cmp', st.cmp);
-        hk.setAttribute('data-fmt', st.fmt);
-      }
-    }
-
-    if (tgWrap) {
-      tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
-        b.addEventListener('click', function () {
-          st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
-          b.parentNode.querySelectorAll('button').forEach(function (x) {
-            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
-          });
-          applyHeadline();
-        });
+    var host = document.getElementById('cfo-toggles');
+    var kpis = document.getElementById('headline-kpis');
+    if (!host || !kpis) return;
+    host.addEventListener('click', function(e) {
+      var btn = e.target.closest('button[data-v]');
+      if (!btn) return;
+      var group = btn.closest('.cfo-tg');
+      group.querySelectorAll('button').forEach(function(b) {
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
       });
-    }
+      kpis.setAttribute('data-' + group.getAttribute('data-k'), btn.getAttribute('data-v'));
+    });
+  })();
+
+  // Plan dropdown mock
+  (function initPlanDropdown() {
+    var btn = document.getElementById('planDropdownBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      alert('Plan Selection: Current model is locked to BUDGET FY27 Q1 Close (Hyperion Verified Actuals). Scenario modeling is enabled in Polaris EPM Cockpit.');
+    });
   })();
 </script>
 
+<script src="polaris_header.js"></script>
 </body>
 </html>
