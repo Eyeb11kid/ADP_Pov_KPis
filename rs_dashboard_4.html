@@ -158,7 +158,14 @@
   .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
   .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e2e8f0; font-size: 10.5px; font-weight: 600; color: var(--blue); text-decoration: none; }
-  .kpi-link:hover, .kpi-link:focus-visible { text-decoration: underline; }
+  .kpis.kpis-5 > a.kpi { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+  .kpis.kpis-5 > a.kpi > .kpi-link { margin-top: auto; }
+  .kpis.kpis-5 > a.kpi > :nth-last-child(2) { margin-bottom: 6px; }
+  .kpis.kpis-5 > a.kpi:focus-visible { outline: 2px solid #0f62fe; outline-offset: 2px; }
+  .kpis.kpis-5 > a.kpi:hover .kpi-link, .kpis.kpis-5 > a.kpi:focus-visible .kpi-link { text-decoration: underline; }
+  .kpi-sec { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-sec-v { text-align: right; white-space: nowrap; }
+  .kpi-sec-v b { color: var(--navy); }
   .fav { color: var(--green); font-weight: 600; }
   .unf { color: var(--red); font-weight: 600; }
 
@@ -185,6 +192,15 @@
   .left-col > .epm-box { width: 100%; }
   .left-col .epm-box > div[style*="overflow-x"] { width: 100%; }
   .left-col .epm-table { width: 100%; border: 1px solid #d0d7de; }
+  .pl-draft { font-size: 10.5px; }
+  .pl-draft th, .pl-draft td { padding: 4px 6px; }
+  .pl-draft th.grp { text-align: center; background: #e2e8f0; border-bottom: 1px solid #cbd5e1; }
+  .pl-draft thead tr:nth-child(2) th { white-space: normal; text-align: right; vertical-align: bottom; min-width: 62px; }
+  .pl-draft th:first-child, .pl-draft td:first-child { position: sticky; left: 0; background: #f1f5f9; min-width: 190px; z-index: 1; }
+  .pl-draft tbody td:first-child { background: #fff; }
+  .pl-draft tr.summary-row td:first-child { background: inherit; }
+  .draft-tag { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 2px; background: #E5A83F; color: #161616; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; vertical-align: 1px; }
+
 
   /* Tables */
   .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
@@ -278,9 +294,6 @@
   <!-- Main Content Area -->
   <main class="main">
 
-    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
-    <div class="ctx" id="pf-context"></div>
-
     <!-- Title Bar -->
     <div class="titlebar">
       <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
@@ -293,6 +306,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
 
     <!-- 1. Headline KPIs Strip (from Screenshot 1: Headline KPIs) -->
     <div class="headline-kpi-bar">
@@ -310,8 +326,8 @@
       </div>
 
       <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
-        <!-- 1. Revenue -->
-        <div class="kpi nd" id="hkpi-rev" data-tip="<b>Total Revenue (Screenshot 1)</b><br>Act: $93,403.4K vs Plan $89,400.0K (+$4,003.4K / +4.5%)<br>YoY: +6.8%">
+        <!-- 1. Revenue (secondary: processing, non-processing) -->
+        <a class="kpi nd" id="hkpi-rev" href="revenue_analysis_RS_2.html" data-tip="<b>Revenue</b><br>Act: $93,403.4K vs Plan $89,400.0K (+$4,003.4K / +4.5%)<br>YoY: +6.8%<br>Processing $93,308.1K · Non-processing $95.3K<br>Select to open Revenue Analysis">
           <div class="kpi-val"><span class="m-pva">$93.4M</span><span class="m-plan">$89.4M</span></div>
           <div class="kpi-label">Revenue</div>
           <div class="kpi-desc">Total RS Revenue ($93,403.4K)</div>
@@ -320,27 +336,29 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>$89.4M</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.2%</b></div>
-          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
-
-        </div>
+          <div class="kpi-sec m-pva"><span>Processing revenue</span><span class="kpi-sec-v"><b>$93.3M</b> <span class="fav">▲ +$4.0M<span class="m-both"> (+4.5%)</span></span></span></div>
+          <div class="kpi-sec m-plan"><span>Processing revenue</span><span class="kpi-sec-v"><b>$89.3M</b></span></div>
+          <div class="kpi-sec m-pva"><span>Non-processing revenue</span><span class="kpi-sec-v"><b>$95.3K</b> <span class="fav">▲ +$5.3K<span class="m-both"> (+5.9%)</span></span></span></div>
+          <div class="kpi-sec m-plan"><span>Non-processing revenue</span><span class="kpi-sec-v"><b>$90.0K</b></span></div>
+          <span class="kpi-link">Revenue Analysis &rarr;</span>
+        </a>
 
         <!-- 2. NOI -->
-        <div class="kpi nd" id="hkpi-noi" data-tip="<b>NOI (EBIT) (Screenshot 1)</b><br>Act: $32,840.2K / 35.2% Margin<br>Plan: $30,450.0K / 34.0% Margin (+120 bps)">
-          <div class="kpi-val"><span class="m-pva">35.2%</span><span class="m-plan">34.0%</span></div>
+        <a class="kpi nd" id="hkpi-noi" href="expense_pl_RS_2.html#sec-mgmt-pl" data-tip="<b>NOI (EBIT)</b><br>Act: $32,840.2K vs Plan $30,450.0K (+$2,390.2K / +7.8%)<br>Margin: 35.2% vs 34.0% (+120 bps)<br>Select to open Expense P&amp;L">
+          <div class="kpi-val"><span class="m-pva">$32.8M</span><span class="m-plan">$30.4M</span></div>
           <div class="kpi-label">NOI</div>
-          <div class="kpi-desc">NOI (EBIT) $32,840.2K</div>
-          <div class="kpi-var m-pva"><span class="fav">▲ +120 bps</span> vs plan</div>
+          <div class="kpi-desc">NOI (EBIT) ($32,840.2K)</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$2.4M</span><span class="m-both"> (+7.8%)</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>NOI (EBIT)</span><b>$32.8M</b></div>
-          <div class="kpi-row m-pva"><span>Plan</span><b>34.0% · $30.4M</b></div>
-          <div class="kpi-row m-plan"><span>NOI (plan)</span><b>$30.4M</b></div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$30.4M</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+180 bps</b></div>
-          <a class="kpi-link" href="expense_pl_RS_2.html#sec-mgmt-pl">Expense P&amp;L &rarr;</a>
+          <div class="kpi-sec m-pva"><span>NOI margin</span><span class="kpi-sec-v"><b>35.2%</b> <span class="fav">▲ +120 bps</span></span></div>
+          <div class="kpi-sec m-plan"><span>NOI margin</span><span class="kpi-sec-v"><b>34.0%</b></span></div>
+          <span class="kpi-link">Expense P&amp;L &rarr;</span>
+        </a>
 
-        </div>
-
-        <!-- 3. Sales -->
-        <div class="kpi nd" id="hkpi-sales" data-tip="<b>Sales (Bookings) (Screenshot 1)</b><br>Act: $14,210.0K vs Plan $12,400.0K (+$1,810.0K / +14.5%)">
+        <!-- 3. Sales (secondary: start dollars, loss dollars, net new business) -->
+        <a class="kpi nd" id="hkpi-sales" href="revenue_analysis_RS_2.html" data-tip="<b>Sales (Bookings)</b><br>Act: $14,210.0K vs Plan $12,400.0K (+$1,810.0K / +14.5%)<br>Starts $11,840.0K · Losses ($8,420.0K) · Net new business $3,420.0K<br>Select to open Revenue Analysis">
           <div class="kpi-val"><span class="m-pva">$14.2M</span><span class="m-plan">$12.4M</span></div>
           <div class="kpi-label">Sales</div>
           <div class="kpi-desc">New Business Bookings ($14,210.0K)</div>
@@ -349,12 +367,17 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>$12.4M</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+12.4%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+5.8%</b></div>
-          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
-
-        </div>
+          <div class="kpi-sec m-pva"><span>Start dollars</span><span class="kpi-sec-v"><b>$11.8M</b> <span class="fav">▲ +$0.5M<span class="m-both"> (+4.8%)</span></span></span></div>
+          <div class="kpi-sec m-plan"><span>Start dollars</span><span class="kpi-sec-v"><b>$11.3M</b></span></div>
+          <div class="kpi-sec m-pva"><span>Loss dollars</span><span class="kpi-sec-v"><b>($8.4M)</b> <span class="fav">▲ +$0.2M<span class="m-both"> (+2.1%)</span></span></span></div>
+          <div class="kpi-sec m-plan"><span>Loss dollars</span><span class="kpi-sec-v"><b>($8.6M)</b></span></div>
+          <div class="kpi-sec m-pva"><span>Net new business</span><span class="kpi-sec-v"><b>$3.4M</b> <span class="fav">▲ +$0.7M<span class="m-both"> (+26.7%)</span></span></span></div>
+          <div class="kpi-sec m-plan"><span>Net new business</span><span class="kpi-sec-v"><b>$2.7M</b></span></div>
+          <span class="kpi-link">Revenue Analysis &rarr;</span>
+        </a>
 
         <!-- 4. Retention % -->
-        <div class="kpi nd" id="hkpi-ret" data-tip="<b>Retention % (Screenshot 1)</b><br>Act: 94.6% vs Plan 94.2% (+40 bps)">
+        <a class="kpi nd" id="hkpi-ret" href="revenue_analysis_RS_2.html" data-tip="<b>Retention %</b><br>Act: 94.6% vs Plan 94.2% (+40 bps)<br>YoY: +20 bps<br>Select to open Revenue Analysis">
           <div class="kpi-val"><span class="m-pva">94.6%</span><span class="m-plan">94.2%</span></div>
           <div class="kpi-label">Retention %</div>
           <div class="kpi-desc">Annualized Plan Retention</div>
@@ -363,25 +386,23 @@
           <div class="kpi-row m-pva"><span>Plan</span><b>94.2%</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+20 bps</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+10 bps</b></div>
-          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
+          <span class="kpi-link">Revenue Analysis &rarr;</span>
+        </a>
 
-        </div>
-
-        <!-- 5. Clients -->
-        <div class="kpi nd" id="hkpi-clients" data-pf-unsupported="product" data-tip="<b>Clients (Active Plans) (Screenshot 1)</b><br>Act: 154,200 vs Plan 151,800 (+2,400 / +1.6%)">
+        <!-- 5. Clients (average) -->
+        <a class="kpi nd" id="hkpi-clients" href="revenue_analysis_RS_2.html#sec-volume" data-pf-unsupported="product" data-tip="<b>Clients (average)</b><br>Act: 154,200 vs Plan 151,800 (+2,400 / +1.6%)<br>YoY: +4.8%<br>Select to open Revenue Analysis">
           <div class="kpi-val"><span class="m-pva">154.2K</span><span class="m-plan">151.8K</span></div>
-          <div class="kpi-label">Clients</div>
+          <div class="kpi-label">Clients (average)</div>
           <div class="kpi-desc">Active 401(k) &amp; IRA Plans</div>
           <div class="kpi-var m-pva"><span class="fav">▲ +2,400</span><span class="m-both"> (+1.6%)</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
           <div class="kpi-row m-pva"><span>Plan</span><b>151,800</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+4.8%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.2%</b></div>
-          <a class="kpi-link" href="revenue_analysis_RS_2.html#sec-volume">Revenue Analysis &rarr;</a>
-
-        </div>
+          <span class="kpi-link">Revenue Analysis &rarr;</span>
+        </a>
       </div>
-    </div>
+      </div>
 
     <!-- MAIN TWO-COLUMN VIEW -->
     <div id="cockpit-container">
@@ -481,6 +502,47 @@
                 </tbody>
               </table>
             </div>
+          </div>
+
+          <!-- Section A2: DRAFT P&L Summary by time view (Month, QTD, YTD, ROY, FY). Illustrative figures: see draft note. -->
+          <div class="epm-box" id="pl-draft-box">
+            <div class="epm-box-hdr">
+              <span>P&amp;L SUMMARY BY TIME VIEW <span class="draft-tag">DRAFT</span></span>
+              <div class="tools"><span>$K USD · Actual vs Plan and Forecast · variances: favorable green, unfavorable red</span></div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table pl-draft">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Line Item</th>
+                    <th colspan="7" class="grp">Month (Sep)</th>
+                    <th colspan="4" class="grp">QTD</th>
+                    <th colspan="5" class="grp">YTD</th>
+                    <th colspan="6" class="grp">Rest of year (FY less YTD)</th>
+                    <th colspan="4" class="grp">Full year (latest forecast vs plan)</th>
+                  </tr>
+                  <tr>
+                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th><th>Fcst</th><th>Var $</th><th>Var %</th>
+                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th>
+                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th><th>% of FY plan achieved</th>
+                    <th>Fcst</th><th>Plan</th><th>Var $</th><th>Var %</th><th>Still to deliver (FY plan - YTD)</th><th>Growth needed vs YTD run-rate</th>
+                    <th>Fcst</th><th>Plan</th><th>Var $</th><th>Var %</th>
+                  </tr>
+                </thead>
+                <tbody>
+<tr class="summary-row" style="background:#edf2f7;"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td class="fav">+4.5%</td><td>91,802.0</td><td class="fav">+1,601.4</td><td class="fav">+1.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>25.2%</td><td>834,480.5</td><td>818,010.0</td><td class="fav">+16,470.5</td><td class="fav">+2.0%</td><td>810,790.1</td><td>(0.9%)</td><td>1,107,218.5</td><td>1,083,528.0</td><td class="fav">+23,690.5</td><td class="fav">+2.2%</td></tr>
+<tr><td>Field expense</td><td>48,390.2</td><td>47,000.0</td><td class="unf">(1,390.2)</td><td class="unf">(3.0%)</td><td>47,834.1</td><td class="unf">(556.1)</td><td class="unf">(1.2%)</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">(1.2%)</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">(1.2%)</td><td>24.8%</td><td>434,812.2</td><td>430,050.0</td><td class="unf">(4,762.2)</td><td class="unf">(1.1%)</td><td>428,340.6</td><td>+1.0%</td><td>576,111.5</td><td>569,640.0</td><td class="unf">(6,471.5)</td><td class="unf">(1.1%)</td></tr>
+<tr class="summary-row" style="background:#e0f2fe;"><td>Field NOI</td><td>45,013.2</td><td>42,400.0</td><td class="fav">+2,613.2</td><td class="fav">+6.2%</td><td>43,967.9</td><td class="fav">+1,045.3</td><td class="fav">+2.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>25.6%</td><td>399,668.4</td><td>387,960.0</td><td class="fav">+11,708.4</td><td class="fav">+3.0%</td><td>382,449.5</td><td>(3.0%)</td><td>531,106.9</td><td>513,888.0</td><td class="fav">+17,218.9</td><td class="fav">+3.4%</td></tr>
+<tr><td>Field NOI margin %</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>47.9%</td><td class="fav">+30 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>-</td><td>47.9%</td><td>47.4%</td><td class="fav">+47 bps</td><td>-</td><td>47.2%</td><td>-</td><td>48.0%</td><td>47.4%</td><td class="fav">+54 bps</td><td>-</td></tr>
+<tr><td>NDE</td><td>5,120.0</td><td>5,000.0</td><td class="unf">(120.0)</td><td class="unf">(2.4%)</td><td>5,072.0</td><td class="unf">(48.0)</td><td class="unf">(0.9%)</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">(0.7%)</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">(0.7%)</td><td>24.7%</td><td>46,104.5</td><td>45,750.0</td><td class="unf">(354.5)</td><td class="unf">(0.8%)</td><td>45,649.6</td><td>+1.8%</td><td>61,054.9</td><td>60,600.0</td><td class="unf">(454.9)</td><td class="unf">(0.8%)</td></tr>
+<tr><td>Shared service allocations (excl. NDE)</td><td>7,053.0</td><td>6,950.0</td><td class="unf">(103.0)</td><td class="unf">(1.5%)</td><td>7,011.8</td><td class="unf">(41.2)</td><td class="unf">(0.6%)</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>24.4%</td><td>63,737.3</td><td>63,592.5</td><td class="unf">(144.8)</td><td class="unf">(0.2%)</td><td>63,639.2</td><td>+3.0%</td><td>84,332.0</td><td>84,234.0</td><td class="unf">(98.0)</td><td class="unf">(0.1%)</td></tr>
+<tr class="summary-row" style="background:#f1f5f9;"><td>Total expenses</td><td>60,563.2</td><td>58,950.0</td><td class="unf">(1,613.2)</td><td class="unf">(2.7%)</td><td>59,917.9</td><td class="unf">(645.3)</td><td class="unf">(1.1%)</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">(1.0%)</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">(1.0%)</td><td>24.8%</td><td>544,653.9</td><td>539,392.5</td><td class="unf">(5,261.4)</td><td class="unf">(1.0%)</td><td>537,629.5</td><td>+1.3%</td><td>721,498.4</td><td>714,474.0</td><td class="unf">(7,024.4)</td><td class="unf">(1.0%)</td></tr>
+<tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;"><td>NOI (EBIT)</td><td>32,840.2</td><td>30,450.0</td><td class="fav">+2,390.2</td><td class="fav">+7.8%</td><td>31,884.1</td><td class="fav">+956.1</td><td class="fav">+3.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>26.0%</td><td>289,826.7</td><td>278,617.5</td><td class="fav">+11,209.2</td><td class="fav">+4.0%</td><td>273,160.6</td><td>(5.0%)</td><td>385,720.0</td><td>369,054.0</td><td class="fav">+16,666.0</td><td class="fav">+4.5%</td></tr>
+<tr><td>NOI margin %</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>34.7%</td><td class="fav">+43 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>-</td><td>34.7%</td><td>34.1%</td><td class="fav">+67 bps</td><td>-</td><td>33.7%</td><td>-</td><td>34.8%</td><td>34.1%</td><td class="fav">+78 bps</td><td>-</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="chart-cap" style="margin:0;padding:6px 14px 8px;border-top:1px solid #e2e8f0;">DRAFT. Month actual and plan, and the margin and NOI math, come from the P&amp;L Summary above. Month forecast, QTD, YTD, rest of year and full-year forecast and plan are illustrative placeholders and do not tie to the Revenue, Starts, Stops table below. Q1 close, so QTD equals YTD. Growth needed = average monthly amount still to deliver over the remaining 9 months vs the YTD monthly run-rate. 25% of FY plan achieved means 75% still to deliver.</div>
           </div>
 
           <!-- Section B: Revenue + Starts, Stops and Retention (combined) -->
