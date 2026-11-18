@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS Dashboard 4 — Retirement Services Monthly Close Cockpit — ADP Project Polaris</title>
+<link rel="stylesheet" href="polaris_header.css">
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Layout Shell */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Workspace */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #e0e7ff; color: #4338ca; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #c7d2fe; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Headline 5-KPI Strip */
+  .headline-kpi-bar {
+    background: #fff;
+    border: 1px solid var(--line);
+    margin: 14px 20px 0;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .hkpi-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hkpi-bar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--p-navy);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hkpi-bar-badge {
+    background: #fee2e2;
+    color: var(--adp);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
+  .cfo-tg button:hover { background: #f1f5f9; }
+  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+
+  .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 1100px) { .kpis.kpis-5 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
+
+  .kpis.kpis-5 > .kpi {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: 3px solid var(--adp);
+    border-radius: 4px;
+    padding: 12px 14px 10px;
+    min-width: 0;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .kpis.kpis-5 > .kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #cbd5e1;
+    background: #ffffff;
+  }
+  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #0f62fe; }
+  .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #2e7d32; }
+  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #7B68B0; }
+  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #009D9A; }
+  .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #E5A83F; }
+
+  .kpi-val { font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: var(--p-navy); line-height: 1.1; margin-bottom: 2px; }
+  .kpi-label { font-size: 12px; font-weight: 700; color: var(--p-navy); margin-bottom: 1px; }
+  .kpi-desc { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 11px; font-weight: 600; }
+  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-row b { color: var(--navy); }
+  .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e2e8f0; font-size: 10.5px; font-weight: 600; color: var(--blue); text-decoration: none; }
+  .kpi-link:hover, .kpi-link:focus-visible { text-decoration: underline; }
+  .fav { color: var(--green); font-weight: 600; }
+  .unf { color: var(--red); font-weight: 600; }
+
+  #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
+
+  /* 2-Column Split Layout Grid */
+  .epm-layout-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 14px; padding: 14px 20px 28px; align-items: start; }
+  @media (max-width: 1280px) {
+    .epm-layout-grid { grid-template-columns: 1fr; }
+  }
+
+  .left-col, .right-col { display: flex; flex-direction: column; gap: 14px; }
+  
+  .epm-box { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
+  .epm-box-hdr { background: #162436; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
+  .epm-box-hdr.light { background: #f6f8fa; color: var(--p-navy); border-bottom: 1px solid #d0d7de; font-weight: 700; }
+  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: normal; color: #a0aec0; }
+  .epm-box-body { padding: 12px; }
+  .chart-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .chart-cap { font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; margin-top: 6px; line-height: 1.4; }
+  .charts-row { display: flex; flex-direction: column; gap: 14px; }
+  .left-col > .epm-box { width: 100%; }
+  .left-col .epm-box > div[style*="overflow-x"] { width: 100%; }
+  .left-col .epm-table { width: 100%; border: 1px solid #d0d7de; }
+
+  /* Tables */
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
+  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e2e8f0; white-space: nowrap; }
+  .epm-table th { background: #f1f5f9; color: #334155; font-weight: 700; font-size: 11px; text-align: right; }
+  .epm-table th:first-child, .epm-table td:first-child { text-align: left; font-weight: 500; }
+  .epm-table tr:hover { background: #f8fafc; }
+  .epm-table tr.summary-row { background: #e2e8f0; font-weight: 700; color: #0f172a; }
+  .epm-table tr.group-hdr { background: #edf2f7; font-weight: 700; color: #1e293b; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.04em; }
+  .epm-table .indent { padding-left: 18px; }
+  .epm-table .indent2 { padding-left: 30px; }
+
+  /* Expandable Row Styling */
+  .exp-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; background: #e2e8f0; border-radius: 2px; font-size: 11px; font-weight: bold; color: #334155; cursor: pointer; margin-right: 6px; user-select: none; }
+  .exp-toggle:hover { background: #cbd5e1; }
+  tr.child-row { display: none; }
+  tr.child-row.open { display: table-row; }
+  .expand-ctrls { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #0f62fe; cursor: pointer; }
+  .expand-ctrls:hover { text-decoration: underline; }
+
+  /* Right Column Tab Strip */
+  .right-tabstrip { display: flex; border-bottom: 1px solid #d0d7de; background: #f6f8fa; overflow-x: auto; }
+  .right-tab { padding: 7px 12px; font-size: 11px; font-weight: 600; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .right-tab:hover { color: var(--navy); background: #eaeef2; }
+  .right-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
+
+  /* Bottom Highlight Bar */
+  .service-banner { background: #0f1d2e; color: #e2e8f0; padding: 7px 14px; font-size: 11px; font-weight: 600; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
+  .service-banner span.tag { background: #4066C8; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 9.5px; text-transform: uppercase; margin-right: 6px; }
+
+  /* Tooltip standard */
+  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip.on { opacity: 1; }
+  .nd { cursor: pointer; }
+  .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
+
+  /* Site Footer */
+  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
+  .site-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body data-pf-page="P03" data-pf-bu="RS">
+
+<!-- Top Global Chrome -->
+<header class="chrome">
+  <div class="chrome-l">
+    <span class="chrome-logo">ADP</span>
+    <span>Project Polaris · Retirement Services (RS) Executive Monthly Close</span>
+  </div>
+  <div class="chrome-r">
+    <span>Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span>Status: <b style="color:var(--green)">Validated &amp; Locked</b></span>
+    <div class="avatar" title="RS Business Unit CFO">RS</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">Polaris</div>
+    </div>
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="rs_dashboard_4.html">RS Dashboard 4</a></summary>
+      <a class="sb-link sub active" href="rs_dashboard_4.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+    </details>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+    </details>
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            Retirement Services (RS) Management P&amp;L &amp; Close Cockpit
+            <span class="badge">Approved Structure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. Headline KPIs Strip (from Screenshot 1: Headline KPIs) -->
+    <div class="headline-kpi-bar">
+      <div class="hkpi-top-row">
+        <div class="hkpi-bar-title">
+          <span>Headline KPIs (Screenshot 1)</span>
+          <span class="hkpi-bar-badge">September Close</span>
+        </div>
+        <div class="cfo-tg-wrap" id="cfo-toggles">
+          <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
+            <button type="button" data-v="plan" aria-pressed="false">Plan</button>
+            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
+        <!-- 1. Revenue -->
+        <div class="kpi nd" id="hkpi-rev" data-tip="<b>Total Revenue (Screenshot 1)</b><br>Act: $93,403.4K vs Plan $89,400.0K (+$4,003.4K / +4.5%)<br>YoY: +6.8%">
+          <div class="kpi-val"><span class="m-pva">$93.4M</span><span class="m-plan">$89.4M</span></div>
+          <div class="kpi-label">Revenue</div>
+          <div class="kpi-desc">Total RS Revenue ($93,403.4K)</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$4.0M</span><span class="m-both"> (+4.5%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$89.4M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.2%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
+
+        </div>
+
+        <!-- 2. NOI -->
+        <div class="kpi nd" id="hkpi-noi" data-tip="<b>NOI (EBIT) (Screenshot 1)</b><br>Act: $32,840.2K / 35.2% Margin<br>Plan: $30,450.0K / 34.0% Margin (+120 bps)">
+          <div class="kpi-val"><span class="m-pva">35.2%</span><span class="m-plan">34.0%</span></div>
+          <div class="kpi-label">NOI</div>
+          <div class="kpi-desc">NOI (EBIT) $32,840.2K</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +120 bps</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>NOI (EBIT)</span><b>$32.8M</b></div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>34.0% · $30.4M</b></div>
+          <div class="kpi-row m-plan"><span>NOI (plan)</span><b>$30.4M</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+180 bps</b></div>
+          <a class="kpi-link" href="expense_pl_RS_2.html#sec-mgmt-pl">Expense P&amp;L &rarr;</a>
+
+        </div>
+
+        <!-- 3. Sales -->
+        <div class="kpi nd" id="hkpi-sales" data-tip="<b>Sales (Bookings) (Screenshot 1)</b><br>Act: $14,210.0K vs Plan $12,400.0K (+$1,810.0K / +14.5%)">
+          <div class="kpi-val"><span class="m-pva">$14.2M</span><span class="m-plan">$12.4M</span></div>
+          <div class="kpi-label">Sales</div>
+          <div class="kpi-desc">New Business Bookings ($14,210.0K)</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +$1.8M</span><span class="m-both"> (+14.5%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>$12.4M</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+12.4%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+5.8%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
+
+        </div>
+
+        <!-- 4. Retention % -->
+        <div class="kpi nd" id="hkpi-ret" data-tip="<b>Retention % (Screenshot 1)</b><br>Act: 94.6% vs Plan 94.2% (+40 bps)">
+          <div class="kpi-val"><span class="m-pva">94.6%</span><span class="m-plan">94.2%</span></div>
+          <div class="kpi-label">Retention %</div>
+          <div class="kpi-desc">Annualized Plan Retention</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +40 bps</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>94.2%</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+20 bps</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+10 bps</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html">Revenue Analysis &rarr;</a>
+
+        </div>
+
+        <!-- 5. Clients -->
+        <div class="kpi nd" id="hkpi-clients" data-pf-unsupported="product" data-tip="<b>Clients (Active Plans) (Screenshot 1)</b><br>Act: 154,200 vs Plan 151,800 (+2,400 / +1.6%)">
+          <div class="kpi-val"><span class="m-pva">154.2K</span><span class="m-plan">151.8K</span></div>
+          <div class="kpi-label">Clients</div>
+          <div class="kpi-desc">Active 401(k) &amp; IRA Plans</div>
+          <div class="kpi-var m-pva"><span class="fav">▲ +2,400</span><span class="m-both"> (+1.6%)</span> vs plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>151,800</b></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+4.8%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.2%</b></div>
+          <a class="kpi-link" href="revenue_analysis_RS_2.html#sec-volume">Revenue Analysis &rarr;</a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN VIEW -->
+    <div id="cockpit-container">
+      <div class="epm-layout-grid">
+
+        <!-- LEFT COLUMN: Management P&L Summary, Revenue & Starts/Stops/Retention -->
+        <div class="left-col">
+
+          <!-- Section A: P&L Summary (from Screenshot 1: P&L summary) -->
+          <div class="epm-box">
+            <div class="epm-box-hdr">
+              <span>P&amp;L SUMMARY (Screenshot 1)</span>
+              <div class="tools"><span>$K USD · Close Actuals</span></div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Line Item</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>Margin / %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row" style="background:#edf2f7;">
+                    <td>Total revenue</td>
+                    <td>93,403.4</td>
+                    <td>89,400.0</td>
+                    <td class="fav">+4,003.4</td>
+                    <td>100.0%</td>
+                  </tr>
+                  <tr>
+                    <td>Field expense</td>
+                    <td>48,390.2</td>
+                    <td>47,000.0</td>
+                    <td class="unf">(1,390.2)</td>
+                    <td>51.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#e0f2fe;">
+                    <td>Field NOI</td>
+                    <td>45,013.2</td>
+                    <td>42,400.0</td>
+                    <td class="fav">+2,613.2</td>
+                    <td class="fav">48.2%</td>
+                  </tr>
+                  <tr>
+                    <td>Field NOI margin %</td>
+                    <td>48.2%</td>
+                    <td>47.4%</td>
+                    <td class="fav">+80 bps</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>NDE</td>
+                    <td>5,120.0</td>
+                    <td>5,000.0</td>
+                    <td class="unf">(120.0)</td>
+                    <td>5.5%</td>
+                  </tr>
+                  <tr>
+                    <td>Shared service allocations (excl. NDE)</td>
+                    <td>7,053.0</td>
+                    <td>6,950.0</td>
+                    <td class="unf">(103.0)</td>
+                    <td>7.5%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#f1f5f9;">
+                    <td>Total expenses</td>
+                    <td>60,563.2</td>
+                    <td>58,950.0</td>
+                    <td class="unf">(1,613.2)</td>
+                    <td>64.8%</td>
+                  </tr>
+                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;">
+                    <td>NOI (EBIT)</td>
+                    <td>32,840.2</td>
+                    <td>30,450.0</td>
+                    <td class="fav">+2,390.2</td>
+                    <td class="fav">35.2%</td>
+                  </tr>
+                  <tr>
+                    <td>NOI margin %</td>
+                    <td>35.2%</td>
+                    <td>34.0%</td>
+                    <td class="fav">+120 bps</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>NOI excl. sales and marketing and margin %</td>
+                    <td>39,420.0</td>
+                    <td>36,800.0</td>
+                    <td class="fav">+2,620.0</td>
+                    <td>42.2%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section B: Revenue + Starts, Stops and Retention (combined) -->
+          <div class="epm-box">
+            <div class="epm-box-hdr light">
+              <span>REVENUE, STARTS, STOPS AND RETENTION</span>
+              <span style="font-size:10px;color:#64748b;">$K · Sep Act, Plan, Var, QTD, YTD, ROY (FY less YTD), FY</span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="epm-table">
+                <thead>
+                  <tr>
+                    <th>Line Item</th>
+                    <th>Sep Act</th>
+                    <th>Plan</th>
+                    <th>Var</th>
+                    <th>QTD</th>
+                    <th>YTD</th>
+                    <th>ROY</th>
+                    <th>FY</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="group-hdr"><td colspan="8">Revenue</td></tr>
+                  <tr class="summary-row"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td>93,403.4</td><td>350,000.0</td><td>35,000.0</td><td>385,000.0</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td>93,308.1</td><td>349,620.0</td><td>34,980.0</td><td>384,600.0</td></tr>
+                  <tr><td class="indent2">Asset revenue</td><td>22,692.8</td><td>22,000.0</td><td class="fav">+692.8</td><td>22,692.8</td><td>88,400.0</td><td>6,800.0</td><td>95,200.0</td></tr>
+                  <tr><td class="indent2">Hard dollar fees</td><td>70,615.3</td><td>67,310.0</td><td class="fav">+3,305.3</td><td>70,615.3</td><td>261,220.0</td><td>28,180.0</td><td>289,400.0</td></tr>
+                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td>95.3</td><td>380.0</td><td>20.0</td><td>400.0</td></tr>
+                  <tr><td class="indent2">Setup revenue</td><td>66.6</td><td>62.0</td><td class="fav">+4.6</td><td>66.6</td><td>265.6</td><td>13.9</td><td>279.5</td></tr>
+                  <tr><td class="indent2">Other recurring revenue (DCIO fees)</td><td>9.4</td><td>9.0</td><td class="fav">+0.4</td><td>9.4</td><td>37.5</td><td>2.0</td><td>39.5</td></tr>
+                  <tr><td class="indent2">Offset revenue and interest (client funds interest)</td><td>19.3</td><td>19.0</td><td class="fav">+0.3</td><td>19.3</td><td>76.9</td><td>4.1</td><td>81.0</td></tr>
+
+                  <tr class="group-hdr"><td colspan="8">Sales, starts, losses and retention</td></tr>
+                  <tr class="summary-row"><td>Sales dollars</td><td>14,210.0</td><td>12,400.0</td><td class="fav">+1,810.0</td><td>14,210.0</td><td>40,083.2</td><td>16,387.6</td><td>56,470.8</td></tr>
+                  <tr><td class="indent">Sales by channel: Direct</td><td>9,800.0</td><td>8,500.0</td><td class="fav">+1,300.0</td><td>9,800.0</td><td>27,643.6</td><td>11,301.8</td><td>38,945.4</td></tr>
+                  <tr><td class="indent">Sales by channel: Advisor / Partner</td><td>3,410.0</td><td>3,000.0</td><td class="fav">+410.0</td><td>3,410.0</td><td>9,618.8</td><td>3,932.6</td><td>13,551.4</td></tr>
+                  <tr><td class="indent">Sales by channel: Digital RUN</td><td>1,000.0</td><td>900.0</td><td class="fav">+100.0</td><td>1,000.0</td><td>2,820.8</td><td>1,153.2</td><td>3,974.0</td></tr>
+                  <tr><td>Start dollars</td><td>11,840.0</td><td>11,300.0</td><td class="fav">+540.0</td><td>11,840.0</td><td>33,620.2</td><td>13,522.4</td><td>47,142.6</td></tr>
+                  <tr><td>Loss dollars</td><td>(8,420.0)</td><td>(8,600.0)</td><td class="fav">+180.0</td><td>(8,420.0)</td><td>(32,720.1)</td><td>(7,027.9)</td><td>(39,748.0)</td></tr>
+                  <tr class="summary-row" style="background:#f0fdf4;"><td>Net new business (Starts - Losses)</td><td>3,420.0</td><td>2,700.0</td><td class="fav">+720.0</td><td>3,420.0</td><td>900.1</td><td>6,494.5</td><td>7,394.6</td></tr>
+                  <tr><td>Retention % (annualized)</td><td>94.6%</td><td>94.2%</td><td class="fav">+40 bps</td><td>94.6%</td><td>-</td><td>-</td><td>-</td></tr>
+
+                  <tr class="group-hdr"><td colspan="8">Ratios</td></tr>
+                  <tr><td>NDE % of sales</td><td>36.0%</td><td>40.3%</td><td class="fav">(430 bps)</td><td>36.0%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>Revenue per FTE (680 FTEs)</td><td>$137.4K</td><td>$131.5K</td><td class="fav">+$5.9K</td><td>$137.4K</td><td>-</td><td>-</td><td>-</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <!-- RIGHT COLUMN: charts stacked vertically, equal width -->
+        <div class="right-col">
+      <div class="charts-row">
+
+        <!-- Chart 1: Field NOI bridge (waterfall) — P&L Summary: plan 42,400.0 + revenue var 4,003.4 - field expense var 1,390.2 = actual 45,013.2 -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>BRIDGE · FIELD NOI PLAN TO ACTUAL</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">$M · September close · axis starts at $40M</div>
+            <div class="chart-legend">
+              <span><i style="background:#BDB4DC"></i> Plan</span>
+              <span><i style="background:#3A9A3A"></i> Favorable</span>
+              <span><i style="background:#F0605D"></i> Unfavorable</span>
+              <span><i style="background:#7B68B0"></i> Actual</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Waterfall: Field NOI plan 42.4 million, revenue plus 4.0, field expense minus 1.4, actual 45.0 million">
+              <line x1="40" y1="30"  x2="390" y2="30"  stroke="#ececec"/>
+              <line x1="40" y1="65"  x2="390" y2="65"  stroke="#ececec"/>
+              <line x1="40" y1="100" x2="390" y2="100" stroke="#ececec"/>
+              <line x1="40" y1="135" x2="390" y2="135" stroke="#ececec"/>
+              <line x1="40" y1="170" x2="390" y2="170" stroke="#cbd5e1"/>
+              <text x="34" y="33"  text-anchor="end" font-size="10" fill="#474747">48</text>
+              <text x="34" y="68"  text-anchor="end" font-size="10" fill="#474747">46</text>
+              <text x="34" y="103" text-anchor="end" font-size="10" fill="#474747">44</text>
+              <text x="34" y="138" text-anchor="end" font-size="10" fill="#474747">42</text>
+              <text x="34" y="173" text-anchor="end" font-size="10" fill="#474747">40</text>
+              <rect class="nd" data-tip="<b>Plan Field NOI</b><br>$42.4M ($42,400.0K)" x="50" y="128" width="62" height="42" fill="#BDB4DC"/>
+              <text x="81" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">42.4</text>
+              <line x1="112" y1="128" x2="138" y2="128" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Revenue vs plan</b><br>+$4.0M (+$4,003.4K)" x="138" y="58" width="62" height="70" fill="#3A9A3A"/>
+              <text x="169" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">+4.0</text>
+              <line x1="200" y1="58" x2="226" y2="58" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Field expense vs plan</b><br>−$1.4M (−$1,390.2K)" x="226" y="58" width="62" height="24.3" fill="#F0605D"/>
+              <text x="257" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">−1.4</text>
+              <line x1="288" y1="82.3" x2="314" y2="82.3" stroke="#94a3b8" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Actual Field NOI</b><br>$45.0M ($45,013.2K) · +$2.6M vs plan" x="314" y="82.3" width="62" height="87.7" fill="#7B68B0"/>
+              <text x="345" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">45.0</text>
+              <text x="81"  y="188" text-anchor="middle" font-size="10" fill="#474747">Plan</text>
+              <text x="169" y="188" text-anchor="middle" font-size="10" fill="#474747">Revenue</text>
+              <text x="257" y="188" text-anchor="middle" font-size="10" fill="#474747">Field expense</text>
+              <text x="345" y="188" text-anchor="middle" font-size="10" fill="#474747">Actual</text>
+            </svg>
+            <div class="chart-cap">Field NOI = revenue less field expense. Shared services (incl. NDE) sit below Field NOI on the way to NOI (EBIT).</div>
+          </div>
+        </div>
+
+        <!-- Chart 2: Revenue mix (bar) — values from the Revenue table -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>REVENUE MIX · BY CATEGORY</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">$M · September actual vs plan</div>
+            <div class="chart-legend">
+              <span><i style="background:#7B68B0"></i> Actual</span>
+              <span><i style="background:#BDB4DC"></i> Plan</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Revenue by category, actual vs plan: asset fee revenue 22.7 vs 22.0, hard dollar revenue 70.6 vs 67.3, other 0.095 vs 0.090 million">
+              <line x1="40" y1="20"  x2="390" y2="20"  stroke="#ececec"/>
+              <line x1="40" y1="55"  x2="390" y2="55"  stroke="#ececec"/>
+              <line x1="40" y1="90"  x2="390" y2="90"  stroke="#ececec"/>
+              <line x1="40" y1="125" x2="390" y2="125" stroke="#ececec"/>
+              <line x1="40" y1="160" x2="390" y2="160" stroke="#cbd5e1"/>
+              <text x="34" y="23"  text-anchor="end" font-size="10" fill="#474747">80</text>
+              <text x="34" y="58"  text-anchor="end" font-size="10" fill="#474747">60</text>
+              <text x="34" y="93"  text-anchor="end" font-size="10" fill="#474747">40</text>
+              <text x="34" y="128" text-anchor="end" font-size="10" fill="#474747">20</text>
+              <text x="34" y="163" text-anchor="end" font-size="10" fill="#474747">0</text>
+              <!-- Asset fee revenue (RS-16) -->
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Actual</b><br>$22.7M ($22,692.8K) · 24.3% of revenue" x="71" y="120.3" width="28" height="39.7" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Plan</b><br>$22.0M ($22,000.0K)" x="101" y="121.5" width="28" height="38.5" fill="#BDB4DC"/>
+              <text x="85"  y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">22.7</text>
+              <text x="115" y="115" text-anchor="middle" font-size="10" fill="#474747">22.0</text>
+              <text x="100" y="176" text-anchor="middle" font-size="10" fill="#474747">Asset fee revenue</text>
+              <text x="100" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-16)</text>
+              <!-- Hard dollar revenue (RS-17*) -->
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Actual</b><br>$70.6M ($70,615.3K) · 75.6% of revenue" x="186" y="36.4" width="28" height="123.6" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Plan</b><br>$67.3M ($67,310.0K)" x="216" y="42.2" width="28" height="117.8" fill="#BDB4DC"/>
+              <text x="200" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">70.6</text>
+              <text x="230" y="36" text-anchor="middle" font-size="10" fill="#474747">67.3</text>
+              <text x="215" y="176" text-anchor="middle" font-size="10" fill="#474747">Hard dollar revenue</text>
+              <text x="215" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-17*)</text>
+              <!-- Other -->
+              <rect class="nd" data-tip="<b>Other · Actual</b><br>$95.3K: setup $66.6K, other recurring $9.4K, client funds interest $19.3K" x="301" y="158" width="28" height="2" fill="#7B68B0"/>
+              <rect class="nd" data-tip="<b>Other · Plan</b><br>$90.0K: setup $62.0K, other recurring $9.0K, client funds interest $19.0K" x="331" y="158" width="28" height="2" fill="#BDB4DC"/>
+              <text x="315" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">$95K</text>
+              <text x="345" y="152" text-anchor="middle" font-size="10" fill="#474747">$90K</text>
+              <text x="330" y="176" text-anchor="middle" font-size="10" fill="#474747">Other</text>
+              <text x="330" y="188" text-anchor="middle" font-size="9" fill="#64748b">setup, recurring, interest</text>
+            </svg>
+            <div class="chart-cap">Total revenue $93.4M vs plan $89.4M (+$4.0M). Next drill: revenue by product.</div>
+          </div>
+        </div>
+
+        <!-- Chart 3: YoY revenue growth (line). Apr–Aug are illustrative; September (+6.8% actual, +4.2% plan) matches the headline KPI. -->
+        <div class="epm-box">
+          <div class="epm-box-hdr light">
+            <span>TREND · YEAR-OVER-YEAR REVENUE GROWTH</span>
+          </div>
+          <div class="epm-box-body">
+            <div class="chart-sub">% YoY · last 6 months to September close</div>
+            <div class="chart-legend">
+              <span><i style="background:#7B68B0"></i> Actual YoY</span>
+              <span><i style="background:#4066C8"></i> Plan YoY</span>
+            </div>
+            <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Year-over-year revenue growth, April to September: actual rises from 3.9 percent to 6.8 percent, plan 4.0 to 4.2 percent">
+              <line x1="40" y1="30"    x2="390" y2="30"    stroke="#ececec"/>
+              <line x1="40" y1="76.7"  x2="390" y2="76.7"  stroke="#ececec"/>
+              <line x1="40" y1="123.3" x2="390" y2="123.3" stroke="#ececec"/>
+              <line x1="40" y1="170"   x2="390" y2="170"   stroke="#cbd5e1"/>
+              <text x="34" y="33"    text-anchor="end" font-size="10" fill="#474747">8%</text>
+              <text x="34" y="79.7"  text-anchor="end" font-size="10" fill="#474747">6%</text>
+              <text x="34" y="126.3" text-anchor="end" font-size="10" fill="#474747">4%</text>
+              <text x="34" y="173"   text-anchor="end" font-size="10" fill="#474747">2%</text>
+              <polyline points="60,123.3 122,123.3 184,121 246,121 308,118.7 370,118.7" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
+              <polyline points="60,125.7 122,114 184,97.7 246,86 308,72 370,58" fill="none" stroke="#7B68B0" stroke-width="2.4" stroke-linejoin="round"/>
+              <circle class="nd" data-tip="<b>Apr</b> · Actual YoY +3.9% · Plan +4.0%" cx="60"  cy="125.7" r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>May</b> · Actual YoY +4.4% · Plan +4.0%" cx="122" cy="114"   r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jun</b> · Actual YoY +5.1% · Plan +4.1%" cx="184" cy="97.7"  r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jul</b> · Actual YoY +5.6% · Plan +4.1%" cx="246" cy="86"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Aug</b> · Actual YoY +6.2% · Plan +4.2%" cx="308" cy="72"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Sep</b> · Actual YoY +6.8% · Plan +4.2%" cx="370" cy="58"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
+              <text x="60"  y="116" text-anchor="middle" font-size="10" fill="#474747">3.9%</text>
+              <text x="122" y="105" text-anchor="middle" font-size="10" fill="#474747">4.4%</text>
+              <text x="184" y="89"  text-anchor="middle" font-size="10" fill="#474747">5.1%</text>
+              <text x="246" y="77"  text-anchor="middle" font-size="10" fill="#474747">5.6%</text>
+              <text x="308" y="63"  text-anchor="middle" font-size="10" fill="#474747">6.2%</text>
+              <text x="370" y="49"  text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">6.8%</text>
+              <text x="370" y="136" text-anchor="middle" font-size="10" fill="#4066C8">4.2%</text>
+              <text x="60"  y="188" text-anchor="middle" font-size="10" fill="#474747">Apr</text>
+              <text x="122" y="188" text-anchor="middle" font-size="10" fill="#474747">May</text>
+              <text x="184" y="188" text-anchor="middle" font-size="10" fill="#474747">Jun</text>
+              <text x="246" y="188" text-anchor="middle" font-size="10" fill="#474747">Jul</text>
+              <text x="308" y="188" text-anchor="middle" font-size="10" fill="#474747">Aug</text>
+              <text x="370" y="188" text-anchor="middle" font-size="10" fill="#474747">Sep</text>
+            </svg>
+            <div class="chart-cap">September ties to the headline KPI. Apr–Aug values are illustrative placeholders.</div>
+          </div>
+        </div>
+
+      </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Site Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · Retirement Services (RS) Executive Cockpit (Dashboard 2) · September Close Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="rs_dashboard_4.html">RS Dashboard 4</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<!-- Standard Tooltip Container -->
+<div class="tip" id="tip"></div>
+
+<script>
+  // Tooltip event handler
+  (function initTooltips() {
+    var tip = document.getElementById('tip');
+    if (!tip) return;
+    document.addEventListener('mouseover', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (!t) return;
+      tip.innerHTML = t.getAttribute('data-tip');
+      tip.classList.add('on');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!tip.classList.contains('on')) return;
+      var x = e.clientX + 14, y = e.clientY + 14;
+      if (x + tip.offsetWidth > window.innerWidth - 12) x = e.clientX - tip.offsetWidth - 14;
+      if (y + tip.offsetHeight > window.innerHeight - 12) y = e.clientY - tip.offsetHeight - 14;
+      tip.style.left = Math.max(8, x) + 'px';
+      tip.style.top = Math.max(8, y) + 'px';
+    });
+    document.addEventListener('mouseout', function(e) {
+      var t = e.target.closest('[data-tip]');
+      if (t) tip.classList.remove('on');
+    });
+  })();
+
+  // Right Column Tab Switcher
+  function switchRightTab(btn, paneId) {
+    var tabs = document.querySelectorAll('.right-tab');
+    var panes = document.querySelectorAll('.right-tab-pane');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    btn.classList.add('active');
+    var target = document.getElementById(paneId);
+    if (target) target.style.display = 'block';
+  }
+
+  function switchRightTabByDirect(paneId) {
+    var panes = document.querySelectorAll('.right-tab-pane');
+    var tabs = document.querySelectorAll('.right-tab');
+    var mainTabs = document.querySelectorAll('#mainTabStrip .epm-tab');
+    panes.forEach(function(p) { p.style.display = 'none'; });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    
+    var target = document.getElementById(paneId);
+    if (target) {
+      target.style.display = 'block';
+      tabs.forEach(function(t) {
+        if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(paneId) !== -1) {
+          t.classList.add('active');
+        }
+      });
+    }
+  }
+
+  // Row Expand / Collapse Logic
+  function toggleRow(toggleBtn, groupClass) {
+    var rows = document.querySelectorAll('tr.' + groupClass);
+    var isOpen = toggleBtn.textContent.trim() === '−';
+    if (isOpen) {
+      toggleBtn.textContent = '+';
+      rows.forEach(function(r) { r.classList.remove('open'); });
+    } else {
+      toggleBtn.textContent = '−';
+      rows.forEach(function(r) { r.classList.add('open'); });
+    }
+  }
+
+  function toggleAllRows(paneId) {
+    var pane = document.getElementById(paneId);
+    if (!pane) return;
+    var toggles = pane.querySelectorAll('.exp-toggle');
+    var childRows = pane.querySelectorAll('tr.child-row');
+    var anyClosed = false;
+    childRows.forEach(function(r) { if (!r.classList.contains('open')) anyClosed = true; });
+    if (anyClosed) {
+      childRows.forEach(function(r) { r.classList.add('open'); });
+      toggles.forEach(function(t) { t.textContent = '−'; });
+    } else {
+      childRows.forEach(function(r) { r.classList.remove('open'); });
+      toggles.forEach(function(t) { t.textContent = '+'; });
+    }
+  }
+
+  // Toggles for Headline KPIs ($ + % vs $ and Plan vs Plan vs Actual)
+  (function initHeadlineToggles() {
+    var st = { fmt: 'both', cmp: 'pva' };
+    var tgWrap = document.getElementById('cfo-toggles');
+    var hk = document.getElementById('headline-kpis');
+
+    function applyHeadline() {
+      if (hk) {
+        hk.setAttribute('data-cmp', st.cmp);
+      }
+    }
+
+    if (tgWrap) {
+      tgWrap.querySelectorAll('.cfo-tg button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          st[b.parentNode.getAttribute('data-k')] = b.getAttribute('data-v');
+          b.parentNode.querySelectorAll('button').forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          applyHeadline();
+        });
+      });
+    }
+  })();
+
+</script>
+<script src="polaris_header.js"></script>
+</body>
+</html>
