@@ -63,9 +63,6 @@
   <!-- Main Content Area -->
   <main class="main">
 
-    <!-- Polaris Context bar (sticky within the content column), rendered by polaris_header.js -->
-    <div class="ctx" id="pf-context"></div>
-
     <!-- Title Bar -->
     <div class="titlebar">
       <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
@@ -79,18 +76,15 @@
       </div>
     </div>
 
+    <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
     <!-- Headline 5-KPI Strip -->
     <div class="headline-kpi-bar">
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
           <span>Revenue Headline Performance · September Close</span>
           <span class="hkpi-bar-badge">RS Revenue</span>
-        </div>
-        <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
-            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
-            <button type="button" data-v="plan" aria-pressed="false">Plan only</button>
-          </div>
         </div>
       </div>
 
@@ -167,34 +161,46 @@
           <!-- Section 1: Revenue Summary -->
           <div class="epm-box" id="sec-summary">
             <div class="epm-box-hdr">
-              <span>REVENUE SUMMARY ($K)</span>
+              <span>REVENUE SUMMARY ($K) <span class="draft-tag">SAMPLE DATA</span></span>
               <div class="tools"><span>September Close</span></div>
             </div>
             <div class="table-wrap">
-              <table class="epm-table">
+              <table class="epm-table rev-periods c1 c2 c3 c4 c5" id="rev-summary-table">
                 <thead>
                   <tr>
-                    <th>Line Item</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>Var %</th>
-                    <th>YoY %</th>
+                    <th rowspan="2">Line</th>
+                    <th colspan="1" class="grp" data-grp="1" data-cols="7"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
+                    <th colspan="1" class="grp" data-grp="2" data-cols="4"><button type="button" class="grp-tg" title="Quarter to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>QTD</button></th>
+                    <th colspan="1" class="grp" data-grp="3" data-cols="5"><button type="button" class="grp-tg" title="Year to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>YTD</button></th>
+                    <th colspan="1" class="grp" data-grp="4" data-cols="6"><button type="button" class="grp-tg" title="Rest of year (FY less YTD)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>ROY</button></th>
+                    <th colspan="1" class="grp" data-grp="5" data-cols="4"><button type="button" class="grp-tg" title="Full year (latest forecast vs plan)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>FY</button></th>
+                  </tr>
+                  <tr>
+                    <th class="g1 gk">Actual</th><th class="g1">Plan</th><th class="g1">Var $</th><th class="g1">Var %</th><th class="g1">Fcst</th><th class="g1">Var $</th><th class="g1">Var %</th>
+                    <th class="g2 gk">Actual</th><th class="g2">Plan</th><th class="g2">Var $</th><th class="g2">Var %</th>
+                    <th class="g3 gk">Actual</th><th class="g3">Plan</th><th class="g3">Var $</th><th class="g3">Var %</th><th class="g3">% of FY plan achieved</th>
+                    <th class="g4 gk">Fcst</th><th class="g4">Plan</th><th class="g4">Var $</th><th class="g4">Var %</th><th class="g4">Still to deliver (FY plan - YTD)</th><th class="g4">Growth needed vs YTD run-rate</th>
+                    <th class="g5 gk">Fcst</th><th class="g5">Plan</th><th class="g5">Var $</th><th class="g5">Var %</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="summary-row top"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td class="fav">+4.5%</td><td class="fav">+6.8%</td></tr>
-
-                  <tr class="group-hdr"><td colspan="6">Processing Revenue</td></tr>
-                  <tr><td class="indent">Asset revenue</td><td>22,692.8</td><td>22,000.0</td><td class="fav">+692.8</td><td class="fav">+3.2%</td><td class="fav">+7.8%</td></tr>
-                  <tr><td class="indent">Hard dollar fees</td><td>70,615.3</td><td>67,310.0</td><td class="fav">+3,305.3</td><td class="fav">+4.9%</td><td class="fav">+6.5%</td></tr>
-                  <tr class="summary-row"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td class="fav">+4.5%</td><td class="fav">+6.8%</td></tr>
-
-                  <tr class="group-hdr"><td colspan="6">Non-Processing Revenue</td></tr>
-                  <tr><td class="indent">Setup revenue</td><td>66.6</td><td>62.0</td><td class="fav">+4.6</td><td class="fav">+7.4%</td><td>+4.2%</td></tr>
-                  <tr><td class="indent">Other recurring revenue (DCIO fees)</td><td>9.4</td><td>9.0</td><td class="fav">+0.4</td><td>+4.4%</td><td>+2.2%</td></tr>
-                  <tr><td class="indent">Offset revenue &amp; interest (client funds float)</td><td>19.3</td><td>19.0</td><td class="fav">+0.3</td><td>+1.6%</td><td>+2.1%</td></tr>
-                  <tr class="summary-row"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td class="fav">+5.9%</td><td>+3.6%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="rev"><td class="hx-c0">Revenue (Total ADP Revenue, includes client funds interest)</td><td class="g1 gk">93,403.4</td><td class="g1">89,400.0</td><td class="g1 fav">+4,003.4</td><td class="g1 fav">+4.5%</td><td class="g1">91,802.0</td><td class="g1 fav">+1,601.4</td><td class="g1 fav">+1.7%</td><td class="g2 gk">272,737.0</td><td class="g2">265,518.0</td><td class="g2 fav">+7,219.0</td><td class="g2 fav">+2.7%</td><td class="g3 gk">272,737.0</td><td class="g3">265,518.0</td><td class="g3 fav">+7,219.0</td><td class="g3 fav">+2.7%</td><td class="g3">25.2%</td><td class="g4 gk">834,490.9</td><td class="g4">818,010.0</td><td class="g4 fav">+16,480.9</td><td class="g4 fav">+2.0%</td><td class="g4">810,791.0</td><td class="g4">(0.9%)</td><td class="g5 gk">1,107,227.9</td><td class="g5">1,083,528.0</td><td class="g5 fav">+23,699.9</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="proc" data-parent="rev"><td class="hx-c1">Processing revenue</td><td class="g1 gk">93,308.1</td><td class="g1">89,310.0</td><td class="g1 fav">+3,998.1</td><td class="g1 fav">+4.5%</td><td class="g1">91,709.6</td><td class="g1 fav">+1,598.5</td><td class="g1 fav">+1.7%</td><td class="g2 gk">272,458.7</td><td class="g2">265,250.7</td><td class="g2 fav">+7,208.0</td><td class="g2 fav">+2.7%</td><td class="g3 gk">272,458.7</td><td class="g3">265,250.7</td><td class="g3 fav">+7,208.0</td><td class="g3 fav">+2.7%</td><td class="g3">25.2%</td><td class="g4 gk">833,654.6</td><td class="g4">817,186.5</td><td class="g4 fav">+16,468.1</td><td class="g4 fav">+2.0%</td><td class="g4">809,978.5</td><td class="g4">(0.9%)</td><td class="g5 gk">1,106,113.3</td><td class="g5">1,082,437.2</td><td class="g5 fav">+23,676.1</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L2" data-id="asset" data-parent="proc"><td class="hx-c2">Asset fee revenue</td><td class="g1 gk">22,692.8</td><td class="g1">22,000.0</td><td class="g1 fav">+692.8</td><td class="g1 fav">+3.1%</td><td class="g1">22,591.1</td><td class="g1 fav">+101.7</td><td class="g1 fav">+0.5%</td><td class="g2 gk">66,262.7</td><td class="g2">65,340.0</td><td class="g2 fav">+922.7</td><td class="g2 fav">+1.4%</td><td class="g3 gk">66,262.7</td><td class="g3">65,340.0</td><td class="g3 fav">+922.7</td><td class="g3 fav">+1.4%</td><td class="g3">24.9%</td><td class="g4 gk">206,209.5</td><td class="g4">201,300.0</td><td class="g4 fav">+4,909.5</td><td class="g4 fav">+2.4%</td><td class="g4">200,377.3</td><td class="g4">+0.8%</td><td class="g5 gk">272,472.2</td><td class="g5">266,640.0</td><td class="g5 fav">+5,832.2</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L2" data-id="hard" data-parent="proc"><td class="hx-c2">Hard dollar revenue*</td><td class="g1 gk">70,615.3</td><td class="g1">67,310.0</td><td class="g1 fav">+3,305.3</td><td class="g1 fav">+4.9%</td><td class="g1">69,118.5</td><td class="g1 fav">+1,496.8</td><td class="g1 fav">+2.2%</td><td class="g2 gk">206,196.0</td><td class="g2">199,910.7</td><td class="g2 fav">+6,285.3</td><td class="g2 fav">+3.1%</td><td class="g3 gk">206,196.0</td><td class="g3">199,910.7</td><td class="g3 fav">+6,285.3</td><td class="g3 fav">+3.1%</td><td class="g3">25.3%</td><td class="g4 gk">627,445.1</td><td class="g4">615,886.5</td><td class="g4 fav">+11,558.6</td><td class="g4 fav">+1.9%</td><td class="g4">609,601.2</td><td class="g4">(1.5%)</td><td class="g5 gk">833,641.1</td><td class="g5">815,797.2</td><td class="g5 fav">+17,843.9</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="nonproc" data-parent="rev"><td class="hx-c1">Non-processing revenue*</td><td class="g1 gk">95.3</td><td class="g1">90.0</td><td class="g1 fav">+5.3</td><td class="g1 fav">+5.9%</td><td class="g1">92.4</td><td class="g1 fav">+2.9</td><td class="g1 fav">+3.1%</td><td class="g2 gk">278.3</td><td class="g2">267.3</td><td class="g2 fav">+11.0</td><td class="g2 fav">+4.1%</td><td class="g3 gk">278.3</td><td class="g3">267.3</td><td class="g3 fav">+11.0</td><td class="g3 fav">+4.1%</td><td class="g3">25.5%</td><td class="g4 gk">836.4</td><td class="g4">823.5</td><td class="g4 fav">+12.9</td><td class="g4 fav">+1.6%</td><td class="g4">812.5</td><td class="g4">(2.7%)</td><td class="g5 gk">1,114.7</td><td class="g5">1,090.8</td><td class="g5 fav">+23.9</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L2" data-id="setup" data-parent="nonproc"><td class="hx-c2">Setup revenue</td><td class="g1 gk">66.6</td><td class="g1">62.0</td><td class="g1 fav">+4.6</td><td class="g1 fav">+7.4%</td><td class="g1">63.7</td><td class="g1 fav">+2.9</td><td class="g1 fav">+4.6%</td><td class="g2 gk">194.5</td><td class="g2">184.1</td><td class="g2 fav">+10.3</td><td class="g2 fav">+5.6%</td><td class="g3 gk">194.5</td><td class="g3">184.1</td><td class="g3 fav">+10.3</td><td class="g3 fav">+5.6%</td><td class="g3">25.9%</td><td class="g4 gk">573.4</td><td class="g4">567.3</td><td class="g4 fav">+6.1</td><td class="g4 fav">+1.1%</td><td class="g4">557.0</td><td class="g4">(4.5%)</td><td class="g5 gk">767.9</td><td class="g5">751.4</td><td class="g5 fav">+16.4</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L2" data-id="other" data-parent="nonproc"><td class="hx-c2">Other recurring revenue</td><td class="g1 gk">9.4</td><td class="g1">9.0</td><td class="g1 fav">+0.4</td><td class="g1 fav">+4.4%</td><td class="g1">9.2</td><td class="g1 fav">+0.2</td><td class="g1 fav">+1.7%</td><td class="g2 gk">27.4</td><td class="g2">26.7</td><td class="g2 fav">+0.7</td><td class="g2 fav">+2.7%</td><td class="g3 gk">27.4</td><td class="g3">26.7</td><td class="g3 fav">+0.7</td><td class="g3 fav">+2.7%</td><td class="g3">25.2%</td><td class="g4 gk">84.0</td><td class="g4">82.3</td><td class="g4 fav">+1.7</td><td class="g4 fav">+2.0%</td><td class="g4">81.6</td><td class="g4">(0.9%)</td><td class="g5 gk">111.5</td><td class="g5">109.1</td><td class="g5 fav">+2.4</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L2" data-id="offset" data-parent="nonproc"><td class="hx-c2">Offset revenue and interest (client funds interest)</td><td class="g1 gk">19.3</td><td class="g1">19.0</td><td class="g1 fav">+0.3</td><td class="g1 fav">+1.6%</td><td class="g1">19.5</td><td class="g1 unf">(0.2)</td><td class="g1 unf">(1.1%)</td><td class="g2 gk">56.4</td><td class="g2">56.4</td><td class="g2 unf">(0.1)</td><td class="g2 unf">(0.1%)</td><td class="g3 gk">56.4</td><td class="g3">56.4</td><td class="g3 unf">(0.1)</td><td class="g3 unf">(0.1%)</td><td class="g3">24.5%</td><td class="g4 gk">179.0</td><td class="g4">173.8</td><td class="g4 fav">+5.1</td><td class="g4 fav">+2.9%</td><td class="g4">173.9</td><td class="g4">+2.9%</td><td class="g5 gk">235.3</td><td class="g5">230.3</td><td class="g5 fav">+5.0</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="sales"><td class="hx-c0">Sales</td><td class="g1 gk">14,210.0</td><td class="g1">12,400.0</td><td class="g1 fav">+1,810.0</td><td class="g1 fav">+14.6%</td><td class="g1">12,733.2</td><td class="g1 fav">+1,476.8</td><td class="g1 fav">+11.6%</td><td class="g2 gk">41,493.1</td><td class="g2">36,828.0</td><td class="g2 fav">+4,665.1</td><td class="g2 fav">+12.7%</td><td class="g3 gk">41,493.1</td><td class="g3">36,828.0</td><td class="g3 fav">+4,665.1</td><td class="g3 fav">+12.7%</td><td class="g3">27.6%</td><td class="g4 gk">112,082.2</td><td class="g4">113,460.0</td><td class="g4 unf">(1,377.8)</td><td class="g4 unf">(1.2%)</td><td class="g4">108,794.9</td><td class="g4">(12.6%)</td><td class="g5 gk">153,575.2</td><td class="g5">150,288.0</td><td class="g5 fav">+3,287.2</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="chan" data-parent="sales"><td class="hx-c1">Sales by channel (seven accounts, MGT-03)</td><td class="g1 gk">14,210.0</td><td class="g1">12,400.0</td><td class="g1 fav">+1,810.0</td><td class="g1 fav">+14.6%</td><td class="g1">12,733.2</td><td class="g1 fav">+1,476.8</td><td class="g1 fav">+11.6%</td><td class="g2 gk">41,493.1</td><td class="g2">36,828.0</td><td class="g2 fav">+4,665.1</td><td class="g2 fav">+12.7%</td><td class="g3 gk">41,493.1</td><td class="g3">36,828.0</td><td class="g3 fav">+4,665.1</td><td class="g3 fav">+12.7%</td><td class="g3">27.6%</td><td class="g4 gk">112,082.2</td><td class="g4">113,460.0</td><td class="g4 unf">(1,377.8)</td><td class="g4 unf">(1.2%)</td><td class="g4">108,794.9</td><td class="g4">(12.6%)</td><td class="g5 gk">153,575.2</td><td class="g5">150,288.0</td><td class="g5 fav">+3,287.2</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="starts" data-parent="sales"><td class="hx-c1">Start dollars</td><td class="g1 gk">11,840.0</td><td class="g1">11,300.0</td><td class="g1 fav">+540.0</td><td class="g1 fav">+4.8%</td><td class="g1">11,603.6</td><td class="g1 fav">+236.4</td><td class="g1 fav">+2.0%</td><td class="g2 gk">34,572.7</td><td class="g2">33,561.0</td><td class="g2 fav">+1,011.7</td><td class="g2 fav">+3.0%</td><td class="g3 gk">34,572.7</td><td class="g3">33,561.0</td><td class="g3 fav">+1,011.7</td><td class="g3 fav">+3.0%</td><td class="g3">25.2%</td><td class="g4 gk">105,378.9</td><td class="g4">103,395.0</td><td class="g4 fav">+1,983.9</td><td class="g4 fav">+1.9%</td><td class="g4">102,383.3</td><td class="g4">(1.3%)</td><td class="g5 gk">139,951.6</td><td class="g5">136,956.0</td><td class="g5 fav">+2,995.6</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="loss" data-parent="sales"><td class="hx-c1">Loss dollars</td><td class="g1 gk">(8,420.0)</td><td class="g1">(8,600.0)</td><td class="g1 fav">+180.0</td><td class="g1 fav">+2.1%</td><td class="g1">(8,831.1)</td><td class="g1 fav">+411.1</td><td class="g1 fav">+4.7%</td><td class="g2 gk">(24,586.3)</td><td class="g2">(25,542.0)</td><td class="g2 fav">+955.7</td><td class="g2 fav">+3.7%</td><td class="g3 gk">(24,586.3)</td><td class="g3">(25,542.0)</td><td class="g3 fav">+955.7</td><td class="g3 fav">+3.7%</td><td class="g3">23.6%</td><td class="g4 gk">(81,925.5)</td><td class="g4">(78,690.0)</td><td class="g4 unf">(3,235.5)</td><td class="g4 unf">(4.1%)</td><td class="g4">(79,645.7)</td><td class="g4">+8.0%</td><td class="g5 gk">(106,511.9)</td><td class="g5">(104,232.0)</td><td class="g5 unf">(2,279.9)</td><td class="g5 unf">(2.2%)</td></tr>
+                  <tr class="hx-row hx-L1" data-id="nnb" data-parent="sales"><td class="hx-c1">Net new business</td><td class="g1 gk">3,420.0</td><td class="g1">2,700.0</td><td class="g1 fav">+720.0</td><td class="g1 fav">+26.7%</td><td class="g1">2,772.5</td><td class="g1 fav">+647.5</td><td class="g1 fav">+23.4%</td><td class="g2 gk">9,986.4</td><td class="g2">8,019.0</td><td class="g2 fav">+1,967.4</td><td class="g2 fav">+24.5%</td><td class="g3 gk">9,986.4</td><td class="g3">8,019.0</td><td class="g3 fav">+1,967.4</td><td class="g3 fav">+24.5%</td><td class="g3">30.5%</td><td class="g4 gk">23,453.4</td><td class="g4">24,705.0</td><td class="g4 unf">(1,251.6)</td><td class="g4 unf">(5.1%)</td><td class="g4">22,737.6</td><td class="g4">(24.1%)</td><td class="g5 gk">33,439.8</td><td class="g5">32,724.0</td><td class="g5 fav">+715.8</td><td class="g5 fav">+2.2%</td></tr>
+                  <tr class="hx-row hx-L1" data-id="nde" data-parent="sales"><td class="hx-c1">NDE % of sales*</td><td class="g1 gk">36.0%</td><td class="g1">40.3%</td><td class="g1 fav">(430 bps)</td><td class="g1">-</td><td class="g1">38.0%</td><td class="g1 fav">(200 bps)</td><td class="g1">-</td><td class="g2 gk">37.2%</td><td class="g2">40.3%</td><td class="g2 fav">(310 bps)</td><td class="g2">-</td><td class="g3 gk">37.2%</td><td class="g3">40.3%</td><td class="g3 fav">(310 bps)</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">38.5%</td><td class="g4">40.3%</td><td class="g4 fav">(180 bps)</td><td class="g4">-</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">38.2%</td><td class="g5">40.3%</td><td class="g5 fav">(210 bps)</td><td class="g5">-</td></tr>
+                  <tr class="hx-row hx-L0" data-id="ret"><td class="hx-c0">Retention %</td><td class="g1 gk">94.6%</td><td class="g1">94.2%</td><td class="g1 fav">+40 bps</td><td class="g1">-</td><td class="g1">94.4%</td><td class="g1 fav">+20 bps</td><td class="g1">-</td><td class="g2 gk">94.5%</td><td class="g2">94.2%</td><td class="g2 fav">+30 bps</td><td class="g2">-</td><td class="g3 gk">94.5%</td><td class="g3">94.2%</td><td class="g3 fav">+30 bps</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">94.3%</td><td class="g4">94.2%</td><td class="g4 fav">+10 bps</td><td class="g4">-</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">94.4%</td><td class="g5">94.2%</td><td class="g5 fav">+20 bps</td><td class="g5">-</td></tr>
+                  <tr class="hx-row hx-L0" data-id="cli"><td class="hx-c0">Clients (average)</td><td class="g1 gk">219,224</td><td class="g1">214,500</td><td class="g1 fav">+4,724</td><td class="g1 fav">+2.2%</td><td class="g1">218,900</td><td class="g1 fav">+324</td><td class="g1 fav">+0.1%</td><td class="g2 gk">218,650</td><td class="g2">214,500</td><td class="g2 fav">+4,150</td><td class="g2 fav">+1.9%</td><td class="g3 gk">218,650</td><td class="g3">214,500</td><td class="g3 fav">+4,150</td><td class="g3 fav">+1.9%</td><td class="g3">-</td><td class="g4 gk">221,400</td><td class="g4">216,000</td><td class="g4 fav">+5,400</td><td class="g4 fav">+2.5%</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">220,800</td><td class="g5">215,600</td><td class="g5 fav">+5,200</td><td class="g5 fav">+2.4%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="fte"><td class="hx-c0">Revenue per FTE*</td><td class="g1 gk">$137.4K</td><td class="g1">$131.5K</td><td class="g1 fav">+$5.9K</td><td class="g1 fav">+4.5%</td><td class="g1">$135.9K</td><td class="g1 fav">+$1.5K</td><td class="g1 fav">+1.1%</td><td class="g2 gk">$136.2K</td><td class="g2">$131.5K</td><td class="g2 fav">+$4.7K</td><td class="g2 fav">+3.6%</td><td class="g3 gk">$136.2K</td><td class="g3">$131.5K</td><td class="g3 fav">+$4.7K</td><td class="g3 fav">+3.6%</td><td class="g3">-</td><td class="g4 gk">$137.0K</td><td class="g4">$132.0K</td><td class="g4 fav">+$5.0K</td><td class="g4 fav">+3.8%</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">$136.8K</td><td class="g5">$131.8K</td><td class="g5 fav">+$5.0K</td><td class="g5 fav">+3.8%</td></tr>
                 </tbody>
               </table>
             </div>
@@ -503,6 +509,22 @@
 <!-- Tooltip Container -->
 <div class="tip" id="tip"></div>
 
+<script>
+// REVENUE SUMMARY: expand / collapse each period column group horizontally (Month open by default)
+(function () {
+  var tbl = document.getElementById('rev-summary-table');
+  if (!tbl) return;
+  tbl.querySelectorAll('th.grp[data-grp]').forEach(function (th) {
+    var btn = th.querySelector('.grp-tg'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      tbl.classList.toggle('c' + g, !open);
+      th.setAttribute('colspan', open ? n : 1);
+    });
+  });
+})();
+</script>
 <script src="revenue_analysis_2.js"></script>
 <script src="polaris_header.js"></script>
 </body>

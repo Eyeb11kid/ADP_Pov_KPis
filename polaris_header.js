@@ -408,10 +408,14 @@
     ui.fmtWrap.hidden = !document.getElementById('headline-kpis');
     var help = h('a', { class: 'ctx-help', href: CONFIG.helpUrl, target: '_blank', rel: 'noopener' }, [svg('help', 13, 2), 'Help']);
 
+    // Help sits in the top bar, to the left of the person icon; falls back to the filter row if a page has no avatar
+    var avatar = document.querySelector('.chrome .avatar');
+    if (avatar && avatar.parentNode) avatar.parentNode.insertBefore(help, avatar);
+
     var row1 = h('div', { class: 'ctx-row' }, [
       field('Business unit', 'pf-l-bu', ui.bu), field('Fiscal period', 'pf-l-per', ui.per),
       field('Time view', 'pf-l-tv', ui.tv.el), field('Compare to', 'pf-l-cmp', ui.cmp.el),
-      h('span', { class: 'ctx-spacer' }), ui.fmtWrap
+      ui.fmtWrap
     ]);
 
     // Row 2: filters, chips, data status
@@ -423,10 +427,15 @@
     ui.clear = h('button', { type: 'button', class: 'pf-link', text: 'Clear all', hidden: true });
     ui.clear.addEventListener('click', function () { state.prod = []; state.fn = []; commit('All filters cleared'); ui.prodBtn.focus(); });
     ui.ds = h('div', { class: 'ds', role: 'group', 'aria-label': 'Data status' });
-    var row2 = h('div', { class: 'ctx-row ctx-row2' }, [
+    var row2Items = [
       h('div', { class: 'ctx-field' }, [h('span', { class: 'ctx-lbl', text: 'Filters' }), h('div', { class: 'pf-joined' }, [ui.prodBtn, ui.fnBtn])]),
-      ui.chips, ui.clear, ui.ds, help
-    ]);
+      ui.chips, ui.clear
+    ];
+    if (!avatar) row2Items.push(help);
+    // Data status ("Refreshed ...") sits in the top bar, left of the Cycle text; falls back to the filter row if there is no top bar
+    var chromeR = document.querySelector(".chrome .chrome-r");
+    if (chromeR) chromeR.insertBefore(ui.ds, chromeR.firstChild); else row2Items.push(ui.ds);
+    var row2 = h('div', { class: 'ctx-row ctx-row2' }, row2Items);
 
     ui.banner = h('div', { class: 'ctx-banner', role: 'status', hidden: true }, [svg('warn', 14, 2), h('span', { text: 'Close in progress: figures may change.' })]);
     ctx.appendChild(ui.summary);
@@ -560,8 +569,6 @@
     ui.ds.appendChild(h('span', { class: 'pf-spin', 'aria-hidden': 'true' }));
     if (loading) { ui.ds.appendChild(h('span', { text: 'Refreshing data\u2026' })); }
     else {
-      ui.ds.appendChild(h('span', null, ['Data through ', h('b', { text: monthName(state.per) + ' ' + state.per.slice(0, 4) + ' (' + fyLabel(fiscalYearOf(state.per)) + ')' })]));
-      ui.ds.appendChild(h('span', { class: 'pf-status ' + ver, text: 'Version: ' + (ver === 'final' ? 'Final' : 'Working') }));
       ui.ds.appendChild(h('span', { class: 'ds-ref', text: 'Refreshed ' + DATA.refreshed }));
     }
     ui.banner.hidden = ver === 'final';

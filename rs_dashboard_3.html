@@ -199,6 +199,15 @@
   .epm-table.pl-draft th:first-child, .epm-table.pl-draft td:first-child { position: sticky; left: 0; background: #f1f5f9; min-width: 190px; z-index: 1; }
   .epm-table.pl-draft tbody td:first-child { background: #fff; }
   .epm-table.pl-draft tr.summary-row td:first-child { background: inherit; }
+  /* Expand / collapse time-view column groups: a collapsed group keeps only its key column (.gk) */
+  .epm-table.pl-draft.c1 .g1:not(.gk), .epm-table.pl-draft.c2 .g2:not(.gk), .epm-table.pl-draft.c3 .g3:not(.gk), .epm-table.pl-draft.c4 .g4:not(.gk), .epm-table.pl-draft.c5 .g5:not(.gk) { display: none; }
+  .epm-table.pl-draft th.grp { padding: 0; }
+  .grp-tg { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 4px 6px; cursor: pointer; font-weight: 700; font-size: 10.5px; color: #334155; text-align: center; }
+  .epm-table.pl-draft thead tr:nth-child(2) th:first-child { position: static; min-width: 62px; background: #f1f5f9; }
+  .grp-tg:hover { background: #cbd5e1; }
+  .grp-tg:focus-visible { outline: 2px solid #0f62fe; outline-offset: -2px; }
+  .grp-chev { width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 5px solid #334155; transition: none; flex: none; }
+  .grp-tg[aria-expanded="true"] .grp-chev { border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #334155; border-bottom: 0; }
   .draft-tag { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 2px; background: #E5A83F; color: #161616; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; vertical-align: 1px; }
 
 
@@ -253,7 +262,6 @@
   </div>
   <div class="chrome-r">
     <span>Cycle: <b>September Close (FY27 Q1)</b></span>
-    <span>Status: <b style="color:var(--green)">Validated &amp; Locked</b></span>
     <div class="avatar" title="RS Business Unit CFO">RS</div>
   </div>
 </header>
@@ -301,7 +309,6 @@
         <div>
           <div class="page-title">
             Retirement Services (RS) Management P&amp;L &amp; Close Cockpit
-            <span class="badge">Approved Structure</span>
           </div>
         </div>
       </div>
@@ -316,12 +323,6 @@
         <div class="hkpi-bar-title">
           <span>Headline KPIs (Screenshot 1)</span>
           <span class="hkpi-bar-badge">September Close</span>
-        </div>
-        <div class="cfo-tg-wrap" id="cfo-toggles">
-          <div class="cfo-tg" role="group" aria-label="Plan basis" data-k="cmp">
-            <button type="button" data-v="plan" aria-pressed="false">Plan</button>
-            <button type="button" data-v="pva" aria-pressed="true">Plan vs Actual</button>
-          </div>
         </div>
       </div>
 
@@ -411,8 +412,8 @@
         <!-- LEFT COLUMN: Management P&L Summary, Revenue & Starts/Stops/Retention -->
         <div class="left-col">
 
-          <!-- Section A: P&L Summary (from Screenshot 1: P&L summary) -->
-          <div class="epm-box">
+          <!-- Section A: P&L Summary (from Screenshot 1: P&L summary) - hidden; remove style="display:none" to show again -->
+          <div class="epm-box" id="pl-summary-box" style="display:none;">
             <div class="epm-box-hdr">
               <span>P&amp;L SUMMARY (Screenshot 1)</span>
               <div class="tools"><span>$K USD · Close Actuals</span></div>
@@ -511,34 +512,34 @@
               <div class="tools"><span>$K USD · Actual vs Plan and Forecast · variances: favorable green, unfavorable red</span></div>
             </div>
             <div style="overflow-x:auto;">
-              <table class="epm-table pl-draft">
+              <table class="epm-table pl-draft c2 c3 c4 c5" id="pl-draft-table">
                 <thead>
                   <tr>
                     <th rowspan="2">Line Item</th>
-                    <th colspan="7" class="grp">Month (Sep)</th>
-                    <th colspan="4" class="grp">QTD</th>
-                    <th colspan="5" class="grp">YTD</th>
-                    <th colspan="6" class="grp">Rest of year (FY less YTD)</th>
-                    <th colspan="4" class="grp">Full year (latest forecast vs plan)</th>
+                    <th colspan="7" class="grp" data-grp="1" data-cols="7"><button type="button" class="grp-tg" aria-expanded="true"><span class="grp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
+                    <th colspan="1" class="grp" data-grp="2" data-cols="4"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>QTD</button></th>
+                    <th colspan="1" class="grp" data-grp="3" data-cols="5"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>YTD</button></th>
+                    <th colspan="1" class="grp" data-grp="4" data-cols="6"><button type="button" class="grp-tg" title="Rest of year (FY less YTD)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>ROY</button></th>
+                    <th colspan="1" class="grp" data-grp="5" data-cols="4"><button type="button" class="grp-tg" title="Full year (latest forecast vs plan)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>FY</button></th>
                   </tr>
                   <tr>
-                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th><th>Fcst</th><th>Var $</th><th>Var %</th>
-                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th>
-                    <th>Actual</th><th>Plan</th><th>Var $</th><th>Var %</th><th>% of FY plan achieved</th>
-                    <th>Fcst</th><th>Plan</th><th>Var $</th><th>Var %</th><th>Still to deliver (FY plan - YTD)</th><th>Growth needed vs YTD run-rate</th>
-                    <th>Fcst</th><th>Plan</th><th>Var $</th><th>Var %</th>
+                    <th class="g1 gk">Actual</th><th class="g1">Plan</th><th class="g1">Var $</th><th class="g1">Var %</th><th class="g1">Fcst</th><th class="g1">Var $</th><th class="g1">Var %</th>
+                    <th class="g2 gk">Actual</th><th class="g2">Plan</th><th class="g2">Var $</th><th class="g2">Var %</th>
+                    <th class="g3 gk">Actual</th><th class="g3">Plan</th><th class="g3">Var $</th><th class="g3">Var %</th><th class="g3">% of FY plan achieved</th>
+                    <th class="g4 gk">Fcst</th><th class="g4">Plan</th><th class="g4">Var $</th><th class="g4">Var %</th><th class="g4">Still to deliver (FY plan - YTD)</th><th class="g4">Growth needed vs YTD run-rate</th>
+                    <th class="g5 gk">Fcst</th><th class="g5">Plan</th><th class="g5">Var $</th><th class="g5">Var %</th>
                   </tr>
                 </thead>
                 <tbody>
-<tr class="summary-row" style="background:#edf2f7;"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td class="fav">+4.5%</td><td>91,802.0</td><td class="fav">+1,601.4</td><td class="fav">+1.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>25.2%</td><td>834,480.5</td><td>818,010.0</td><td class="fav">+16,470.5</td><td class="fav">+2.0%</td><td>810,790.1</td><td>(0.9%)</td><td>1,107,218.5</td><td>1,083,528.0</td><td class="fav">+23,690.5</td><td class="fav">+2.2%</td></tr>
-<tr><td>Field expense</td><td>48,390.2</td><td>47,000.0</td><td class="unf">(1,390.2)</td><td class="unf">(3.0%)</td><td>47,834.1</td><td class="unf">(556.1)</td><td class="unf">(1.2%)</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">(1.2%)</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">(1.2%)</td><td>24.8%</td><td>434,812.2</td><td>430,050.0</td><td class="unf">(4,762.2)</td><td class="unf">(1.1%)</td><td>428,340.6</td><td>+1.0%</td><td>576,111.5</td><td>569,640.0</td><td class="unf">(6,471.5)</td><td class="unf">(1.1%)</td></tr>
-<tr class="summary-row" style="background:#e0f2fe;"><td>Field NOI</td><td>45,013.2</td><td>42,400.0</td><td class="fav">+2,613.2</td><td class="fav">+6.2%</td><td>43,967.9</td><td class="fav">+1,045.3</td><td class="fav">+2.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>25.6%</td><td>399,668.4</td><td>387,960.0</td><td class="fav">+11,708.4</td><td class="fav">+3.0%</td><td>382,449.5</td><td>(3.0%)</td><td>531,106.9</td><td>513,888.0</td><td class="fav">+17,218.9</td><td class="fav">+3.4%</td></tr>
-<tr><td>Field NOI margin %</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>47.9%</td><td class="fav">+30 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>-</td><td>47.9%</td><td>47.4%</td><td class="fav">+47 bps</td><td>-</td><td>47.2%</td><td>-</td><td>48.0%</td><td>47.4%</td><td class="fav">+54 bps</td><td>-</td></tr>
-<tr><td>NDE</td><td>5,120.0</td><td>5,000.0</td><td class="unf">(120.0)</td><td class="unf">(2.4%)</td><td>5,072.0</td><td class="unf">(48.0)</td><td class="unf">(0.9%)</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">(0.7%)</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">(0.7%)</td><td>24.7%</td><td>46,104.5</td><td>45,750.0</td><td class="unf">(354.5)</td><td class="unf">(0.8%)</td><td>45,649.6</td><td>+1.8%</td><td>61,054.9</td><td>60,600.0</td><td class="unf">(454.9)</td><td class="unf">(0.8%)</td></tr>
-<tr><td>Shared service allocations (excl. NDE)</td><td>7,053.0</td><td>6,950.0</td><td class="unf">(103.0)</td><td class="unf">(1.5%)</td><td>7,011.8</td><td class="unf">(41.2)</td><td class="unf">(0.6%)</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>24.4%</td><td>63,737.3</td><td>63,592.5</td><td class="unf">(144.8)</td><td class="unf">(0.2%)</td><td>63,639.2</td><td>+3.0%</td><td>84,332.0</td><td>84,234.0</td><td class="unf">(98.0)</td><td class="unf">(0.1%)</td></tr>
-<tr class="summary-row" style="background:#f1f5f9;"><td>Total expenses</td><td>60,563.2</td><td>58,950.0</td><td class="unf">(1,613.2)</td><td class="unf">(2.7%)</td><td>59,917.9</td><td class="unf">(645.3)</td><td class="unf">(1.1%)</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">(1.0%)</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">(1.0%)</td><td>24.8%</td><td>544,653.9</td><td>539,392.5</td><td class="unf">(5,261.4)</td><td class="unf">(1.0%)</td><td>537,629.5</td><td>+1.3%</td><td>721,498.4</td><td>714,474.0</td><td class="unf">(7,024.4)</td><td class="unf">(1.0%)</td></tr>
-<tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;"><td>NOI (EBIT)</td><td>32,840.2</td><td>30,450.0</td><td class="fav">+2,390.2</td><td class="fav">+7.8%</td><td>31,884.1</td><td class="fav">+956.1</td><td class="fav">+3.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>26.0%</td><td>289,826.7</td><td>278,617.5</td><td class="fav">+11,209.2</td><td class="fav">+4.0%</td><td>273,160.6</td><td>(5.0%)</td><td>385,720.0</td><td>369,054.0</td><td class="fav">+16,666.0</td><td class="fav">+4.5%</td></tr>
-<tr><td>NOI margin %</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>34.7%</td><td class="fav">+43 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>-</td><td>34.7%</td><td>34.1%</td><td class="fav">+67 bps</td><td>-</td><td>33.7%</td><td>-</td><td>34.8%</td><td>34.1%</td><td class="fav">+78 bps</td><td>-</td></tr>
+<tr class="summary-row" style="background:#edf2f7;"><td>Total revenue</td><td class="g1 gk">93,403.4</td><td class="g1">89,400.0</td><td class="g1 fav">+4,003.4</td><td class="g1 fav">+4.5%</td><td class="g1">91,802.0</td><td class="g1 fav">+1,601.4</td><td class="g1 fav">+1.7%</td><td class="g2 gk">272,737.9</td><td class="g2">265,518.0</td><td class="g2 fav">+7,219.9</td><td class="g2 fav">+2.7%</td><td class="g3 gk">272,737.9</td><td class="g3">265,518.0</td><td class="g3 fav">+7,219.9</td><td class="g3 fav">+2.7%</td><td class="g3">25.2%</td><td class="g4 gk">834,480.5</td><td class="g4">818,010.0</td><td class="g4 fav">+16,470.5</td><td class="g4 fav">+2.0%</td><td class="g4">810,790.1</td><td class="g4">(0.9%)</td><td class="g5 gk">1,107,218.5</td><td class="g5">1,083,528.0</td><td class="g5 fav">+23,690.5</td><td class="g5 fav">+2.2%</td></tr>
+<tr><td>Field expense</td><td class="g1 gk">48,390.2</td><td class="g1">47,000.0</td><td class="g1 unf">(1,390.2)</td><td class="g1 unf">(3.0%)</td><td class="g1">47,834.1</td><td class="g1 unf">(556.1)</td><td class="g1 unf">(1.2%)</td><td class="g2 gk">141,299.4</td><td class="g2">139,590.0</td><td class="g2 unf">(1,709.4)</td><td class="g2 unf">(1.2%)</td><td class="g3 gk">141,299.4</td><td class="g3">139,590.0</td><td class="g3 unf">(1,709.4)</td><td class="g3 unf">(1.2%)</td><td class="g3">24.8%</td><td class="g4 gk">434,812.2</td><td class="g4">430,050.0</td><td class="g4 unf">(4,762.2)</td><td class="g4 unf">(1.1%)</td><td class="g4">428,340.6</td><td class="g4">+1.0%</td><td class="g5 gk">576,111.5</td><td class="g5">569,640.0</td><td class="g5 unf">(6,471.5)</td><td class="g5 unf">(1.1%)</td></tr>
+<tr class="summary-row" style="background:#e0f2fe;"><td>Field NOI</td><td class="g1 gk">45,013.2</td><td class="g1">42,400.0</td><td class="g1 fav">+2,613.2</td><td class="g1 fav">+6.2%</td><td class="g1">43,967.9</td><td class="g1 fav">+1,045.3</td><td class="g1 fav">+2.4%</td><td class="g2 gk">131,438.5</td><td class="g2">125,928.0</td><td class="g2 fav">+5,510.5</td><td class="g2 fav">+4.4%</td><td class="g3 gk">131,438.5</td><td class="g3">125,928.0</td><td class="g3 fav">+5,510.5</td><td class="g3 fav">+4.4%</td><td class="g3">25.6%</td><td class="g4 gk">399,668.4</td><td class="g4">387,960.0</td><td class="g4 fav">+11,708.4</td><td class="g4 fav">+3.0%</td><td class="g4">382,449.5</td><td class="g4">(3.0%)</td><td class="g5 gk">531,106.9</td><td class="g5">513,888.0</td><td class="g5 fav">+17,218.9</td><td class="g5 fav">+3.4%</td></tr>
+<tr><td>Field NOI margin %</td><td class="g1 gk">48.2%</td><td class="g1">47.4%</td><td class="g1 fav">+76 bps</td><td class="g1">-</td><td class="g1">47.9%</td><td class="g1 fav">+30 bps</td><td class="g1">-</td><td class="g2 gk">48.2%</td><td class="g2">47.4%</td><td class="g2 fav">+76 bps</td><td class="g2">-</td><td class="g3 gk">48.2%</td><td class="g3">47.4%</td><td class="g3 fav">+76 bps</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">47.9%</td><td class="g4">47.4%</td><td class="g4 fav">+47 bps</td><td class="g4">-</td><td class="g4">47.2%</td><td class="g4">-</td><td class="g5 gk">48.0%</td><td class="g5">47.4%</td><td class="g5 fav">+54 bps</td><td class="g5">-</td></tr>
+<tr><td>NDE</td><td class="g1 gk">5,120.0</td><td class="g1">5,000.0</td><td class="g1 unf">(120.0)</td><td class="g1 unf">(2.4%)</td><td class="g1">5,072.0</td><td class="g1 unf">(48.0)</td><td class="g1 unf">(0.9%)</td><td class="g2 gk">14,950.4</td><td class="g2">14,850.0</td><td class="g2 unf">(100.4)</td><td class="g2 unf">(0.7%)</td><td class="g3 gk">14,950.4</td><td class="g3">14,850.0</td><td class="g3 unf">(100.4)</td><td class="g3 unf">(0.7%)</td><td class="g3">24.7%</td><td class="g4 gk">46,104.5</td><td class="g4">45,750.0</td><td class="g4 unf">(354.5)</td><td class="g4 unf">(0.8%)</td><td class="g4">45,649.6</td><td class="g4">+1.8%</td><td class="g5 gk">61,054.9</td><td class="g5">60,600.0</td><td class="g5 unf">(454.9)</td><td class="g5 unf">(0.8%)</td></tr>
+<tr><td>Shared service allocations (excl. NDE)</td><td class="g1 gk">7,053.0</td><td class="g1">6,950.0</td><td class="g1 unf">(103.0)</td><td class="g1 unf">(1.5%)</td><td class="g1">7,011.8</td><td class="g1 unf">(41.2)</td><td class="g1 unf">(0.6%)</td><td class="g2 gk">20,594.8</td><td class="g2">20,641.5</td><td class="g2 fav">+46.7</td><td class="g2 fav">+0.2%</td><td class="g3 gk">20,594.8</td><td class="g3">20,641.5</td><td class="g3 fav">+46.7</td><td class="g3 fav">+0.2%</td><td class="g3">24.4%</td><td class="g4 gk">63,737.3</td><td class="g4">63,592.5</td><td class="g4 unf">(144.8)</td><td class="g4 unf">(0.2%)</td><td class="g4">63,639.2</td><td class="g4">+3.0%</td><td class="g5 gk">84,332.0</td><td class="g5">84,234.0</td><td class="g5 unf">(98.0)</td><td class="g5 unf">(0.1%)</td></tr>
+<tr class="summary-row" style="background:#f1f5f9;"><td>Total expenses</td><td class="g1 gk">60,563.2</td><td class="g1">58,950.0</td><td class="g1 unf">(1,613.2)</td><td class="g1 unf">(2.7%)</td><td class="g1">59,917.9</td><td class="g1 unf">(645.3)</td><td class="g1 unf">(1.1%)</td><td class="g2 gk">176,844.5</td><td class="g2">175,081.5</td><td class="g2 unf">(1,763.0)</td><td class="g2 unf">(1.0%)</td><td class="g3 gk">176,844.5</td><td class="g3">175,081.5</td><td class="g3 unf">(1,763.0)</td><td class="g3 unf">(1.0%)</td><td class="g3">24.8%</td><td class="g4 gk">544,653.9</td><td class="g4">539,392.5</td><td class="g4 unf">(5,261.4)</td><td class="g4 unf">(1.0%)</td><td class="g4">537,629.5</td><td class="g4">+1.3%</td><td class="g5 gk">721,498.4</td><td class="g5">714,474.0</td><td class="g5 unf">(7,024.4)</td><td class="g5 unf">(1.0%)</td></tr>
+<tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;"><td>NOI (EBIT)</td><td class="g1 gk">32,840.2</td><td class="g1">30,450.0</td><td class="g1 fav">+2,390.2</td><td class="g1 fav">+7.8%</td><td class="g1">31,884.1</td><td class="g1 fav">+956.1</td><td class="g1 fav">+3.0%</td><td class="g2 gk">95,893.4</td><td class="g2">90,436.5</td><td class="g2 fav">+5,456.9</td><td class="g2 fav">+6.0%</td><td class="g3 gk">95,893.4</td><td class="g3">90,436.5</td><td class="g3 fav">+5,456.9</td><td class="g3 fav">+6.0%</td><td class="g3">26.0%</td><td class="g4 gk">289,826.7</td><td class="g4">278,617.5</td><td class="g4 fav">+11,209.2</td><td class="g4 fav">+4.0%</td><td class="g4">273,160.6</td><td class="g4">(5.0%)</td><td class="g5 gk">385,720.0</td><td class="g5">369,054.0</td><td class="g5 fav">+16,666.0</td><td class="g5 fav">+4.5%</td></tr>
+<tr><td>NOI margin %</td><td class="g1 gk">35.2%</td><td class="g1">34.1%</td><td class="g1 fav">+110 bps</td><td class="g1">-</td><td class="g1">34.7%</td><td class="g1 fav">+43 bps</td><td class="g1">-</td><td class="g2 gk">35.2%</td><td class="g2">34.1%</td><td class="g2 fav">+110 bps</td><td class="g2">-</td><td class="g3 gk">35.2%</td><td class="g3">34.1%</td><td class="g3 fav">+110 bps</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">34.7%</td><td class="g4">34.1%</td><td class="g4 fav">+67 bps</td><td class="g4">-</td><td class="g4">33.7%</td><td class="g4">-</td><td class="g5 gk">34.8%</td><td class="g5">34.1%</td><td class="g5 fav">+78 bps</td><td class="g5">-</td></tr>
                 </tbody>
               </table>
             </div>
@@ -872,6 +873,21 @@
         });
       });
     }
+  })();
+
+  // P&L SUMMARY BY TIME VIEW: expand / collapse each time-period column group horizontally (Month open by default)
+  (function initPlColumnGroups() {
+    var tbl = document.getElementById('pl-draft-table');
+    if (!tbl) return;
+    tbl.querySelectorAll('th.grp[data-grp]').forEach(function (th) {
+      var btn = th.querySelector('.grp-tg'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        tbl.classList.toggle('c' + g, !open);
+        th.setAttribute('colspan', open ? n : 1);
+      });
+    });
   })();
 
 </script>
