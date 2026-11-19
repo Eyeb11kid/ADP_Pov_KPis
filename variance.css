@@ -1,0 +1,112 @@
+/* Polaris RS variance display: approved variance-sign and styling requirements.
+   Convention: positive variance = favorable (RS close-package). Loaded AFTER each page's own styles.
+   Markup contract (unchanged class names, so existing pages keep working):
+     .fav  favorable    green, "+" sign,                 up arrow    (icon + screen-reader text supplied here)
+     .unf  unfavorable  red,   "( )" for $ / count,
+                              "-" for %, bps,           down arrow
+     .neu  neutral KPI  gray (Headcount, FTE only),      up/down arrow, wording "higher" / "lower"
+   Color is never the only signal: every variance carries sign + arrow + color.
+   !important is used on color only, to beat legacy higher-specificity rules such as ".epm-table td.fav". */
+
+:root {
+  --var-fav: #14562a;  --var-fav-bg: #e6f4ea;  --var-fav-bd: #9ccfa9;   /* 8.8:1 on white */
+  --var-unf: #9f1d17;  --var-unf-bg: #fdeceb;  --var-unf-bd: #e6a5a1;   /* 7.9:1 on white */
+  --var-neu: #424b57;  --var-neu-bg: #eef0f3;  --var-neu-bd: #b8bfc9;   /* 8.8:1 on white */
+}
+
+/* ---------- base ---------- */
+.fav, .unf, .neu {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+.fav { color: var(--var-fav) !important; }
+.unf { color: var(--var-unf) !important; }
+.neu { color: var(--var-neu) !important; }
+
+/* ---------- direction icon + spoken text ----------
+   Visible glyph first (fallback for browsers without alt-text syntax), then glyph with a spoken equivalent. */
+.fav::before, .unf::before, .neu::before {
+  display: inline-block;
+  width: 1.1em;
+  margin-right: 1px;
+  font-size: 0.85em;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  vertical-align: 0.05em;
+}
+.fav::before     { content: "\25B2"; content: "\25B2" / "Favorable: "; }
+.unf::before     { content: "\25BC"; content: "\25BC" / "Unfavorable: "; }
+.neu.up::before  { content: "\25B2"; content: "\25B2" / "Higher: "; }
+.neu.down::before{ content: "\25BC"; content: "\25BC" / "Lower: "; }
+.neu:not(.up):not(.down)::before { content: "\25AC"; content: "\25AC" / "Unchanged: "; }  /* zero / no change */
+
+/* ---------- KPI tiles: chip treatment ---------- */
+.kpi-var .fav, .kpi-var .unf, .kpi-var .neu,
+.kpi-sec-v .fav, .kpi-sec-v .unf, .kpi-sec-v .neu {
+  display: inline-block;
+  padding: 0 5px;
+  border: 1px solid transparent;
+}
+.kpi-var .fav, .kpi-sec-v .fav { background: var(--var-fav-bg); border-color: var(--var-fav-bd); }
+.kpi-var .unf, .kpi-sec-v .unf { background: var(--var-unf-bg); border-color: var(--var-unf-bd); }
+.kpi-var .neu, .kpi-sec-v .neu { background: var(--var-neu-bg); border-color: var(--var-neu-bd); }
+.kpi-var { flex-wrap: wrap; row-gap: 2px; }        /* chip + "vs plan" wrap instead of clipping */
+
+/* $ and % are always shown together as "$ / %" (no $ / % toggle on RS pages) */
+
+/* ---------- tables: variance columns and summary rows ---------- */
+.epm-table td.fav, .epm-table td.unf, .epm-table td.neu { text-align: right; }
+.epm-table td.fav::before, .epm-table td.unf::before, .epm-table td.neu::before { width: 1em; margin-right: 2px; }
+.epm-table tr.summary-row td.fav, .epm-table tr.summary-row td.unf, .epm-table tr.summary-row td.neu,
+.epm-table tr.xk-total td.fav,    .epm-table tr.xk-total td.unf,    .epm-table tr.xk-total td.neu,
+.epm-table tr.xk-sum td.fav,      .epm-table tr.xk-sum td.unf,      .epm-table tr.xk-sum td.neu,
+.epm-table tr.hx-L0 td.fav,       .epm-table tr.hx-L0 td.unf,       .epm-table tr.hx-L0 td.neu { font-weight: 700; }
+
+/* ---------- hover / focus ---------- */
+.fav:hover, .unf:hover, .neu:hover { text-decoration: underline dotted; text-underline-offset: 3px; }
+td.fav:hover { background-color: var(--var-fav-bg) !important; }
+td.unf:hover { background-color: var(--var-unf-bg) !important; }
+td.neu:hover { background-color: var(--var-neu-bg) !important; }
+/* keyboard: any variance given tabindex="0" (for a tooltip or drill) gets a visible ring in the page's focus blue */
+.fav:focus-visible, .unf:focus-visible, .neu:focus-visible { outline: 2px solid #0f62fe; outline-offset: 1px; }
+.kpis.kpis-5 > a.kpi:focus-visible .kpi-var .fav,
+.kpis.kpis-5 > a.kpi:focus-visible .kpi-var .unf,
+.kpis.kpis-5 > a.kpi:focus-visible .kpi-var .neu { box-shadow: 0 0 0 1px #0f62fe; }
+
+/* ---------- variance key (one under each variance table header) ---------- */
+.var-note { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; padding: 4px 12px; font-size: 11px; color: #424b57; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.var-note b { color: #0f172a; }
+.var-note .fav, .var-note .unf, .var-note .neu { padding: 0 5px; border: 1px solid transparent; }
+.var-note .fav { background: var(--var-fav-bg); border-color: var(--var-fav-bd); }
+.var-note .unf { background: var(--var-unf-bg); border-color: var(--var-unf-bd); }
+.var-note .neu { background: var(--var-neu-bg); border-color: var(--var-neu-bd); }
+.var-note-t { margin-left: auto; color: #57606a; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .kpi-var .fav, .kpi-var .unf, .kpi-var .neu { padding: 0 4px; }
+}
+@media (max-width: 700px) {
+  .kpi-var { font-size: 12px; }                       /* larger touch/read size when tiles stack */
+  .kpi-var .fav, .kpi-var .unf, .kpi-var .neu { padding: 1px 6px; }
+  .var-note { padding: 4px 8px; }
+  .var-note-t { margin-left: 0; flex-basis: 100%; }
+}
+/* tables keep numbers on one line; the wrapper scrolls (existing overflow-x:auto), the icon never wraps away from its number */
+
+/* ---------- forced colors / high contrast: icon + sign still carry the meaning ---------- */
+@media (forced-colors: active) {
+  .fav, .unf, .neu { color: CanvasText !important; }
+  .kpi-var .fav, .kpi-var .unf, .kpi-var .neu,
+  .kpi-sec-v .fav, .kpi-sec-v .unf, .kpi-sec-v .neu { border: 1px solid CanvasText; background: Canvas; }
+  .unf { border-style: dashed; }
+}
+
+/* ---------- print (grayscale printers): arrows and signs remain; add weight to unfavorable ---------- */
+@media print {
+  .fav, .unf, .neu { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .unf { text-decoration: underline; text-decoration-style: dotted; }
+}

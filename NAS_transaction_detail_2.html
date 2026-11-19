@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NAS Transaction Detail 2 — Oracle GL Journal Lines — ADP Project Polaris</title>
+<style>
+  :root {
+    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
+    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --adp:#E8222F; --sidebar-w:220px;
+    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
+    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* Top Chrome */
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
+  .chrome-r b { color: var(--navy); font-weight: 600; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+
+  /* EPM Top Bar */
+  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-title-block { display: flex; align-items: center; gap: 12px; }
+  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #2e4461; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
+  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
+
+  /* Sub-Filter Strip */
+  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
+  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .ef-pill:hover:not(.active) { background: #273b54; }
+  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+
+  /* Tabstrip */
+  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+
+  /* Shell Layout */
+  .shell { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
+  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--hover); color: var(--navy); }
+  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.sub { padding-left: 28px; font-size: 12px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
+  .sb-acc > summary::-webkit-details-marker { display: none; }
+  .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
+  .sb-acc[open] > summary::after { transform: rotate(45deg); }
+  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-ext:hover { text-decoration: underline; }
+
+  /* Main Area */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .breadcrumb a { color: var(--blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+  .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #fde68a; }
+  .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* Control Banner */
+  .ctrl-bar { background: #fff; border: 1px solid var(--line); border-radius: 4px; margin: 14px 20px 0; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ctrl-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .search-input { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 240px; }
+  .search-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
+  .filter-select { font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; }
+  .btn { font: inherit; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #141E50; color: #fff; border-color: #141E50; }
+  .btn-primary:hover { background: #1b2a7a; }
+
+  /* Content area */
+  .content { padding: 14px 20px 28px; flex: 1; }
+  
+  /* Metric Strip */
+  .metric-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  .m-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 14px; }
+  .m-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
+  .m-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
+  .m-sub { font-size: 11px; color: #15803d; font-weight: 600; margin-top: 2px; }
+
+  /* EPM Box & Table */
+  .epm-box { background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .epm-box-hdr { background: #141E50; color: #fff; padding: 8px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
+  .epm-box-hdr .tools { font-size: 11px; font-weight: 400; color: #93c5fd; }
+  
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; white-space: nowrap; }
+  .epm-table th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; padding: 7px 10px; border-bottom: 2px solid #cbd5e1; font-size: 11px; }
+  .epm-table th.num, .epm-table td.num { text-align: right; }
+  .epm-table td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; color: #1e293b; }
+  .epm-table tr:hover td { background: #f8fafc; }
+  .epm-table tr.highlight td { background: #fef9c3 !important; }
+  .tag-cat { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .tag-asset { background: #dbeafe; color: #1e40af; }
+  .tag-erisa { background: #fef3c7; color: #92400e; }
+  .tag-hd { background: #e0e7ff; color: #3730a3; }
+  .tag-setup { background: #f1f5f9; color: #475569; }
+  .tag-dcio { background: #dcfce7; color: #166534; }
+  
+  .num-neg { color: var(--red); font-weight: 600; }
+  .num-pos { color: var(--green); font-weight: 600; }
+
+  /* Tooltip */
+  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip.on { opacity: 1; }
+  .nd { cursor: pointer; }
+  /* Drill-in context (arrives from a revenue line on RS Revenue Analysis 2) */
+  .line-ctx { background: #edf4ff; border: 1px solid #c7dcfb; border-radius: 4px; padding: 8px 14px; margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--navy); }
+  .line-ctx[hidden] { display: none; }
+  .line-ctx .lc-k { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #57606a; margin-right: 4px; }
+  .line-ctx .lc-line { font-weight: 700; }
+  .line-ctx .lc-note { color: #57606a; }
+  .line-ctx a { margin-left: auto; color: var(--blue); font-weight: 600; text-decoration: none; }
+  .line-ctx a:hover { text-decoration: underline; }
+  .empty-row td { text-align: center; color: #57606a; padding: 18px; white-space: normal; }
+  .tag-alloc { background: #ede9fe; color: #5b21b6; }
+  .tag-exp { background: #fee2e2; color: #991b1b; }
+</style>
+<link rel="stylesheet" href="site_footer.css">
+<link rel="stylesheet" href="polaris_header.css">
+</head>
+<body data-pf-page="P07" data-pf-bu="NAS">
+
+<div class="chrome">
+  <div class="chrome-l">
+    <a href="index.html" style="text-decoration:none"><span class="chrome-logo">ADP</span></a>
+    Project Polaris · Level-3 GL Ledger Inspector
+  </div>
+  <div class="chrome-r">
+    <span>SEPTEMBER CLOSE / DAY 4</span>
+    <b>NAS Controller &amp; FP&amp;A</b>
+    <div class="avatar">NAS</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Navigation">
+    <div class="sb-bu">
+      <div class="sb-bu-label">Polaris</div>
+    </div>
+
+    <div class="sb-section">BU Executive Cockpit</div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
+      <a class="sb-link sub2 active" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
+    </details>
+
+    <div class="sb-divider"></div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
+      <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
+    </details>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc" name="sb-acc">
+      <summary><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a></summary>
+      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard</a>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard (EPM)</a>
+    </details>
+
+    <div class="sb-divider"></div>
+    <a class="sb-ext" href="index.html">&larr; Portal Home</a>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- Title Bar -->
+    <div class="titlebar">
+      <nav class="breadcrumb pf-bc" id="pf-breadcrumb"></nav>
+      <div class="title-row">
+        <div>
+          <div class="page-title">
+            NAS Transaction Detail 2 — Oracle GL Journal Lines
+            <span class="badge">Level-3 Audit Ledger</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
+    <div class="ctx" id="pf-context"></div>
+
+    <!-- Interactive Search & Control Bar -->
+    <div class="ctrl-bar">
+      <div class="ctrl-left">
+        <input type="text" id="glSearch" class="search-input" placeholder="Search by Invoice #, Journal Name, Account (e.g. 61101, INV-NAS-26001)..." oninput="filterTable()">
+        <select id="catSelect" class="filter-select" onchange="filterTable()">
+          <option value="all">All GL Categories</option>
+          <option value="REV-PROC">REV-PROC (Payroll processing revenue)</option>
+          <option value="REV-IMPL">REV-IMPL (Implementation and setup revenue)</option>
+          <option value="REV-PROJ">REV-PROJ (Project services revenue)</option>
+          <option value="SVC-EMP">SVC-EMP (Service (base) employee expense)</option>
+          <option value="SVC-NE">SVC-NE (Service (base) non-employee expense)</option>
+          <option value="IMP-EMP">IMP-EMP (Implementation employee expense)</option>
+          <option value="IMP-NE">IMP-NE (Implementation non-employee expense)</option>
+          <option value="NDE">NDE (NDE)</option>
+          <option value="RD">RD (R&amp;D allocation)</option>
+          <option value="PM">PM (Product management allocation)</option>
+          <option value="GETS">GETS (GETS allocation)</option>
+          <option value="OTH">OTH (Other shared services)</option>
+          <option value="BD">BD (Bad debt)</option>
+        </select>
+        <select id="jeSelect" class="filter-select" onchange="filterTable()">
+          <option value="all">All JE Categories</option>
+          <option value="Revenue Recognition">Revenue Recognition</option>
+          <option value="Manual Adjustment">Manual Adjustment</option>
+          <option value="Accrual Reverse">Accrual Reverse</option>
+          <option value="Allocation">Allocation</option>
+        </select>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="exportCSV()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export GL Ledger (.CSV)
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Summary-line context (set when opened from a line on NAS Revenue Analysis 2) -->
+      <div class="line-ctx" id="lineCtx" hidden>
+        <span><span class="lc-k">Summary line</span><span class="lc-line" id="lcLine"></span></span>
+        <span><span class="lc-k">Period</span><span id="lcPer"></span></span>
+        <span><span class="lc-k">Time view</span><span id="lcTv"></span></span>
+        <span><span class="lc-k">GL categories</span><span id="lcCats"></span></span>
+        <span class="lc-note" id="lcNote"></span>
+        <a href="NAS_transaction_detail_2.html" id="lcClear" data-pf-skip>Show all NAS lines</a>
+      </div>
+
+      <!-- Metric Strip -->
+      <div class="metric-strip">
+        <div class="m-card">
+          <div class="m-label">Total Journal Lines</div>
+          <div class="m-val" id="statCount">24 Lines</div>
+          <div class="m-sub">100% Filter Match</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Total Debits</div>
+          <div class="m-val" id="statDebit">$125,817.65</div>
+          <div class="m-sub" style="color:#64748b;">Expenses, Allocations &amp; Adjustments</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Total Credits</div>
+          <div class="m-val" id="statCredit">$147,511.15</div>
+          <div class="m-sub" style="color:var(--green);">Earned Revenue Billings</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">Net Posted (Dr less Cr)</div>
+          <div class="m-val" id="statNet">($21,693.50)</div>
+          <div class="m-sub" style="color:#64748b;">Debit balance = net cost</div>
+        </div>
+        <div class="m-card">
+          <div class="m-label">GL Audit Status</div>
+          <div class="m-val" style="font-size:15px;color:var(--green);">✓ Reconciled</div>
+          <div class="m-sub" style="color:#64748b;">Subledger Balanced</div>
+        </div>
+      </div>
+
+      <!-- Oracle GL Transactions Table -->
+      <div class="epm-box">
+        <div class="epm-box-hdr">
+          <span>ORACLE GL NAS TRANSACTIONS LEDGER (19 ATTRIBUTES)<span id="tableLineTag"></span></span>
+          <div class="tools"><span id="tableMatchLabel">Showing 24 of 24 journal records · sample data, whole dollars</span></div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="epm-table" id="glTable">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>Posted Date</th>
+                <th>Legal Entity</th>
+                <th>LOB</th>
+                <th>Dept</th>
+                <th>Account</th>
+                <th>Sub-Acct</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Account Description</th>
+                <th>Source</th>
+                <th>JE Category</th>
+                <th>Journal Name</th>
+                <th>JE Line</th>
+                <th>Journal Description</th>
+                <th>Document / Invoice</th>
+                <th class="num">Debit ($)</th>
+                <th class="num">Credit ($)</th>
+                <th class="num">Net ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-src="Subledger" data-cat="REV-PROC" data-je="Revenue Recognition">
+                <td>1 (FY27)</td>
+                <td>03-Jul-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40101</td>
+                <td>4101</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-asset">REV-PROC</span></td>
+                <td>ADP, LLC / NAS Payroll Processing</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run NAS Jul</td>
+                <td>41</td>
+                <td>Monthly payroll processing billing, national accounts</td>
+                <td><b>INV-NAS-26001</b></td>
+                <td class="num">0.00</td>
+                <td class="num">41,250.00</td>
+                <td class="num num-pos">(41,250.00)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="REV-PROC" data-je="Revenue Recognition">
+                <td>2 (FY27)</td>
+                <td>04-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40101</td>
+                <td>4101</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-asset">REV-PROC</span></td>
+                <td>ADP, LLC / NAS Payroll Processing</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run NAS Aug</td>
+                <td>44</td>
+                <td>Monthly payroll processing billing, national accounts</td>
+                <td><b>INV-NAS-26047</b></td>
+                <td class="num">0.00</td>
+                <td class="num">38,900.40</td>
+                <td class="num num-pos">(38,900.40)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="REV-PROC" data-je="Revenue Recognition">
+                <td>3 (FY27)</td>
+                <td>02-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40101</td>
+                <td>4101</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-asset">REV-PROC</span></td>
+                <td>ADP, LLC / NAS Payroll Processing</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AR Billing Run NAS Sep</td>
+                <td>46</td>
+                <td>Monthly payroll processing billing, national accounts</td>
+                <td><b>INV-NAS-26093</b></td>
+                <td class="num">0.00</td>
+                <td class="num">44,120.75</td>
+                <td class="num num-pos">(44,120.75)</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="REV-IMPL" data-je="Revenue Recognition">
+                <td>2 (FY27)</td>
+                <td>19-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40201</td>
+                <td>4201</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-setup">REV-IMPL</span></td>
+                <td>ADP, LLC / NAS Implementation Revenue</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>Lyric Go-Live Revenue Aug</td>
+                <td>12</td>
+                <td>Lyric enterprise implementation milestone billing</td>
+                <td><b>INV-NAS-26061</b></td>
+                <td class="num">0.00</td>
+                <td class="num">12,400.00</td>
+                <td class="num num-pos">(12,400.00)</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="REV-IMPL" data-je="Manual Adjustment">
+                <td>3 (FY27)</td>
+                <td>24-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40201</td>
+                <td>4202</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-setup">REV-IMPL</span></td>
+                <td>ADP, LLC / NAS Implementation Revenue</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>NAS Setup Rev True-up</td>
+                <td>58</td>
+                <td>Month-end true-up, deferred setup fee correction</td>
+                <td><b>INV-NAS-26108</b></td>
+                <td class="num">1,850.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">1,850.00</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="REV-PROJ" data-je="Revenue Recognition">
+                <td>3 (FY27)</td>
+                <td>17-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40301</td>
+                <td>4301</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-dcio">REV-PROJ</span></td>
+                <td>ADP, LLC / NAS Project Services</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>Project Services Billing Sep</td>
+                <td>22</td>
+                <td>Consulting and customization hours billed</td>
+                <td><b>INV-NAS-26099</b></td>
+                <td class="num">0.00</td>
+                <td class="num">9,640.00</td>
+                <td class="num num-pos">(9,640.00)</td>
+              </tr>
+              <tr data-src="Routine" data-cat="REV-PROJ" data-je="Accrual Reverse">
+                <td>3 (FY27)</td>
+                <td>01-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>40301</td>
+                <td>4301</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-dcio">REV-PROJ</span></td>
+                <td>ADP, LLC / NAS Project Services</td>
+                <td>Routine</td>
+                <td>Accrual Reverse</td>
+                <td>Reverses NAS_PROJ_ACCR</td>
+                <td>3</td>
+                <td>Aug accrual reversal, project services</td>
+                <td><b>INV-NAS-26088</b></td>
+                <td class="num">3,200.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">3,200.00</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
+                <td>1 (FY27)</td>
+                <td>30-Jul-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>61101</td>
+                <td>6110</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-EMP</span></td>
+                <td>ADP, LLC / NAS Service Salaries and Benefits</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS Payroll Journal Jul</td>
+                <td>118</td>
+                <td>Service center salaries and benefits</td>
+                <td><b>PAY-NAS-2607</b></td>
+                <td class="num">18,420.60</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">18,420.60</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
+                <td>2 (FY27)</td>
+                <td>31-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>61101</td>
+                <td>6110</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-EMP</span></td>
+                <td>ADP, LLC / NAS Service Salaries and Benefits</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS Payroll Journal Aug</td>
+                <td>121</td>
+                <td>Service center salaries and benefits</td>
+                <td><b>PAY-NAS-2608</b></td>
+                <td class="num">18,905.10</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">18,905.10</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>61101</td>
+                <td>6110</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-EMP</span></td>
+                <td>ADP, LLC / NAS Service Salaries and Benefits</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS Payroll Journal Sep</td>
+                <td>124</td>
+                <td>Service center salaries and benefits</td>
+                <td><b>PAY-NAS-2609</b></td>
+                <td class="num">19,310.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">19,310.00</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="SVC-NE" data-je="Revenue Recognition">
+                <td>2 (FY27)</td>
+                <td>27-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>62101</td>
+                <td>6210</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-NE</span></td>
+                <td>ADP, LLC / NAS Service Contractors and Hosting</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AP Voucher Run NAS Aug</td>
+                <td>75</td>
+                <td>Contractor and hosting invoices, service operations</td>
+                <td><b>AP-NAS-26312</b></td>
+                <td class="num">6,540.25</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">6,540.25</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="SVC-NE" data-je="Revenue Recognition">
+                <td>3 (FY27)</td>
+                <td>28-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>62101</td>
+                <td>6210</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-NE</span></td>
+                <td>ADP, LLC / NAS Service Contractors and Hosting</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AP Voucher Run NAS Sep</td>
+                <td>79</td>
+                <td>Contractor and hosting invoices, service operations</td>
+                <td><b>AP-NAS-26388</b></td>
+                <td class="num">7,215.80</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">7,215.80</td>
+              </tr>
+              <tr data-src="Routine" data-cat="SVC-NE" data-je="Accrual Reverse">
+                <td>3 (FY27)</td>
+                <td>02-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>62101</td>
+                <td>6210</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-hd">SVC-NE</span></td>
+                <td>ADP, LLC / NAS Service Contractors and Hosting</td>
+                <td>Routine</td>
+                <td>Accrual Reverse</td>
+                <td>Reverses NAS_HOST_ACCR</td>
+                <td>5</td>
+                <td>Aug hosting accrual reversal</td>
+                <td><b>AP-NAS-26340</b></td>
+                <td class="num">0.00</td>
+                <td class="num">1,200.00</td>
+                <td class="num num-pos">(1,200.00)</td>
+              </tr>
+              <tr data-src="Routine" data-cat="IMP-EMP" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>61201</td>
+                <td>6120</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-hd">IMP-EMP</span></td>
+                <td>ADP, LLC / NAS Implementation Salaries</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS Impl Payroll Journal Sep</td>
+                <td>131</td>
+                <td>Implementation team salaries and benefits</td>
+                <td><b>PAY-NAS-2609I</b></td>
+                <td class="num">8,120.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">8,120.00</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="IMP-NE" data-je="Manual Adjustment">
+                <td>1 (FY27)</td>
+                <td>21-Jul-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>62201</td>
+                <td>6220</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-hd">IMP-NE</span></td>
+                <td>ADP, LLC / NAS Implementation Travel and Contractors</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>NAS Impl Travel Reclass</td>
+                <td>33</td>
+                <td>Client site travel reclass to implementation</td>
+                <td><b>EXP-NAS-26071</b></td>
+                <td class="num">2,450.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">2,450.00</td>
+              </tr>
+              <tr data-src="Subledger" data-cat="IMP-NE" data-je="Revenue Recognition">
+                <td>3 (FY27)</td>
+                <td>25-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>62201</td>
+                <td>6220</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-hd">IMP-NE</span></td>
+                <td>ADP, LLC / NAS Implementation Travel and Contractors</td>
+                <td>Subledger</td>
+                <td>Revenue Recognition</td>
+                <td>AP Voucher Run NAS Impl Sep</td>
+                <td>82</td>
+                <td>Implementation contractor invoices</td>
+                <td><b>AP-NAS-26371</b></td>
+                <td class="num">3,075.50</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">3,075.50</td>
+              </tr>
+              <tr data-src="Routine" data-cat="NDE" data-je="Allocation">
+                <td>2 (FY27)</td>
+                <td>31-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>63101</td>
+                <td>6310</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-erisa">NDE</span></td>
+                <td>ADP, LLC / NAS NDE Expense</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS NDE Allocation Aug</td>
+                <td>15</td>
+                <td>NDE monthly charge</td>
+                <td><b>ALC-NAS-2608N</b></td>
+                <td class="num">4,860.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">4,860.00</td>
+              </tr>
+              <tr data-src="Routine" data-cat="NDE" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>63101</td>
+                <td>6310</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-erisa">NDE</span></td>
+                <td>ADP, LLC / NAS NDE Expense</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>NAS NDE Allocation Sep</td>
+                <td>16</td>
+                <td>NDE monthly charge</td>
+                <td><b>ALC-NAS-2609N</b></td>
+                <td class="num">5,210.40</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">5,210.40</td>
+              </tr>
+              <tr data-src="Routine" data-cat="RD" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>71101</td>
+                <td>7110</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-alloc">RD</span></td>
+                <td>ADP, LLC / R&amp;D Allocation to NAS</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>Shared Svc Allocation Sep</td>
+                <td>201</td>
+                <td>R&amp;D allocation to NAS</td>
+                <td><b>ALC-NAS-2609R</b></td>
+                <td class="num">9,000.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">9,000.00</td>
+              </tr>
+              <tr data-src="Routine" data-cat="PM" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>71201</td>
+                <td>7120</td>
+                <td>LYR</td>
+                <td><span class="tag-cat tag-alloc">PM</span></td>
+                <td>ADP, LLC / Product Management Allocation to NAS</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>Shared Svc Allocation Sep</td>
+                <td>202</td>
+                <td>Product management allocation to NAS</td>
+                <td><b>ALC-NAS-2609P</b></td>
+                <td class="num">5,000.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">5,000.00</td>
+              </tr>
+              <tr data-src="Routine" data-cat="GETS" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>71301</td>
+                <td>7130</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-alloc">GETS</span></td>
+                <td>ADP, LLC / GETS Allocation to NAS</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>Shared Svc Allocation Sep</td>
+                <td>203</td>
+                <td>GETS allocation to NAS</td>
+                <td><b>ALC-NAS-2609G</b></td>
+                <td class="num">4,500.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">4,500.00</td>
+              </tr>
+              <tr data-src="Routine" data-cat="OTH" data-je="Allocation">
+                <td>3 (FY27)</td>
+                <td>30-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>71901</td>
+                <td>7190</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-alloc">OTH</span></td>
+                <td>ADP, LLC / Other Shared Service Allocation to NAS</td>
+                <td>Routine</td>
+                <td>Allocation</td>
+                <td>Shared Svc Allocation Sep</td>
+                <td>204</td>
+                <td>Other shared services allocation to NAS</td>
+                <td><b>ALC-NAS-2609O</b></td>
+                <td class="num">3,500.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">3,500.00</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="BD" data-je="Manual Adjustment">
+                <td>2 (FY27)</td>
+                <td>28-Aug-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>64101</td>
+                <td>6410</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-exp">BD</span></td>
+                <td>ADP, LLC / NAS Bad Debt Expense</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>NAS Bad Debt Reserve Aug</td>
+                <td>9</td>
+                <td>Allowance for doubtful accounts, aged receivables</td>
+                <td><b>RSV-NAS-2608</b></td>
+                <td class="num">1,260.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">1,260.00</td>
+              </tr>
+              <tr data-src="Spreadsheet" data-cat="BD" data-je="Manual Adjustment">
+                <td>3 (FY27)</td>
+                <td>29-Sep-26</td>
+                <td>US01</td>
+                <td>3100</td>
+                <td>0000</td>
+                <td>64101</td>
+                <td>6410</td>
+                <td>EV5</td>
+                <td><span class="tag-cat tag-exp">BD</span></td>
+                <td>ADP, LLC / NAS Bad Debt Expense</td>
+                <td>Spreadsheet</td>
+                <td>Manual Adjustment</td>
+                <td>NAS Bad Debt Reserve Sep</td>
+                <td>11</td>
+                <td>Allowance for doubtful accounts, aged receivables</td>
+                <td><b>RSV-NAS-2609</b></td>
+                <td class="num">3,400.00</td>
+                <td class="num">0.00</td>
+                <td class="num num-neg">3,400.00</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="empty-row" id="glEmpty" hidden style="padding:18px;text-align:center;color:#57606a;">No journal lines match the current line and filters.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div><b style="color:var(--adp)">ADP Project Polaris</b> · NAS Level-3 Oracle GL Transaction Ledger (Dashboard 2) · September Close Review</div>
+  <div>
+    <a href="index.html">Portal Home</a>
+    <a href="cfo_dashboard_3.html">CFO Dashboard 3</a>
+    <a href="nas_dashboard_2.html">NAS Dashboard 2</a>
+    <a href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
+    <a href="NAS_transaction_detail_2.html">NAS Transaction Detail 2</a>
+    <a href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+  </div>
+</footer>
+
+<script>
+  var currentSource = 'all';
+
+  /* Summary-line drill-in: ?line=<id> comes from the NAS REVENUE SUMMARY ($K) table on NAS Revenue Analysis 2.
+     Each line maps to the ledger's GL categories. Derived lines (NOI, margins, per-FTE) have no journal lines and are not linked. */
+  var EXP = ['SVC-EMP', 'SVC-NE', 'IMP-EMP', 'IMP-NE', 'NDE', 'RD', 'PM', 'GETS', 'OTH', 'BD'];
+  var LINES = {
+    rev:      { label: 'Revenue (for reference)', cats: ['REV-PROC', 'REV-IMPL', 'REV-PROJ'] },
+    totexp:   { label: 'Total expenses (EBIT Expense)', cats: EXP },
+    fieldexp: { label: 'Field operating expense', cats: ['SVC-EMP', 'SVC-NE', 'IMP-EMP', 'IMP-NE'] },
+    svc:      { label: 'Service (base) expense*', cats: ['SVC-EMP', 'SVC-NE'] },
+    impl:     { label: 'Implementation expense', cats: ['IMP-EMP', 'IMP-NE'] },
+    emp:      { label: 'Employee-related field expense', cats: ['SVC-EMP', 'IMP-EMP'] },
+    nonemp:   { label: 'Non-employee-related field expense', cats: ['SVC-NE', 'IMP-NE'] },
+    byline:   { label: 'Field expense by expense line', cats: ['SVC-EMP', 'SVC-NE', 'IMP-EMP', 'IMP-NE'] },
+    nde:      { label: 'NDE', cats: ['NDE'] },
+    shared:   { label: 'Total shared service allocations', cats: ['RD', 'PM', 'GETS', 'OTH'] },
+    rd:       { label: 'R&D allocation', cats: ['RD'] },
+    pm:       { label: 'Product management allocation', cats: ['PM'] },
+    gets:     { label: 'GETS allocation', cats: ['GETS'] },
+    othshr:   { label: 'Other shared services*', cats: ['OTH'] },
+    baddebt:  { label: 'Bad debt', cats: ['BD'] }
+  };
+  var lineCats = null;
+  (function initLineContext() {
+    var q = new URLSearchParams(location.search), id = q.get('line');
+    if (!id || !Object.prototype.hasOwnProperty.call(LINES, id)) return;
+    var ln = LINES[id], MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var TV = { month: 'Month', qtd: 'QTD', ytd: 'YTD', roy: 'ROY', fy: 'FY' };
+    var per = q.get('per') || '', tv = q.get('tv') || 'month', pl = '';
+    if (/^\d{4}-(0[1-9]|1[0-2])$/.test(per)) {
+      var y = +per.slice(0, 4), m = +per.slice(5, 7);
+      pl = MN[m - 1] + ' ' + y + ' (FY' + String(m >= 7 ? y + 1 : y).slice(2) + ')';
+    }
+    lineCats = ln.cats;
+    document.getElementById('lcLine').textContent = ln.label;
+    document.getElementById('lcPer').textContent = pl || 'September 2026 (FY27)';
+    document.getElementById('lcTv').textContent = TV[tv] || 'Month';
+    document.getElementById('lcCats').textContent = ln.cats.join(', ');
+    document.getElementById('lcNote').textContent = 'Ledger rows are sample data and are not yet filtered by period.';
+    document.getElementById('tableLineTag').textContent = ' \u00B7 ' + ln.label;
+    document.getElementById('lineCtx').hidden = false;
+  })();
+
+  function fmt(n) { return n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
+
+  function filterTable() {
+    var query = document.getElementById('glSearch').value.toLowerCase().trim();
+    var cat = document.getElementById('catSelect').value;
+    var je = document.getElementById('jeSelect').value;
+    var rows = document.querySelectorAll('#glTable tbody tr');
+
+    var visibleCount = 0;
+    var totalDebit = 0;
+    var totalCredit = 0;
+
+    rows.forEach(function(r) {
+      var rowText = r.textContent.toLowerCase();
+      var rSrc = r.getAttribute('data-src');
+      var rCat = r.getAttribute('data-cat');
+      var rJe = r.getAttribute('data-je');
+
+      var matchQuery = !query || rowText.includes(query);
+      var matchSrc = currentSource === 'all' || rSrc === currentSource;
+      var matchCat = cat === 'all' || rCat === cat;
+      var matchJe = je === 'all' || rJe === je;
+      var matchLine = !lineCats || lineCats.indexOf(rCat) > -1;
+
+      if (matchQuery && matchSrc && matchCat && matchJe && matchLine) {
+        r.style.display = '';
+        visibleCount++;
+        var cells = r.querySelectorAll('td.num');
+        if (cells.length >= 2) {
+          totalDebit += parseFloat(cells[0].textContent.replace(/,/g, '')) || 0;
+          totalCredit += parseFloat(cells[1].textContent.replace(/,/g, '')) || 0;
+        }
+      } else {
+        r.style.display = 'none';
+      }
+    });
+
+    var net = totalDebit - totalCredit;
+    document.getElementById('statCount').textContent = visibleCount + ' Lines';
+    document.getElementById('statDebit').textContent = '$' + fmt(totalDebit);
+    document.getElementById('statCredit').textContent = '$' + fmt(totalCredit);
+    document.getElementById('statNet').textContent = net < 0 ? '($' + fmt(Math.abs(net)) + ')' : '$' + fmt(net);
+    document.getElementById('tableMatchLabel').textContent = 'Showing ' + visibleCount + ' of ' + rows.length + ' journal records \u00B7 sample data, whole dollars';
+    document.getElementById('glEmpty').hidden = visibleCount > 0;
+  }
+
+  if (lineCats) filterTable();
+
+  function exportCSV() {
+    var rows = document.querySelectorAll('#glTable tr');
+    var csv = [];
+    rows.forEach(function(r) {
+      if (r.style.display !== 'none') {
+        var rowData = [];
+        r.querySelectorAll('th, td').forEach(function(c) {
+          var t = c.textContent.trim().replace(/"/g, '""');
+          rowData.push('"' + t + '"');
+        });
+        csv.push(rowData.join(','));
+      }
+    });
+    var blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'NAS_Oracle_GL_Transactions_September_Close.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+</script>
+<script src="polaris_header.js"></script>
+</body>
+</html>

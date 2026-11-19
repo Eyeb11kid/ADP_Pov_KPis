@@ -6,6 +6,7 @@
 <title>NAS Revenue Analysis 2 — National Account Services — ADP Project Polaris</title>
 <link rel="stylesheet" href="revenue_analysis_2.css">
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="variance.css">
 </head>
 <body class="bu-nas" data-pf-page="P04" data-pf-bu="NAS">
 
@@ -17,8 +18,8 @@
   </div>
   <div class="chrome-r">
     <span>Cycle: <b>September Close (FY27 Q1)</b></span>
-    <span>FP&amp;A Lead: <b>Marcus Vance (BU CFO NAS)</b></span>
-    <div class="avatar" title="NAS Business Unit Lead">MV</div>
+    <span>Data: <b class="ok">Hyperion NAS Verified</b></span>
+    <div class="avatar" title="NAS Revenue Organization">NAS</div>
   </div>
 </header>
 
@@ -33,27 +34,28 @@
     <div class="sb-section">BU Executive Cockpit</div>
     <details class="sb-acc has-active" name="sb-acc" open>
       <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
-      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit 2</a>
-      <a class="sb-link sub active" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
-      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L 2</a>
-      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+      <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit</a>
+      <a class="sb-link sub active" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
+      <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
+      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L</a>
+      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
 
     <div class="sb-divider"></div>
     <details class="sb-acc" name="sb-acc">
       <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
       <a class="sb-link sub" href="rs_dashboard_3.html">RS Executive Cockpit</a>
-      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
-      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
-      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
+      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
+      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
+      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
     </details>
 
     <div class="sb-divider"></div>
     <div class="sb-section">Corporate Executive</div>
     <details class="sb-acc" name="sb-acc">
       <summary><a href="cfo_dashboard_3.html">Corporate CFO (EPM)</a></summary>
-      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard 2</a>
-      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard 3 (EPM)</a>
+      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard</a>
+      <a class="sb-link sub" href="cfo_dashboard_3.html">CFO Dashboard (EPM)</a>
     </details>
 
     <div class="sb-divider"></div>
@@ -79,8 +81,8 @@
     <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
     <div class="ctx" id="pf-context"></div>
 
-    <!-- Headline 5-KPI Strip -->
-    <div class="headline-kpi-bar">
+    <!-- Headline 5-KPI Strip (hidden, same as revenue_analysis_RS_2.html; remove the comment markers to show again) -->
+    <!-- <div class="headline-kpi-bar">
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
           <span>Revenue Headline Performance · September Close</span>
@@ -90,7 +92,7 @@
 
       <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
 
-        <!-- 1. Total Revenue -->
+        [1. Total Revenue]
         <div class="kpi nd" id="hkpi-totrev" data-tip="<b>Total Revenue (Lyric Cons)</b><br>Actual: $120,000.0K vs Plan $116,000.0K (+$4,000.0K / +3.4%)<br>YTD: $350,000.0K (+$8,000.0K / +2.3% vs plan)<br>YoY Growth: +5.3%">
           <div class="kpi-val"><span class="m-pva">$120.0M</span><span class="m-plan">$116.0M</span></div>
           <div class="kpi-label">Total Revenue</div>
@@ -102,7 +104,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.8%</b></div>
         </div>
 
-        <!-- 2. Processing Revenue -->
+        [2. Processing Revenue]
         <div class="kpi nd" id="hkpi-procrev" data-tip="<b>Processing Revenue (Direct &amp; Recurring)</b><br>Actual: $104,000.0K vs Plan $101,000.0K (+$3,000.0K / +3.0%)<br>Core Trad: $70.0M · Lyric Direct: $34.0M">
           <div class="kpi-val"><span class="m-pva">$104.0M</span><span class="m-plan">$101.0M</span></div>
           <div class="kpi-label">Processing Revenue</div>
@@ -114,7 +116,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.9%</b></div>
         </div>
 
-        <!-- 3. Non-Processing Revenue -->
+        [3. Non-Processing Revenue]
         <div class="kpi nd" id="hkpi-nonprocrev" data-tip="<b>Non-Processing Revenue</b><br>Actual: $16,000.0K vs Plan $15,000.0K (+$1,000.0K / +6.7%)<br>Project services, setup, W2s, ERC &amp; supply">
           <div class="kpi-val"><span class="m-pva">$16.0M</span><span class="m-plan">$15.0M</span></div>
           <div class="kpi-label">Non-Processing Revenue</div>
@@ -126,7 +128,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.1%</b></div>
         </div>
 
-        <!-- 4. Lyric NPI Revenue -->
+        [4. Lyric NPI Revenue]
         <div class="kpi nd" id="hkpi-lyricrev" data-tip="<b>Next-Gen Lyric Platform Revenue</b><br>Actual: $24,000.0K (Base $18.0M + Impl $6.0M)<br>36 Live Go-Lives in Month">
           <div class="kpi-val"><span class="m-pva">$24.0M</span><span class="m-plan">$24.0M</span></div>
           <div class="kpi-label">Lyric Platform Revenue</div>
@@ -139,7 +141,7 @@
           <a class="kpi-drill" href="NAS_npi_2.html">NPI P&amp;L Drill ↗</a>
         </div>
 
-        <!-- 5. Net New Business -->
+        [5. Net New Business]
         <div class="kpi nd" id="hkpi-nnb" data-tip="<b>Net New Business (NNB)</b><br>Actual: +$5,400.0K vs Plan +$4,600.0K (+$800.0K beat)<br>Starts: $15.2M · Losses: $9.8M · Retention: 92.4%">
           <div class="kpi-val"><span class="m-pva">+$5.4M</span><span class="m-plan">+$4.6M</span></div>
           <div class="kpi-label">Net New Business</div>
@@ -152,80 +154,63 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
     <!-- MAIN TWO-COLUMN LAYOUT -->
     <div id="cockpit-container">
       <div class="epm-layout-grid">
 
-        <!-- LEFT COLUMN: Revenue Structure & Sources of Revenue Bridge -->
+        <!-- LEFT COLUMN: Revenue Summary -->
         <div class="left-col">
 
           <!-- Section 1: Revenue Summary -->
           <div class="epm-box" id="sec-summary">
             <div class="epm-box-hdr">
-              <span>REVENUE SUMMARY ($K)</span>
+              <span>REVENUE SUMMARY ($K) <span class="draft-tag">SAMPLE DATA</span></span>
               <div class="tools"><span>September Close</span></div>
             </div>
+<div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
             <div class="table-wrap">
-              <table class="epm-table">
+              <table class="epm-table rev-periods c1 c2 c3 c4 c5" id="rev-summary-table">
                 <thead>
                   <tr>
-                    <th>Line Item</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>Var %</th>
-                    <th>% Mix</th>
+                    <th rowspan="2">Line</th>
+                    <th colspan="1" class="grp" data-grp="1" data-cols="7"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
+                    <th colspan="1" class="grp" data-grp="2" data-cols="4"><button type="button" class="grp-tg" title="Quarter to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>QTD</button></th>
+                    <th colspan="1" class="grp" data-grp="3" data-cols="5"><button type="button" class="grp-tg" title="Year to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>YTD</button></th>
+                    <th colspan="1" class="grp" data-grp="4" data-cols="6"><button type="button" class="grp-tg" title="Rest of year (FY less YTD)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>ROY</button></th>
+                    <th colspan="1" class="grp" data-grp="5" data-cols="4"><button type="button" class="grp-tg" title="Full year (latest forecast vs plan)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>FY</button></th>
+                  </tr>
+                  <tr>
+                    <th class="g1 gk">Actual</th><th class="g1">Plan</th><th class="g1">Var $</th><th class="g1">Var %</th><th class="g1">Fcst</th><th class="g1">Var $</th><th class="g1">Var %</th>
+                    <th class="g2 gk">Actual</th><th class="g2">Plan</th><th class="g2">Var $</th><th class="g2">Var %</th>
+                    <th class="g3 gk">Actual</th><th class="g3">Plan</th><th class="g3">Var $</th><th class="g3">Var %</th><th class="g3">% of FY plan achieved</th>
+                    <th class="g4 gk">Fcst</th><th class="g4">Plan</th><th class="g4">Var $</th><th class="g4">Var %</th><th class="g4">Still to deliver (FY plan - YTD)</th><th class="g4">Growth needed vs YTD run-rate</th>
+                    <th class="g5 gk">Fcst</th><th class="g5">Plan</th><th class="g5">Var $</th><th class="g5">Var %</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="summary-row top"><td>Total revenue</td><td>120,000.0</td><td>116,000.0</td><td class="fav">+4,000.0</td><td class="fav">+3.4%</td><td>100.0%</td></tr>
-
-                  <tr class="group-hdr"><td colspan="6">Processing Revenue</td></tr>
-                  <tr><td class="indent">Core Processing (Traditional Onshore)</td><td>70,000.0</td><td>68,000.0</td><td class="fav">+2,000.0</td><td class="fav">+2.9%</td><td>58.3%</td></tr>
-                  <tr><td class="indent">Lyric Direct Enterprise Processing</td><td>28,500.0</td><td>27,500.0</td><td class="fav">+1,000.0</td><td class="fav">+3.6%</td><td>23.8%</td></tr>
-                  <tr><td class="indent">Partner / Advisor Processing</td><td>5,500.0</td><td>5,500.0</td><td>0.0</td><td>0.0%</td><td>4.6%</td></tr>
-                  <tr class="summary-row"><td class="indent">Total Processing revenue</td><td>104,000.0</td><td>101,000.0</td><td class="fav">+3,000.0</td><td class="fav">+3.0%</td><td>86.7%</td></tr>
-
-                  <tr class="group-hdr"><td colspan="6">Non-Processing Revenue</td></tr>
-                  <tr><td class="indent">Project services (Consulting &amp; Customization)</td><td>6,200.0</td><td>5,800.0</td><td class="fav">+400.0</td><td class="fav">+6.9%</td><td>5.2%</td></tr>
-                  <tr><td class="indent">Implementation Setup Revenue</td><td>3,400.0</td><td>3,200.0</td><td class="fav">+200.0</td><td class="fav">+6.3%</td><td>2.8%</td></tr>
-                  <tr><td class="indent">W-2 Year-End Processing &amp; Tax Revenue</td><td>2,800.0</td><td>2,650.0</td><td class="fav">+150.0</td><td class="fav">+5.7%</td><td>2.3%</td></tr>
-                  <tr><td class="indent">Employee Retention Credits (ERC) Consulting</td><td>1,600.0</td><td>1,500.0</td><td class="fav">+100.0</td><td class="fav">+6.7%</td><td>1.3%</td></tr>
-                  <tr><td class="indent">Software Maintenance &amp; License Fees</td><td>1,200.0</td><td>1,150.0</td><td class="fav">+50.0</td><td class="fav">+4.3%</td><td>1.0%</td></tr>
-                  <tr><td class="indent">Supplies, Forms &amp; Other Revenue</td><td>800.0</td><td>700.0</td><td class="fav">+100.0</td><td class="fav">+14.3%</td><td>0.7%</td></tr>
-                  <tr class="summary-row"><td class="indent">Total Non-processing revenue</td><td>16,000.0</td><td>15,000.0</td><td class="fav">+1,000.0</td><td class="fav">+6.7%</td><td>13.3%</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section 2: Sources of Revenue (SOR) Bridge -->
-          <div class="epm-box" id="sec-sor">
-            <div class="epm-box-hdr light">
-              <span>SOURCES OF REVENUE (SOR) BRIDGE</span>
-              <div class="tools"><span>YoY Processing Revenue Bridge ($K)</span></div>
-            </div>
-            <div class="table-wrap">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Bridge Component</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th class="txt">Description / Drivers</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row top"><td>Prior year processing revenue baseline</td><td>98,750.0</td><td>98,750.0</td><td>0.0</td><td class="txt">FY26 Base</td></tr>
-                  <tr><td class="indent">Starts revenue impact (New Go-Lives)</td><td>15,200.0</td><td>14,600.0</td><td class="fav">+600.0</td><td class="txt">+15.4% expansion</td></tr>
-                  <tr><td class="indent">Losses revenue impact (Client Churn)</td><td>(9,800.0)</td><td>(10,000.0)</td><td class="fav">+200.0</td><td class="txt">−9.9% attrition</td></tr>
-                  <tr><td class="indent">Price increases realized</td><td>1,200.0</td><td>1,000.0</td><td class="fav">+200.0</td><td class="txt">+1.2% realization</td></tr>
-                  <tr><td class="indent">Concessions &amp; Discounts</td><td>(350.0)</td><td>(400.0)</td><td class="fav">+50.0</td><td class="txt">Discretionary relief</td></tr>
-                  <tr><td class="indent">Unit Base Volume (UBV / Same-Store)</td><td>(1,000.0)</td><td>(2,950.0)</td><td class="fav">+1,950.0</td><td class="txt">Client EE count shifts</td></tr>
-                  <tr class="summary-row result"><td>Current year processing revenue</td><td>104,000.0</td><td>101,000.0</td><td class="fav">+3,000.0</td><td class="txt">+5.3% YoY Growth</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="rev"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=rev" data-pf-line="Revenue (for reference)" title="Open GL transaction detail for Revenue (for reference)">Revenue (for reference)</a></td><td class="g1 gk">120,000.0</td><td class="g1">116,000.0</td><td class="g1 fav">+4,000.0</td><td class="g1 fav">+3.4%</td><td class="g1">118,000.0</td><td class="g1 fav">+2,000.0</td><td class="g1 fav">+1.7%</td><td class="g2 gk">355,200.0</td><td class="g2">348,000.0</td><td class="g2 fav">+7,200.0</td><td class="g2 fav">+2.1%</td><td class="g3 gk">355,200.0</td><td class="g3">348,000.0</td><td class="g3 fav">+7,200.0</td><td class="g3 fav">+2.1%</td><td class="g3">25.5%</td><td class="g4 gk">1,062,000.0</td><td class="g4">1,044,000.0</td><td class="g4 fav">+18,000.0</td><td class="g4 fav">+1.7%</td><td class="g4">1,036,800.0</td><td class="g4">(2.7%)</td><td class="g5 gk">1,417,200.0</td><td class="g5">1,392,000.0</td><td class="g5 fav">+25,200.0</td><td class="g5 fav">+1.8%</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="totexp"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=totexp" data-pf-line="Total expenses (EBIT Expense)" title="Open GL transaction detail for Total expenses (EBIT Expense)">Total expenses (EBIT Expense)</a></td><td class="g1 gk">92,000.0</td><td class="g1">91,500.0</td><td class="g1 unf">(500.0)</td><td class="g1 unf">−0.5%</td><td class="g1">91,900.0</td><td class="g1 unf">(100.0)</td><td class="g1 unf">−0.1%</td><td class="g2 gk">272,320.0</td><td class="g2">274,500.0</td><td class="g2 fav">+2,180.0</td><td class="g2 fav">+0.8%</td><td class="g3 gk">272,320.0</td><td class="g3">274,500.0</td><td class="g3 fav">+2,180.0</td><td class="g3 fav">+0.8%</td><td class="g3">24.8%</td><td class="g4 gk">827,100.0</td><td class="g4">823,500.0</td><td class="g4 unf">(3,600.0)</td><td class="g4 unf">−0.4%</td><td class="g4">825,680.0</td><td class="g4">+1.1%</td><td class="g5 gk">1,099,420.0</td><td class="g5">1,098,000.0</td><td class="g5 unf">(1,420.0)</td><td class="g5 unf">−0.1%</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="fieldexp"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=fieldexp" data-pf-line="Field operating expense" title="Open GL transaction detail for Field operating expense">Field operating expense</a></td><td class="g1 gk">62,000.0</td><td class="g1">60,500.0</td><td class="g1 unf">(1,500.0)</td><td class="g1 unf">−2.5%</td><td class="g1">61,400.0</td><td class="g1 unf">(600.0)</td><td class="g1 unf">−1.0%</td><td class="g2 gk">183,520.0</td><td class="g2">181,500.0</td><td class="g2 unf">(2,020.0)</td><td class="g2 unf">−1.1%</td><td class="g3 gk">183,520.0</td><td class="g3">181,500.0</td><td class="g3 unf">(2,020.0)</td><td class="g3 unf">−1.1%</td><td class="g3">25.3%</td><td class="g4 gk">552,600.0</td><td class="g4">544,500.0</td><td class="g4 unf">(8,100.0)</td><td class="g4 unf">−1.5%</td><td class="g4">542,480.0</td><td class="g4">(1.5%)</td><td class="g5 gk">736,120.0</td><td class="g5">726,000.0</td><td class="g5 unf">(10,120.0)</td><td class="g5 unf">−1.4%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="svc" data-parent="fieldexp"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=svc" data-pf-line="Service (base) expense*" title="Open GL transaction detail for Service (base) expense*">Service (base) expense*</a></td><td class="g1 gk">48,000.0</td><td class="g1">46,800.0</td><td class="g1 unf">(1,200.0)</td><td class="g1 unf">−2.6%</td><td class="g1">47,500.0</td><td class="g1 unf">(500.0)</td><td class="g1 unf">−1.1%</td><td class="g2 gk">142,080.0</td><td class="g2">140,400.0</td><td class="g2 unf">(1,680.0)</td><td class="g2 unf">−1.2%</td><td class="g3 gk">142,080.0</td><td class="g3">140,400.0</td><td class="g3 unf">(1,680.0)</td><td class="g3 unf">−1.2%</td><td class="g3">25.3%</td><td class="g4 gk">427,500.0</td><td class="g4">421,200.0</td><td class="g4 unf">(6,300.0)</td><td class="g4 unf">−1.5%</td><td class="g4">419,520.0</td><td class="g4">(1.6%)</td><td class="g5 gk">569,580.0</td><td class="g5">561,600.0</td><td class="g5 unf">(7,980.0)</td><td class="g5 unf">−1.4%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="impl" data-parent="fieldexp"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=impl" data-pf-line="Implementation expense" title="Open GL transaction detail for Implementation expense">Implementation expense</a></td><td class="g1 gk">14,000.0</td><td class="g1">13,700.0</td><td class="g1 unf">(300.0)</td><td class="g1 unf">−2.2%</td><td class="g1">13,900.0</td><td class="g1 unf">(100.0)</td><td class="g1 unf">−0.7%</td><td class="g2 gk">41,440.0</td><td class="g2">41,100.0</td><td class="g2 unf">(340.0)</td><td class="g2 unf">−0.8%</td><td class="g3 gk">41,440.0</td><td class="g3">41,100.0</td><td class="g3 unf">(340.0)</td><td class="g3 unf">−0.8%</td><td class="g3">25.2%</td><td class="g4 gk">125,100.0</td><td class="g4">123,300.0</td><td class="g4 unf">(1,800.0)</td><td class="g4 unf">−1.5%</td><td class="g4">122,960.0</td><td class="g4">(1.1%)</td><td class="g5 gk">166,540.0</td><td class="g5">164,400.0</td><td class="g5 unf">(2,140.0)</td><td class="g5 unf">−1.3%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="emp" data-parent="fieldexp"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=emp" data-pf-line="Employee-related field expense" title="Open GL transaction detail for Employee-related field expense">Employee-related field expense (total, base, implementation)</a></td><td class="g1 gk">41,000.0</td><td class="g1">40,000.0</td><td class="g1 unf">(1,000.0)</td><td class="g1 unf">−2.5%</td><td class="g1">40,600.0</td><td class="g1 unf">(400.0)</td><td class="g1 unf">−1.0%</td><td class="g2 gk">121,360.0</td><td class="g2">120,000.0</td><td class="g2 unf">(1,360.0)</td><td class="g2 unf">−1.1%</td><td class="g3 gk">121,360.0</td><td class="g3">120,000.0</td><td class="g3 unf">(1,360.0)</td><td class="g3 unf">−1.1%</td><td class="g3">25.3%</td><td class="g4 gk">365,400.0</td><td class="g4">360,000.0</td><td class="g4 unf">(5,400.0)</td><td class="g4 unf">−1.5%</td><td class="g4">358,640.0</td><td class="g4">(1.5%)</td><td class="g5 gk">486,760.0</td><td class="g5">480,000.0</td><td class="g5 unf">(6,760.0)</td><td class="g5 unf">−1.4%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="nonemp" data-parent="fieldexp"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=nonemp" data-pf-line="Non-employee-related field expense" title="Open GL transaction detail for Non-employee-related field expense">Non-employee-related field expense (total, base, implementation)</a></td><td class="g1 gk">21,000.0</td><td class="g1">20,500.0</td><td class="g1 unf">(500.0)</td><td class="g1 unf">−2.4%</td><td class="g1">20,800.0</td><td class="g1 unf">(200.0)</td><td class="g1 unf">−1.0%</td><td class="g2 gk">62,160.0</td><td class="g2">61,500.0</td><td class="g2 unf">(660.0)</td><td class="g2 unf">−1.1%</td><td class="g3 gk">62,160.0</td><td class="g3">61,500.0</td><td class="g3 unf">(660.0)</td><td class="g3 unf">−1.1%</td><td class="g3">25.3%</td><td class="g4 gk">187,200.0</td><td class="g4">184,500.0</td><td class="g4 unf">(2,700.0)</td><td class="g4 unf">−1.5%</td><td class="g4">183,840.0</td><td class="g4">(1.4%)</td><td class="g5 gk">249,360.0</td><td class="g5">246,000.0</td><td class="g5 unf">(3,360.0)</td><td class="g5 unf">−1.4%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="byline" data-parent="fieldexp"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=byline" data-pf-line="Field expense by expense line" title="Open GL transaction detail for Field expense by expense line">By expense line: employee related and non-employee related, each with its accounts</a></td><td class="g1 gk">62,000.0</td><td class="g1">60,500.0</td><td class="g1 unf">(1,500.0)</td><td class="g1 unf">−2.5%</td><td class="g1">61,400.0</td><td class="g1 unf">(600.0)</td><td class="g1 unf">−1.0%</td><td class="g2 gk">183,520.0</td><td class="g2">181,500.0</td><td class="g2 unf">(2,020.0)</td><td class="g2 unf">−1.1%</td><td class="g3 gk">183,520.0</td><td class="g3">181,500.0</td><td class="g3 unf">(2,020.0)</td><td class="g3 unf">−1.1%</td><td class="g3">25.3%</td><td class="g4 gk">552,600.0</td><td class="g4">544,500.0</td><td class="g4 unf">(8,100.0)</td><td class="g4 unf">−1.5%</td><td class="g4">542,480.0</td><td class="g4">(1.5%)</td><td class="g5 gk">736,120.0</td><td class="g5">726,000.0</td><td class="g5 unf">(10,120.0)</td><td class="g5 unf">−1.4%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="fnoi"><td class="hx-c0">Field operating NOI*</td><td class="g1 gk">58,000.0</td><td class="g1">55,500.0</td><td class="g1 fav">+2,500.0</td><td class="g1 fav">+4.5%</td><td class="g1">56,600.0</td><td class="g1 fav">+1,400.0</td><td class="g1 fav">+2.5%</td><td class="g2 gk">171,680.0</td><td class="g2">166,500.0</td><td class="g2 fav">+5,180.0</td><td class="g2 fav">+3.1%</td><td class="g3 gk">171,680.0</td><td class="g3">166,500.0</td><td class="g3 fav">+5,180.0</td><td class="g3 fav">+3.1%</td><td class="g3">25.8%</td><td class="g4 gk">509,400.0</td><td class="g4">499,500.0</td><td class="g4 fav">+9,900.0</td><td class="g4 fav">+2.0%</td><td class="g4">494,320.0</td><td class="g4">(4.0%)</td><td class="g5 gk">681,080.0</td><td class="g5">666,000.0</td><td class="g5 fav">+15,080.0</td><td class="g5 fav">+2.3%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="fmargin"><td class="hx-c0">Field margin %*</td><td class="g1 gk">48.3%</td><td class="g1">47.8%</td><td class="g1 fav">+49 bps</td><td class="g1">-</td><td class="g1">48.0%</td><td class="g1 fav">+37 bps</td><td class="g1">-</td><td class="g2 gk">48.2%</td><td class="g2">47.8%</td><td class="g2 fav">+36 bps</td><td class="g2">-</td><td class="g3 gk">48.2%</td><td class="g3">47.8%</td><td class="g3 fav">+36 bps</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">48.0%</td><td class="g4">47.8%</td><td class="g4 fav">+12 bps</td><td class="g4">-</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">48.0%</td><td class="g5">47.8%</td><td class="g5 fav">+12 bps</td><td class="g5">-</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="nde"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=nde" data-pf-line="NDE" title="Open GL transaction detail for NDE">NDE</a></td><td class="g1 gk">8,000.0</td><td class="g1">7,800.0</td><td class="g1 unf">(200.0)</td><td class="g1 unf">−2.6%</td><td class="g1">7,900.0</td><td class="g1 unf">(100.0)</td><td class="g1 unf">−1.3%</td><td class="g2 gk">23,680.0</td><td class="g2">23,400.0</td><td class="g2 unf">(280.0)</td><td class="g2 unf">−1.2%</td><td class="g3 gk">23,680.0</td><td class="g3">23,400.0</td><td class="g3 unf">(280.0)</td><td class="g3 unf">−1.2%</td><td class="g3">25.3%</td><td class="g4 gk">71,100.0</td><td class="g4">70,200.0</td><td class="g4 unf">(900.0)</td><td class="g4 unf">−1.3%</td><td class="g4">69,920.0</td><td class="g4">(1.6%)</td><td class="g5 gk">94,780.0</td><td class="g5">93,600.0</td><td class="g5 unf">(1,180.0)</td><td class="g5 unf">−1.3%</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="shared"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=shared" data-pf-line="Total shared service allocations" title="Open GL transaction detail for Total shared service allocations">Total shared service allocations (excludes NDE, as in NAS's POV view; OQ-05)</a></td><td class="g1 gk">22,000.0</td><td class="g1">23,200.0</td><td class="g1 fav">+1,200.0</td><td class="g1 fav">+5.2%</td><td class="g1">22,600.0</td><td class="g1 fav">+600.0</td><td class="g1 fav">+2.7%</td><td class="g2 gk">65,120.0</td><td class="g2">69,600.0</td><td class="g2 fav">+4,480.0</td><td class="g2 fav">+6.4%</td><td class="g3 gk">65,120.0</td><td class="g3">69,600.0</td><td class="g3 fav">+4,480.0</td><td class="g3 fav">+6.4%</td><td class="g3">23.4%</td><td class="g4 gk">203,400.0</td><td class="g4">208,800.0</td><td class="g4 fav">+5,400.0</td><td class="g4 fav">+2.6%</td><td class="g4">213,280.0</td><td class="g4">+9.2%</td><td class="g5 gk">268,520.0</td><td class="g5">278,400.0</td><td class="g5 fav">+9,880.0</td><td class="g5 fav">+3.5%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="rd" data-parent="shared"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=rd" data-pf-line="R&D allocation" title="Open GL transaction detail for R&D allocation">R&amp;D allocation</a></td><td class="g1 gk">9,000.0</td><td class="g1">9,600.0</td><td class="g1 fav">+600.0</td><td class="g1 fav">+6.2%</td><td class="g1">9,300.0</td><td class="g1 fav">+300.0</td><td class="g1 fav">+3.2%</td><td class="g2 gk">26,640.0</td><td class="g2">28,800.0</td><td class="g2 fav">+2,160.0</td><td class="g2 fav">+7.5%</td><td class="g3 gk">26,640.0</td><td class="g3">28,800.0</td><td class="g3 fav">+2,160.0</td><td class="g3 fav">+7.5%</td><td class="g3">23.1%</td><td class="g4 gk">83,700.0</td><td class="g4">86,400.0</td><td class="g4 fav">+2,700.0</td><td class="g4 fav">+3.1%</td><td class="g4">88,560.0</td><td class="g4">+10.8%</td><td class="g5 gk">110,340.0</td><td class="g5">115,200.0</td><td class="g5 fav">+4,860.0</td><td class="g5 fav">+4.2%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="pm" data-parent="shared"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=pm" data-pf-line="Product management allocation" title="Open GL transaction detail for Product management allocation">Product management allocation</a></td><td class="g1 gk">5,000.0</td><td class="g1">5,300.0</td><td class="g1 fav">+300.0</td><td class="g1 fav">+5.7%</td><td class="g1">5,150.0</td><td class="g1 fav">+150.0</td><td class="g1 fav">+2.9%</td><td class="g2 gk">14,800.0</td><td class="g2">15,900.0</td><td class="g2 fav">+1,100.0</td><td class="g2 fav">+6.9%</td><td class="g3 gk">14,800.0</td><td class="g3">15,900.0</td><td class="g3 fav">+1,100.0</td><td class="g3 fav">+6.9%</td><td class="g3">23.3%</td><td class="g4 gk">46,350.0</td><td class="g4">47,700.0</td><td class="g4 fav">+1,350.0</td><td class="g4 fav">+2.8%</td><td class="g4">48,800.0</td><td class="g4">+9.9%</td><td class="g5 gk">61,150.0</td><td class="g5">63,600.0</td><td class="g5 fav">+2,450.0</td><td class="g5 fav">+3.9%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="gets" data-parent="shared"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=gets" data-pf-line="GETS allocation" title="Open GL transaction detail for GETS allocation">GETS allocation</a></td><td class="g1 gk">4,500.0</td><td class="g1">4,700.0</td><td class="g1 fav">+200.0</td><td class="g1 fav">+4.3%</td><td class="g1">4,600.0</td><td class="g1 fav">+100.0</td><td class="g1 fav">+2.2%</td><td class="g2 gk">13,320.0</td><td class="g2">14,100.0</td><td class="g2 fav">+780.0</td><td class="g2 fav">+5.5%</td><td class="g3 gk">13,320.0</td><td class="g3">14,100.0</td><td class="g3 fav">+780.0</td><td class="g3 fav">+5.5%</td><td class="g3">23.6%</td><td class="g4 gk">41,400.0</td><td class="g4">42,300.0</td><td class="g4 fav">+900.0</td><td class="g4 fav">+2.1%</td><td class="g4">43,080.0</td><td class="g4">+7.8%</td><td class="g5 gk">54,720.0</td><td class="g5">56,400.0</td><td class="g5 fav">+1,680.0</td><td class="g5 fav">+3.0%</td></tr>
+                  <tr class="row-link hx-row hx-L1" data-id="othshr" data-parent="shared"><td class="hx-c1"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=othshr" data-pf-line="Other shared services*" title="Open GL transaction detail for Other shared services*">Other shared services*</a></td><td class="g1 gk">3,500.0</td><td class="g1">3,600.0</td><td class="g1 fav">+100.0</td><td class="g1 fav">+2.8%</td><td class="g1">3,550.0</td><td class="g1 fav">+50.0</td><td class="g1 fav">+1.4%</td><td class="g2 gk">10,360.0</td><td class="g2">10,800.0</td><td class="g2 fav">+440.0</td><td class="g2 fav">+4.1%</td><td class="g3 gk">10,360.0</td><td class="g3">10,800.0</td><td class="g3 fav">+440.0</td><td class="g3 fav">+4.1%</td><td class="g3">24.0%</td><td class="g4 gk">31,950.0</td><td class="g4">32,400.0</td><td class="g4 fav">+450.0</td><td class="g4 fav">+1.4%</td><td class="g4">32,840.0</td><td class="g4">+5.7%</td><td class="g5 gk">42,310.0</td><td class="g5">43,200.0</td><td class="g5 fav">+890.0</td><td class="g5 fav">+2.1%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="noi"><td class="hx-c0">NOI (EBIT)</td><td class="g1 gk">28,000.0</td><td class="g1">24,500.0</td><td class="g1 fav">+3,500.0</td><td class="g1 fav">+14.3%</td><td class="g1">26,100.0</td><td class="g1 fav">+1,900.0</td><td class="g1 fav">+7.3%</td><td class="g2 gk">82,880.0</td><td class="g2">73,500.0</td><td class="g2 fav">+9,380.0</td><td class="g2 fav">+12.8%</td><td class="g3 gk">82,880.0</td><td class="g3">73,500.0</td><td class="g3 fav">+9,380.0</td><td class="g3 fav">+12.8%</td><td class="g3">28.2%</td><td class="g4 gk">234,900.0</td><td class="g4">220,500.0</td><td class="g4 fav">+14,400.0</td><td class="g4 fav">+6.5%</td><td class="g4">211,120.0</td><td class="g4">(15.1%)</td><td class="g5 gk">317,780.0</td><td class="g5">294,000.0</td><td class="g5 fav">+23,780.0</td><td class="g5 fav">+8.1%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="noim"><td class="hx-c0">NOI margin %</td><td class="g1 gk">23.3%</td><td class="g1">21.1%</td><td class="g1 fav">+221 bps</td><td class="g1">-</td><td class="g1">22.1%</td><td class="g1 fav">+121 bps</td><td class="g1">-</td><td class="g2 gk">23.1%</td><td class="g2">21.1%</td><td class="g2 fav">+198 bps</td><td class="g2">-</td><td class="g3 gk">23.1%</td><td class="g3">21.1%</td><td class="g3 fav">+198 bps</td><td class="g3">-</td><td class="g3">-</td><td class="g4 gk">22.1%</td><td class="g4">21.1%</td><td class="g4 fav">+100 bps</td><td class="g4">-</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">22.1%</td><td class="g5">21.1%</td><td class="g5 fav">+100 bps</td><td class="g5">-</td></tr>
+                  <tr class="hx-row hx-L0" data-id="noixsm"><td class="hx-c0">NOI excluding sales and marketing ($ and %)</td><td class="g1 gk">34,500.0</td><td class="g1">30,600.0</td><td class="g1 fav">+3,900.0</td><td class="g1 fav">+12.7%</td><td class="g1">32,300.0</td><td class="g1 fav">+2,200.0</td><td class="g1 fav">+6.8%</td><td class="g2 gk">102,120.0</td><td class="g2">91,800.0</td><td class="g2 fav">+10,320.0</td><td class="g2 fav">+11.2%</td><td class="g3 gk">102,120.0</td><td class="g3">91,800.0</td><td class="g3 fav">+10,320.0</td><td class="g3 fav">+11.2%</td><td class="g3">27.8%</td><td class="g4 gk">290,700.0</td><td class="g4">275,400.0</td><td class="g4 fav">+15,300.0</td><td class="g4 fav">+5.6%</td><td class="g4">265,080.0</td><td class="g4">(13.5%)</td><td class="g5 gk">392,820.0</td><td class="g5">367,200.0</td><td class="g5 fav">+25,620.0</td><td class="g5 fav">+7.0%</td></tr>
+                  <tr class="row-link hx-row hx-L0" data-id="baddebt"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=baddebt" data-pf-line="Bad debt" title="Open GL transaction detail for Bad debt">Bad debt</a></td><td class="g1 gk">420.0</td><td class="g1">450.0</td><td class="g1 fav">+30.0</td><td class="g1 fav">+6.7%</td><td class="g1">435.0</td><td class="g1 fav">+15.0</td><td class="g1 fav">+3.4%</td><td class="g2 gk">1,243.2</td><td class="g2">1,350.0</td><td class="g2 fav">+106.8</td><td class="g2 fav">+7.9%</td><td class="g3 gk">1,243.2</td><td class="g3">1,350.0</td><td class="g3 fav">+106.8</td><td class="g3 fav">+7.9%</td><td class="g3">23.0%</td><td class="g4 gk">3,915.0</td><td class="g4">4,050.0</td><td class="g4 fav">+135.0</td><td class="g4 fav">+3.3%</td><td class="g4">4,156.8</td><td class="g4">+11.5%</td><td class="g5 gk">5,158.2</td><td class="g5">5,400.0</td><td class="g5 fav">+241.8</td><td class="g5 fav">+4.5%</td></tr>
+                  <tr class="hx-row hx-L0" data-id="cpf"><td class="hx-c0">Cost per FTE: base and implementation*</td><td class="g1 gk">$98.4K</td><td class="g1">$99.1K</td><td class="g1 fav">+$0.7K</td><td class="g1 fav">+0.7%</td><td class="g1">$98.8K</td><td class="g1 fav">+$0.4K</td><td class="g1 fav">+0.4%</td><td class="g2 gk">$98.6K</td><td class="g2">$99.1K</td><td class="g2 fav">+$0.5K</td><td class="g2 fav">+0.5%</td><td class="g3 gk">$98.6K</td><td class="g3">$99.1K</td><td class="g3 fav">+$0.5K</td><td class="g3 fav">+0.5%</td><td class="g3">-</td><td class="g4 gk">$98.8K</td><td class="g4">$99.1K</td><td class="g4 fav">+$0.3K</td><td class="g4 fav">+0.3%</td><td class="g4">-</td><td class="g4">-</td><td class="g5 gk">$98.8K</td><td class="g5">$99.1K</td><td class="g5 fav">+$0.3K</td><td class="g5 fav">+0.3%</td></tr>
                 </tbody>
               </table>
             </div>
@@ -233,156 +218,45 @@
 
         </div>
 
-        <!-- RIGHT COLUMN: Tabbed Detailed Views -->
+        <!-- RIGHT COLUMN: NAS Sales Channel table -->
         <div class="right-col">
 
-          <div class="epm-box">
-            <!-- Right Tab Strip -->
-            <div class="right-tabstrip" role="tablist">
-              <button type="button" class="right-tab active" data-pane="tab-product">Processing by Product</button>
-              <button type="button" class="right-tab" data-pane="tab-sor">SOR Detail</button>
-              <button type="button" class="right-tab" data-pane="tab-commercial">Sales, Starts &amp; Channel Flow</button>
-              <button type="button" class="right-tab" data-pane="tab-economics">Unit Economics</button>
+          <!-- NAS Sales by Channel: channel sales accounts roll up to Total Sales Dollars (sales credit by selling channel; not revenue) -->
+          <div class="epm-box" id="sec-saleschan">
+            <div class="epm-box-hdr">
+              <span>NAS SALES CHANNEL ($K) <span class="draft-tag">SAMPLE DATA</span></span>
+              <div class="tools"><span>Sep FY27 Actual · sales credit by selling channel</span></div>
             </div>
-
-            <!-- TAB: Processing by Product -->
-            <div id="tab-product" class="right-tab-pane active">
-              <div class="pane-hdr">
-                <span class="pane-hdr-title">Processing Revenue by Product Hierarchy &amp; Segment ($K)</span>
-                <button type="button" class="expand-ctrls" data-expand-all="tab-product">Expand / Collapse All</button>
-              </div>
-              <div class="table-wrap">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Product Line Item</th>
-                      <th>Sep Act $K</th>
-                      <th>Plan $K</th>
-                      <th>Var $K</th>
-                      <th>Var %</th>
-                      <th>QTD Act $K</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row top"><td>Total processing revenue</td><td>104,000.0</td><td>101,000.0</td><td class="fav">+3,000.0</td><td class="fav">+3.0%</td><td>302,500.0</td></tr>
-
-                    <tr class="group-hdr"><td colspan="6">1. Next-Gen Lyric Enterprise Suite</td></tr>
-                    <tr class="summary-row"><td><span class="exp-toggle" data-rows="lyric-prod">−</span>Total Lyric Enterprise Suite</td><td>28,500.0</td><td>27,500.0</td><td class="fav">+1,000.0</td><td class="fav">+3.6%</td><td>82,400.0</td></tr>
-                    <tr class="child-row open lyric-prod"><td class="indent">Lyric Direct Payroll Core</td><td>18,000.0</td><td>17,200.0</td><td class="fav">+800.0</td><td class="fav">+4.7%</td><td>52,100.0</td></tr>
-                    <tr class="child-row open lyric-prod"><td class="indent">Lyric Global Engine (Multi-Country)</td><td>5,200.0</td><td>5,000.0</td><td class="fav">+200.0</td><td class="fav">+4.0%</td><td>15,100.0</td></tr>
-                    <tr class="child-row open lyric-prod"><td class="indent">Lyric Tax &amp; Compliance Module</td><td>3,100.0</td><td>3,100.0</td><td>0.0</td><td>0.0%</td><td>9,000.0</td></tr>
-                    <tr class="child-row open lyric-prod"><td class="indent">Lyric Benefits &amp; Enrollment Engine</td><td>2,200.0</td><td>2,200.0</td><td>0.0</td><td>0.0%</td><td>6,200.0</td></tr>
-
-                    <tr class="group-hdr"><td colspan="6">2. Traditional Enterprise Payroll (EV5 / Vantage)</td></tr>
-                    <tr class="summary-row"><td><span class="exp-toggle" data-rows="trad-prod">−</span>Total Traditional Enterprise Payroll</td><td>70,000.0</td><td>68,000.0</td><td class="fav">+2,000.0</td><td class="fav">+2.9%</td><td>204,500.0</td></tr>
-                    <tr class="child-row open trad-prod"><td class="indent">Enterprise Vantage Core Processing</td><td>48,500.0</td><td>47,000.0</td><td class="fav">+1,500.0</td><td class="fav">+3.2%</td><td>141,800.0</td></tr>
-                    <tr class="child-row open trad-prod"><td class="indent">Enterprise eVP Base Processing</td><td>14,500.0</td><td>14,200.0</td><td class="fav">+300.0</td><td class="fav">+2.1%</td><td>42,400.0</td></tr>
-                    <tr class="child-row open trad-prod"><td class="indent">Enterprise Garnishment Services</td><td>4,200.0</td><td>4,000.0</td><td class="fav">+200.0</td><td class="fav">+5.0%</td><td>12,300.0</td></tr>
-                    <tr class="child-row open trad-prod"><td class="indent">Print &amp; Secure Delivery Fees</td><td>2,800.0</td><td>2,800.0</td><td>0.0</td><td>0.0%</td><td>8,000.0</td></tr>
-
-                    <tr class="group-hdr"><td colspan="6">3. Partner &amp; Cross-BU Processing</td></tr>
-                    <tr class="summary-row"><td><span class="exp-toggle" data-rows="partner-prod">−</span>Total Partner &amp; Cross-BU Processing</td><td>5,500.0</td><td>5,500.0</td><td>0.0</td><td>0.0%</td><td>15,600.0</td></tr>
-                    <tr class="child-row open partner-prod"><td class="indent">RS 401(k) Integrated Payroll Interface</td><td>2,800.0</td><td>2,800.0</td><td>0.0</td><td>0.0%</td><td>7,900.0</td></tr>
-                    <tr class="child-row open partner-prod"><td class="indent">PEO Co-Employment Shared Processing</td><td>1,700.0</td><td>1,700.0</td><td>0.0</td><td>0.0%</td><td>4,800.0</td></tr>
-                    <tr class="child-row open partner-prod"><td class="indent">GlobalView Cross-Border Integration</td><td>1,000.0</td><td>1,000.0</td><td>0.0</td><td>0.0%</td><td>2,900.0</td></tr>
-                  </tbody>
-                </table>
-              </div>
+<div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
+            <div class="pane-hdr">
+              <span class="pane-hdr-title">Sales by channel: five NAS channel sales accounts roll up to Total Sales Dollars</span>
             </div>
-
-            <!-- TAB: SOR Detail (NAS-specific) -->
-            <div id="tab-sor" class="right-tab-pane">
-              <div class="pane-hdr">
-                <span class="pane-hdr-title">Detailed Sources of Revenue &amp; Bridge Mechanics ($K)</span>
-                <span class="pane-hdr-note">Account-Level View</span>
-              </div>
-              <div class="table-wrap">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Account / Line Item</th>
-                      <th>Sep Act $K</th>
-                      <th>Plan $K</th>
-                      <th>Var $K</th>
-                      <th class="txt">Description / Drivers</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row top"><td>Prior Year Processing Base (FY26 Close)</td><td>98,750.0</td><td>98,750.0</td><td>0.0</td><td class="txt">Baseline Run-Rate</td></tr>
-                    <tr><td class="indent">New Starts (FY27 Cohorts Go-Live)</td><td>15,200.0</td><td>14,600.0</td><td class="fav">+600.0</td><td class="txt">36 New Accounts Live</td></tr>
-                    <tr><td class="indent">Contract Terminations &amp; Churn</td><td>(9,800.0)</td><td>(10,000.0)</td><td class="fav">+200.0</td><td class="txt">92.4% Retention</td></tr>
-                    <tr><td class="indent">Annual Price Modernization Adjustment</td><td>1,200.0</td><td>1,000.0</td><td class="fav">+200.0</td><td class="txt">CPI + Value Index</td></tr>
-                    <tr><td class="indent">Contractual Discount Allowances</td><td>(350.0)</td><td>(400.0)</td><td class="fav">+50.0</td><td class="txt">Multi-Year Concessions</td></tr>
-                    <tr><td class="indent">Unit Base Volume Growth (Client EE Headcount)</td><td>(1,000.0)</td><td>(2,950.0)</td><td class="fav">+1,950.0</td><td class="txt">Macro Headcount Beat</td></tr>
-                    <tr class="summary-row result"><td>Total September Processing Revenue</td><td>104,000.0</td><td>101,000.0</td><td class="fav">+3,000.0</td><td class="txt">+5.3% Total Growth</td></tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="table-wrap">
+              <table class="epm-table" id="sales-channel-table">
+                <thead>
+                  <tr>
+                    <th>Channel sales account</th>
+                    <th class="txt">Selling BU</th>
+                    <th>Sep Act $K</th>
+                    <th>Plan $K</th>
+                    <th>Var $K</th>
+                    <th>Var %</th>
+                    <th>% of total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="summary-row top"><td>Total Sales Dollars</td><td class="txt">NAS</td><td>18,600.0</td><td>18,000.0</td><td class="fav">+600.0</td><td class="fav">+3.3%</td><td>100.0%</td></tr>
+                  <tr><td class="indent">Direct enterprise sales force</td><td class="txt">NAS</td><td>9,800.0</td><td>9,500.0</td><td class="fav">+300.0</td><td class="fav">+3.2%</td><td>52.7%</td></tr>
+                  <tr><td class="indent">Major accounts team</td><td class="txt">NAS</td><td>3,400.0</td><td>3,300.0</td><td class="fav">+100.0</td><td class="fav">+3.0%</td><td>18.3%</td></tr>
+                  <tr><td class="indent">Advisor &amp; consultant channel</td><td class="txt">Partner</td><td>3,800.0</td><td>3,700.0</td><td class="fav">+100.0</td><td class="fav">+2.7%</td><td>20.4%</td></tr>
+                  <tr><td class="indent">Digital inbound sales</td><td class="txt">Digital</td><td>1,000.0</td><td>950.0</td><td class="fav">+50.0</td><td class="fav">+5.3%</td><td>5.4%</td></tr>
+                  <tr><td class="indent">Inside sales</td><td class="txt">Digital</td><td>600.0</td><td>550.0</td><td class="fav">+50.0</td><td class="fav">+9.1%</td><td>3.2%</td></tr>
+                </tbody>
+              </table>
             </div>
-
-            <!-- TAB: Sales, Starts & Channel Flow -->
-            <div id="tab-commercial" class="right-tab-pane">
-              <div class="pane-hdr">
-                <span class="pane-hdr-title">Commercial Performance &amp; Selling Channel Velocity ($K)</span>
-                <span class="pane-hdr-note">Selling Channel Breakdown</span>
-              </div>
-              <div class="table-wrap">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Channel / Flow Metric</th>
-                      <th>Sep Act $K</th>
-                      <th>Plan $K</th>
-                      <th>Var $K</th>
-                      <th class="txt">% of Bookings / Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row top"><td>Sales dollars (Total Bookings)</td><td>18,600.0</td><td>18,000.0</td><td class="fav">+600.0</td><td class="txt">100.0%</td></tr>
-
-                    <tr class="group-hdr"><td colspan="5">Sales by selling channel</td></tr>
-                    <tr><td class="indent">NAS Direct Enterprise Sales Force</td><td>13,200.0</td><td>12,800.0</td><td class="fav">+400.0</td><td class="txt">71.0%</td></tr>
-                    <tr><td class="indent">Advisor &amp; Consultant Channel</td><td>3,800.0</td><td>3,700.0</td><td class="fav">+100.0</td><td class="txt">20.4%</td></tr>
-                    <tr><td class="indent">Digital Inbound &amp; Inside Sales</td><td>1,600.0</td><td>1,500.0</td><td class="fav">+100.0</td><td class="txt">8.6%</td></tr>
-
-                    <tr class="group-hdr"><td colspan="5">Start &amp; Loss Waterfall</td></tr>
-                    <tr><td class="indent">Start dollars (First Live Payroll Run)</td><td>15,200.0</td><td>14,600.0</td><td class="fav">+600.0</td><td class="txt">Implementation Conversion</td></tr>
-                    <tr><td class="indent">Loss dollars (Complete Base Departures)</td><td>(9,800.0)</td><td>(10,000.0)</td><td class="fav">+200.0</td><td class="txt">Favorable Loss Rate</td></tr>
-                    <tr class="summary-row positive"><td>Net new business (NNB)</td><td>5,400.0</td><td>4,600.0</td><td class="fav">+800.0</td><td class="txt">Recurring Base Net Addition</td></tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="pane-ftr">
+              <span>Channel = the sales organization that sold the product. Sales credit goes to the selling channel; revenue stays with the BU that owns the product. Illustrative NAS placeholder figures.</span>
             </div>
-
-            <!-- TAB: Unit Economics -->
-            <div id="tab-economics" class="right-tab-pane">
-              <div class="pane-hdr">
-                <span class="pane-hdr-title">Volume Statistics, Clients &amp; Revenue Unit Economics</span>
-                <span class="pane-hdr-note">Volume &amp; Units</span>
-              </div>
-              <div class="table-wrap">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Metric</th>
-                      <th>Sep Act</th>
-                      <th>Plan</th>
-                      <th>Var</th>
-                      <th>Unit Rate ($)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row top"><td>Active Client Entities (Average)</td><td>61,500</td><td>61,200</td><td class="fav">+300</td><td>$1,951 / client / mo</td></tr>
-                    <tr><td class="indent">Lyric Enterprise Accounts</td><td>1,240</td><td>1,200</td><td class="fav">+40</td><td>$19,355 / client / mo</td></tr>
-                    <tr><td class="indent">Enterprise Vantage Accounts</td><td>38,400</td><td>38,200</td><td class="fav">+200</td><td>$1,823 / client / mo</td></tr>
-                    <tr><td class="indent">Legacy eVP &amp; Other Accounts</td><td>21,860</td><td>21,800</td><td class="fav">+60</td><td>$663 / client / mo</td></tr>
-                    <tr class="summary-row"><td>Paid Employees on Platform (PEPM Base)</td><td>8,240,000</td><td>8,150,000</td><td class="fav">+90,000</td><td>$12.62 PEPM</td></tr>
-                    <tr><td class="indent">Average Employees per Client Entity</td><td>134.0</td><td>133.2</td><td class="fav">+0.8</td><td>-</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -409,6 +283,35 @@
 <!-- Tooltip Container -->
 <div class="tip" id="tip"></div>
 
+<script>
+// REVENUE SUMMARY: expand / collapse each period column group horizontally (all collapsed by default)
+(function () {
+  var tbl = document.getElementById('rev-summary-table');
+  if (!tbl) return;
+  tbl.querySelectorAll('th.grp[data-grp]').forEach(function (th) {
+    var btn = th.querySelector('.grp-tg'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      tbl.classList.toggle('c' + g, !open);
+      th.setAttribute('colspan', open ? n : 1);
+    });
+  });
+})();
+
+// REVENUE SUMMARY: clicking anywhere on a linked line row opens its GL transaction detail (the link in the first column carries the context)
+(function () {
+  var tbl = document.getElementById('rev-summary-table');
+  if (!tbl) return;
+  tbl.addEventListener('click', function (e) {
+    var row = e.target.closest('tr.row-link');
+    if (!row || e.target.closest('a, button') || e.defaultPrevented) return;
+    if (window.getSelection && String(window.getSelection())) return;
+    var a = row.querySelector('a.line-link');
+    if (a) a.click();
+  });
+})();
+</script>
 <script src="revenue_analysis_2.js"></script>
 <script src="polaris_header.js"></script>
 </body>

@@ -29,7 +29,7 @@
     { code: 'P04', label: 'Revenue Analysis',  area: 'bu',     file: { RS: 'revenue_analysis_RS_2.html', NAS: 'revenue_analysis_NAS_2.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P05', label: 'Expense P&L',       area: 'bu',     file: { RS: 'expense_pl_RS_2.html', NAS: 'expense_pl_NAS_2.html' }, product: true, func: true, toggle: true, views: null },
     { code: 'P06', label: 'NPI P&L',           area: 'bu',     file: { NAS: 'NAS_npi_2.html' },        product: true, func: false, toggle: true,  views: null },
-    { code: 'P07', label: 'Transaction Detail', area: 'detail', file: { RS: 'rs_transaction_detail_2.html' }, product: true, func: false, toggle: false, views: null }
+    { code: 'P07', label: 'Transaction Detail', area: 'detail', file: { RS: 'rs_transaction_detail_2.html', NAS: 'NAS_transaction_detail_2.html' }, product: true, func: false, toggle: false, views: null }
   ];
 
   var BUS = {
@@ -405,7 +405,8 @@
     // $ + % display format: applies to the KPI strip (#headline-kpis); hidden on pages that have none. Display-only, so no data refresh.
     ui.fmt = buildSeg('pf-l-fmt', FORMATS, function () { return state.fmt; }, function (id) { state.fmt = id; persist(); syncURL(); updateAll(); say('Values shown as ' + byId(FORMATS, id).label); });
     ui.fmtWrap = h('div', { class: 'pf-viewtg' }, [h('span', { class: 'ctx-lbl', id: 'pf-l-fmt', text: 'Values' }), ui.fmt.el]);
-    ui.fmtWrap.hidden = !document.getElementById('headline-kpis');
+    // RS variance standard: $ and % variances always display together, so RS pages never offer the $ / % toggle.
+    ui.fmtWrap.hidden = !document.getElementById('headline-kpis') || PBU === 'RS';
     var help = h('a', { class: 'ctx-help', href: CONFIG.helpUrl, target: '_blank', rel: 'noopener' }, [svg('help', 13, 2), 'Help']);
 
     // Help sits in the top bar, to the left of the person icon; falls back to the filter row if a page has no avatar
@@ -583,7 +584,7 @@
     tip(ui.bu, buDisabled ? (PBU ? 'Your access is limited to ' + CUR_BU : 'Corporate pages span all business units') : '');
     ui.per._v.textContent = monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + ' \u00B7 ' + fyLabel(fiscalYearOf(state.per));
     ui.tv.update(); ui.cmp.update(); ui.fmt.update();
-    var hk = document.getElementById('headline-kpis'); if (hk) hk.setAttribute('data-fmt', state.fmt);
+    var hk = document.getElementById('headline-kpis'); if (hk) hk.setAttribute('data-fmt', PBU === 'RS' ? 'both' : state.fmt);
     // filter buttons
     [['prod', ui.prodBtn, PAGE.product, 'Applies to P03\u2013P07'], ['fn', ui.fnBtn, PAGE.func, 'Applies to Expense P&L only']].forEach(function (f) {
       var b = f[1], n = state[f[0]].length, badge = b.querySelector('.pf-badge');
@@ -749,7 +750,7 @@
           { code: 'P03', label: CUR_BU + ' Dashboard', file: pageFile(PAGES[2], CUR_BU), snap: snapshot() },
           { code: 'P04', label: 'Revenue Analysis', file: pageFile(PAGES[3], CUR_BU), snap: snapshot() },
           { ctx: true, label: 'Revenue: 401K Small' },
-          { code: 'P07', label: 'Transaction Detail', file: pageFile(PAGES[6], 'RS'), snap: snapshot() }];
+          { code: 'P07', label: 'Transaction Detail', file: pageFile(PAGES[6], CUR_BU), snap: snapshot() }];
         renderCrumbs(trail);
       }),
       btn('Reset saved context', function () { [CONFIG.storageKey, CONFIG.trailKey, CONFIG.pendingKey, CONFIG.simKey, CONFIG.roleKey].forEach(function (k) { try { sessionStorage.removeItem(k); } catch (e) { /* ignore */ } }); location.href = location.pathname; }),
