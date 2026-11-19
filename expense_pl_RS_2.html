@@ -336,6 +336,55 @@
   .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
+
+  /* Expense Analysis (hierarchical expense table, sample data) */
+  .exp-an-wrap { padding: 16px 20px 0; }
+  .draft-tag { display: inline-block; margin-left: 8px; padding: 1px 6px; border: 1px solid #94a3b8; border-radius: 2px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; color: #475569; background: #f1f5f9; }
+  .exp-an-scroll { overflow-x: auto; max-height: 560px; overflow-y: auto; }
+  .epm-table.xp { font-size: 11.5px; }
+  .epm-table.xp th, .epm-table.xp td { padding: 4px 8px; white-space: nowrap; }
+  .epm-table.xp th.grp { text-align: center; background: #e2e8f0; border-bottom: 1px solid #cbd5e1; padding: 0; }
+  .epm-table.xp thead th { position: sticky; top: 0; z-index: 2; }
+  .epm-table.xp thead tr:nth-child(2) th { top: 26px; background: #f8fafc; min-width: 76px; }
+  .epm-table.xp thead th:first-child { left: 0; z-index: 4; min-width: 320px; max-width: 320px; background: #f1f5f9; vertical-align: bottom; }
+  .epm-table.xp td:first-child { position: sticky; left: 0; z-index: 1; min-width: 320px; max-width: 320px; white-space: normal; background: inherit; }
+  .epm-table.xp tbody tr { background: #fff; }
+  .epm-table.xp tbody tr:hover td { background: #f8fafc; }
+  .epm-table.xp tbody tr:hover td:first-child { background: #f8fafc; }
+  .epm-table.xp tr.xh { display: none; }
+  .epm-table.xp.c2 .g2:not(.gk), .epm-table.xp.c3 .g3:not(.gk), .epm-table.xp.c4 .g4:not(.gk) { display: none; }
+  .xlab { display: flex; align-items: flex-start; line-height: 1.35; }
+  .xlab .exp-toggle { border: 0; padding: 0; flex: none; margin-top: 1px; }
+  .xt-sp { display: inline-block; width: 15px; margin-right: 6px; flex: none; }
+  .epm-table.xp tr.xl0 td:first-child { padding-left: 10px; }
+  .epm-table.xp tr.xl1 td:first-child { padding-left: 24px; }
+  .epm-table.xp tr.xl2 td:first-child { padding-left: 38px; }
+  .epm-table.xp tr.xl3 td:first-child { padding-left: 52px; }
+  .epm-table.xp tr.xl4 td:first-child { padding-left: 66px; }
+  .epm-table.xp tr.xl5 td:first-child { padding-left: 80px; }
+  .epm-table.xp tr.xk-ref { background: #f8fafc; font-style: italic; color: #475569; }
+  .epm-table.xp tr.xk-ref td { color: #475569; }
+  .epm-table.xp tr.xk-total { background: #dbeafe; font-weight: 700; }
+  .epm-table.xp tr.xk-total td { font-weight: 700; border-top: 2px solid #0f62fe; border-bottom: 1px solid #93c5fd; }
+  .epm-table.xp tr[data-id="tot"] { background: #cbd5e1; }
+  .epm-table.xp tr[data-id="tot"] td { border-top: 2px solid #1e293b; border-bottom: 1px solid #94a3b8; }
+  .epm-table.xp tr.xk-sum { background: #e0f2fe; }
+  .epm-table.xp tr.xk-sum td { font-weight: 700; }
+  .epm-table.xp tr.xk-pct td { color: #475569; font-style: italic; }
+  .epm-table.xp tr.xk-pct td:first-child { padding-left: 24px; }
+  .epm-table.xp tr.xk-parent { background: #f1f5f9; }
+  .epm-table.xp tr.xk-parent td { font-weight: 700; }
+  .epm-table.xp tr.xk-sect { background: #e2e8f0; }
+  .epm-table.xp tr.xk-sect td { font-weight: 700; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.04em; color: #0f172a; border-top: 1px solid #94a3b8; border-bottom: 1px solid #94a3b8; }
+  .epm-table.xp tr.xk-band td { font-size: 10.5px; color: #475569; font-style: italic; background: #fff; border-bottom: 1px dashed #cbd5e1; }
+  .epm-table.xp tr.xk-child td:first-child .xlab { font-weight: 400; }
+  .epm-table.xp tr.xk-child.xl5 td { color: #475569; }
+  .epm-table.xp .grp-tg { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 5px 6px; cursor: pointer; font-weight: 700; font-size: 10.5px; color: #334155; text-align: center; }
+  .epm-table.xp .grp-tg:hover { background: #cbd5e1; }
+  .epm-table.xp .grp-tg:focus-visible, .xlab .exp-toggle:focus-visible { outline: 2px solid #0f62fe; outline-offset: -2px; }
+  .epm-table.xp .grp-chev { width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 5px solid #334155; flex: none; }
+  .epm-table.xp .grp-tg[aria-expanded="true"] .grp-chev { border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #334155; border-bottom: 0; }
+  .exp-an-foot { padding: 6px 12px; font-size: 10.5px; color: var(--muted); border-top: 1px solid #e2e8f0; background: #f8fafc; }
 </style>
 <link rel="stylesheet" href="polaris_header.css">
 </head>
@@ -407,7 +456,7 @@
     <div class="ctx" id="pf-context"></div>
 
     <!-- 1. Headline KPIs Strip (5 Key Expense Performance Metrics) -->
-    <div class="headline-kpi-bar">
+    <!-- <div class="headline-kpi-bar">
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
           <span>RS Expense Performance Highlights · September</span>
@@ -416,7 +465,7 @@
       </div>
 
       <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
-        <!-- 1. Total Field Expense -->
+        [1. Total Field Expense]
         <div class="kpi nd" id="hkpi-field" data-tip="<b>Total Field Expense</b><br>Act: $18,881.9K vs Plan $18,250.0K (+$631.9K / +3.5% unfav)<br>Total Close Package r59 tie-out value<br>YTD: $138.2M (+1.9% vs plan)">
           <div class="kpi-val"><span class="m-pva">$18.9M</span><span class="m-plan">$18.3M</span></div>
           <div class="kpi-label">Field Expense</div>
@@ -428,7 +477,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.2%</b></div>
         </div>
 
-        <!-- 2. Employee Related Expense -->
+        [2. Employee Related Expense]
         <div class="kpi nd" id="hkpi-ee" data-tip="<b>Employee Related Expense</b><br>Act: $11,849.8K vs Plan $11,420.0K (+$429.8K / +3.8% unfav)<br>Compensation: $11.73M · Employee Other: $120.7K<br>62.8% of Total Field Expense">
           <div class="kpi-val"><span class="m-pva">$11.8M</span><span class="m-plan">$11.4M</span></div>
           <div class="kpi-label">Employee Related</div>
@@ -440,7 +489,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.5%</b></div>
         </div>
 
-        <!-- 3. Non-Employee Operating Costs -->
+        [3. Non-Employee Operating Costs]
         <div class="kpi nd" id="hkpi-nonee" data-tip="<b>Non-Employee Operating Expense</b><br>Act: $7,032.1K vs Plan $6,830.0K (+$202.1K / +3.0% unfav)<br>Direct Costs: $4.66M · Expense Other: $3.14M · EBIT items: ($775.6K)<br>37.2% of Total Field Expense">
           <div class="kpi-val"><span class="m-pva">$7.0M</span><span class="m-plan">$6.8M</span></div>
           <div class="kpi-label">Non-Employee Costs</div>
@@ -452,7 +501,7 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+1.8%</b></div>
         </div>
 
-        <!-- 4. Headcount & Average FTE -->
+        [4. Headcount & Average FTE]
         <div class="kpi nd" id="hkpi-hc" data-tip="<b>Headcount & Average FTE</b><br>Ending HC: 1,513 (+8 vs plan)<br>Average FTE: 1,503.3 (+8.3 vs plan)<br>Traditional 522.5 · OneADP 488.3 · India GBS 463.6 · OT 27.4">
           <div class="kpi-val"><span class="m-pva">1,503</span><span class="m-plan">1,495</span></div>
           <div class="kpi-label">Headcount / FTE</div>
@@ -464,7 +513,7 @@
           <div class="kpi-row m-plan m-both"><span>GBS Plan</span><b>31.0%</b></div>
         </div>
 
-        <!-- 5. Field NOI & Margin -->
+        [5. Field NOI & Margin]
         <div class="kpi nd" id="hkpi-noi" data-tip="<b>Field Net Operating Income (NOI)</b><br>Act: $74,521.5K vs Plan $71,150.0K (+$3,371.5K / +4.7% fav)<br>Field NOI Margin: 79.8% vs Plan 79.6% (+20 bps)<br>Operating Leverage from Revenue Upside">
           <div class="kpi-val"><span class="m-pva">$74.5M</span><span class="m-plan">$71.2M</span></div>
           <div class="kpi-label">Field NOI</div>
@@ -476,841 +525,94 @@
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+4.1%</b></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- MAIN TWO-COLUMN COCKPIT VIEW -->
-    <div id="cockpit-container">
-      <div class="epm-layout-grid">
-
-        <!-- LEFT COLUMN: Management Expense Summary & Department Breakdown -->
-        <div class="left-col">
-
-          <!-- Section 1: Management Expense Summary -->
-          <div class="epm-box" id="sec-mgmt-pl">
-            <div class="epm-box-hdr">
-              <span>MANAGEMENT EXPENSE P&amp;L ($K)</span>
-              <div class="tools"><span>September Close</span></div>
-            </div>
-            <div style="overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Cost Category</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>% of Rev</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row" style="background:#edf2f7;">
-                    <td>Total revenue (reference)</td>
-                    <td>93,403.4</td>
-                    <td>89,400.0</td>
-                    <td class="fav">+4,003.4</td>
-                    <td>100.0%</td>
-                  </tr>
-                  <tr>
-                    <td>Field expense (Controllable)</td>
-                    <td>18,881.9</td>
-                    <td>18,250.0</td>
-                    <td class="unf">(631.9)</td>
-                    <td>20.2%</td>
-                  </tr>
-                  <tr class="summary-row" style="background:#e0f2fe;">
-                    <td>Field NOI (Controllable Profit)</td>
-                    <td>74,521.5</td>
-                    <td>71,150.0</td>
-                    <td class="fav">+3,371.5</td>
-                    <td class="fav">79.8%</td>
-                  </tr>
-                  <tr>
-                    <td>NDE (National Direct Expense)</td>
-                    <td>20,534.4</td>
-                    <td>20,200.0</td>
-                    <td class="unf">(334.4)</td>
-                    <td>22.0%</td>
-                  </tr>
-                  <tr>
-                    <td>Shared service allocations (excl. NDE)</td>
-                    <td>6,501.1</td>
-                    <td>6,350.0</td>
-                    <td class="unf">(151.1)</td>
-                    <td>7.0%</td>
-                  </tr>
-                  <tr class="summary-row" style="background:#f1f5f9;">
-                    <td>Total expenses</td>
-                    <td>45,917.4</td>
-                    <td>44,800.0</td>
-                    <td class="unf">(1,117.4)</td>
-                    <td>49.2%</td>
-                  </tr>
-                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #c8322f;">
-                    <td>NOI (Operating Profit / EBIT)</td>
-                    <td>47,486.0</td>
-                    <td>44,600.0</td>
-                    <td class="fav">+2,886.0</td>
-                    <td class="fav">50.8%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section 2: Department Distribution (FEX-03) -->
-          <div class="epm-box" id="sec-dept-summary">
-            <div class="epm-box-hdr light">
-              <span>FIELD EXPENSE BY DEPARTMENT / FUNCTION (FEX-03)</span>
-              <span style="font-size:10px;color:#64748b;">7 Field Departments + Implementation ($K)</span>
-            </div>
-            <div style="overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Department / Functional Line</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>Var %</th>
-                    <th>FTE Count</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row" style="background:#edf2f7;">
-                    <td><b>Total Field Expense</b></td>
-                    <td><b>18,881.9</b></td>
-                    <td><b>18,250.0</b></td>
-                    <td class="unf"><b>+631.9</b></td>
-                    <td class="unf"><b>+3.5%</b></td>
-                    <td><b>1,503.3 FTE</b></td>
-                  </tr>
-                  <tr><td class="indent">Client Service (FEX-03 Serv)</td><td>6,850.2</td><td>6,620.0</td><td class="unf">+230.2</td><td class="unf">+3.5%</td><td>546.0</td></tr>
-                  <tr><td class="indent">Production &amp; Operations</td><td>4,120.5</td><td>3,980.0</td><td class="unf">+140.5</td><td class="unf">+3.5%</td><td>328.5</td></tr>
-                  <tr><td class="indent">Implementation &amp; Onboarding</td><td>3,034.4</td><td>2,950.0</td><td class="unf">+84.4</td><td class="unf">+2.9%</td><td>242.0</td></tr>
-                  <tr><td class="indent">Product Direct Costs</td><td>1,420.0</td><td>1,380.0</td><td class="unf">+40.0</td><td class="unf">+2.9%</td><td>113.2</td></tr>
-                  <tr><td class="indent">General Management &amp; SEC Reporting</td><td>1,280.4</td><td>1,240.0</td><td class="unf">+40.4</td><td class="unf">+3.3%</td><td>102.1</td></tr>
-                  <tr><td class="indent">Business Development &amp; Strategy</td><td>820.6</td><td>790.0</td><td class="unf">+30.6</td><td class="unf">+3.9%</td><td>65.4</td></tr>
-                  <tr><td class="indent">Non-NDE Marketing</td><td>905.1</td><td>870.0</td><td class="unf">+35.1</td><td class="unf">+4.0%</td><td>72.1</td></tr>
-                  <tr><td class="indent">Unassigned / Reconciling Row</td><td>450.7</td><td>420.0</td><td class="unf">+30.7</td><td class="unf">+7.3%</td><td>34.0</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <!-- EXPENSE ANALYSIS (hierarchical expense table; visual structure with sample data) -->
+    <div class="exp-an-wrap" id="sec-expense-analysis">
+      <div class="epm-box">
+        <div class="epm-box-hdr">
+          <span>EXPENSE ANALYSIS ($K)<span class="draft-tag">SAMPLE DATA</span></span>
+          <div class="tools"><span class="expand-ctrls" id="xpToggleAll" style="color:#93c5fd;">Expand / Collapse All</span><span>September Close</span></div>
         </div>
-
-        <!-- RIGHT COLUMN: Tabbed Detailed Views -->
-        <div class="right-col">
-
-          <div class="epm-box">
-            <!-- Right Tab Strip -->
-            <div class="right-tabstrip" id="rightTabs">
-              <button type="button" class="right-tab active" onclick="switchRightTab(this, 'tab-accounthier')">Account Hierarchy (FEX-01)</button>
-              <button type="button" class="right-tab" onclick="switchRightTab(this, 'tab-allocwalk')">Allocations &amp; NOI</button>
-              <button type="button" class="right-tab" onclick="switchRightTab(this, 'tab-hcorg')">Headcount &amp; FTE (FEX-02)</button>
-              <button type="button" class="right-tab" onclick="switchRightTab(this, 'tab-deptbreakdown')">Department Deep-Dive</button>
-              <button type="button" class="right-tab" onclick="switchRightTab(this, 'tab-periodcomp')">Period Comparison</button>
-              <button type="button" class="right-tab" onclick="switchRightTab(this, 'tab-productivity')">FTE Productivity</button>
-            </div>
-
-            <!-- TAB 1: Account Hierarchy (FEX-01) -->
-            <div id="tab-accounthier" class="right-tab-pane">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Granular Expense P&amp;L (Hyperion Account Hierarchy)</span>
-                <span class="expand-ctrls" onclick="toggleAllRows('tab-accounthier')">Expand / Collapse All</span>
-              </div>
-              <div class="acct-total-strip">
-                <div><span class="acct-total-lbl">Total Field expense</span><b>18,881.9</b></div>
-                <div><span class="acct-total-lbl">Plan</span><b>18,250.0</b></div>
-                <div><span class="acct-total-lbl">Var</span><b class="unf">(631.9)</b></div>
-                <div><span class="acct-total-lbl">QTD Act</span><b>138,200.0</b></div>
-              </div>
-
-              <!-- Sub-tabs: Employee / Non-Employee -->
-              <div class="sub-tabstrip" id="acctSubTabs">
-                <button type="button" class="sub-tab active" onclick="switchAcctSubTab(this, 'acct-sub-ee')">Employee Related Expense</button>
-                <button type="button" class="sub-tab" onclick="switchAcctSubTab(this, 'acct-sub-nonee')">Non-Employee Related Expense</button>
-              </div>
-
-              <!-- SUB-TAB 1: Employee Related Expense -->
-            <div id="acct-sub-ee" class="acct-sub-pane" style="overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Line Item</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>Var %</th>
-                    <th>YoY %</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row" style="background:#e2e8f0;font-size:12px;">
-                    <td>Employee related (Total)</td>
-                    <td>11,849.8</td>
-                    <td>11,420.0</td>
-                    <td class="unf">+429.8</td>
-                    <td class="unf">+3.8%</td>
-                    <td class="unf">+4.4%</td>
-                  </tr>
-                  <tr class="summary-row" style="background:#f1f5f9;"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'comp-sub')">+</span>Total compensation</td><td>11,729.1</td><td>11,305.0</td><td class="unf">+424.1</td><td class="unf">+3.8%</td><td>+4.3%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Salary with Overtime incl Intercompany</td><td>7,628.4</td><td>7,350.0</td><td class="unf">+278.4</td><td class="unf">+3.8%</td><td>+4.2%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent3">Salary</td><td>7,387.6</td><td>7,150.0</td><td class="unf">+237.6</td><td class="unf">+3.3%</td><td>+4.1%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent3">Overtime</td><td>240.8</td><td>200.0</td><td class="unf">+40.8</td><td class="unf">+20.4%</td><td>+8.5%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Global Business Solutions (GBS)</td><td>888.0</td><td>860.0</td><td class="unf">+28.0</td><td class="unf">+3.3%</td><td>+5.1%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Contingent Labor</td><td>20.9</td><td>25.0</td><td class="fav">(4.1)</td><td class="fav">(16.4%)</td><td>(12.2%)</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Bonus</td><td>476.2</td><td>450.0</td><td class="unf">+26.2</td><td class="unf">+5.8%</td><td>+3.8%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Payroll Taxes</td><td>599.7</td><td>580.0</td><td class="unf">+19.7</td><td class="unf">+3.4%</td><td>+3.9%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Benefits</td><td>1,913.7</td><td>1,840.0</td><td class="unf">+73.7</td><td class="unf">+4.0%</td><td>+4.5%</td></tr>
-                  <tr class="child-row comp-sub"><td class="indent2">Stock Based Comp</td><td>202.2</td><td>200.0</td><td class="unf">+2.2</td><td class="unf">+1.1%</td><td>+2.0%</td></tr>
-
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'ee-other')">+</span>Total employee other</td><td>120.7</td><td>115.0</td><td class="unf">+5.7</td><td class="unf">+5.0%</td><td>+5.8%</td></tr>
-                  <tr class="child-row ee-other"><td class="indent2">Travel and Entertainment incl IC</td><td>100.6</td><td>95.0</td><td class="unf">+5.6</td><td class="unf">+5.9%</td><td>+6.2%</td></tr>
-                  <tr class="child-row ee-other"><td class="indent2">Auto Allowance</td><td>(16.3)</td><td>(15.0)</td><td class="fav">(1.3)</td><td>+8.7%</td><td>+4.5%</td></tr>
-                  <tr class="child-row ee-other"><td class="indent2">Employee Activities</td><td>14.3</td><td>12.0</td><td class="unf">+2.3</td><td class="unf">+19.2%</td><td>+8.3%</td></tr>
-                  <tr class="child-row ee-other"><td class="indent2">Tuition Assistance</td><td>4.4</td><td>5.0</td><td class="fav">(0.6)</td><td class="fav">(12.0%)</td><td>(5.0%)</td></tr>
-                  <tr class="child-row ee-other"><td class="indent2">Other Employee Related &amp; Severance</td><td>17.7</td><td>18.0</td><td class="fav">(0.3)</td><td class="fav">(1.7%)</td><td>+2.1%</td></tr>
-
-                </tbody>
-              </table>
-            </div>
-              <!-- SUB-TAB 2: Non-Employee Related Expense -->
-            <div id="acct-sub-nonee" class="acct-sub-pane" style="display:none;overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Line Item</th>
-                    <th>Sep Act $K</th>
-                    <th>Plan $K</th>
-                    <th>Var $K</th>
-                    <th>Var %</th>
-                    <th>YoY %</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row">
-                    <td>Non-employee related (Total)</td>
-                    <td>7,032.1</td>
-                    <td>6,830.0</td>
-                    <td class="unf">+202.1</td>
-                    <td class="unf">+3.0%</td>
-                    <td class="unf">+3.6%</td>
-                  </tr>
-                  <tr class="summary-row" style="background:#f1f5f9;"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'direct-costs')">+</span>Total direct costs</td><td>4,663.1</td><td>4,520.0</td><td class="unf">+143.1</td><td class="unf">+3.2%</td><td>+3.9%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent2">Bad Debt Trade</td><td>763.7</td><td>740.0</td><td class="unf">+23.7</td><td class="unf">+3.2%</td><td>+4.1%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent2">Total Trustee Service Fees</td><td>827.1</td><td>800.0</td><td class="unf">+27.1</td><td class="unf">+3.4%</td><td>+3.8%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent3">Trustee - STC Fiduciary Payment</td><td>438.1</td><td>425.0</td><td class="unf">+13.1</td><td class="unf">+3.1%</td><td>+3.5%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent3">Trustee - ERISA Bond &amp; Custodial</td><td>346.3</td><td>335.0</td><td class="unf">+11.3</td><td class="unf">+3.4%</td><td>+4.0%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent3">Trustee - Financial Control &amp; Trading</td><td>39.3</td><td>38.0</td><td class="unf">+1.3</td><td class="unf">+3.4%</td><td>+2.9%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent3">Trustee - Default &amp; Other</td><td>3.5</td><td>2.0</td><td class="unf">+1.5</td><td class="unf">+75.0%</td><td>+12.0%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent2">Trailer Fees</td><td>3,069.8</td><td>2,978.0</td><td class="unf">+91.8</td><td class="unf">+3.1%</td><td>+4.0%</td></tr>
-                  <tr class="child-row direct-costs"><td class="indent2">Supplies, Forms &amp; NSF Movement</td><td>2.5</td><td>2.0</td><td class="unf">+0.5</td><td class="unf">+25.0%</td><td>+0.0%</td></tr>
-
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'exp-other')">+</span>Total expense other</td><td>3,144.7</td><td>3,060.0</td><td class="unf">+84.7</td><td class="unf">+2.8%</td><td>+3.5%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Facility Related</td><td>137.8</td><td>135.0</td><td class="unf">+2.8</td><td class="unf">+2.1%</td><td>+1.8%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Consulting and Professional Fees</td><td>707.0</td><td>680.0</td><td class="unf">+27.0</td><td class="unf">+4.0%</td><td>+4.8%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Advertising and Marketing</td><td>473.9</td><td>460.0</td><td class="unf">+13.9</td><td class="unf">+3.0%</td><td>+3.2%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Delivery and Mailing</td><td>1,905.8</td><td>1,850.0</td><td class="unf">+55.8</td><td class="unf">+3.0%</td><td>+3.7%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent3">Postage - Participant Mailing</td><td>1,532.4</td><td>1,490.0</td><td class="unf">+42.4</td><td class="unf">+2.8%</td><td>+3.6%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent3">Postage - Statement Mailing &amp; Overnight</td><td>373.4</td><td>360.0</td><td class="unf">+13.4</td><td class="unf">+3.7%</td><td>+4.1%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Meetings &amp; Program</td><td>55.3</td><td>50.0</td><td class="unf">+5.3</td><td class="unf">+10.6%</td><td>+6.1%</td></tr>
-                  <tr class="child-row exp-other"><td class="indent2">Other Fees, Dues, Penalties &amp; Credits</td><td>(135.1)</td><td>(115.0)</td><td class="fav">(20.1)</td><td>+17.5%</td><td>(4.2%)</td></tr>
-
-                  <tr class="summary-row" style="background:#f1f5f9;"><td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'ebit-items')">+</span>Other EBIT items</td><td>(775.6)</td><td>(750.0)</td><td class="fav">(25.6)</td><td>+3.4%</td><td>(1.2%)</td></tr>
-                  <tr class="child-row ebit-items"><td class="indent2">Total Depreciation &amp; Amortization</td><td>53.4</td><td>55.0</td><td class="fav">(1.6)</td><td class="fav">(2.9%)</td><td>(2.0%)</td></tr>
-                  <tr class="child-row ebit-items"><td class="indent2">Charge In / Charge Out / Allocations</td><td>313.9</td><td>300.0</td><td class="unf">+13.9</td><td class="unf">+4.6%</td><td>+4.2%</td></tr>
-                  <tr class="child-row ebit-items"><td class="indent2">Internal Expense Revenue Offset MGT</td><td>22.5</td><td>20.0</td><td class="unf">+2.5</td><td class="unf">+12.5%</td><td>+5.0%</td></tr>
-                  <tr class="child-row ebit-items"><td class="indent2">Total Other Income with Intercompany</td><td>(1,165.4)</td><td>(1,125.0)</td><td class="fav">(40.4)</td><td>+3.6%</td><td>+3.8%</td></tr>
-                </tbody>
-              </table>
-            </div>
-            </div>
-
-            <!-- TAB 2: Allocations & NOI Walk -->
-            <div id="tab-allocwalk" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Shared Service Allocations &amp; Field NOI to EBIT Walk ($K)</span>
-                <span style="font-size:10.5px;color:#64748b;">Hyperion Allocation Pool Tie-Out</span>
-              </div>
-              <div style="overflow-x:auto;">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>P&amp;L Line Component</th>
-                      <th>Sep Act $K</th>
-                      <th>Plan $K</th>
-                      <th>Var $K</th>
-                      <th>Margin %</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row" style="background:#edf2f7;">
-                      <td>Total Revenue (Reference)</td>
-                      <td>93,403.4</td>
-                      <td>89,400.0</td>
-                      <td class="fav">+4,003.4</td>
-                      <td>100.0%</td>
-                      <td>Processing + Non-Processing</td>
-                    </tr>
-                    <tr class="summary-row">
-                      <td>Less: Field Operating Expense</td>
-                      <td>(18,881.9)</td>
-                      <td>(18,250.0)</td>
-                      <td class="unf">(631.9)</td>
-                      <td>20.2%</td>
-                      <td>Direct Operating Costs</td>
-                    </tr>
-                    <tr class="summary-row" style="background:#f0fdf4;">
-                      <td><b>FIELD NET OPERATING INCOME (NOI)</b></td>
-                      <td><b>74,521.5</b></td>
-                      <td><b>71,150.0</b></td>
-                      <td class="fav"><b>+3,371.5</b></td>
-                      <td class="fav"><b>79.8%</b></td>
-                      <td><b>+$3.4M Above Plan (+20 bps margin)</b></td>
-                    </tr>
-                    <tr class="group-hdr"><td colspan="6">Allocations &amp; Corporate Overhead</td></tr>
-                    <tr>
-                      <td class="indent">National Direct Expense (NDE Selling)</td>
-                      <td>20,534.4</td>
-                      <td>20,200.0</td>
-                      <td class="unf">+334.4</td>
-                      <td>22.0%</td>
-                      <td>Commercial Field Sales Force</td>
-                    </tr>
-                    <tr class="summary-row">
-                      <td class="indent"><span class="exp-toggle" onclick="toggleRow(this, 'alloc-items')">+</span>Shared Service Allocations (excl NDE)</td>
-                      <td>6,501.1</td>
-                      <td>6,350.0</td>
-                      <td class="unf">+151.1</td>
-                      <td>7.0%</td>
-                      <td>Central Services &amp; Corporate Pool</td>
-                    </tr>
-                    <tr class="child-row alloc-items"><td class="indent2">Alloc Expense - Shared Service</td><td>5,201.6</td><td>5,100.0</td><td class="unf">+101.6</td><td>5.6%</td><td>GETS, Print, Product Management</td></tr>
-                    <tr class="child-row alloc-items"><td class="indent3">Functional Cut: R&amp;D Allocation</td><td>2,643.2</td><td>2,580.0</td><td class="unf">+63.2</td><td>2.8%</td><td>Polaris &amp; Core Engine Dev</td></tr>
-                    <tr class="child-row alloc-items"><td class="indent3">Functional Cut: Product Management</td><td>288.0</td><td>280.0</td><td class="unf">+8.0</td><td>0.3%</td><td>Retirement Roadmap</td></tr>
-                    <tr class="child-row alloc-items"><td class="indent2">Alloc Expense - Corporate Overhead &amp; G&amp;A</td><td>1,299.5</td><td>1,250.0</td><td class="unf">+49.5</td><td>1.4%</td><td>Legal, Facility, Finance &amp; HR</td></tr>
-                    <tr class="child-row alloc-items"><td class="indent3">Facility Allocation</td><td>936.9</td><td>900.0</td><td class="unf">+36.9</td><td>1.0%</td><td>Real Estate &amp; Data Centers</td></tr>
-                    <tr class="child-row alloc-items"><td class="indent3">Legal &amp; Finance Overhead</td><td>322.6</td><td>310.0</td><td class="unf">+12.6</td><td>0.3%</td><td>Corporate Support Functions</td></tr>
-
-                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;border-top:2px solid #0f62fe;">
-                      <td><b>NET OPERATING INCOME (EBIT)</b></td>
-                      <td><b>47,486.0</b></td>
-                      <td><b>44,600.0</b></td>
-                      <td class="fav"><b>+2,886.0</b></td>
-                      <td class="fav"><b>50.8%</b></td>
-                      <td><b>+100 bps Margin Expansion vs Plan (49.8%)</b></td>
-                    </tr>
-                    <tr>
-                      <td class="indent">NOI excl Sales &amp; Marketing (excl NDE &amp; Mktg)</td>
-                      <td>68,925.5</td>
-                      <td>65,670.0</td>
-                      <td class="fav">+3,255.5</td>
-                      <td>73.8%</td>
-                      <td>Operating Core Profitability</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- TAB 3: Headcount & Shoring (FEX-02) -->
-            <div id="tab-hcorg" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Headcount, FTE Counts &amp; Location Governance (FEX-02)</span>
-                <span style="font-size:10.5px;color:#64748b;">Counts · Cost Center Level or Above</span>
-              </div>
-            <div style="overflow-x:auto;">
-              <table class="epm-table">
-                <thead>
-                  <tr>
-                    <th>Workforce Classification</th>
-                    <th>Sep Act</th>
-                    <th>Plan</th>
-                    <th>Var</th>
-                    <th>Mix %</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="summary-row">
-                    <td>Headcount (Ending Total)</td>
-                    <td>1,513</td>
-                    <td>1,505</td>
-                    <td class="unf">+8</td>
-                    <td>100.0%</td>
-                    <td>Permanent active &amp; leave</td>
-                  </tr>
-                  <tr><td class="indent">United States (Traditional &amp; OneADP)</td><td>1,025</td><td>1,020</td><td class="unf">+5</td><td>67.7%</td><td>US Onshore Locations</td></tr>
-                  <tr><td class="indent">India (Global Business Solutions - GBS)</td><td>488</td><td>485</td><td class="unf">+3</td><td>32.3%</td><td>Offshore Delivery (India)</td></tr>
-                  <tr style="color:var(--muted);"><td class="indent2">Contingent Headcount (Memo)</td><td>18</td><td>20</td><td class="fav">(2)</td><td>-</td><td>Vendor Contractors</td></tr>
-                  <tr style="color:var(--muted);"><td class="indent2">Intern Headcount (Memo)</td><td>6</td><td>6</td><td>0</td><td>-</td><td>Seasonal Cohort</td></tr>
-
-                  <tr class="summary-row" style="background:#f1f5f9;">
-                    <td>FTE (Average Total)</td>
-                    <td>1,503.3</td>
-                    <td>1,495.0</td>
-                    <td class="unf">+8.3</td>
-                    <td>100.0%</td>
-                    <td>Average productive FTEs</td>
-                  </tr>
-                  <tr><td class="indent">Traditional (US Onshore)</td><td>522.5</td><td>520.0</td><td class="unf">+2.5</td><td>34.8%</td><td>Field Branches</td></tr>
-                  <tr><td class="indent">OneADP (US Regional Centers)</td><td>488.3</td><td>485.0</td><td class="unf">+3.3</td><td>32.5%</td><td>Augusta, El Paso, Tempe</td></tr>
-                  <tr><td class="indent">GBS (India Offshore)</td><td>463.6</td><td>460.0</td><td class="unf">+3.6</td><td>30.8%</td><td>Hyderabad &amp; Pune</td></tr>
-                  <tr><td class="indent">Overtime FTE (Equivalent)</td><td>27.4</td><td>22.0</td><td class="unf">+5.4</td><td>1.8%</td><td>Peak close &amp; starts</td></tr>
-                  <tr><td class="indent">Contingent FTE</td><td>1.4</td><td>1.5</td><td class="fav">(0.1)</td><td>0.1%</td><td>Temporary staff</td></tr>
-                </tbody>
-              </table>
-            </div>
-            </div>
-
-            <!-- TAB 5: Department Deep-Dive -->
-            <div id="tab-deptbreakdown" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Department Operational Profiles &amp; FTE Allocation</span>
-                <span style="font-size:10.5px;color:#64748b;">Cost Center Mapping</span>
-              </div>
-              <div style="overflow-x:auto;">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Department Name</th>
-                      <th>Comp $K</th>
-                      <th>Non-Comp $K</th>
-                      <th>Total $K</th>
-                      <th>Plan $K</th>
-                      <th>Cost / FTE</th>
-                      <th>Var %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row">
-                      <td>Client Service Operations</td>
-                      <td>4,980.2</td>
-                      <td>1,870.0</td>
-                      <td>6,850.2</td>
-                      <td>6,620.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+3.5%</td>
-                    </tr>
-                    <tr>
-                      <td>Production &amp; Transaction Ops</td>
-                      <td>2,810.5</td>
-                      <td>1,310.0</td>
-                      <td>4,120.5</td>
-                      <td>3,980.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+3.5%</td>
-                    </tr>
-                    <tr>
-                      <td>Implementation &amp; Plan Setup</td>
-                      <td>2,420.4</td>
-                      <td>614.0</td>
-                      <td>3,034.4</td>
-                      <td>2,950.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+2.9%</td>
-                    </tr>
-                    <tr>
-                      <td>Product Management &amp; Direct Costs</td>
-                      <td>850.0</td>
-                      <td>570.0</td>
-                      <td>1,420.0</td>
-                      <td>1,380.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+2.9%</td>
-                    </tr>
-                    <tr>
-                      <td>General Management &amp; SEC Reporting</td>
-                      <td>1,050.4</td>
-                      <td>230.0</td>
-                      <td>1,280.4</td>
-                      <td>1,240.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+3.3%</td>
-                    </tr>
-                    <tr>
-                      <td>Business Development &amp; Strategy</td>
-                      <td>620.6</td>
-                      <td>200.0</td>
-                      <td>820.6</td>
-                      <td>790.0</td>
-                      <td>$12.5K / mo</td>
-                      <td class="unf">+3.9%</td>
-                    </tr>
-                    <tr>
-                      <td>Non-NDE Direct Marketing</td>
-                      <td>410.1</td>
-                      <td>495.0</td>
-                      <td>905.1</td>
-                      <td>870.0</td>
-                      <td>$12.6K / mo</td>
-                      <td class="unf">+4.0%</td>
-                    </tr>
-                    <tr>
-                      <td>Unallocated / Reconciling Items</td>
-                      <td>207.6</td>
-                      <td>243.1</td>
-                      <td>450.7</td>
-                      <td>420.0</td>
-                      <td>$13.3K / mo</td>
-                      <td class="unf">+7.3%</td>
-                    </tr>
-                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;border-top:2px solid #0f62fe;">
-                      <td>TOTAL FIELD EXPENSE</td>
-                      <td>11,849.8</td>
-                      <td>7,032.1</td>
-                      <td>18,881.9</td>
-                      <td>18,250.0</td>
-                      <td>$12.56K / mo</td>
-                      <td class="unf">+3.5%</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- TAB 6: Period Comparison -->
-            <div id="tab-periodcomp" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Full Period Trajectory &amp; Growth ($K)</span>
-                <span style="font-size:10.5px;color:#64748b;">Month · QTD · YTD · FY OctFcst</span>
-              </div>
-              <div style="overflow-x:auto;">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Expense Category</th>
-                      <th>Sep Act</th>
-                      <th>Plan</th>
-                      <th>Var %</th>
-                      <th>QTD Act</th>
-                      <th>YTD Act</th>
-                      <th>FY OctFcst</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="summary-row">
-                      <td>Total Field Expense</td>
-                      <td>18,881.9</td>
-                      <td>18,250.0</td>
-                      <td class="unf">+3.5%</td>
-                      <td>18,881.9</td>
-                      <td>138,200.0</td>
-                      <td>225,000.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent">Employee Related</td>
-                      <td>11,849.8</td>
-                      <td>11,420.0</td>
-                      <td class="unf">+3.8%</td>
-                      <td>11,849.8</td>
-                      <td>86,700.0</td>
-                      <td>141,200.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent2">Total Compensation</td>
-                      <td>11,729.1</td>
-                      <td>11,305.0</td>
-                      <td class="unf">+3.8%</td>
-                      <td>11,729.1</td>
-                      <td>85,820.0</td>
-                      <td>139,800.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent2">Employee Other</td>
-                      <td>120.7</td>
-                      <td>115.0</td>
-                      <td class="unf">+5.0%</td>
-                      <td>120.7</td>
-                      <td>880.0</td>
-                      <td>1,400.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent">Non-Employee Costs</td>
-                      <td>7,032.1</td>
-                      <td>6,830.0</td>
-                      <td class="unf">+3.0%</td>
-                      <td>7,032.1</td>
-                      <td>51,500.0</td>
-                      <td>83,800.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent2">Direct Costs</td>
-                      <td>4,663.1</td>
-                      <td>4,520.0</td>
-                      <td class="unf">+3.2%</td>
-                      <td>4,663.1</td>
-                      <td>34,100.0</td>
-                      <td>55,500.0</td>
-                    </tr>
-                    <tr>
-                      <td class="indent2">Delivery &amp; Postage</td>
-                      <td>1,905.8</td>
-                      <td>1,850.0</td>
-                      <td class="unf">+3.0%</td>
-                      <td>1,905.8</td>
-                      <td>13,950.0</td>
-                      <td>22,700.0</td>
-                    </tr>
-                    <tr class="summary-row" style="background:#f1f5f9;">
-                      <td>NDE Selling Expense</td>
-                      <td>20,534.4</td>
-                      <td>20,200.0</td>
-                      <td class="unf">+1.7%</td>
-                      <td>20,534.4</td>
-                      <td>150,300.0</td>
-                      <td>245,000.0</td>
-                    </tr>
-                    <tr>
-                      <td>Shared Service Allocations</td>
-                      <td>6,501.1</td>
-                      <td>6,350.0</td>
-                      <td class="unf">+2.4%</td>
-                      <td>6,501.1</td>
-                      <td>47,600.0</td>
-                      <td>77,500.0</td>
-                    </tr>
-                    <tr class="summary-row" style="background:#f0fdf4;">
-                      <td><b>Field NOI ($K)</b></td>
-                      <td><b>74,521.5</b></td>
-                      <td><b>71,150.0</b></td>
-                      <td class="fav"><b>+4.7%</b></td>
-                      <td><b>74,521.5</b></td>
-                      <td><b>211,800.0</b></td>
-                      <td><b>325,000.0</b></td>
-                    </tr>
-                    <tr class="summary-row" style="background:#cbd5e1;">
-                      <td><b>Operating NOI EBIT ($K)</b></td>
-                      <td><b>47,486.0</b></td>
-                      <td><b>44,600.0</b></td>
-                      <td class="fav"><b>+6.5%</b></td>
-                      <td><b>47,486.0</b></td>
-                      <td><b>150,000.0</b></td>
-                      <td><b>230,000.0</b></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- TAB 7: FTE Productivity & Unit Economics -->
-            <div id="tab-productivity" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Workforce Unit Economics &amp; Operational Efficiency</span>
-                <span style="font-size:10.5px;color:#0f62fe;">Productivity Metrics</span>
-              </div>
-              <div style="overflow-x:auto;">
-                <table class="epm-table">
-                  <thead>
-                    <tr>
-                      <th>Productivity Metric</th>
-                      <th>September Actual</th>
-                      <th>Plan Target</th>
-                      <th>Variance</th>
-                      <th>Efficiency Benchmark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Field Expense per FTE (Monthly)</td><td>$12,560</td><td>$12,207</td><td class="unf">+$353 / FTE</td><td>$12,400 Industry</td></tr>
-                    <tr><td>Annualized Expense per FTE</td><td>$150.7K</td><td>$146.5K</td><td class="unf">+$4.2K / FTE</td><td>$148.8K Industry</td></tr>
-                    <tr><td>Revenue Generated per FTE</td><td>$62,132 / mo</td><td>$59,800 / mo</td><td class="fav">+$2,332 / FTE</td><td>4.95x Revenue / Cost</td></tr>
-                    <tr><td>Starts per Implementation FTE</td><td>78.9 starts / FTE</td><td>72.3 starts / FTE</td><td class="fav">+6.6 starts</td><td>+9.1% Conversion Speed</td></tr>
-                    <tr><td>Controls per Base Service FTE</td><td>142.8 plans</td><td>138.0 plans</td><td class="fav">+4.8 plans</td><td>+3.5% Service Span</td></tr>
-                    <tr><td>Labor Ratio (% of Field Expense)</td><td>62.8%</td><td>62.6%</td><td class="unf">+20 bps</td><td>63.5% Target Ceiling</td></tr>
-                    <tr class="summary-row"><td>GBS Offshore Leverage Ratio</td><td>30.8% FTE</td><td>31.0% FTE</td><td class="unf">(20 bps)</td><td>32.0% FY28 Objective</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          </div>
-
-
-          <!-- Expense Waterfall & Multi-Year Trends (below the tabbed table) -->
-          <div class="epm-box" id="sec-waterfall">
-            <div class="epm-box-hdr">
-              <span>EXPENSE WATERFALL &amp; TRENDS</span>
-              <div class="tools"><span>Charts &amp; Visual Analytics</span></div>
-            </div>
-            <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;">
-              <span style="font-size:11px;font-weight:700;color:#1e293b;">Field Expense Bridge, Category Mix &amp; Multi-Year NOI ($M)</span>
-            </div>
-            <div class="charts-grid">
-              <!-- Chart 1: Expense Waterfall: Plan to Actual -->
-              <div class="chart-card">
-                <div class="chart-title">Field Expense Bridge · Plan to Actual</div>
-                <div class="chart-sub">USD m · September Period ($18.25M Plan to $18.88M Actual)</div>
-                <div class="legend">
-                  <span><i style="background:#7B68B0"></i> Base</span>
-                  <span><i style="background:#F0605D"></i> Unfavorable</span>
-                  <span><i style="background:#3A9A3A"></i> Favorable</span>
-                </div>
-                <svg viewBox="0 0 280 150" width="100%" role="img" aria-label="Field expense waterfall bridge">
-                  <line x1="40" y1="18" x2="272" y2="18" stroke="#e0e0e0"/>
-                  <line x1="40" y1="50" x2="272" y2="50" stroke="#e0e0e0"/>
-                  <line x1="40" y1="82" x2="272" y2="82" stroke="#e0e0e0"/>
-                  <line x1="40" y1="114" x2="272" y2="114" stroke="#e0e0e0"/>
-                  <text x="36" y="21" text-anchor="end" font-size="8.5" fill="#525252">20</text>
-                  <text x="36" y="53" text-anchor="end" font-size="8.5" fill="#525252">19</text>
-                  <text x="36" y="85" text-anchor="end" font-size="8.5" fill="#525252">18</text>
-                  <text x="36" y="117" text-anchor="end" font-size="8.5" fill="#525252">0</text>
-                  <!-- Plan bar: 18.25 -->
-                  <rect x="44" y="68" width="34" height="46" fill="#7B68B0"/>
-                  <text x="61" y="64" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">18.25</text>
-                  <text x="61" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Plan</text>
-                  <line x1="78" y1="68" x2="94" y2="68" stroke="#aaa" stroke-dasharray="3 2"/>
-                  <!-- EE unfav +0.43 -->
-                  <rect x="94" y="52" width="28" height="16" fill="#F0605D"/>
-                  <text x="108" y="48" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">+0.43</text>
-                  <text x="108" y="126" text-anchor="middle" font-size="8.5" fill="#525252">EE</text>
-                  <line x1="122" y1="52" x2="138" y2="52" stroke="#aaa" stroke-dasharray="3 2"/>
-                  <!-- Direct Costs unfav +0.14 -->
-                  <rect x="138" y="46" width="28" height="6" fill="#F0605D"/>
-                  <text x="152" y="42" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">+0.14</text>
-                  <text x="152" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Direct</text>
-                  <line x1="166" y1="46" x2="182" y2="46" stroke="#aaa" stroke-dasharray="3 2"/>
-                  <!-- Impl / Other +0.06 -->
-                  <rect x="182" y="44" width="28" height="2" fill="#F0605D"/>
-                  <text x="196" y="40" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">+0.06</text>
-                  <text x="196" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Impl</text>
-                  <line x1="210" y1="44" x2="226" y2="44" stroke="#aaa" stroke-dasharray="3 2"/>
-                  <!-- Actual bar: 18.88 -->
-                  <rect x="226" y="44" width="34" height="70" fill="#7B68B0"/>
-                  <text x="243" y="40" text-anchor="middle" font-size="8.5" font-weight="700" fill="#161616">18.88</text>
-                  <text x="243" y="126" text-anchor="middle" font-size="8.5" fill="#525252">Actual</text>
-                </svg>
-              </div>
-
-              <!-- Chart 2: Expense by Major Category -->
-              <div class="chart-card">
-                <div class="chart-title">Expense by Major Category</div>
-                <div class="chart-sub">USD m · Actual vs Plan Comparison</div>
-                <div class="legend">
-                  <span><i style="background:#F0605D"></i> Actual</span>
-                  <span><i style="background:#BDB4DC"></i> Plan</span>
-                </div>
-                <svg viewBox="0 0 240 150" width="100%" role="img" aria-label="Expense by category bar chart">
-                  <line x1="30" y1="15" x2="230" y2="15" stroke="#e0e0e0"/>
-                  <line x1="30" y1="50" x2="230" y2="50" stroke="#e0e0e0"/>
-                  <line x1="30" y1="85" x2="230" y2="85" stroke="#e0e0e0"/>
-                  <line x1="30" y1="115" x2="230" y2="115" stroke="#e0e0e0"/>
-                  <text x="26" y="18" text-anchor="end" font-size="8" fill="#525252">14</text>
-                  <text x="26" y="53" text-anchor="end" font-size="8" fill="#525252">8</text>
-                  <text x="26" y="88" text-anchor="end" font-size="8" fill="#525252">4</text>
-                  <text x="26" y="118" text-anchor="end" font-size="8" fill="#525252">0</text>
-                  <!-- EE: 11.85 vs 11.42 -->
-                  <rect x="38" y="28" width="18" height="87" fill="#F0605D"/>
-                  <rect x="58" y="31" width="18" height="84" fill="#BDB4DC"/>
-                  <text x="47" y="24" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">11.85</text>
-                  <text x="67" y="27" text-anchor="middle" font-size="7.5" fill="#525252">11.42</text>
-                  <text x="57" y="126" text-anchor="middle" font-size="7.5" fill="#525252">EE Comp</text>
-                  <!-- Direct Costs: 4.66 vs 4.52 -->
-                  <rect x="88" y="80" width="18" height="35" fill="#F0605D"/>
-                  <rect x="108" y="81" width="18" height="34" fill="#BDB4DC"/>
-                  <text x="97" y="76" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">4.66</text>
-                  <text x="117" y="77" text-anchor="middle" font-size="7.5" fill="#525252">4.52</text>
-                  <text x="107" y="126" text-anchor="middle" font-size="7.5" fill="#525252">Direct</text>
-                  <!-- Mailing/Postage: 1.91 vs 1.85 -->
-                  <rect x="138" y="100" width="18" height="15" fill="#F0605D"/>
-                  <rect x="158" y="101" width="18" height="14" fill="#BDB4DC"/>
-                  <text x="147" y="96" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">1.91</text>
-                  <text x="167" y="97" text-anchor="middle" font-size="7.5" fill="#525252">1.85</text>
-                  <text x="157" y="126" text-anchor="middle" font-size="7.5" fill="#525252">Postage</text>
-                  <!-- Facility & Consulting: 1.23 vs 1.18 -->
-                  <rect x="188" y="105" width="18" height="10" fill="#F0605D"/>
-                  <rect x="208" y="106" width="18" height="9" fill="#BDB4DC"/>
-                  <text x="197" y="101" text-anchor="middle" font-size="7.5" font-weight="700" fill="#161616">1.23</text>
-                  <text x="217" y="102" text-anchor="middle" font-size="7.5" fill="#525252">1.18</text>
-                  <text x="207" y="126" text-anchor="middle" font-size="7.5" fill="#525252">G&amp;A/Other</text>
-                </svg>
-              </div>
-
-              <!-- Chart 3: Monthly Field Expense Trend -->
-              <div class="chart-card">
-                <div class="chart-title">Monthly Field Expense Trend</div>
-                <div class="chart-sub">USD m · ADP 4-4-5 Cycle · Actual vs Plan vs PY</div>
-                <div class="legend">
-                  <span><i style="background:#F0605D"></i> Actual</span>
-                  <span><i style="background:#888"></i> Plan</span>
-                  <span><i style="background:#4066C8"></i> Prior Year</span>
-                </div>
-                <svg viewBox="0 0 280 140" width="100%" role="img" aria-label="Monthly field expense trend line">
-                  <line x1="30" y1="15" x2="270" y2="15" stroke="#e0e0e0"/>
-                  <line x1="30" y1="45" x2="270" y2="45" stroke="#e0e0e0"/>
-                  <line x1="30" y1="75" x2="270" y2="75" stroke="#e0e0e0"/>
-                  <line x1="30" y1="105" x2="270" y2="105" stroke="#e0e0e0"/>
-                  <text x="26" y="18" text-anchor="end" font-size="8" fill="#525252">20</text>
-                  <text x="26" y="48" text-anchor="end" font-size="8" fill="#525252">19</text>
-                  <text x="26" y="78" text-anchor="end" font-size="8" fill="#525252">18</text>
-                  <text x="26" y="108" text-anchor="end" font-size="8" fill="#525252">17</text>
-                  <!-- Actual polyline -->
-                  <polyline points="40,82 140,74 240,58" fill="none" stroke="#F0605D" stroke-width="2.2" stroke-linejoin="round"/>
-                  <!-- Plan polyline -->
-                  <polyline points="40,80 140,76 240,72" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
-                  <!-- Prior Year polyline -->
-                  <polyline points="40,94 140,90 240,84" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-linejoin="round"/>
-                  <text x="244" y="55" font-size="8" fill="#F0605D" font-weight="700">18.88</text>
-                  <text x="244" y="70" font-size="8" fill="#888">18.25</text>
-                  <text x="244" y="88" font-size="8" fill="#4066C8">18.14</text>
-                  <text x="40" y="120" text-anchor="middle" font-size="8" fill="#525252">Jul</text>
-                  <text x="140" y="120" text-anchor="middle" font-size="8" fill="#525252">Aug</text>
-                  <text x="240" y="120" text-anchor="middle" font-size="8" fill="#525252">Sep</text>
-                </svg>
-              </div>
-
-              <!-- Chart 4: Multi-Year NOI Bar Growth (FY22 - FY27) -->
-              <div class="chart-card">
-                <div class="chart-title">RS: September NOI Trajectory ($M)</div>
-                <div class="chart-sub">FY22–FY27 · Growth % YoY · Actual vs Plan</div>
-                <div class="legend">
-                  <span><i style="background:#7B68B0"></i> Actual</span>
-                  <span><i style="background:#BDB4DC"></i> Plan</span>
-                </div>
-                <svg viewBox="0 0 280 140" width="100%" role="img" aria-label="RS Multi-year NOI bar chart">
-                  <line x1="30" y1="20" x2="270" y2="20" stroke="#e0e0e0"/>
-                  <line x1="30" y1="50" x2="270" y2="50" stroke="#e0e0e0"/>
-                  <line x1="30" y1="80" x2="270" y2="80" stroke="#e0e0e0"/>
-                  <line x1="30" y1="108" x2="270" y2="108" stroke="#e0e0e0"/>
-                  <text x="26" y="23" text-anchor="end" font-size="7.5" fill="#525252">50</text>
-                  <text x="26" y="53" text-anchor="end" font-size="7.5" fill="#525252">35</text>
-                  <text x="26" y="83" text-anchor="end" font-size="7.5" fill="#525252">20</text>
-                  <text x="26" y="111" text-anchor="end" font-size="7.5" fill="#525252">0</text>
-                  <!-- FY22: 17 -->
-                  <rect x="36" y="78" width="18" height="30" fill="#7B68B0"/>
-                  <text x="45" y="74" text-anchor="middle" font-size="7.5" font-weight="700">17</text>
-                  <text x="45" y="118" text-anchor="middle" font-size="7.5" fill="#525252">FY22</text>
-                  <!-- FY23: 19 -->
-                  <rect x="68" y="74" width="18" height="34" fill="#7B68B0"/>
-                  <text x="77" y="70" text-anchor="middle" font-size="7.5" font-weight="700">19</text>
-                  <text x="77" y="118" text-anchor="middle" font-size="7.5" fill="#525252">FY23</text>
-                  <!-- FY24: 24 -->
-                  <rect x="100" y="65" width="18" height="43" fill="#7B68B0"/>
-                  <text x="109" y="61" text-anchor="middle" font-size="7.5" font-weight="700">24</text>
-                  <text x="109" y="118" text-anchor="middle" font-size="7.5" fill="#525252">FY24</text>
-                  <!-- FY25: 30 -->
-                  <rect x="132" y="55" width="18" height="53" fill="#7B68B0"/>
-                  <text x="141" y="51" text-anchor="middle" font-size="7.5" font-weight="700">30</text>
-                  <text x="141" y="118" text-anchor="middle" font-size="7.5" fill="#525252">FY25</text>
-                  <!-- FY26: 38 -->
-                  <rect x="164" y="41" width="18" height="67" fill="#7B68B0"/>
-                  <text x="173" y="37" text-anchor="middle" font-size="7.5" font-weight="700">38</text>
-                  <text x="173" y="118" text-anchor="middle" font-size="7.5" fill="#525252">FY26</text>
-                  <!-- FY27 Act: 47.5 -->
-                  <rect x="196" y="24" width="18" height="84" fill="#7B68B0"/>
-                  <text x="205" y="20" text-anchor="middle" font-size="7.5" font-weight="700">47.5</text>
-                  <text x="205" y="118" text-anchor="middle" font-size="7.5" font-weight="700">FY27</text>
-                  <!-- FY27 Plan: 43.0 -->
-                  <rect x="228" y="32" width="18" height="76" fill="#BDB4DC"/>
-                  <text x="237" y="28" text-anchor="middle" font-size="7.5" fill="#525252">43.0</text>
-                  <text x="237" y="118" text-anchor="middle" font-size="7.5" fill="#525252">Plan</text>
-                </svg>
-              </div>
-            </div>
-          </div>
-
+        <div class="exp-an-scroll">
+          <table class="epm-table xp c2 c3 c4" id="exp-an-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Line</th>
+                <th colspan="4" class="grp" data-grp="1" data-cols="4"><button type="button" class="grp-tg" aria-expanded="true"><span class="grp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
+                <th colspan="1" class="grp" data-grp="2" data-cols="4"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>QTD</button></th>
+                <th colspan="1" class="grp" data-grp="3" data-cols="4"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>YTD</button></th>
+                <th colspan="1" class="grp" data-grp="4" data-cols="4"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>FY</button></th>
+              </tr>
+              <tr>
+                <th class="g1 gk">Actual</th><th class="g1">Plan</th><th class="g1">Var $</th><th class="g1">Var %</th>
+                <th class="g2 gk">Actual</th><th class="g2">Plan</th><th class="g2">Var $</th><th class="g2">Var %</th>
+                <th class="g3 gk">Actual</th><th class="g3">Plan</th><th class="g3">Var $</th><th class="g3">Var %</th>
+                <th class="g4 gk">Actual</th><th class="g4">Plan</th><th class="g4">Var $</th><th class="g4">Var %</th>
+              </tr>
+            </thead>
+            <tbody>
+<tr class="xr xk-ref xl0" data-id="rev" data-parent=""><td><span class="xlab">Revenue (for reference)</span></td><td class="g1 gk">93,403.4</td><td class="g1">89,400.0</td><td class="g1 fav">+4,003.4</td><td class="g1 fav">+4.5%</td><td class="g2 gk">277,408.1</td><td class="g2">268,200.0</td><td class="g2 fav">+9,208.1</td><td class="g2 fav">+3.4%</td><td class="g3 gk">833,158.3</td><td class="g3">804,600.0</td><td class="g3 fav">+28,558.3</td><td class="g3 fav">+3.5%</td><td class="g4 gk">1,109,632.4</td><td class="g4">1,072,800.0</td><td class="g4 fav">+36,832.4</td><td class="g4 fav">+3.4%</td></tr>
+<tr class="xr xk-total xl0" data-id="tot" data-parent=""><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="true" aria-label="Expand or collapse Total expenses (EBIT Expense)">−</button>Total expenses (EBIT Expense)</span></td><td class="g1 gk">45,917.4</td><td class="g1">44,800.0</td><td class="g1 unf">+1,117.4</td><td class="g1 unf">+2.5%</td><td class="g2 gk">136,374.7</td><td class="g2">134,400.0</td><td class="g2 unf">+1,974.7</td><td class="g2 unf">+1.5%</td><td class="g3 gk">409,583.2</td><td class="g3">403,200.0</td><td class="g3 unf">+6,383.2</td><td class="g3 unf">+1.6%</td><td class="g4 gk">545,498.7</td><td class="g4">537,600.0</td><td class="g4 unf">+7,898.7</td><td class="g4 unf">+1.5%</td></tr>
+<tr class="xr xk-parent xl1" data-id="nde" data-parent="tot"><td><span class="xlab"><span class="xt-sp"></span>NDE</span></td><td class="g1 gk">20,534.4</td><td class="g1">20,200.0</td><td class="g1 unf">+334.4</td><td class="g1 unf">+1.7%</td><td class="g2 gk">60,987.2</td><td class="g2">60,600.0</td><td class="g2 unf">+387.2</td><td class="g2 unf">+0.6%</td><td class="g3 gk">183,166.8</td><td class="g3">181,800.0</td><td class="g3 unf">+1,366.8</td><td class="g3 unf">+0.8%</td><td class="g4 gk">243,948.7</td><td class="g4">242,400.0</td><td class="g4 unf">+1,548.7</td><td class="g4 unf">+0.6%</td></tr>
+<tr class="xr xk-parent xl1" data-id="ss" data-parent="tot"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Shared service allocations (excluding NDE)">+</button>Shared service allocations (excluding NDE)</span></td><td class="g1 gk">6,501.1</td><td class="g1">6,350.0</td><td class="g1 unf">+151.1</td><td class="g1 unf">+2.4%</td><td class="g2 gk">19,308.3</td><td class="g2">19,050.0</td><td class="g2 unf">+258.3</td><td class="g2 unf">+1.4%</td><td class="g3 gk">57,989.8</td><td class="g3">57,150.0</td><td class="g3 unf">+839.8</td><td class="g3 unf">+1.5%</td><td class="g4 gk">77,233.1</td><td class="g4">76,200.0</td><td class="g4 unf">+1,033.1</td><td class="g4 unf">+1.4%</td></tr>
+<tr class="xr xk-child xl2 xh" data-id="rd" data-parent="ss"><td><span class="xlab"><span class="xt-sp"></span>R&amp;D allocation</span></td><td class="g1 gk">2,643.2</td><td class="g1">2,580.0</td><td class="g1 unf">+63.2</td><td class="g1 unf">+2.4%</td><td class="g2 gk">7,850.3</td><td class="g2">7,740.0</td><td class="g2 unf">+110.3</td><td class="g2 unf">+1.4%</td><td class="g3 gk">23,577.3</td><td class="g3">23,220.0</td><td class="g3 unf">+357.3</td><td class="g3 unf">+1.5%</td><td class="g4 gk">31,401.2</td><td class="g4">30,960.0</td><td class="g4 unf">+441.2</td><td class="g4 unf">+1.4%</td></tr>
+<tr class="xr xk-child xl2 xh" data-id="pm" data-parent="ss"><td><span class="xlab"><span class="xt-sp"></span>Product management allocation</span></td><td class="g1 gk">288.0</td><td class="g1">280.0</td><td class="g1 unf">+8.0</td><td class="g1 unf">+2.9%</td><td class="g2 gk">855.4</td><td class="g2">840.0</td><td class="g2 unf">+15.4</td><td class="g2 unf">+1.8%</td><td class="g3 gk">2,569.0</td><td class="g3">2,520.0</td><td class="g3 unf">+49.0</td><td class="g3 unf">+1.9%</td><td class="g4 gk">3,421.4</td><td class="g4">3,360.0</td><td class="g4 unf">+61.4</td><td class="g4 unf">+1.8%</td></tr>
+<tr class="xr xk-child xl2 xh" data-id="oss" data-parent="ss"><td><span class="xlab"><span class="xt-sp"></span>Other shared service allocations (GETS, Print, Corporate)</span></td><td class="g1 gk">3,569.9</td><td class="g1">3,490.0</td><td class="g1 unf">+79.9</td><td class="g1 unf">+2.3%</td><td class="g2 gk">10,602.6</td><td class="g2">10,470.0</td><td class="g2 unf">+132.6</td><td class="g2 unf">+1.3%</td><td class="g3 gk">31,843.5</td><td class="g3">31,410.0</td><td class="g3 unf">+433.5</td><td class="g3 unf">+1.4%</td><td class="g4 gk">42,410.4</td><td class="g4">41,880.0</td><td class="g4 unf">+530.4</td><td class="g4 unf">+1.3%</td></tr>
+<tr class="xr xk-parent xl1" data-id="fx" data-parent="tot"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="true" aria-label="Expand or collapse Field expense">−</button>Field expense</span></td><td class="g1 gk">18,881.9</td><td class="g1">18,250.0</td><td class="g1 unf">+631.9</td><td class="g1 unf">+3.5%</td><td class="g2 gk">56,079.2</td><td class="g2">54,750.0</td><td class="g2 unf">+1,329.2</td><td class="g2 unf">+2.4%</td><td class="g3 gk">168,426.5</td><td class="g3">164,250.0</td><td class="g3 unf">+4,176.5</td><td class="g3 unf">+2.5%</td><td class="g4 gk">224,317.0</td><td class="g4">219,000.0</td><td class="g4 unf">+5,317.0</td><td class="g4 unf">+2.4%</td></tr>
+<tr class="xr xk-band xl2" data-id="fxb" data-parent="fx"><td><span class="xlab"><span class="xt-sp"></span>By expense line: employee related and non-employee related, each with its accounts</span></td><td class="g1 gk"></td><td class="g1"></td><td class="g1"></td><td class="g1"></td><td class="g2 gk"></td><td class="g2"></td><td class="g2"></td><td class="g2"></td><td class="g3 gk"></td><td class="g3"></td><td class="g3"></td><td class="g3"></td><td class="g4 gk"></td><td class="g4"></td><td class="g4"></td><td class="g4"></td></tr>
+<tr class="xr xk-sect xl2" data-id="ee" data-parent="fx"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="true" aria-label="Expand or collapse Employee Related">−</button>Employee Related</span></td><td class="g1 gk">11,849.8</td><td class="g1">11,420.0</td><td class="g1 unf">+429.8</td><td class="g1 unf">+3.8%</td><td class="g2 gk">35,193.9</td><td class="g2">34,260.0</td><td class="g2 unf">+933.9</td><td class="g2 unf">+2.7%</td><td class="g3 gk">105,700.2</td><td class="g3">102,780.0</td><td class="g3 unf">+2,920.2</td><td class="g3 unf">+2.8%</td><td class="g4 gk">140,775.6</td><td class="g4">137,040.0</td><td class="g4 unf">+3,735.6</td><td class="g4 unf">+2.7%</td></tr>
+<tr class="xr xk-parent xl3" data-id="comp" data-parent="ee"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Total compensation">+</button>Total compensation</span></td><td class="g1 gk">11,729.1</td><td class="g1">11,305.0</td><td class="g1 unf">+424.1</td><td class="g1 unf">+3.8%</td><td class="g2 gk">34,835.4</td><td class="g2">33,915.0</td><td class="g2 unf">+920.4</td><td class="g2 unf">+2.7%</td><td class="g3 gk">104,623.6</td><td class="g3">101,745.0</td><td class="g3 unf">+2,878.6</td><td class="g3 unf">+2.8%</td><td class="g4 gk">139,341.7</td><td class="g4">135,660.0</td><td class="g4 unf">+3,681.7</td><td class="g4 unf">+2.7%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="sal" data-parent="comp"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Salary with Overtime incl Intercompany">+</button>Salary with Overtime incl Intercompany</span></td><td class="g1 gk">7,628.4</td><td class="g1">7,350.0</td><td class="g1 unf">+278.4</td><td class="g1 unf">+3.8%</td><td class="g2 gk">22,656.3</td><td class="g2">22,050.0</td><td class="g2 unf">+606.3</td><td class="g2 unf">+2.7%</td><td class="g3 gk">68,045.3</td><td class="g3">66,150.0</td><td class="g3 unf">+1,895.3</td><td class="g3 unf">+2.9%</td><td class="g4 gk">90,625.4</td><td class="g4">88,200.0</td><td class="g4 unf">+2,425.4</td><td class="g4 unf">+2.7%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="salb" data-parent="sal"><td><span class="xlab"><span class="xt-sp"></span>Salary</span></td><td class="g1 gk">7,387.6</td><td class="g1">7,150.0</td><td class="g1 unf">+237.6</td><td class="g1 unf">+3.3%</td><td class="g2 gk">21,941.2</td><td class="g2">21,450.0</td><td class="g2 unf">+491.2</td><td class="g2 unf">+2.3%</td><td class="g3 gk">65,897.4</td><td class="g3">64,350.0</td><td class="g3 unf">+1,547.4</td><td class="g3 unf">+2.4%</td><td class="g4 gk">87,764.7</td><td class="g4">85,800.0</td><td class="g4 unf">+1,964.7</td><td class="g4 unf">+2.3%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="ot" data-parent="sal"><td><span class="xlab"><span class="xt-sp"></span>Overtime</span></td><td class="g1 gk">240.8</td><td class="g1">200.0</td><td class="g1 unf">+40.8</td><td class="g1 unf">+20.4%</td><td class="g2 gk">715.2</td><td class="g2">600.0</td><td class="g2 unf">+115.2</td><td class="g2 unf">+19.2%</td><td class="g3 gk">2,147.9</td><td class="g3">1,800.0</td><td class="g3 unf">+347.9</td><td class="g3 unf">+19.3%</td><td class="g4 gk">2,860.7</td><td class="g4">2,400.0</td><td class="g4 unf">+460.7</td><td class="g4 unf">+19.2%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="gbs" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Global Business Solutions (GBS)</span></td><td class="g1 gk">888.0</td><td class="g1">860.0</td><td class="g1 unf">+28.0</td><td class="g1 unf">+3.3%</td><td class="g2 gk">2,637.4</td><td class="g2">2,580.0</td><td class="g2 unf">+57.4</td><td class="g2 unf">+2.2%</td><td class="g3 gk">7,921.0</td><td class="g3">7,740.0</td><td class="g3 unf">+181.0</td><td class="g3 unf">+2.3%</td><td class="g4 gk">10,549.4</td><td class="g4">10,320.0</td><td class="g4 unf">+229.4</td><td class="g4 unf">+2.2%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="cl" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Contingent Labor</span></td><td class="g1 gk">20.9</td><td class="g1">25.0</td><td class="g1 fav">(4.1)</td><td class="g1 fav">(16.4%)</td><td class="g2 gk">62.1</td><td class="g2">75.0</td><td class="g2 fav">(12.9)</td><td class="g2 fav">(17.2%)</td><td class="g3 gk">186.4</td><td class="g3">225.0</td><td class="g3 fav">(38.6)</td><td class="g3 fav">(17.1%)</td><td class="g4 gk">248.3</td><td class="g4">300.0</td><td class="g4 fav">(51.7)</td><td class="g4 fav">(17.2%)</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="bon" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Bonus</span></td><td class="g1 gk">476.2</td><td class="g1">450.0</td><td class="g1 unf">+26.2</td><td class="g1 unf">+5.8%</td><td class="g2 gk">1,414.3</td><td class="g2">1,350.0</td><td class="g2 unf">+64.3</td><td class="g2 unf">+4.8%</td><td class="g3 gk">4,247.7</td><td class="g3">4,050.0</td><td class="g3 unf">+197.7</td><td class="g3 unf">+4.9%</td><td class="g4 gk">5,657.3</td><td class="g4">5,400.0</td><td class="g4 unf">+257.3</td><td class="g4 unf">+4.8%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ptx" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Payroll Taxes</span></td><td class="g1 gk">599.7</td><td class="g1">580.0</td><td class="g1 unf">+19.7</td><td class="g1 unf">+3.4%</td><td class="g2 gk">1,781.1</td><td class="g2">1,740.0</td><td class="g2 unf">+41.1</td><td class="g2 unf">+2.4%</td><td class="g3 gk">5,349.3</td><td class="g3">5,220.0</td><td class="g3 unf">+129.3</td><td class="g3 unf">+2.5%</td><td class="g4 gk">7,124.4</td><td class="g4">6,960.0</td><td class="g4 unf">+164.4</td><td class="g4 unf">+2.4%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ben" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Benefits</span></td><td class="g1 gk">1,913.7</td><td class="g1">1,840.0</td><td class="g1 unf">+73.7</td><td class="g1 unf">+4.0%</td><td class="g2 gk">5,683.7</td><td class="g2">5,520.0</td><td class="g2 unf">+163.7</td><td class="g2 unf">+3.0%</td><td class="g3 gk">17,070.2</td><td class="g3">16,560.0</td><td class="g3 unf">+510.2</td><td class="g3 unf">+3.1%</td><td class="g4 gk">22,734.8</td><td class="g4">22,080.0</td><td class="g4 unf">+654.8</td><td class="g4 unf">+3.0%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="sbc" data-parent="comp"><td><span class="xlab"><span class="xt-sp"></span>Stock Based Comp</span></td><td class="g1 gk">202.2</td><td class="g1">200.0</td><td class="g1 unf">+2.2</td><td class="g1 unf">+1.1%</td><td class="g2 gk">600.5</td><td class="g2">600.0</td><td class="g2 unf">+0.5</td><td class="g2 unf">+0.1%</td><td class="g3 gk">1,803.6</td><td class="g3">1,800.0</td><td class="g3 unf">+3.6</td><td class="g3 unf">+0.2%</td><td class="g4 gk">2,402.1</td><td class="g4">2,400.0</td><td class="g4 unf">+2.1</td><td class="g4 unf">+0.1%</td></tr>
+<tr class="xr xk-parent xl3" data-id="eeo" data-parent="ee"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Total employee other">+</button>Total employee other</span></td><td class="g1 gk">120.7</td><td class="g1">115.0</td><td class="g1 unf">+5.7</td><td class="g1 unf">+5.0%</td><td class="g2 gk">358.5</td><td class="g2">345.0</td><td class="g2 unf">+13.5</td><td class="g2 unf">+3.9%</td><td class="g3 gk">1,076.6</td><td class="g3">1,035.0</td><td class="g3 unf">+41.6</td><td class="g3 unf">+4.0%</td><td class="g4 gk">1,433.9</td><td class="g4">1,380.0</td><td class="g4 unf">+53.9</td><td class="g4 unf">+3.9%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="te" data-parent="eeo"><td><span class="xlab"><span class="xt-sp"></span>Travel and Entertainment incl IC</span></td><td class="g1 gk">100.6</td><td class="g1">95.0</td><td class="g1 unf">+5.6</td><td class="g1 unf">+5.9%</td><td class="g2 gk">298.8</td><td class="g2">285.0</td><td class="g2 unf">+13.8</td><td class="g2 unf">+4.8%</td><td class="g3 gk">897.4</td><td class="g3">855.0</td><td class="g3 unf">+42.4</td><td class="g3 unf">+5.0%</td><td class="g4 gk">1,195.1</td><td class="g4">1,140.0</td><td class="g4 unf">+55.1</td><td class="g4 unf">+4.8%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="aa" data-parent="eeo"><td><span class="xlab"><span class="xt-sp"></span>Auto Allowance</span></td><td class="g1 gk">(16.3)</td><td class="g1">(15.0)</td><td class="g1 fav">(1.3)</td><td class="g1 fav">(8.7%)</td><td class="g2 gk">(48.4)</td><td class="g2">(45.0)</td><td class="g2 fav">(3.4)</td><td class="g2 fav">(7.6%)</td><td class="g3 gk">(145.4)</td><td class="g3">(135.0)</td><td class="g3 fav">(10.4)</td><td class="g3 fav">(7.7%)</td><td class="g4 gk">(193.6)</td><td class="g4">(180.0)</td><td class="g4 fav">(13.6)</td><td class="g4 fav">(7.6%)</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ea" data-parent="eeo"><td><span class="xlab"><span class="xt-sp"></span>Employee Activities</span></td><td class="g1 gk">14.3</td><td class="g1">12.0</td><td class="g1 unf">+2.3</td><td class="g1 unf">+19.2%</td><td class="g2 gk">42.5</td><td class="g2">36.0</td><td class="g2 unf">+6.5</td><td class="g2 unf">+18.0%</td><td class="g3 gk">127.6</td><td class="g3">108.0</td><td class="g3 unf">+19.6</td><td class="g3 unf">+18.1%</td><td class="g4 gk">169.9</td><td class="g4">144.0</td><td class="g4 unf">+25.9</td><td class="g4 unf">+18.0%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ta" data-parent="eeo"><td><span class="xlab"><span class="xt-sp"></span>Tuition Assistance</span></td><td class="g1 gk">4.4</td><td class="g1">5.0</td><td class="g1 fav">(0.6)</td><td class="g1 fav">(12.0%)</td><td class="g2 gk">13.1</td><td class="g2">15.0</td><td class="g2 fav">(1.9)</td><td class="g2 fav">(12.9%)</td><td class="g3 gk">39.2</td><td class="g3">45.0</td><td class="g3 fav">(5.8)</td><td class="g3 fav">(12.8%)</td><td class="g4 gk">52.3</td><td class="g4">60.0</td><td class="g4 fav">(7.7)</td><td class="g4 fav">(12.9%)</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="oe" data-parent="eeo"><td><span class="xlab"><span class="xt-sp"></span>Other Employee Related &amp; Severance</span></td><td class="g1 gk">17.7</td><td class="g1">18.0</td><td class="g1 fav">(0.3)</td><td class="g1 fav">(1.7%)</td><td class="g2 gk">52.6</td><td class="g2">54.0</td><td class="g2 fav">(1.4)</td><td class="g2 fav">(2.6%)</td><td class="g3 gk">157.9</td><td class="g3">162.0</td><td class="g3 fav">(4.1)</td><td class="g3 fav">(2.5%)</td><td class="g4 gk">210.3</td><td class="g4">216.0</td><td class="g4 fav">(5.7)</td><td class="g4 fav">(2.6%)</td></tr>
+<tr class="xr xk-sect xl2" data-id="ne" data-parent="fx"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="true" aria-label="Expand or collapse Non-Employee Related Expense">−</button>Non-Employee Related Expense</span></td><td class="g1 gk">7,032.1</td><td class="g1">6,830.0</td><td class="g1 unf">+202.1</td><td class="g1 unf">+3.0%</td><td class="g2 gk">20,885.3</td><td class="g2">20,490.0</td><td class="g2 unf">+395.3</td><td class="g2 unf">+1.9%</td><td class="g3 gk">62,726.3</td><td class="g3">61,470.0</td><td class="g3 unf">+1,256.3</td><td class="g3 unf">+2.0%</td><td class="g4 gk">83,541.3</td><td class="g4">81,960.0</td><td class="g4 unf">+1,581.3</td><td class="g4 unf">+1.9%</td></tr>
+<tr class="xr xk-parent xl3" data-id="dc" data-parent="ne"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Total direct costs">+</button>Total direct costs</span></td><td class="g1 gk">4,663.1</td><td class="g1">4,520.0</td><td class="g1 unf">+143.1</td><td class="g1 unf">+3.2%</td><td class="g2 gk">13,849.4</td><td class="g2">13,560.0</td><td class="g2 unf">+289.4</td><td class="g2 unf">+2.1%</td><td class="g3 gk">41,594.9</td><td class="g3">40,680.0</td><td class="g3 unf">+914.9</td><td class="g3 unf">+2.2%</td><td class="g4 gk">55,397.6</td><td class="g4">54,240.0</td><td class="g4 unf">+1,157.6</td><td class="g4 unf">+2.1%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="bd" data-parent="dc"><td><span class="xlab"><span class="xt-sp"></span>Bad Debt Trade</span></td><td class="g1 gk">763.7</td><td class="g1">740.0</td><td class="g1 unf">+23.7</td><td class="g1 unf">+3.2%</td><td class="g2 gk">2,268.2</td><td class="g2">2,220.0</td><td class="g2 unf">+48.2</td><td class="g2 unf">+2.2%</td><td class="g3 gk">6,812.2</td><td class="g3">6,660.0</td><td class="g3 unf">+152.2</td><td class="g3 unf">+2.3%</td><td class="g4 gk">9,072.8</td><td class="g4">8,880.0</td><td class="g4 unf">+192.8</td><td class="g4 unf">+2.2%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="tsf" data-parent="dc"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Total Trustee Service Fees">+</button>Total Trustee Service Fees</span></td><td class="g1 gk">827.1</td><td class="g1">800.0</td><td class="g1 unf">+27.1</td><td class="g1 unf">+3.4%</td><td class="g2 gk">2,456.5</td><td class="g2">2,400.0</td><td class="g2 unf">+56.5</td><td class="g2 unf">+2.4%</td><td class="g3 gk">7,377.7</td><td class="g3">7,200.0</td><td class="g3 unf">+177.7</td><td class="g3 unf">+2.5%</td><td class="g4 gk">9,825.9</td><td class="g4">9,600.0</td><td class="g4 unf">+225.9</td><td class="g4 unf">+2.4%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="t1" data-parent="tsf"><td><span class="xlab"><span class="xt-sp"></span>Trustee - STC Fiduciary Payment</span></td><td class="g1 gk">438.1</td><td class="g1">425.0</td><td class="g1 unf">+13.1</td><td class="g1 unf">+3.1%</td><td class="g2 gk">1,301.2</td><td class="g2">1,275.0</td><td class="g2 unf">+26.2</td><td class="g2 unf">+2.1%</td><td class="g3 gk">3,907.9</td><td class="g3">3,825.0</td><td class="g3 unf">+82.9</td><td class="g3 unf">+2.2%</td><td class="g4 gk">5,204.6</td><td class="g4">5,100.0</td><td class="g4 unf">+104.6</td><td class="g4 unf">+2.1%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="t2" data-parent="tsf"><td><span class="xlab"><span class="xt-sp"></span>Trustee - ERISA Bond &amp; Custodial</span></td><td class="g1 gk">346.3</td><td class="g1">335.0</td><td class="g1 unf">+11.3</td><td class="g1 unf">+3.4%</td><td class="g2 gk">1,028.5</td><td class="g2">1,005.0</td><td class="g2 unf">+23.5</td><td class="g2 unf">+2.3%</td><td class="g3 gk">3,089.0</td><td class="g3">3,015.0</td><td class="g3 unf">+74.0</td><td class="g3 unf">+2.5%</td><td class="g4 gk">4,114.0</td><td class="g4">4,020.0</td><td class="g4 unf">+94.0</td><td class="g4 unf">+2.3%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="t3" data-parent="tsf"><td><span class="xlab"><span class="xt-sp"></span>Trustee - Financial Control &amp; Trading</span></td><td class="g1 gk">39.3</td><td class="g1">38.0</td><td class="g1 unf">+1.3</td><td class="g1 unf">+3.4%</td><td class="g2 gk">116.7</td><td class="g2">114.0</td><td class="g2 unf">+2.7</td><td class="g2 unf">+2.4%</td><td class="g3 gk">350.6</td><td class="g3">342.0</td><td class="g3 unf">+8.6</td><td class="g3 unf">+2.5%</td><td class="g4 gk">466.9</td><td class="g4">456.0</td><td class="g4 unf">+10.9</td><td class="g4 unf">+2.4%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="t4" data-parent="tsf"><td><span class="xlab"><span class="xt-sp"></span>Trustee - Default &amp; Other</span></td><td class="g1 gk">3.5</td><td class="g1">2.0</td><td class="g1 unf">+1.5</td><td class="g1 unf">+75.0%</td><td class="g2 gk">10.4</td><td class="g2">6.0</td><td class="g2 unf">+4.4</td><td class="g2 unf">+73.3%</td><td class="g3 gk">31.2</td><td class="g3">18.0</td><td class="g3 unf">+13.2</td><td class="g3 unf">+73.4%</td><td class="g4 gk">41.6</td><td class="g4">24.0</td><td class="g4 unf">+17.6</td><td class="g4 unf">+73.3%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="tf" data-parent="dc"><td><span class="xlab"><span class="xt-sp"></span>Trailer Fees</span></td><td class="g1 gk">3,069.8</td><td class="g1">2,978.0</td><td class="g1 unf">+91.8</td><td class="g1 unf">+3.1%</td><td class="g2 gk">9,117.3</td><td class="g2">8,934.0</td><td class="g2 unf">+183.3</td><td class="g2 unf">+2.1%</td><td class="g3 gk">27,382.6</td><td class="g3">26,802.0</td><td class="g3 unf">+580.6</td><td class="g3 unf">+2.2%</td><td class="g4 gk">36,469.2</td><td class="g4">35,736.0</td><td class="g4 unf">+733.2</td><td class="g4 unf">+2.1%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="sfn" data-parent="dc"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Supplies, Forms &amp; NSF Movement">+</button>Supplies, Forms &amp; NSF Movement</span></td><td class="g1 gk">2.5</td><td class="g1">2.0</td><td class="g1 unf">+0.5</td><td class="g1 unf">+25.0%</td><td class="g2 gk">7.4</td><td class="g2">6.0</td><td class="g2 unf">+1.4</td><td class="g2 unf">+23.8%</td><td class="g3 gk">22.3</td><td class="g3">18.0</td><td class="g3 unf">+4.3</td><td class="g3 unf">+23.9%</td><td class="g4 gk">29.7</td><td class="g4">24.0</td><td class="g4 unf">+5.7</td><td class="g4 unf">+23.8%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="nsf" data-parent="sfn"><td><span class="xlab"><span class="xt-sp"></span>NSF Movement</span></td><td class="g1 gk">2.5</td><td class="g1">2.0</td><td class="g1 unf">+0.5</td><td class="g1 unf">+25.0%</td><td class="g2 gk">7.4</td><td class="g2">6.0</td><td class="g2 unf">+1.4</td><td class="g2 unf">+23.8%</td><td class="g3 gk">22.3</td><td class="g3">18.0</td><td class="g3 unf">+4.3</td><td class="g3 unf">+23.9%</td><td class="g4 gk">29.7</td><td class="g4">24.0</td><td class="g4 unf">+5.7</td><td class="g4 unf">+23.8%</td></tr>
+<tr class="xr xk-parent xl3" data-id="eo" data-parent="ne"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Total expense other">+</button>Total expense other</span></td><td class="g1 gk">3,144.7</td><td class="g1">3,060.0</td><td class="g1 unf">+84.7</td><td class="g1 unf">+2.8%</td><td class="g2 gk">9,339.8</td><td class="g2">9,180.0</td><td class="g2 unf">+159.8</td><td class="g2 unf">+1.7%</td><td class="g3 gk">28,050.7</td><td class="g3">27,540.0</td><td class="g3 unf">+510.7</td><td class="g3 unf">+1.9%</td><td class="g4 gk">37,359.0</td><td class="g4">36,720.0</td><td class="g4 unf">+639.0</td><td class="g4 unf">+1.7%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="fac" data-parent="eo"><td><span class="xlab"><span class="xt-sp"></span>Facility Related</span></td><td class="g1 gk">137.8</td><td class="g1">135.0</td><td class="g1 unf">+2.8</td><td class="g1 unf">+2.1%</td><td class="g2 gk">409.3</td><td class="g2">405.0</td><td class="g2 unf">+4.3</td><td class="g2 unf">+1.1%</td><td class="g3 gk">1,229.2</td><td class="g3">1,215.0</td><td class="g3 unf">+14.2</td><td class="g3 unf">+1.2%</td><td class="g4 gk">1,637.1</td><td class="g4">1,620.0</td><td class="g4 unf">+17.1</td><td class="g4 unf">+1.1%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="cpf" data-parent="eo"><td><span class="xlab"><span class="xt-sp"></span>Consulting and Professional Fees</span></td><td class="g1 gk">707.0</td><td class="g1">680.0</td><td class="g1 unf">+27.0</td><td class="g1 unf">+4.0%</td><td class="g2 gk">2,099.8</td><td class="g2">2,040.0</td><td class="g2 unf">+59.8</td><td class="g2 unf">+2.9%</td><td class="g3 gk">6,306.4</td><td class="g3">6,120.0</td><td class="g3 unf">+186.4</td><td class="g3 unf">+3.0%</td><td class="g4 gk">8,399.2</td><td class="g4">8,160.0</td><td class="g4 unf">+239.2</td><td class="g4 unf">+2.9%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="adv" data-parent="eo"><td><span class="xlab"><span class="xt-sp"></span>Advertising and Marketing</span></td><td class="g1 gk">473.9</td><td class="g1">460.0</td><td class="g1 unf">+13.9</td><td class="g1 unf">+3.0%</td><td class="g2 gk">1,407.5</td><td class="g2">1,380.0</td><td class="g2 unf">+27.5</td><td class="g2 unf">+2.0%</td><td class="g3 gk">4,227.2</td><td class="g3">4,140.0</td><td class="g3 unf">+87.2</td><td class="g3 unf">+2.1%</td><td class="g4 gk">5,629.9</td><td class="g4">5,520.0</td><td class="g4 unf">+109.9</td><td class="g4 unf">+2.0%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="dm" data-parent="eo"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Delivery and Mailing">+</button>Delivery and Mailing</span></td><td class="g1 gk">1,905.8</td><td class="g1">1,850.0</td><td class="g1 unf">+55.8</td><td class="g1 unf">+3.0%</td><td class="g2 gk">5,660.2</td><td class="g2">5,550.0</td><td class="g2 unf">+110.2</td><td class="g2 unf">+2.0%</td><td class="g3 gk">16,999.7</td><td class="g3">16,650.0</td><td class="g3 unf">+349.7</td><td class="g3 unf">+2.1%</td><td class="g4 gk">22,640.9</td><td class="g4">22,200.0</td><td class="g4 unf">+440.9</td><td class="g4 unf">+2.0%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="pp" data-parent="dm"><td><span class="xlab"><span class="xt-sp"></span>Postage - Participant Mailing</span></td><td class="g1 gk">1,532.4</td><td class="g1">1,490.0</td><td class="g1 unf">+42.4</td><td class="g1 unf">+2.8%</td><td class="g2 gk">4,551.2</td><td class="g2">4,470.0</td><td class="g2 unf">+81.2</td><td class="g2 unf">+1.8%</td><td class="g3 gk">13,669.0</td><td class="g3">13,410.0</td><td class="g3 unf">+259.0</td><td class="g3 unf">+1.9%</td><td class="g4 gk">18,204.9</td><td class="g4">17,880.0</td><td class="g4 unf">+324.9</td><td class="g4 unf">+1.8%</td></tr>
+<tr class="xr xk-child xl5 xh" data-id="sm" data-parent="dm"><td><span class="xlab"><span class="xt-sp"></span>Postage - Statement Mailing &amp; Overnight</span></td><td class="g1 gk">373.4</td><td class="g1">360.0</td><td class="g1 unf">+13.4</td><td class="g1 unf">+3.7%</td><td class="g2 gk">1,109.0</td><td class="g2">1,080.0</td><td class="g2 unf">+29.0</td><td class="g2 unf">+2.7%</td><td class="g3 gk">3,330.7</td><td class="g3">3,240.0</td><td class="g3 unf">+90.7</td><td class="g3 unf">+2.8%</td><td class="g4 gk">4,436.0</td><td class="g4">4,320.0</td><td class="g4 unf">+116.0</td><td class="g4 unf">+2.7%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="mp" data-parent="eo"><td><span class="xlab"><span class="xt-sp"></span>Meetings &amp; Program</span></td><td class="g1 gk">55.3</td><td class="g1">50.0</td><td class="g1 unf">+5.3</td><td class="g1 unf">+10.6%</td><td class="g2 gk">164.2</td><td class="g2">150.0</td><td class="g2 unf">+14.2</td><td class="g2 unf">+9.5%</td><td class="g3 gk">493.3</td><td class="g3">450.0</td><td class="g3 unf">+43.3</td><td class="g3 unf">+9.6%</td><td class="g4 gk">657.0</td><td class="g4">600.0</td><td class="g4 unf">+57.0</td><td class="g4 unf">+9.5%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ofd" data-parent="eo"><td><span class="xlab"><span class="xt-sp"></span>Other Fees, Dues, Penalties &amp; Credits</span></td><td class="g1 gk">(135.1)</td><td class="g1">(115.0)</td><td class="g1 fav">(20.1)</td><td class="g1 fav">(17.5%)</td><td class="g2 gk">(401.2)</td><td class="g2">(345.0)</td><td class="g2 fav">(56.2)</td><td class="g2 fav">(16.3%)</td><td class="g3 gk">(1,205.1)</td><td class="g3">(1,035.0)</td><td class="g3 fav">(170.1)</td><td class="g3 fav">(16.4%)</td><td class="g4 gk">(1,605.0)</td><td class="g4">(1,380.0)</td><td class="g4 fav">(225.0)</td><td class="g4 fav">(16.3%)</td></tr>
+<tr class="xr xk-parent xl3" data-id="oei" data-parent="ne"><td><span class="xlab"><button type="button" class="exp-toggle xt" aria-expanded="false" aria-label="Expand or collapse Other EBIT items">+</button>Other EBIT items</span></td><td class="g1 gk">(775.6)</td><td class="g1">(750.0)</td><td class="g1 fav">(25.6)</td><td class="g1 fav">(3.4%)</td><td class="g2 gk">(2,303.5)</td><td class="g2">(2,250.0)</td><td class="g2 fav">(53.5)</td><td class="g2 fav">(2.4%)</td><td class="g3 gk">(6,918.4)</td><td class="g3">(6,750.0)</td><td class="g3 fav">(168.4)</td><td class="g3 fav">(2.5%)</td><td class="g4 gk">(9,214.1)</td><td class="g4">(9,000.0)</td><td class="g4 fav">(214.1)</td><td class="g4 fav">(2.4%)</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="da" data-parent="oei"><td><span class="xlab"><span class="xt-sp"></span>Total Depreciation &amp; Amortization</span></td><td class="g1 gk">53.4</td><td class="g1">55.0</td><td class="g1 fav">(1.6)</td><td class="g1 fav">(2.9%)</td><td class="g2 gk">158.6</td><td class="g2">165.0</td><td class="g2 fav">(6.4)</td><td class="g2 fav">(3.9%)</td><td class="g3 gk">476.3</td><td class="g3">495.0</td><td class="g3 fav">(18.7)</td><td class="g3 fav">(3.8%)</td><td class="g4 gk">634.4</td><td class="g4">660.0</td><td class="g4 fav">(25.6)</td><td class="g4 fav">(3.9%)</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="cc" data-parent="oei"><td><span class="xlab"><span class="xt-sp"></span>Charge In / Charge Out / Allocations</span></td><td class="g1 gk">313.9</td><td class="g1">300.0</td><td class="g1 unf">+13.9</td><td class="g1 unf">+4.6%</td><td class="g2 gk">932.3</td><td class="g2">900.0</td><td class="g2 unf">+32.3</td><td class="g2 unf">+3.6%</td><td class="g3 gk">2,800.0</td><td class="g3">2,700.0</td><td class="g3 unf">+100.0</td><td class="g3 unf">+3.7%</td><td class="g4 gk">3,729.1</td><td class="g4">3,600.0</td><td class="g4 unf">+129.1</td><td class="g4 unf">+3.6%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="ier" data-parent="oei"><td><span class="xlab"><span class="xt-sp"></span>Internal Expense Revenue Offset MGT</span></td><td class="g1 gk">22.5</td><td class="g1">20.0</td><td class="g1 unf">+2.5</td><td class="g1 unf">+12.5%</td><td class="g2 gk">66.8</td><td class="g2">60.0</td><td class="g2 unf">+6.8</td><td class="g2 unf">+11.4%</td><td class="g3 gk">200.7</td><td class="g3">180.0</td><td class="g3 unf">+20.7</td><td class="g3 unf">+11.5%</td><td class="g4 gk">267.3</td><td class="g4">240.0</td><td class="g4 unf">+27.3</td><td class="g4 unf">+11.4%</td></tr>
+<tr class="xr xk-child xl4 xh" data-id="toi" data-parent="oei"><td><span class="xlab"><span class="xt-sp"></span>Total Other Income with Intercompany</span></td><td class="g1 gk">(1,165.4)</td><td class="g1">(1,125.0)</td><td class="g1 fav">(40.4)</td><td class="g1 fav">(3.6%)</td><td class="g2 gk">(3,461.2)</td><td class="g2">(3,375.0)</td><td class="g2 fav">(86.2)</td><td class="g2 fav">(2.6%)</td><td class="g3 gk">(10,395.4)</td><td class="g3">(10,125.0)</td><td class="g3 fav">(270.4)</td><td class="g3 fav">(2.7%)</td><td class="g4 gk">(13,845.0)</td><td class="g4">(13,500.0)</td><td class="g4 fav">(345.0)</td><td class="g4 fav">(2.6%)</td></tr>
+<tr class="xr xk-sum xl0" data-id="fno" data-parent=""><td><span class="xlab">Field operating NOI*</span></td><td class="g1 gk">74,521.5</td><td class="g1">71,150.0</td><td class="g1 fav">+3,371.5</td><td class="g1 fav">+4.7%</td><td class="g2 gk">221,328.9</td><td class="g2">213,450.0</td><td class="g2 fav">+7,878.9</td><td class="g2 fav">+3.7%</td><td class="g3 gk">664,731.8</td><td class="g3">640,350.0</td><td class="g3 fav">+24,381.8</td><td class="g3 fav">+3.8%</td><td class="g4 gk">885,315.4</td><td class="g4">853,800.0</td><td class="g4 fav">+31,515.4</td><td class="g4 fav">+3.7%</td></tr>
+<tr class="xr xk-pct xl0" data-id="fnom" data-parent=""><td><span class="xlab">Field operating NOI margin %*</span></td><td class="g1 gk">79.8%</td><td class="g1">79.6%</td><td class="g1 fav">+19 bps</td><td class="g1">-</td><td class="g2 gk">79.8%</td><td class="g2">79.6%</td><td class="g2 fav">+19 bps</td><td class="g2">-</td><td class="g3 gk">79.8%</td><td class="g3">79.6%</td><td class="g3 fav">+19 bps</td><td class="g3">-</td><td class="g4 gk">79.8%</td><td class="g4">79.6%</td><td class="g4 fav">+19 bps</td><td class="g4">-</td></tr>
+<tr class="xr xk-total xl0" data-id="noi" data-parent=""><td><span class="xlab">NOI (EBIT)</span></td><td class="g1 gk">47,486.0</td><td class="g1">44,600.0</td><td class="g1 fav">+2,886.0</td><td class="g1 fav">+6.5%</td><td class="g2 gk">141,033.4</td><td class="g2">133,800.0</td><td class="g2 fav">+7,233.4</td><td class="g2 fav">+5.4%</td><td class="g3 gk">423,575.1</td><td class="g3">401,400.0</td><td class="g3 fav">+22,175.1</td><td class="g3 fav">+5.5%</td><td class="g4 gk">564,133.7</td><td class="g4">535,200.0</td><td class="g4 fav">+28,933.7</td><td class="g4 fav">+5.4%</td></tr>
+<tr class="xr xk-pct xl0" data-id="noim" data-parent=""><td><span class="xlab">NOI margin %</span></td><td class="g1 gk">50.8%</td><td class="g1">49.9%</td><td class="g1 fav">+95 bps</td><td class="g1">-</td><td class="g2 gk">50.8%</td><td class="g2">49.9%</td><td class="g2 fav">+95 bps</td><td class="g2">-</td><td class="g3 gk">50.8%</td><td class="g3">49.9%</td><td class="g3 fav">+95 bps</td><td class="g3">-</td><td class="g4 gk">50.8%</td><td class="g4">49.9%</td><td class="g4 fav">+95 bps</td><td class="g4">-</td></tr>
+<tr class="xr xk-sum xl0" data-id="nox" data-parent=""><td><span class="xlab">NOI excluding sales and marketing ($)</span></td><td class="g1 gk">47,959.9</td><td class="g1">45,060.0</td><td class="g1 fav">+2,899.9</td><td class="g1 fav">+6.4%</td><td class="g2 gk">142,440.9</td><td class="g2">135,180.0</td><td class="g2 fav">+7,260.9</td><td class="g2 fav">+5.4%</td><td class="g3 gk">427,802.3</td><td class="g3">405,540.0</td><td class="g3 fav">+22,262.3</td><td class="g3 fav">+5.5%</td><td class="g4 gk">569,763.6</td><td class="g4">540,720.0</td><td class="g4 fav">+29,043.6</td><td class="g4 fav">+5.4%</td></tr>
+<tr class="xr xk-pct xl0" data-id="noxm" data-parent=""><td><span class="xlab">NOI excluding sales and marketing (%)</span></td><td class="g1 gk">51.4%</td><td class="g1">50.4%</td><td class="g1 fav">+95 bps</td><td class="g1">-</td><td class="g2 gk">51.4%</td><td class="g2">50.4%</td><td class="g2 fav">+95 bps</td><td class="g2">-</td><td class="g3 gk">51.4%</td><td class="g3">50.4%</td><td class="g3 fav">+95 bps</td><td class="g3">-</td><td class="g4 gk">51.4%</td><td class="g4">50.4%</td><td class="g4 fav">+95 bps</td><td class="g4">-</td></tr>
+            </tbody>
+          </table>
         </div>
-
+        <div class="exp-an-foot">Sample data. Month figures for the lines also shown in Management Expense P&amp;L and Account Hierarchy are taken from those tables; QTD, YTD and FY columns, the shared service split, margin %, and NOI excluding sales and marketing are placeholder values. Var $ = Actual less Plan (a positive expense variance is unfavorable). Expand and collapse is display only.</div>
       </div>
     </div>
 
@@ -1492,6 +794,49 @@
       showRightPane('tab-allocwalk');
     }
   }
+
+  // Expense Analysis: row expand / collapse (by data-parent) and period column groups. Display only.
+  (function initExpenseAnalysis() {
+    var tbl = document.getElementById('exp-an-table');
+    if (!tbl) return;
+    var rows = Array.prototype.slice.call(tbl.querySelectorAll('tbody tr.xr'));
+    function setOpen(btn, open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '\u2212' : '+';
+    }
+    function refresh() {
+      var shown = {};
+      rows.forEach(function (r) {
+        var p = r.getAttribute('data-parent');
+        var vis = !p || shown[p] === 'open';
+        r.classList.toggle('xh', !vis);
+        var b = r.querySelector('.xt');
+        shown[r.getAttribute('data-id')] = (vis && b && b.getAttribute('aria-expanded') === 'true') ? 'open' : 'closed';
+      });
+    }
+    tbl.addEventListener('click', function (e) {
+      var b = e.target.closest('.xt');
+      if (!b) return;
+      setOpen(b, b.getAttribute('aria-expanded') !== 'true');
+      refresh();
+    });
+    var all = document.getElementById('xpToggleAll');
+    if (all) all.addEventListener('click', function () {
+      var btns = tbl.querySelectorAll('.xt');
+      var anyClosed = Array.prototype.some.call(btns, function (b) { return b.getAttribute('aria-expanded') !== 'true'; });
+      btns.forEach(function (b) { setOpen(b, anyClosed); });
+      refresh();
+    });
+    tbl.querySelectorAll('th.grp[data-grp]').forEach(function (th) {
+      var btn = th.querySelector('.grp-tg'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        tbl.classList.toggle('c' + g, !open);
+        th.setAttribute('colspan', open ? n : 1);
+      });
+    });
+  })();
 </script>
 
 <script src="polaris_header.js"></script>

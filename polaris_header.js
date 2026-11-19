@@ -186,7 +186,7 @@
   }
   function withState(file, snap) { return file + '?' + toQuery(snap || state); }
   function persist() { var s = snapshot(); s.bu = CUR_BU; store(CONFIG.storageKey, s); }
-  function syncURL() { try { history.replaceState(null, '', location.pathname + '?' + toQuery(state)); } catch (e) { /* file:// restrictions */ } }
+  function syncURL() { try { var ln = new URLSearchParams(location.search).get('line'); history.replaceState(null, '', location.pathname + '?' + toQuery(state) + (ln && /^[A-Za-z0-9_-]+$/.test(ln) ? '&line=' + ln : '')); } catch (e) { /* file:// restrictions */ } }
 
   /* ============================================================ shared UI plumbing */
   var live, tt, activePanel = null, loadTimer = null;
@@ -710,7 +710,7 @@
     var a = e.target.closest && e.target.closest('a[href]'); if (!a || a.hasAttribute('data-pf-skip')) return;
     var href = a.getAttribute('href');
     if (!/^[A-Za-z0-9_\-]+\.html$/.test(href) || !inList(KNOWN_FILES, href)) return;
-    a.setAttribute('href', withState(href));
+    a.setAttribute('href', withState(href) + (/^[a-z]+=[A-Za-z0-9_-]+$/.test(a.getAttribute('data-pf-q') || '') ? '&' + a.getAttribute('data-pf-q') : ''));
     var line = a.getAttribute('data-pf-line');
     if (line) store(CONFIG.pendingKey, { from: PAGE.code, label: line.slice(0, 79) });
   }, true);

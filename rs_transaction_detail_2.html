@@ -127,6 +127,15 @@
   .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .tip.on { opacity: 1; }
   .nd { cursor: pointer; }
+  /* Drill-in context (arrives from a revenue line on RS Revenue Analysis 2) */
+  .line-ctx { background: #edf4ff; border: 1px solid #c7dcfb; border-radius: 4px; padding: 8px 14px; margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--navy); }
+  .line-ctx[hidden] { display: none; }
+  .line-ctx .lc-k { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #57606a; margin-right: 4px; }
+  .line-ctx .lc-line { font-weight: 700; }
+  .line-ctx .lc-note { color: #57606a; }
+  .line-ctx a { margin-left: auto; color: var(--blue); font-weight: 600; text-decoration: none; }
+  .line-ctx a:hover { text-decoration: underline; }
+  .empty-row td { text-align: center; color: #57606a; padding: 18px; white-space: normal; }
 </style>
 <link rel="stylesheet" href="site_footer.css">
 <link rel="stylesheet" href="polaris_header.css">
@@ -227,6 +236,16 @@
 
     <div class="content">
 
+      <!-- Revenue-line context (set when opened from RS Revenue Analysis 2) -->
+      <div class="line-ctx" id="lineCtx" hidden>
+        <span><span class="lc-k">Revenue line</span><span class="lc-line" id="lcLine"></span></span>
+        <span><span class="lc-k">Period</span><span id="lcPer"></span></span>
+        <span><span class="lc-k">Time view</span><span id="lcTv"></span></span>
+        <span><span class="lc-k">GL categories</span><span id="lcCats"></span></span>
+        <span class="lc-note" id="lcNote"></span>
+        <a href="rs_transaction_detail_2.html" id="lcClear" data-pf-skip>Show all revenue lines</a>
+      </div>
+
       <!-- Metric Strip -->
       <div class="metric-strip">
         <div class="m-card">
@@ -259,7 +278,7 @@
       <!-- Oracle GL Revenue Transactions Table -->
       <div class="epm-box">
         <div class="epm-box-hdr">
-          <span>ORACLE GL REVENUE TRANSACTIONS LEDGER (19 ATTRIBUTES)</span>
+          <span>ORACLE GL REVENUE TRANSACTIONS LEDGER (19 ATTRIBUTES)<span id="tableLineTag"></span></span>
           <div class="tools"><span id="tableMatchLabel">Showing 20 of 20 journal records</span></div>
         </div>
         <div style="overflow-x:auto;">
@@ -710,6 +729,7 @@
               </tr>
             </tbody>
           </table>
+          <div class="empty-row" id="glEmpty" hidden style="padding:18px;text-align:center;color:#57606a;">No journal lines match the current line and filters.</div>
         </div>
       </div>
 
@@ -733,6 +753,41 @@
 
 <script>
   var currentSource = 'all';
+
+  /* Revenue-line drill-in: ?line=<id> comes from RS Revenue Analysis 2. Lines map to the ledger's revenue categories.
+     Sample ledger: no rows exist for client funds interest (offset), so that line shows an empty result. */
+  var LINES = {
+    rev:     { label: 'Revenue (Total ADP Revenue, includes client funds interest)', cats: null },
+    proc:    { label: 'Processing revenue', cats: ['ASSET', 'HD', 'AR-ERISA'] },
+    asset:   { label: 'Asset fee revenue', cats: ['ASSET'] },
+    hard:    { label: 'Hard dollar revenue*', cats: ['HD', 'AR-ERISA'] },
+    nonproc: { label: 'Non-processing revenue*', cats: ['SETUP', 'DCIO'] },
+    setup:   { label: 'Setup revenue', cats: ['SETUP'] },
+    other:   { label: 'Other recurring revenue', cats: ['DCIO'] },
+    offset:  { label: 'Offset revenue and interest (client funds interest)', cats: [] }
+  };
+  var lineCats = null;
+  (function initLineContext() {
+    var q = new URLSearchParams(location.search), id = q.get('line');
+    if (!id || !Object.prototype.hasOwnProperty.call(LINES, id)) return;
+    var ln = LINES[id], MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var TV = { month: 'Month', qtd: 'QTD', ytd: 'YTD', roy: 'ROY', fy: 'FY' };
+    var per = q.get('per') || '', tv = q.get('tv') || 'month', pl = '';
+    if (/^\d{4}-(0[1-9]|1[0-2])$/.test(per)) {
+      var y = +per.slice(0, 4), m = +per.slice(5, 7);
+      pl = MN[m - 1] + ' ' + y + ' (FY' + String(m >= 7 ? y + 1 : y).slice(2) + ')';
+    }
+    lineCats = ln.cats;
+    document.getElementById('lcLine').textContent = ln.label;
+    document.getElementById('lcPer').textContent = pl || 'September 2026 (FY27)';
+    document.getElementById('lcTv').textContent = TV[tv] || 'Month';
+    document.getElementById('lcCats').textContent = ln.cats === null ? 'All revenue categories' : (ln.cats.length ? ln.cats.join(', ') : 'None in this ledger');
+    document.getElementById('lcNote').textContent = (ln.cats && !ln.cats.length)
+      ? 'No GL lines for this revenue line in the sample ledger.'
+      : 'Ledger rows are sample data and are not yet filtered by period.';
+    document.getElementById('tableLineTag').textContent = ' \u00B7 ' + ln.label;
+    document.getElementById('lineCtx').hidden = false;
+  })();
 
   function filterSource(src) {
     currentSource = src;
@@ -764,8 +819,9 @@
       var matchSrc = currentSource === 'all' || rSrc === currentSource;
       var matchCat = cat === 'all' || rCat === cat;
       var matchJe = je === 'all' || rJe === je;
+      var matchLine = !lineCats || lineCats.indexOf(rCat) > -1;
 
-      if (matchQuery && matchSrc && matchCat && matchJe) {
+      if (matchQuery && matchSrc && matchCat && matchJe && matchLine) {
         r.style.display = '';
         visibleCount++;
         var cells = r.querySelectorAll('td.num');
@@ -784,7 +840,10 @@
     document.getElementById('statCredit').textContent = '$' + totalCredit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     document.getElementById('statNet').textContent = '(' + '$' + Math.abs(net).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ')';
     document.getElementById('tableMatchLabel').textContent = 'Showing ' + visibleCount + ' of ' + rows.length + ' journal records';
+    document.getElementById('glEmpty').hidden = visibleCount > 0;
   }
+
+  if (lineCats) filterTable();
 
   function exportCSV() {
     var rows = document.querySelectorAll('#glTable tr');
