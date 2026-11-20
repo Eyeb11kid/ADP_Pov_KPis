@@ -561,6 +561,33 @@
     user-select: none;
     pointer-events: auto;
   }
+  /* Left-facing triangle pointer pointing directly at variance number */
+  #pa-explain::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -6px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 6px solid #4066C8;
+    transition: border-right-color .15s ease;
+  }
+  #pa-explain::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-right: 5px solid #141E50;
+    transition: border-right-color .15s ease;
+  }
   #pa-explain.on {
     display: inline-flex;
     animation: pa-explain-pop .15s cubic-bezier(0.16, 1, 0.3, 1);
@@ -574,11 +601,37 @@
     border-color: #0050e6;
     transform: scale(1.05);
   }
+  #pa-explain:hover::before {
+    border-right-color: #0050e6;
+  }
+  #pa-explain:hover::after {
+    border-right-color: #0f62fe;
+  }
   #pa-explain svg {
     width: 14px;
     height: 14px;
     fill: #ffffff;
     flex: none;
+  }
+
+  /* ── Variance Explain Active Inverted Cell Highlight (Light Text on Dark) ── */
+  .epm-table td.var-explain-highlight,
+  #pl-draft-table td.var-explain-highlight,
+  .epm-table td.var-explain-highlight.fav,
+  .epm-table td.var-explain-highlight.unf,
+  #pl-draft-table td.var-explain-highlight.fav,
+  #pl-draft-table td.var-explain-highlight.unf {
+    background-color: #141E50 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: inset 0 0 0 1px #4066C8 !important;
+    border-color: #141E50 !important;
+    position: relative;
+    z-index: 2;
+  }
+  .epm-table td.var-explain-highlight *,
+  #pl-draft-table td.var-explain-highlight * {
+    color: #ffffff !important;
   }
 
   /* Modal backdrop & card */
@@ -1926,8 +1979,93 @@
       if (input) input.value = '';
       if (titleInput) titleInput.value = '';
       inputBox.setAttribute('hidden', '');
+      inputBox._linkedCell = null;
     });
   }
+
+  function updateCommentaryBadge() {
+    var drawerList = document.getElementById('commentary-list-drawer');
+    var badge = document.querySelector('.drawer-tab[data-tab="commentary"] .commentary-badge');
+    if (drawerList && badge) {
+      badge.textContent = drawerList.querySelectorAll('.commentary-item').length;
+    }
+  }
+  window.updateCommentaryBadge = updateCommentaryBadge;
+
+  function addExplainedCommentary(meta, fullAnswer) {
+    if (!drawerList || !meta || !meta.explainId) return;
+
+    var existing = drawerList.querySelector('.commentary-item[data-explain-id="' + meta.explainId + '"]');
+    if (existing) return;
+
+    var item = document.createElement('div');
+    item.className = 'commentary-item';
+    item.dataset.explainId = meta.explainId;
+    item._linkedCell = meta.cell;
+
+    var delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'commentary-del-btn';
+    delBtn.setAttribute('aria-label', 'Delete commentary');
+    delBtn.setAttribute('title', 'Delete commentary');
+    delBtn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
+
+    var topEl = document.createElement('div');
+    topEl.className = 'commentary-item-top';
+    topEl.innerHTML = '<span class="insight-pill ai"><svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" style="vertical-align:-1px;margin-right:2px;"><path d="M7.5 1.5a.5.5 0 0 1 .5.5v1.2a4.5 4.5 0 0 1 3.8 3.8h1.2a.5.5 0 0 1 0 1h-1.2A4.5 4.5 0 0 1 8 11.8v1.2a.5.5 0 0 1-1 0v-1.2A4.5 4.5 0 0 1 3.2 8H2a.5.5 0 0 1 0-1h1.2A4.5 4.5 0 0 1 7 3.2V2a.5.5 0 0 1 .5-.5z"/></svg> AI Variance Insight</span>';
+
+    var titleEl = document.createElement('div');
+    titleEl.className = 'commentary-item-title';
+    titleEl.textContent = (meta.rowLabel ? meta.rowLabel + ' (' + meta.period + ')' : meta.q) + ' Variance Analysis';
+
+    var textEl = document.createElement('div');
+    textEl.className = 'commentary-item-text';
+    textEl.textContent = fullAnswer || meta.a;
+
+    var metaEl = document.createElement('div');
+    metaEl.className = 'commentary-item-meta';
+    var now = new Date();
+    var dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    var timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    metaEl.innerHTML = 'Generated by <b>Polaris Assistant</b> · ' + dateStr + ' at ' + timeStr;
+
+    var actionsEl = document.createElement('div');
+    actionsEl.className = 'commentary-item-actions';
+    actionsEl.innerHTML =
+      '<button type="button" class="commentary-reply-link">↩ Reply</button>' +
+      '<button type="button" class="commentary-edit-link">✎ Edit draft</button>' +
+      '<button type="button" class="commentary-read-link">Mark as read</button>';
+
+    var editWrap = document.createElement('div');
+    editWrap.className = 'commentary-edit-wrap';
+    editWrap.setAttribute('hidden', '');
+    editWrap.innerHTML =
+      '<input type="text" class="commentary-edit-title" value="' + (titleEl.textContent).replace(/"/g, '&quot;') + '" />' +
+      '<textarea class="commentary-edit-textarea">' + (textEl.textContent).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</textarea>' +
+      '<div class="commentary-edit-actions"><button type="button" class="btn btn-ghost btn-cancel-edit">Cancel</button><button type="button" class="btn btn-primary btn-save-edit">Save changes</button></div>';
+
+    var repliesEl = document.createElement('div');
+    repliesEl.className = 'commentary-replies';
+
+    var replyWrap = document.createElement('div');
+    replyWrap.className = 'commentary-reply-input-wrap';
+    replyWrap.setAttribute('hidden', '');
+    replyWrap.innerHTML = '<textarea class="commentary-reply-textarea" placeholder="Add a reply…"></textarea><div class="commentary-reply-actions"><button type="button" class="btn-sm btn-cancel-reply">Cancel</button><button type="button" class="btn-sm btn-save-reply">Post reply</button></div>';
+
+    item.appendChild(delBtn);
+    item.appendChild(topEl);
+    item.appendChild(titleEl);
+    item.appendChild(textEl);
+    item.appendChild(metaEl);
+    item.appendChild(actionsEl);
+    item.appendChild(editWrap);
+    item.appendChild(repliesEl);
+    item.appendChild(replyWrap);
+
+    drawerList.insertBefore(item, drawerList.firstChild);
+    updateCommentaryBadge();
+  }
+  window.addExplainedCommentary = addExplainedCommentary;
 
   if (btnSave && inputBox && input && list) {
     btnSave.addEventListener('click', function () {
@@ -1939,6 +2077,13 @@
       }
       var item = document.createElement('div');
       item.className = 'commentary-item';
+      if (inputBox._linkedCell) {
+        item._linkedCell = inputBox._linkedCell;
+        if (inputBox._linkedCell.dataset.explainId) {
+          item.dataset.explainId = inputBox._linkedCell.dataset.explainId;
+        }
+        inputBox._linkedCell = null;
+      }
 
       var delBtn = document.createElement('button');
       delBtn.type = 'button';
@@ -2018,10 +2163,23 @@
       if (del) {
         var item = del.closest('.commentary-item');
         if (item) {
+          // If this commentary item is linked to an explained cell, remove inverted highlight
+          if (item._linkedCell) {
+            item._linkedCell.classList.remove('var-explain-highlight');
+            delete item._linkedCell.dataset.explainId;
+          }
+          if (item.dataset.explainId) {
+            var linked = document.querySelectorAll('[data-explain-id="' + item.dataset.explainId + '"]');
+            linked.forEach(function (c) {
+              c.classList.remove('var-explain-highlight');
+              delete c.dataset.explainId;
+            });
+          }
           item.style.opacity = '0';
           item.style.transition = 'opacity .15s ease';
           setTimeout(function () {
             if (item.parentNode) item.parentNode.removeChild(item);
+            updateCommentaryBadge();
           }, 150);
         }
         return;
@@ -2423,7 +2581,7 @@
   }
 
   /* ── Main: ask a question ── */
-  function askQuestion(q, a, qIdx) {
+  function askQuestion(q, a, qIdx, meta) {
     if (seedLabel) { seedLabel.style.display = 'none'; }
     promptsEl.style.display = 'none';
     showMoreBtn.style.display = 'none';
@@ -2472,12 +2630,17 @@
       bodyEl.style.transition = 'opacity .25s';
       requestAnimationFrame(function() { requestAnimationFrame(function() { bodyEl.style.opacity = '1'; }); });
 
+      // Automatically add to Commentary drawer if this came from Explain
+      if (meta && meta.explainId && window.addExplainedCommentary) {
+        window.addExplainedCommentary(meta, a);
+      }
+
       // Action row
       var actions = document.createElement('div');
       actions.className = 'ai-answer-actions';
       actions.innerHTML =
         '<button type="button" class="btn-sm btn-save-reply" style="font-size:11px;">Copy</button>' +
-        '<button type="button" class="btn-sm btn-cancel-reply" style="font-size:11px;">Add to commentary</button>';
+        '<button type="button" class="btn-sm btn-cancel-reply" style="font-size:11px;">' + (meta && meta.explainId ? 'View in commentary ✓' : 'Add to commentary') + '</button>';
       actions.querySelector('.btn-save-reply').addEventListener('click', function() {
         if (navigator.clipboard) navigator.clipboard.writeText(a);
         this.textContent = 'Copied ✓';
@@ -2485,14 +2648,19 @@
       });
       actions.querySelector('.btn-cancel-reply').addEventListener('click', function() {
         if (window.switchToCommentaryTab) window.switchToCommentaryTab();
-        var inputBox = document.getElementById('commentary-input-box');
-        var commentaryInput = document.getElementById('commentary-input');
-        var titleInput = document.getElementById('commentary-title-input');
-        if (inputBox) inputBox.removeAttribute('hidden');
-        if (titleInput) titleInput.value = q;
-        if (commentaryInput) { commentaryInput.value = a; commentaryInput.focus(); }
-        this.textContent = 'Added ✓';
-        var self = this; setTimeout(function() { self.textContent = 'Add to commentary'; }, 2000);
+        if (!meta || !meta.explainId) {
+          var inputBox = document.getElementById('commentary-input-box');
+          var commentaryInput = document.getElementById('commentary-input');
+          var titleInput = document.getElementById('commentary-title-input');
+          if (inputBox) {
+            inputBox.removeAttribute('hidden');
+            if (meta && meta.cell) inputBox._linkedCell = meta.cell;
+          }
+          if (titleInput) titleInput.value = q;
+          if (commentaryInput) { commentaryInput.value = a; commentaryInput.focus(); }
+        }
+        this.textContent = meta && meta.explainId ? 'View in commentary ✓' : 'Added ✓';
+        var self = this; setTimeout(function() { self.textContent = meta && meta.explainId ? 'View in commentary ✓' : 'Add to commentary'; }, 2000);
       });
       answerBlock.appendChild(actions);
       scrollToBottom();
@@ -2541,9 +2709,9 @@
   });
 
   // Expose askPolaris for variance explain and external callers
-  window.askPolaris = function(q, a, qIdx) {
+  window.askPolaris = function(q, a, qIdx, meta) {
     if (window.openDrawer) window.openDrawer('ai');
-    askQuestion(q, a, qIdx >= 0 ? qIdx : -1);
+    askQuestion(q, a, qIdx >= 0 ? qIdx : -1, meta);
   };
 
   renderSeedPrompts();
@@ -2564,14 +2732,19 @@
   function showExplain(cell, data) {
     clearTimeout(hideTimer);
     curVarianceData = data;
+    curVarianceData.cell = cell;
     var rect = cell.getBoundingClientRect();
     var btnW = 86;
     var btnH = 26;
-    // Align vertically centered inside the row/cell, positioned right within the row hover
+    // Align vertically centered to variance cell, placed directly to the right of the variance
     var top = rect.top + (rect.height - btnH) / 2;
-    var left = rect.left + (rect.width - btnW) / 2;
+    var left = rect.right + 7;
+    // Keep within viewport if overflowing right
+    if (left + btnW > window.innerWidth - 8) {
+      left = Math.max(8, rect.left - btnW - 7);
+    }
     paExplain.style.top = top + 'px';
-    paExplain.style.left = Math.max(8, left) + 'px';
+    paExplain.style.left = left + 'px';
     paExplain.classList.add('on');
   }
 
@@ -2582,7 +2755,7 @@
 
   function scheduleHide() {
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(hideExplain, 140);
+    hideTimer = setTimeout(hideExplain, 200);
   }
 
   paExplain.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
@@ -2771,7 +2944,8 @@
               varVal: varVal,
               actVal: actVal,
               planVal: planVal,
-              rowId: rowId
+              rowId: rowId,
+              cell: td
             });
           });
 
@@ -2785,13 +2959,28 @@
   paExplain.addEventListener('click', function (e) {
     e.stopPropagation();
     e.preventDefault();
-    if (!curVarianceData) return;
+    if (!curVarianceData || !curVarianceData.cell) return;
     var d = curVarianceData;
     hideExplain();
+
+    // Highlight the active variance cell with inverted light-text-on-dark styling
+    var cell = d.cell;
+    var explainId = 'exp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    cell.dataset.explainId = explainId;
+    cell.classList.add('var-explain-highlight');
+
     var q = 'Explain ' + d.rowLabel + ' ' + d.period + ' variance (' + d.varVal + ')';
     var a = generateVarianceExplanation(d.rowLabel, d.period, d.varVal, d.actVal, d.planVal, d.rowId);
     if (window.askPolaris) {
-      window.askPolaris(q, a);
+      window.askPolaris(q, a, -1, {
+        explainId: explainId,
+        cell: cell,
+        rowLabel: d.rowLabel,
+        period: d.period,
+        varVal: d.varVal,
+        q: q,
+        a: a
+      });
     }
   });
 
