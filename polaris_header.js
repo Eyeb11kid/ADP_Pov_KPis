@@ -24,11 +24,13 @@
   /* ============================================================ reference data (prototype) */
   var PAGES = [
     { code: 'P01', label: 'CFO Dashboard',     area: 'corp',   file: { ALL: 'cfo_dashboard_3.html' }, cfoOnly: true, product: false, func: false, toggle: true,  views: ['month', 'ytd', 'fy'] },
-    { code: 'P02', label: 'SEC P&L',           area: 'corp',   file: { ALL: 'sec_report.html' },       cfoOnly: true, product: false, func: false, toggle: false, views: null },
+    // SEC P&L link hidden for now (uncomment to restore):
+    // { code: 'P02', label: 'SEC P&L',           area: 'corp',   file: { ALL: 'sec_report.html' },       cfoOnly: true, product: false, func: false, toggle: false, views: null },
     { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'rs_dashboard_3.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },
+    { code: 'P08', label: 'RS Dashboard (Draft)', area: 'bu', file: { RS: 'rs_dashboard_draft.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P04', label: 'Revenue Analysis',  area: 'bu',     file: { RS: 'revenue_analysis_RS_2.html', NAS: 'revenue_analysis_NAS_2.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P05', label: 'Expense P&L',       area: 'bu',     file: { RS: 'expense_pl_RS_2.html', NAS: 'expense_pl_NAS_2.html' }, product: true, func: true, toggle: true, views: null },
-    { code: 'P06', label: 'NPI P&L',           area: 'bu',     file: { NAS: 'NAS_npi_2.html' },        product: true, func: false, toggle: true,  views: null },
+    { code: 'P06', label: 'NPI P&L',           area: 'bu',     file: { NAS: 'NAS_npi_2.html' },        product: true, func: false, toggle: true,  views: null, hidden: true },
     { code: 'P07', label: 'Transaction Detail', area: 'detail', file: { RS: 'rs_transaction_detail_2.html', NAS: 'NAS_transaction_detail_2.html' }, product: true, func: false, toggle: false, views: null }
   ];
 
@@ -330,7 +332,7 @@
     var groups = [['corp', 'Corporate'], ['bu', CUR_BU + ' business unit'], ['detail', 'Detail']];
     var current = null;
     groups.forEach(function (g) {
-      var items = PAGES.filter(function (p) { return p.area === g[0] && (!p.cfoOnly || ROLE.corp); });
+      var items = PAGES.filter(function (p) { return p.area === g[0] && (!p.cfoOnly || ROLE.corp) && !p.hidden; });
       if (!items.length) return;
       ul.appendChild(h('li', { class: 'gn-group', text: g[1] }));
       items.forEach(function (p) { ul.appendChild(h('li', null, [navItem(p, 'gn-item')])); });
@@ -340,7 +342,7 @@
     menuBtn.addEventListener('click', function () {
       var list = h('div', { role: 'list' });
       groups.forEach(function (g) {
-        var items = PAGES.filter(function (p) { return p.area === g[0] && (!p.cfoOnly || ROLE.corp); });
+        var items = PAGES.filter(function (p) { return p.area === g[0] && (!p.cfoOnly || ROLE.corp) && !p.hidden; });
         if (!items.length) return;
         list.appendChild(h('div', { class: 'gn-menu-grp', text: g[1] }));
         items.forEach(function (p) { list.appendChild(navItem(p, 'gn-menu-link')); });
@@ -384,59 +386,38 @@
       ctx.classList.toggle('is-open', open); ui.summary.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    // Row 1: BU, period, time view, comparison, view toggle, help
+    // Row 1: BU, (Function if Expense P&L), Fiscal period
     ui.bu = pfButton('pf-l-bu', 'pf-bu', ''); ui.bu.addEventListener('click', openBU);
     ui.per = pfButton('pf-l-per', 'pf-per', ''); ui.per.addEventListener('click', openPeriod);
 
-    var tvItems = TIME_VIEWS.map(function (t) {
-      var ok = inList(viewsOf(PAGE), t.id);
-      return { id: t.id, label: t.label, oq: t.oq, disabled: !ok, tip: 'Not available on ' + PAGE.label };
-    });
-    var tvControl;
-    if (CONFIG.timeViewControl === 'dropdown') {
-      var sel = h('select', { class: 'pf-sel', 'aria-labelledby': 'pf-l-tv' });
-      tvItems.forEach(function (t) { sel.appendChild(h('option', { value: t.id, disabled: t.disabled, text: t.label + (t.oq ? ' (OQ-28)' : '') })); });
-      sel.addEventListener('change', function () { setTV(sel.value); });
-      ui.tv = { el: sel, update: function () { sel.value = effTV(); } };
-    } else {
-      ui.tv = buildSeg('pf-l-tv', tvItems, effTV, setTV);
+    var row1Items = [field('Business unit', 'pf-l-bu', ui.bu)];
+    if (PAGE.func) {
+      ui.fnBtn = h('button', { type: 'button', class: 'pf-btn', id: 'pf-fn', 'aria-haspopup': 'dialog', 'aria-expanded': 'false', 'aria-labelledby': 'pf-l-fn pf-fn' }, [h('span', { class: 'pf-v', text: 'All' }), h('span', { class: 'pf-badge', hidden: true }), svg('chev')]);
+      ui.fnBtn.addEventListener('click', function () { openFilter('fn'); });
+      row1Items.push(field('Function', 'pf-l-fn', ui.fnBtn));
     }
-    ui.cmp = buildSeg('pf-l-cmp', COMPARES, function () { return state.cmp; }, function (id) { state.cmp = id; commit('Comparison: ' + byId(COMPARES, id).label); });
-    // $ + % display format: applies to the KPI strip (#headline-kpis); hidden on pages that have none. Display-only, so no data refresh.
-    ui.fmt = buildSeg('pf-l-fmt', FORMATS, function () { return state.fmt; }, function (id) { state.fmt = id; persist(); syncURL(); updateAll(); say('Values shown as ' + byId(FORMATS, id).label); });
-    ui.fmtWrap = h('div', { class: 'pf-viewtg' }, [h('span', { class: 'ctx-lbl', id: 'pf-l-fmt', text: 'Values' }), ui.fmt.el]);
-    // RS variance standard: $ and % variances always display together, so RS pages never offer the $ / % toggle.
-    ui.fmtWrap.hidden = !document.getElementById('headline-kpis') || PBU === 'RS';
+    row1Items.push(field('Fiscal period', 'pf-l-per', ui.per));
+
     var help = h('a', { class: 'ctx-help', href: CONFIG.helpUrl, target: '_blank', rel: 'noopener' }, [svg('help', 13, 2), 'Help']);
 
     // Help sits in the top bar, to the left of the person icon; falls back to the filter row if a page has no avatar
     var avatar = document.querySelector('.chrome .avatar');
     if (avatar && avatar.parentNode) avatar.parentNode.insertBefore(help, avatar);
 
-    var row1 = h('div', { class: 'ctx-row' }, [
-      field('Business unit', 'pf-l-bu', ui.bu), field('Fiscal period', 'pf-l-per', ui.per),
-      field('Time view', 'pf-l-tv', ui.tv.el), field('Compare to', 'pf-l-cmp', ui.cmp.el),
-      ui.fmtWrap
-    ]);
+    var row1 = h('div', { class: 'ctx-row' }, row1Items);
 
-    // Row 2: filters, chips, data status
-    ui.prodBtn = h('button', { type: 'button', class: 'pf-btn', id: 'pf-prod', 'aria-haspopup': 'dialog', 'aria-expanded': 'false' }, [h('span', { class: 'pf-k', text: 'Product' }), h('span', { class: 'pf-badge', hidden: true }), svg('chev')]);
-    ui.fnBtn = h('button', { type: 'button', class: 'pf-btn', id: 'pf-fn', 'aria-haspopup': 'dialog', 'aria-expanded': 'false' }, [h('span', { class: 'pf-k', text: 'Function' }), h('span', { class: 'pf-badge', hidden: true }), svg('chev')]);
-    ui.prodBtn.addEventListener('click', function () { if (PAGE.product) openFilter('prod'); });
-    ui.fnBtn.addEventListener('click', function () { if (PAGE.func) openFilter('fn'); });
+    // Row 2: chips, clear, data status
     ui.chips = h('ul', { class: 'pf-chips', 'aria-label': 'Active filters' });
     ui.clear = h('button', { type: 'button', class: 'pf-link', text: 'Clear all', hidden: true });
-    ui.clear.addEventListener('click', function () { state.prod = []; state.fn = []; commit('All filters cleared'); ui.prodBtn.focus(); });
+    ui.clear.addEventListener('click', function () { state.fn = []; commit('All filters cleared'); if (ui.fnBtn) ui.fnBtn.focus(); });
     ui.ds = h('div', { class: 'ds', role: 'group', 'aria-label': 'Data status' });
-    var row2Items = [
-      h('div', { class: 'ctx-field' }, [h('span', { class: 'ctx-lbl', text: 'Filters' }), h('div', { class: 'pf-joined' }, [ui.prodBtn, ui.fnBtn])]),
-      ui.chips, ui.clear
-    ];
+    var row2Items = [ui.chips, ui.clear];
     if (!avatar) row2Items.push(help);
     // Data status ("Refreshed ...") sits in the top bar, left of the Cycle text; falls back to the filter row if there is no top bar
     var chromeR = document.querySelector(".chrome .chrome-r");
     if (chromeR) chromeR.insertBefore(ui.ds, chromeR.firstChild); else row2Items.push(ui.ds);
     var row2 = h('div', { class: 'ctx-row ctx-row2' }, row2Items);
+    if (!PAGE.func) row2.hidden = true;
 
     ui.banner = h('div', { class: 'ctx-banner', role: 'status', hidden: true }, [svg('warn', 14, 2), h('span', { text: 'Close in progress: figures may change.' })]);
     ctx.appendChild(ui.summary);
@@ -451,7 +432,7 @@
     var list = buildList('Business unit', items, false, function () { return [CUR_BU]; }, function (k) {
       closePanel(true);
       if (k === CUR_BU) return;
-      var tgt = pageFile(PAGE, k) || pageFile(PAGES[2], k); // fall back to that BU's dashboard when the page has no counterpart
+      var tgt = pageFile(PAGE, k) || pageFile(pageByCode('P03'), k); // fall back to that BU's dashboard when the page has no counterpart
       var snap = snapshot(); snap.prod = []; snap.fn = [];   // product/function values are BU-specific
       var s = snapshot(); s.bu = k; s.prod = []; s.fn = []; store(CONFIG.storageKey, s);
       if (tgt) location.href = withState(tgt, snap);
@@ -513,53 +494,60 @@
   function setTV(id) { state.tv = id; commit('Time view: ' + byId(TIME_VIEWS, id).label); }
 
   /* ---- Product / Function filters ---- */
-  function filterCfg(kind) { return kind === 'prod' ? { name: 'Product', items: BUCFG.products, btn: ui.prodBtn } : { name: 'Function', items: BUCFG.functions, btn: ui.fnBtn }; }
+  function filterCfg(kind) { return { name: 'Function', items: BUCFG.functions, btn: ui.fnBtn }; }
   function openFilter(kind) {
     var cfg = filterCfg(kind);
-    var list = buildList(cfg.name, cfg.items, true, function () { return state[kind]; }, function (id) {
-      var i = state[kind].indexOf(id);
-      if (i > -1) state[kind].splice(i, 1); else state[kind].push(id);
-      state[kind] = cfg.items.filter(function (o) { return inList(state[kind], o.id); }).map(function (o) { return o.id; });
+    var list = buildList(cfg.name, cfg.items, true, function () { return state.fn; }, function (id) {
+      var i = state.fn.indexOf(id);
+      if (i > -1) state.fn.splice(i, 1); else state.fn.push(id);
+      state.fn = cfg.items.filter(function (o) { return inList(state.fn, o.id); }).map(function (o) { return o.id; });
       list.update(); commit(cfg.name + ': ' + byId(cfg.items, id).label + (i > -1 ? ' removed' : ' added'));
     });
     var clear = h('button', { type: 'button', class: 'pf-link', text: 'Clear ' + cfg.name.toLowerCase() + ' selection' });
-    clear.addEventListener('click', function () { state[kind] = []; list.update(); commit(cfg.name + ' filter cleared'); });
+    clear.addEventListener('click', function () { state.fn = []; list.update(); commit(cfg.name + ' filter cleared'); });
     openPanel(cfg.btn, cfg.name + ' (multi-select)', list.el, { footer: h('div', { class: 'pf-panel-foot' }, [clear]), focus: list.first });
   }
 
   var chipsExpanded = false;
   function chipData() {
     var out = [];
-    state.prod.forEach(function (id) { out.push({ kind: 'prod', key: 'Product', id: id, label: byId(BUCFG.products, id).label, inactive: !PAGE.product }); });
-    state.fn.forEach(function (id) { out.push({ kind: 'fn', key: 'Function', id: id, label: byId(BUCFG.functions, id).label, inactive: !PAGE.func }); });
+    if (PAGE.func) {
+      state.fn.forEach(function (id) {
+        var item = byId(BUCFG.functions, id);
+        if (item) out.push({ kind: 'fn', key: 'Function', id: id, label: item.label, inactive: false });
+      });
+    }
     return out;
   }
   function updateChips(focusIdx) {
     if (!ui.chips) return;
     var data = chipData(), max = narrow() ? CONFIG.chipsVisibleNarrow : CONFIG.chipsVisible;
     ui.chips.textContent = '';
-    if (!data.length) ui.chips.appendChild(h('li', { class: 'pf-none', text: 'No filters applied' }));
-    var shown = chipsExpanded ? data : data.slice(0, max);
-    shown.forEach(function (c, i) {
-      var x = h('button', { type: 'button', class: 'pf-chip-x', 'aria-label': 'Remove filter ' + c.key + ': ' + c.label, 'aria-disabled': c.inactive ? 'true' : 'false' }, [svg('x', 10, 3)]);
-      var li = h('li', { class: 'pf-chip pf-chip-' + (c.kind === 'prod' ? 'product' : 'function') + (c.inactive ? ' is-inactive' : '') }, [
-        h('span', { class: 'pf-chip-k', text: c.key + ':' }), h('span', { class: 'pf-chip-v', text: c.label }), x]);
-      if (c.inactive) { tip(li, c.kind === 'fn' ? 'Applies to Expense P&L only' : 'Applies to P03\u2013P07'); li.setAttribute('tabindex', '0'); }
-      x.addEventListener('click', function () {
-        if (c.inactive) return;
-        state[c.kind] = state[c.kind].filter(function (v) { return v !== c.id; });
-        commit(c.key + ' filter removed: ' + c.label);
-        var xs = ui.chips.querySelectorAll('.pf-chip-x');
-        (xs.length ? xs[Math.min(i, xs.length - 1)] : (c.kind === 'prod' ? ui.prodBtn : ui.fnBtn)).focus();
+    if (data.length) {
+      var shown = chipsExpanded ? data : data.slice(0, max);
+      shown.forEach(function (c, i) {
+        var x = h('button', { type: 'button', class: 'pf-chip-x', 'aria-label': 'Remove filter ' + c.key + ': ' + c.label, 'aria-disabled': 'false' }, [svg('x', 10, 3)]);
+        var li = h('li', { class: 'pf-chip pf-chip-function' }, [
+          h('span', { class: 'pf-chip-k', text: c.key + ':' }), h('span', { class: 'pf-chip-v', text: c.label }), x]);
+        x.addEventListener('click', function () {
+          state.fn = state.fn.filter(function (v) { return v !== c.id; });
+          commit(c.key + ' filter removed: ' + c.label);
+          var xs = ui.chips.querySelectorAll('.pf-chip-x');
+          (xs.length ? xs[Math.min(i, xs.length - 1)] : ui.fnBtn).focus();
+        });
+        ui.chips.appendChild(li);
       });
-      ui.chips.appendChild(li);
-    });
-    if (data.length > max) {
-      var more = h('button', { type: 'button', class: 'pf-more', 'aria-expanded': chipsExpanded ? 'true' : 'false', text: chipsExpanded ? 'Show fewer' : '+' + (data.length - max) + ' more' });
-      more.addEventListener('click', function () { chipsExpanded = !chipsExpanded; updateChips(); ui.chips.querySelector('.pf-more').focus(); });
-      ui.chips.appendChild(h('li', null, [more]));
+      if (data.length > max) {
+        var more = h('button', { type: 'button', class: 'pf-more', 'aria-expanded': chipsExpanded ? 'true' : 'false', text: chipsExpanded ? 'Show fewer' : '+' + (data.length - max) + ' more' });
+        more.addEventListener('click', function () { chipsExpanded = !chipsExpanded; updateChips(); ui.chips.querySelector('.pf-more').focus(); });
+        ui.chips.appendChild(h('li', null, [more]));
+      }
+      ui.clear.hidden = false;
+      if (ui.ctx && ui.ctx.querySelector('.ctx-row2')) ui.ctx.querySelector('.ctx-row2').hidden = false;
+    } else {
+      ui.clear.hidden = true;
+      if (!PAGE.func && ui.ctx && ui.ctx.querySelector('.ctx-row2')) ui.ctx.querySelector('.ctx-row2').hidden = true;
     }
-    ui.clear.hidden = !data.length;
   }
 
   /* ---- data status ---- */
@@ -583,18 +571,17 @@
     ui.bu.setAttribute('aria-disabled', buDisabled ? 'true' : 'false');
     tip(ui.bu, buDisabled ? (PBU ? 'Your access is limited to ' + CUR_BU : 'Corporate pages span all business units') : '');
     ui.per._v.textContent = monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + ' \u00B7 ' + fyLabel(fiscalYearOf(state.per));
-    ui.tv.update(); ui.cmp.update(); ui.fmt.update();
-    var hk = document.getElementById('headline-kpis'); if (hk) hk.setAttribute('data-fmt', PBU === 'RS' ? 'both' : state.fmt);
-    // filter buttons
-    [['prod', ui.prodBtn, PAGE.product, 'Applies to P03\u2013P07'], ['fn', ui.fnBtn, PAGE.func, 'Applies to Expense P&L only']].forEach(function (f) {
-      var b = f[1], n = state[f[0]].length, badge = b.querySelector('.pf-badge');
-      b.setAttribute('aria-disabled', f[2] ? 'false' : 'true'); tip(b, f[2] ? '' : f[3]);
-      badge.hidden = !n; badge.textContent = String(n);
-      b.setAttribute('aria-label', (f[0] === 'prod' ? 'Product' : 'Function') + ' filter, ' + n + ' selected' + (f[2] ? '' : ', unavailable: ' + f[3]));
-    });
+    if (PAGE.func && ui.fnBtn) {
+      var n = state.fn.length, badge = ui.fnBtn.querySelector('.pf-badge'), vSpan = ui.fnBtn.querySelector('.pf-v');
+      badge.hidden = !n;
+      badge.textContent = String(n);
+      if (vSpan) vSpan.textContent = n ? (n === 1 ? byId(BUCFG.functions, state.fn[0]).label : n + ' selected') : 'All';
+      ui.fnBtn.setAttribute('aria-label', 'Function filter, ' + (n ? n + ' selected' : 'All'));
+    }
     updateChips(); updateStatus(); updateHrefs();
-    var nF = state.prod.length + (PAGE.func ? state.fn.length : 0);
-    document.getElementById('pf-sum-t').textContent = (PBU ? CUR_BU : 'All BUs') + ' \u00B7 ' + monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + ' \u00B7 ' + byId(TIME_VIEWS, effTV()).label + ' \u00B7 ' + byId(COMPARES, state.cmp).label + ' \u00B7 ' + nF + (nF === 1 ? ' filter' : ' filters');
+    var nF = PAGE.func ? state.fn.length : 0;
+    var sumEl = document.getElementById('pf-sum-t');
+    if (sumEl) sumEl.textContent = (PBU ? CUR_BU : 'All BUs') + ' \u00B7 ' + monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + (nF ? ' \u00B7 ' + nF + (nF === 1 ? ' filter' : ' filters') : '');
     if (trail) renderCrumbs(trail);
   }
 
@@ -656,7 +643,7 @@
   var KNOWN_FILES = (function () { var s = []; PAGES.forEach(function (p) { for (var k in p.file) s.push(p.file[k]); }); return s; })();
   function crumbLabel(p) { return p.code === 'P03' ? CUR_BU + ' Dashboard' : p.code === 'P01' ? 'Corporate CFO Dashboard' : p.label; }
   // Hierarchy: Corporate CFO (P01) > BU Dashboard (P03) > Revenue / Expense / NPI (P04–P06) > Transaction Detail (P07, under Revenue Analysis)
-  var PARENT = { P03: 'P01', P04: 'P03', P05: 'P03', P06: 'P03', P07: 'P04' };
+  var PARENT = { P08: 'P01', P03: 'P01', P04: 'P03', P05: 'P03', P06: 'P03', P07: 'P04' };
   function pageByCode(c) { for (var i = 0; i < PAGES.length; i++) if (PAGES[i].code === c) return PAGES[i]; return null; }
   function crumbFor(p) { return { code: p.code, label: crumbLabel(p), file: pageFile(p, CUR_BU), snap: snapshot() }; }
   function defaultChain(p) {
@@ -747,10 +734,10 @@
       btn('Preview example drill breadcrumb', function () {
         previewTrail = [
           { code: 'P01', label: 'Corporate CFO Dashboard', file: pageFile(PAGES[0], CUR_BU), snap: snapshot() },
-          { code: 'P03', label: CUR_BU + ' Dashboard', file: pageFile(PAGES[2], CUR_BU), snap: snapshot() },
-          { code: 'P04', label: 'Revenue Analysis', file: pageFile(PAGES[3], CUR_BU), snap: snapshot() },
+          { code: 'P03', label: CUR_BU + ' Dashboard', file: pageFile(pageByCode('P03'), CUR_BU), snap: snapshot() },
+          { code: 'P04', label: 'Revenue Analysis', file: pageFile(pageByCode('P04'), CUR_BU), snap: snapshot() },
           { ctx: true, label: 'Revenue: 401K Small' },
-          { code: 'P07', label: 'Transaction Detail', file: pageFile(PAGES[6], CUR_BU), snap: snapshot() }];
+          { code: 'P07', label: 'Transaction Detail', file: pageFile(pageByCode('P07'), CUR_BU), snap: snapshot() }];
         renderCrumbs(trail);
       }),
       btn('Reset saved context', function () { [CONFIG.storageKey, CONFIG.trailKey, CONFIG.pendingKey, CONFIG.simKey, CONFIG.roleKey].forEach(function (k) { try { sessionStorage.removeItem(k); } catch (e) { /* ignore */ } }); location.href = location.pathname; }),

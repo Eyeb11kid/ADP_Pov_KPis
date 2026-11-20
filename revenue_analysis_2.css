@@ -209,7 +209,7 @@ tr.child-row.open { display: table-row; }
 .site-footer a:hover { text-decoration: underline; }
 
 /* Period column groups (Month / QTD / YTD / ROY / FY) on #rev-summary-table: a collapsed group keeps only its key column (.gk) */
-.epm-table.rev-periods.c1 .g1:not(.gk), .epm-table.rev-periods.c2 .g2:not(.gk), .epm-table.rev-periods.c3 .g3:not(.gk), .epm-table.rev-periods.c4 .g4:not(.gk), .epm-table.rev-periods.c5 .g5:not(.gk) { display: none; }
+.epm-table.rev-periods.c1 .g1:not(.gk):not(.gv), .epm-table.rev-periods.c2 .g2:not(.gk):not(.gv), .epm-table.rev-periods.c3 .g3:not(.gk):not(.gv), .epm-table.rev-periods.c4 .g4:not(.gk):not(.gv), .epm-table.rev-periods.c5 .g5:not(.gk):not(.gv) { display: none; }
 .epm-table.rev-periods { font-size: 11px; }
 .epm-table.rev-periods th, .epm-table.rev-periods td { padding: 4px 8px; }
 .epm-table.rev-periods th { white-space: normal; vertical-align: bottom; }
@@ -243,3 +243,22 @@ tr.child-row.open { display: table-row; }
 .epm-table a.line-link::after { content: "\203A"; color: var(--blue); font-size: 1.2em; font-weight: 700; margin-left: 6px; line-height: 1; vertical-align: -1px; }
 .epm-table tr.row-link { cursor: pointer; }
 .epm-table a.line-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
+
+/* RS Revenue Analysis: single tabbed container for the three tables (one layout, one table style) */
+.epm-layout-grid.single { grid-template-columns: minmax(0, 1fr); }
+.rev-tabs .right-tab { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+.rev-tabs .pane-hdr-title { text-transform: none; }
+.rev-tabs .epm-table { font-size: 11px; }
+.rev-tabs .epm-table th, .rev-tabs .epm-table td { padding: 4px 8px; }
+.rev-tabs .epm-table th { white-space: normal; vertical-align: bottom; }
+.rev-tabs .epm-table th:first-child, .rev-tabs .epm-table td:first-child { min-width: 240px; }
+.rev-tabs .epm-table.rev-flat tr.summary-row td { font-weight: 700; color: #0f172a; background: #eef2f7; border-top: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; }
+.rev-tabs .epm-table.rev-flat tr.summary-row.sub-row td { font-weight: 600; background: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+.rev-tabs .epm-table.rev-flat tr.group-hdr td { background: #f6f8fa; }
+.rev-tabs .epm-table.rev-flat td:first-child { padding-left: 8px; }
+.rev-tabs .epm-table.rev-flat td.indent { padding-left: 26px; }
+.rev-tabs .epm-table.rev-flat td.indent2 { padding-left: 44px; }
+.rev-tabs .epm-table.rev-flat tbody tr:hover td { background: #e8f0fe; }
+  /* period separators: line on the last visible column of each period group */
+  .epm-table.rev-periods th.grp, .epm-table.rev-periods td.ge, .epm-table.rev-periods th.ge { border-right: 1px solid #64748b; }
+  .epm-table.rev-periods.c1 .g1.gz, .epm-table.rev-periods.c2 .g2.gz, .epm-table.rev-periods.c3 .g3.gz, .epm-table.rev-periods.c4 .g4.gz, .epm-table.rev-periods.c5 .g5.gz { border-right: 1px solid #64748b; }

@@ -65,41 +65,8 @@
     tile.insertBefore(makeStar('chart', 'Add chart to insights', false), tile.firstChild);
   });
 
-  /* ───────────── Row rollover: Highlight + Comment ───────────── */
-  var ov = mk('div'); ov.id = 'sc-overlay'; ov.setAttribute('role', 'toolbar'); ov.setAttribute('aria-label', 'Row actions');
-  ov.innerHTML = '<label class="sc-ov-opt"><input type="checkbox" id="sc-ov-hl"> Highlight</label>' +
-                 '<label class="sc-ov-opt"><input type="checkbox" id="sc-ov-cm"> Comment</label>';
-  document.body.appendChild(ov);
-  var hl = document.getElementById('sc-ov-hl');
-  var cm = document.getElementById('sc-ov-cm');
-
-  var curRow = null, curCfg = null, hideTimer = null, seq = 0;
-
-  function showOverlay(r, cfg) {
-    clearTimeout(hideTimer);
-    curRow = r; curCfg = cfg;
-    cm.checked = (cfg.editing === r);
-    hl.checked = r.classList.contains('sc-hl');
-    ov.classList.add('on');
-    var rr = r.getBoundingClientRect(), wr = cfg.wrap.getBoundingClientRect();
-    ov.style.top = (rr.top + rr.height / 2 - ov.offsetHeight / 2) + 'px';
-    ov.style.left = (Math.min(wr.right, window.innerWidth) - ov.offsetWidth - 8) + 'px';
-  }
-  function hideOverlay() { ov.classList.remove('on'); }
-  function scheduleHide() { clearTimeout(hideTimer); hideTimer = setTimeout(hideOverlay, 120); }
-
-  ov.addEventListener('mouseenter', function () { clearTimeout(hideTimer); });
-  ov.addEventListener('mouseleave', scheduleHide);
-  document.addEventListener('scroll', hideOverlay, true);
-
-  hl.addEventListener('change', function () {
-    if (!curRow) return;
-    curRow.classList.toggle('sc-hl', hl.checked);
-  });
-  cm.addEventListener('change', function () {
-    if (!curRow || !curCfg) return;
-    if (cm.checked) curCfg.openEditor(curRow); else curCfg.closeEditor();
-  });
+  /* ───────────── Commentary Tooling ───────────── */
+  var curRow = null, curCfg = null, seq = 0;
 
   tables.forEach(function (table, idx) {
     if (!table.tBodies.length) return;
@@ -298,14 +265,12 @@
           : rowLabel(r);
       }
       r.style.cursor = onDetail ? '' : 'pointer';
-      r.addEventListener('mouseenter', function () { showOverlay(r, cfg); });
       r.addEventListener('click', function (e) {
         if (onDetail) return;
         if (e.target.closest('a, button, input, textarea, select')) return;
         window.location.href = DETAIL_PAGE;
       });
     });
-    table.addEventListener('mouseleave', scheduleHide);
 
     table.__scSnapshot = function () {
       return cfg.comments.map(function (c) {

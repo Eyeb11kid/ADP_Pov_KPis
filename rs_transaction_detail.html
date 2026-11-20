@@ -397,7 +397,6 @@
       <summary><a href="nas_dashboard.html">NAS dashboard</a></summary>
       <a class="sb-link sub" href="revenue_analysis_NAS.html">Revenue Analysis</a>
       <a class="sb-link sub2" href="revenue_details_NAS.html">Revenue details</a>
-      <a class="sb-link sub" href="NAS_npi.html">NPI P&amp;L</a>
       <a class="sb-link sub" href="expense_pl_NAS.html">Expense P&amp;L</a>
     </details>
     <div class="sb-divider"></div>
@@ -451,7 +450,6 @@
 
     <!-- Filter row -->
     <div class="filterrow" id="filterrow">
-      <div class="fr-wrap" data-f="prod"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Product</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Product filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="geo"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Geography</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Geography filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="ch"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Channel</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Channel filter" hidden>&times;</button></div></div>
       <div class="fr-wrap" data-f="period"><div class="fr-pill"><button type="button" class="fr-btn" aria-haspopup="dialog" aria-expanded="false"><span class="fr-lab">Period</span><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="fr-x" aria-label="Clear Period filter" hidden>&times;</button></div></div>
@@ -818,9 +816,6 @@
   // Expose for use by other scripts
   window.openDrawer = openDrawer;
   window.switchToCommentaryTab = function() { openDrawer('commentary'); };
-
-  // Open by default on load
-  openDrawer('ai');
 })();
 
 /* Interactive Commentary Module */

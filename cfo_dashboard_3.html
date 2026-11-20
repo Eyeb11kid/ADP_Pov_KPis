@@ -165,6 +165,8 @@
   .kpi-var { font-size: 11px; font-weight: 600; }
   .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
+  #headline-kpis .kpi-row { flex-wrap: wrap; column-gap: 6px; }
+  #headline-kpis .kpi-row b { text-align: right; }
   .fav { color: var(--green); font-weight: 600; }
   .unf { color: var(--red); font-weight: 600; }
 
@@ -266,6 +268,23 @@
   .sr-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
   .sr-ctrl { color: #93c5fd; font-size: 11px; font-weight: 600; text-decoration: none; }
   .sr-ctrl:hover { text-decoration: underline; }
+  /* CFO summary tables under the KPI row */
+  .cfo-tbl-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px 20px 28px; align-items: start; }
+  .ct-scroll { overflow: auto; max-height: 640px; }
+  .ct-table thead th { position: sticky; top: 0; z-index: 2; box-shadow: 0 1px 0 #cbd5e1; }
+  .ct-table thead th.grp { text-align: center; background: #e2e8f0; }
+  .ct-table thead tr:nth-child(2) th { top: 26px; }
+  .ct-table th.ge, .ct-table td.ge { border-right: 1px solid #64748b; }
+  .ct-l0 { padding-left: 8px !important; font-weight: 600 !important; }
+  .ct-l1 { padding-left: 30px !important; }
+  .ct-l2 { padding-left: 52px !important; }
+  .ct-sp { display: inline-block; width: 15px; margin-right: 8px; }
+  .ct-link { color: var(--blue); font-weight: 600; text-decoration: none; }
+  .ct-link:hover { text-decoration: underline; }
+  .ct-table tr.ct-memo td { font-style: italic; color: #475569; }
+  .ct-table tr.summary-row td { background: #e2e8f0; }
+  .ct-basis { padding: 6px 14px; font-size: 10.5px; color: #475569; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+  .ct-foot { padding: 6px 14px 8px; font-size: 10.5px; color: #64748b; border-top: 1px solid #e2e8f0; }
   .sec-kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
   @media (max-width: 1200px) { .sec-kpi-strip { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 768px) { .sec-kpi-strip { grid-template-columns: repeat(2, 1fr); } }
@@ -327,7 +346,6 @@
       <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit</a>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
       <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L</a>
       <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
     <div class="sb-divider"></div>
@@ -351,11 +369,10 @@
       <div class="title-row">
         <div>
           <div class="page-title">
-            Corporate CFO Executive Planning &amp; Close Cockpit
-            <span class="badge">EPM Production Model</span>
+            Corporate CFO Executive Planning
           </div>
         </div>
-        <div class="cockpit-view-ctrls">
+        <div class="cockpit-view-ctrls" style="display:none;" hidden>
           <button class="view-btn active" id="btnViewCockpit" onclick="switchMainTab('cockpit')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             Cockpit Table View
@@ -385,70 +402,189 @@
       </div>
 
       <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
-        <!-- 1. Total Revenue -->
-        <div class="kpi nd" id="hkpi-rev" data-tip="<b>Total ADP Revenue</b><br>Act: $5.24B vs Plan $5.18B (+$62M / +1.2%)<br>YoY: +5.1% (Plan +3.9%)<br>FY OctFcst: $20.78B (+0.9% / +$190M beat)">
+        <!-- 1. Total revenue, then revenue excluding client funds interest -->
+        <div class="kpi nd" id="hkpi-rev" data-tip="<b>Total ADP Revenue</b><br>Act: $5.24B vs Plan $5.18B (+$62M / +1.2%)<br>Excl. client funds interest: $4.98B vs Plan $4.92B (+$60M / +1.2%)<br>YoY: +5.1% (Plan +3.9%)">
           <div class="kpi-val"><span class="m-pva">$5.24B</span><span class="m-plan">$5.18B</span></div>
           <div class="kpi-label">Total revenue</div>
-          <div class="kpi-desc">Total ADP Revenue</div>
+          <div class="kpi-desc">Total ADP Revenue, then excl. client funds interest</div>
           <div class="kpi-var m-pva"><span class="fav">▲ +$62M</span><span class="m-both"> (+1.2%)</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
           <div class="kpi-row m-pva"><span>Plan</span><b>$5.18B</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+5.1%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.9%</b></div>
+          <div class="kpi-row m-pva"><span>Excl. client funds interest</span><b>$4.98B <span class="fav">▲ +$60M</span></b></div>
+          <div class="kpi-row m-plan"><span>Excl. client funds interest (plan)</span><b>$4.92B</b></div>
         </div>
 
-        <!-- 2. Adj. EBIT Margin % -->
-        <div class="kpi nd" id="hkpi-ebit" data-tip="<b>Adjusted EBIT Margin %</b><br>Act: 27.5% vs Plan 29.9% (-240 bps)<br>Adj. EBIT $: $1.44B vs Plan $1.55B<br>FY OctFcst Margin: 28.1% · EBIT $5.84B">
+        <!-- 2. Adj. EBIT margin %, with and without client funds interest -->
+        <div class="kpi nd" id="hkpi-ebit" data-tip="<b>Adjusted EBIT Margin %</b><br>With client funds interest: 27.5% vs Plan 29.9% (-240 bps)<br>Without client funds interest: 23.7% vs Plan 26.2% (-251 bps)<br>Adj. EBIT $: $1.44B vs Plan $1.55B">
           <div class="kpi-val"><span class="m-pva">27.5%</span><span class="m-plan">29.9%</span></div>
           <div class="kpi-label">Adj. EBIT margin %</div>
-          <div class="kpi-desc">With Adj. EBIT $; variance in bps</div>
+          <div class="kpi-desc">With and without client funds interest</div>
           <div class="kpi-var m-pva"><span class="unf">▼ −240 bps</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>29.9%</b></div>
+          <div class="kpi-row m-pva"><span>Without client funds interest</span><b>23.7% <span class="unf">▼ −251 bps</span></b></div>
+          <div class="kpi-row m-plan"><span>Without client funds interest (plan)</span><b>26.2%</b></div>
           <div class="kpi-row m-pva"><span>Adj. EBIT</span><b>$1.44B</b></div>
-          <div class="kpi-row m-pva"><span>Plan</span><b>29.9% · $1.55B</b></div>
           <div class="kpi-row m-plan"><span>Adj. EBIT (plan)</span><b>$1.55B</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+150 bps</b></div>
         </div>
 
-        <!-- 3. New Business Bookings -->
-        <div class="kpi nd" id="hkpi-nbb" data-tip="<b>New Business Bookings</b><br>Act: $486M vs Plan $470M (+$16M / +3.4%)<br>YoY: +6.8% (Plan +3.3%)<br>FY OctFcst: $1.91B (+2.4% vs plan)">
+        <!-- 3. New business bookings, ES and PEO each on their own line -->
+        <div class="kpi nd" id="hkpi-nbb" data-tip="<b>New Business Bookings</b><br>Total: $486M vs Plan $470M (+$16M / +3.4%)<br>ES: $318M vs Plan $309M (+$9M)<br>PEO: $168M vs Plan $161M (+$7M)">
           <div class="kpi-val"><span class="m-pva">$486M</span><span class="m-plan">$470M</span></div>
           <div class="kpi-label">New business bookings</div>
           <div class="kpi-desc">ES and PEO</div>
           <div class="kpi-var m-pva"><span class="fav">▲ +$16M</span><span class="m-both"> (+3.4%)</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>Plan</span><b>$470M</b></div>
+          <div class="kpi-row m-pva"><span>ES</span><b>$318M <span class="fav">▲ +$9M</span></b></div>
+          <div class="kpi-row m-pva"><span>PEO</span><b>$168M <span class="fav">▲ +$7M</span></b></div>
+          <div class="kpi-row m-plan"><span>ES (plan)</span><b>$309M</b></div>
+          <div class="kpi-row m-plan"><span>PEO (plan)</span><b>$161M</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.3%</b></div>
         </div>
 
-        <!-- 4. Average Total FTEs -->
-        <div class="kpi nd" id="hkpi-fte" data-tip="<b>Average Total FTEs</b><br>Act: 64,820 vs Plan 65,300 (480 lower / -0.7%)<br>Ending Headcount: 65,140<br>Offshoring Ratio: 28.4% (+110 bps vs plan)">
-          <div class="kpi-val"><span class="m-pva">64,820</span><span class="m-plan">65,300</span></div>
-          <div class="kpi-label">Average total FTEs</div>
-          <div class="kpi-desc">With ending headcount</div>
-          <div class="kpi-var m-pva"><span class="fav">▼ 480 lower</span><span class="m-both"> (−0.7%)</span> than plan</div>
-          <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>Ending headcount</span><b>65,140</b></div>
-          <div class="kpi-row m-pva"><span>Plan</span><b>65,300</b></div>
-          <div class="kpi-row m-plan"><span>Ending headcount (plan)</span><b>65,300</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.7%</b></div>
-        </div>
-
-        <!-- 5. Retention -->
-        <div class="kpi nd" id="hkpi-ret" data-tip="<b>Client Revenue Retention</b><br>Act: 92.1% vs Plan 92.4% (-30 bps)<br>YoY: -10 bps (Plan +20 bps)<br>ES: 91.8% · PEO: 93.4%">
+        <!-- 4. Retention, ES and PEO each on their own line -->
+        <div class="kpi nd" id="hkpi-ret" data-tip="<b>Client Revenue Retention</b><br>Total: 92.1% vs Plan 92.4% (-30 bps)<br>ES: 91.8% vs Plan 92.1% (-30 bps)<br>PEO: 93.4% vs Plan 93.2% (+20 bps)">
           <div class="kpi-val"><span class="m-pva">92.1%</span><span class="m-plan">92.4%</span></div>
           <div class="kpi-label">Retention</div>
           <div class="kpi-desc">ES and PEO</div>
           <div class="kpi-var m-pva"><span class="unf">▼ −30 bps</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>Plan</span><b>92.4%</b></div>
+          <div class="kpi-row m-pva"><span>ES</span><b>91.8% <span class="unf">▼ −30 bps</span></b></div>
+          <div class="kpi-row m-pva"><span>PEO</span><b>93.4% <span class="fav">▲ +20 bps</span></b></div>
+          <div class="kpi-row m-plan"><span>ES (plan)</span><b>92.1%</b></div>
+          <div class="kpi-row m-plan"><span>PEO (plan)</span><b>93.2%</b></div>
           <div class="kpi-row m-pva m-both"><span>YoY</span><b>−10 bps</b></div>
           <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+20 bps</b></div>
+        </div>
+
+        <!-- 5. Average total FTEs, with ending headcount -->
+        <div class="kpi nd" id="hkpi-fte" data-tip="<b>Average Total FTEs</b><br>Act: 64,820 vs Plan 65,300 (480 lower / -0.7%)<br>Ending Headcount: 65,140 vs Plan 65,300">
+          <div class="kpi-val"><span class="m-pva">64,820</span><span class="m-plan">65,300</span></div>
+          <div class="kpi-label">Average total FTEs</div>
+          <div class="kpi-desc">With ending headcount</div>
+          <div class="kpi-var m-pva"><span class="fav">▼ 480 lower</span><span class="m-both"> (−0.7%)</span> than plan</div>
+          <div class="kpi-var m-plan">Plan · September</div>
+          <div class="kpi-row m-pva"><span>Plan</span><b>65,300</b></div>
+          <div class="kpi-row m-pva"><span>Ending headcount</span><b>65,140</b></div>
+          <div class="kpi-row m-plan"><span>Ending headcount (plan)</span><b>65,300</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.7%</b></div>
         </div>
       </div>
     </div>
 
+    <!-- Executive summary tables (sample data; $M) -->
+    <div class="cfo-tbl-grid" id="cfo-summary-tables">
+      <div class="epm-box" id="box-rev-var">
+        <div class="epm-box-hdr">
+          <span>REVENUE VARIANCE BY SEGMENT AND BUSINESS UNIT</span>
+          <div class="tools">
+            <span>$M · September · favorable / (unfavorable)</span>
+            <a class="sr-ctrl" href="#" onclick="cfoToggleAll('rev-var-table'); return false;">Expand / Collapse All</a>
+          </div>
+        </div>
+        <div class="ct-basis">Basis: ES and PEO subtotals shown both <b>Including</b> and <b>Excluding</b> client funds interest. Comparisons are plan and the published forecast; growth is on prior year. NAS and RS rows open their dashboards.</div>
+        <div class="ct-scroll">
+          <table class="epm-table sr-table ct-table" id="rev-var-table">
+            <thead>
+              <tr>
+                <th rowspan="2" style="min-width:330px;">Line</th>
+                <th colspan="3" class="grp ge">Month (Sep)</th>
+                <th colspan="3" class="grp ge">YTD</th>
+                <th colspan="3" class="grp ge" title="Published forecast for the fiscal month of the actuals, against plan. Jul-Sep: the forecast equals plan.">Full year (forecast vs plan)</th>
+              </tr>
+              <tr>
+                <th>Actual</th><th title="Actual less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Growth on prior year">Growth on PY</th>
+                <th>Actual</th><th title="Actual less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Growth on prior year">Growth on PY</th>
+                <th>Forecast</th><th title="Forecast less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Forecast growth on prior year">Growth on PY</th>
+              </tr>
+            </thead>
+            <tbody>
+<tr class="ct-memo" data-id="tx"><td class="ct-l0"><span class="ct-sp"></span>Total revenue — Excludes Client Funds Interest</td><td>4,982.0</td><td class="fav">+60.0</td><td class="fav ge">+4.9%</td><td>14,746.7</td><td class="fav">+177.6</td><td class="fav ge">+4.7%</td><td>60,048.4</td><td>0.0</td><td class="fav ge">+5.0%</td></tr>
+<tr class="sr-sub" data-id="es"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>ES subtotal — Excludes Client Funds Interest</td><td>3,480.0</td><td class="fav">+32.0</td><td class="fav ge">+4.8%</td><td>10,300.8</td><td class="fav">+94.7</td><td class="fav ge">+4.6%</td><td>42,065.6</td><td>0.0</td><td class="fav ge">+4.9%</td></tr>
+<tr class="open" data-id="bu0" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span><a class="ct-link" href="nas_dashboard_2.html" title="Open NAS dashboard">NAS</a></td><td>107.3</td><td class="fav">+3.6</td><td class="fav ge">+5.9%</td><td>317.6</td><td class="fav">+10.7</td><td class="fav ge">+5.7%</td><td>1,265.1</td><td>0.0</td><td class="fav ge">+6.0%</td></tr>
+<tr class="open" data-id="bu1" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span><a class="ct-link" href="rs_dashboard_3.html" title="Open RS dashboard">RS</a></td><td>85.3</td><td class="fav">+3.7</td><td class="fav ge">+6.8%</td><td>252.5</td><td class="fav">+11.0</td><td class="fav ge">+6.6%</td><td>995.5</td><td>0.0</td><td class="fav ge">+6.9%</td></tr>
+<tr class="open" data-id="bu2" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>SBS</td><td>980.0</td><td class="unf">(5.0)</td><td class="fav ge">+4.1%</td><td>2,900.8</td><td class="unf">(14.8)</td><td class="fav ge">+3.9%</td><td>12,017.0</td><td>0.0</td><td class="fav ge">+4.2%</td></tr>
+<tr class="open" data-id="bu3" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>IS</td><td>540.0</td><td class="fav">+5.0</td><td class="fav ge">+6.5%</td><td>1,598.4</td><td class="fav">+14.8</td><td class="fav ge">+6.3%</td><td>6,527.0</td><td>0.0</td><td class="fav ge">+6.6%</td></tr>
+<tr class="open" data-id="bu4" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>WorkMarket</td><td>118.4</td><td class="fav">+4.4</td><td class="fav ge">+7.2%</td><td>350.5</td><td class="fav">+13.0</td><td class="fav ge">+7.0%</td><td>1,390.8</td><td>0.0</td><td class="fav ge">+7.3%</td></tr>
+<tr class="open" data-id="bu5" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>B</td><td>96.0</td><td class="fav">+1.0</td><td class="fav ge">+3.8%</td><td>284.2</td><td class="fav">+3.0</td><td class="fav ge">+3.6%</td><td>1,159.0</td><td>0.0</td><td class="fav ge">+3.9%</td></tr>
+<tr class="open" data-id="bu6" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>MAS</td><td>760.0</td><td class="fav">+8.0</td><td class="fav ge">+4.9%</td><td>2,249.6</td><td class="fav">+23.7</td><td class="fav ge">+4.7%</td><td>9,174.4</td><td>0.0</td><td class="fav ge">+5.0%</td></tr>
+<tr class="open" data-id="bu7" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>Canada</td><td>238.0</td><td class="fav">+5.0</td><td class="fav ge">+5.4%</td><td>704.5</td><td class="fav">+14.8</td><td class="fav ge">+5.2%</td><td>2,842.6</td><td>0.0</td><td class="fav ge">+5.5%</td></tr>
+<tr class="open" data-id="bu8" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>ESI</td><td>186.0</td><td class="fav">+2.0</td><td class="fav ge">+4.6%</td><td>550.6</td><td class="fav">+5.9</td><td class="fav ge">+4.4%</td><td>2,244.8</td><td>0.0</td><td class="fav ge">+4.7%</td></tr>
+<tr class="open" data-id="bu9" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>CoSo</td><td>142.0</td><td class="fav">+2.0</td><td class="fav ge">+5.1%</td><td>420.3</td><td class="fav">+5.9</td><td class="fav ge">+4.9%</td><td>1,708.0</td><td>0.0</td><td class="fav ge">+5.2%</td></tr>
+<tr class="open" data-id="bu10" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>Breakthrough</td><td>98.0</td><td class="fav">+2.0</td><td class="fav ge">+8.3%</td><td>290.1</td><td class="fav">+5.9</td><td class="fav ge">+8.1%</td><td>1,171.2</td><td>0.0</td><td class="fav ge">+8.4%</td></tr>
+<tr class="open" data-id="bu11" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>Workforce Software</td><td>129.0</td><td class="fav">+0.3</td><td class="fav ge">+3.2%</td><td>381.8</td><td class="fav">+0.9</td><td class="fav ge">+3.0%</td><td>1,570.1</td><td>0.0</td><td class="fav ge">+3.3%</td></tr>
+<tr class="sr-sub" data-id="esc"><td class="ct-l0"><span class="ct-sp"></span>ES subtotal — Includes Client Funds Interest</td><td>3,694.0</td><td class="fav">+34.0</td><td class="fav ge">+5.0%</td><td>10,934.2</td><td class="fav">+100.6</td><td class="fav ge">+4.8%</td><td>44,652.0</td><td>0.0</td><td class="fav ge">+5.1%</td></tr>
+<tr data-id="peo"><td class="ct-l0"><span class="ct-sp"></span>PEO (Excludes Client Funds Interest)</td><td>1,502.0</td><td class="fav">+28.0</td><td class="fav ge">+6.1%</td><td>4,445.9</td><td class="fav">+82.9</td><td class="fav ge">+5.9%</td><td>17,982.8</td><td>0.0</td><td class="fav ge">+6.2%</td></tr>
+<tr class="sr-sub" data-id="peoc"><td class="ct-l0"><span class="ct-sp"></span>PEO subtotal — Includes Client Funds Interest</td><td>1,548.0</td><td class="fav">+28.0</td><td class="fav ge">+6.4%</td><td>4,582.1</td><td class="fav">+82.9</td><td class="fav ge">+6.2%</td><td>18,544.0</td><td>0.0</td><td class="fav ge">+6.5%</td></tr>
+<tr data-id="cfi"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>Client funds interest</td><td>260.0</td><td class="fav">+2.0</td><td class="fav ge">+8.3%</td><td>769.6</td><td class="fav">+5.9</td><td class="fav ge">+8.1%</td><td>3,147.6</td><td>0.0</td><td class="fav ge">+8.4%</td></tr>
+<tr class="open" data-id="cfi1" data-parent="cfi"><td class="ct-l1"><span class="ct-sp"></span>o/w ES share</td><td>214.0</td><td class="fav">+2.0</td><td class="fav ge">+8.1%</td><td>633.4</td><td class="fav">+5.9</td><td class="fav ge">+7.9%</td><td>2,586.4</td><td>0.0</td><td class="fav ge">+8.2%</td></tr>
+<tr class="open" data-id="cfi2" data-parent="cfi"><td class="ct-l1"><span class="ct-sp"></span>o/w PEO share</td><td>46.0</td><td>0.0</td><td class="fav ge">+9.0%</td><td>136.2</td><td>0.0</td><td class="fav ge">+8.8%</td><td>561.2</td><td>0.0</td><td class="fav ge">+9.1%</td></tr>
+<tr data-id="fx"><td class="ct-l0"><span class="ct-sp"></span>FX</td><td>(3.0)</td><td class="unf">(1.0)</td><td class=" ge">-</td><td>(8.9)</td><td class="unf">(3.0)</td><td class=" ge">-</td><td>(24.4)</td><td>0.0</td><td class=" ge">-</td></tr>
+<tr data-id="oth"><td class="ct-l0"><span class="ct-sp"></span>Group/Other</td><td>3.0</td><td class="fav">+1.0</td><td class=" ge">-</td><td>8.9</td><td class="fav">+3.0</td><td class=" ge">-</td><td>24.4</td><td>0.0</td><td class=" ge">-</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ct-foot">Published, month-close figures only (Forecast Working is not used). FY27 forecast: plan for Jul-Sep, then OCTFCST, JANFCST and APRFCST for each later quarter, so the full-year forecast equals plan in Q1. Sample data: NAS and RS actuals tie to their September dashboards; other business units, YTD and full-year values are illustrative placeholders.</div>
+      </div>
+
+      <div class="epm-box" id="box-pl-sum">
+        <div class="epm-box-hdr">
+          <span>CONSOLIDATED MANAGEMENT P&amp;L SUMMARY</span>
+          <div class="tools">
+            <span>$M · September · Adjusted EBIT basis</span>
+            <a class="sr-ctrl" href="#" onclick="cfoToggleAll('pl-sum-table'); return false;">Expand / Collapse All</a>
+          </div>
+        </div>
+        <div class="ct-basis">Basis: ES and PEO revenue lines <b>exclude</b> client funds interest, shown on its own line. Margin variances in bps; expense variance is plan less actual, so positive = favorable.</div>
+        <div class="ct-scroll">
+          <table class="epm-table sr-table ct-table" id="pl-sum-table">
+            <thead>
+              <tr>
+                <th rowspan="2" style="min-width:330px;">Line</th>
+                <th colspan="3" class="grp ge">Month (Sep)</th>
+                <th colspan="3" class="grp ge">YTD</th>
+                <th colspan="3" class="grp ge" title="Published forecast for the fiscal month of the actuals, against plan. Jul-Sep: the forecast equals plan.">Full year (forecast vs plan)</th>
+              </tr>
+              <tr>
+                <th>Actual</th><th title="Actual less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Growth on prior year">Growth on PY</th>
+                <th>Actual</th><th title="Actual less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Growth on prior year">Growth on PY</th>
+                <th>Forecast</th><th title="Forecast less plan; favorable / (unfavorable)">Var to plan</th><th class="ge" title="Forecast growth on prior year">Growth on PY</th>
+              </tr>
+            </thead>
+            <tbody>
+<tr class="summary-row" data-id="p-rev"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>Total revenue — Includes Client Funds Interest</td><td>5,242.0</td><td class="fav">+62.0</td><td class="fav ge">+5.1%</td><td>15,516.3</td><td class="fav">+183.5</td><td class="fav ge">+4.9%</td><td>63,196.0</td><td>0.0</td><td class="fav ge">+5.2%</td></tr>
+<tr class="open" data-id="p-r1" data-parent="p-rev"><td class="ct-l1"><span class="ct-sp"></span>Revenue excluding ZMPT</td><td>4,062.0</td><td class="fav">+40.0</td><td class="fav ge">+5.0%</td><td>12,023.5</td><td class="fav">+118.4</td><td class="fav ge">+4.8%</td><td>49,068.4</td><td>0.0</td><td class="fav ge">+5.1%</td></tr>
+<tr class="open" data-id="p-r2" data-parent="p-rev"><td class="ct-l1"><span class="ct-sp"></span>Revenue excluding client funds interest</td><td>4,982.0</td><td class="fav">+60.0</td><td class="fav ge">+4.9%</td><td>14,746.7</td><td class="fav">+177.6</td><td class="fav ge">+4.7%</td><td>60,048.4</td><td>0.0</td><td class="fav ge">+5.0%</td></tr>
+<tr class="open" data-id="p-r3" data-parent="p-rev"><td class="ct-l1"><span class="ct-sp"></span>Revenue excluding both</td><td>3,802.0</td><td class="fav">+38.0</td><td class="fav ge">+4.8%</td><td>11,253.9</td><td class="fav">+112.5</td><td class="fav ge">+4.6%</td><td>45,920.8</td><td>0.0</td><td class="fav ge">+4.9%</td></tr>
+<tr class="sr-sub" data-id="p-es"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>ES revenue — Includes Client Funds Interest</td><td>3,694.0</td><td class="fav">+34.0</td><td class="fav ge">+5.0%</td><td>10,934.2</td><td class="fav">+100.6</td><td class="fav ge">+4.8%</td><td>44,652.0</td><td>0.0</td><td class="fav ge">+5.1%</td></tr>
+<tr class="open" data-id="p-es1" data-parent="p-es"><td class="ct-l1"><span class="ct-sp"></span>ES revenue — Excludes Client Funds Interest</td><td>3,480.0</td><td class="fav">+32.0</td><td class="fav ge">+4.8%</td><td>10,300.8</td><td class="fav">+94.7</td><td class="fav ge">+4.6%</td><td>42,065.6</td><td>0.0</td><td class="fav ge">+4.9%</td></tr>
+<tr class="sr-sub" data-id="p-peo"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>PEO revenue \u2014 includes ZMPT</td><td>1,502.0</td><td class="fav">+28.0</td><td class="fav ge">+6.1%</td><td>4,445.9</td><td class="fav">+82.9</td><td class="fav ge">+5.9%</td><td>17,982.8</td><td>0.0</td><td class="fav ge">+6.2%</td></tr>
+<tr class="open" data-id="p-peo1" data-parent="p-peo"><td class="ct-l1"><span class="ct-sp"></span>PEO revenue \u2014 excludes ZMPT</td><td>322.0</td><td class="fav">+6.0</td><td class="fav ge">+6.8%</td><td>953.1</td><td class="fav">+17.8</td><td class="fav ge">+6.6%</td><td>3,855.2</td><td>0.0</td><td class="fav ge">+6.9%</td></tr>
+<tr data-id="p-cfi"><td class="ct-l0"><span class="ct-sp"></span>Client funds interest</td><td>260.0</td><td class="fav">+2.0</td><td class="fav ge">+8.3%</td><td>769.6</td><td class="fav">+5.9</td><td class="fav ge">+8.1%</td><td>3,147.6</td><td>0.0</td><td class="fav ge">+8.4%</td></tr>
+<tr class="sr-sub" data-id="p-exp"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>Total expenses</td><td>3,800.0</td><td class="unf">(169.2)</td><td class="unf ge">+4.6%</td><td>11,248.0</td><td class="unf">(500.8)</td><td class="unf ge">+4.4%</td><td>44,295.8</td><td>0.0</td><td class="unf ge">+4.7%</td></tr>
+<tr class="open" data-id="p-z" data-parent="p-exp"><td class="ct-l1"><span class="ct-sp"></span>o/w ZMPT</td><td>1,180.0</td><td class="unf">(22.0)</td><td class="unf ge">+5.7%</td><td>3,492.8</td><td class="unf">(65.1)</td><td class="unf ge">+5.5%</td><td>14,127.6</td><td>0.0</td><td class="unf ge">+5.8%</td></tr>
+<tr class="open" data-id="p-nde" data-parent="p-exp"><td class="ct-l1"><span class="ct-sp"></span>o/w NDE</td><td>640.0</td><td class="unf">(18.0)</td><td class="unf ge">+6.2%</td><td>1,894.4</td><td class="unf">(53.3)</td><td class="unf ge">+6.0%</td><td>7,588.4</td><td>0.0</td><td class="unf ge">+6.3%</td></tr>
+<tr class="open" data-id="p-pt" data-parent="p-exp"><td class="ct-l1"><span class="ct-sp"></span>o/w Total PEO pass-through costs</td><td>1,215.0</td><td class="unf">(25.0)</td><td class="unf ge">+5.5%</td><td>3,596.4</td><td class="unf">(74.0)</td><td class="unf ge">+5.3%</td><td>14,518.0</td><td>0.0</td><td class="unf ge">+5.6%</td></tr>
+<tr class="summary-row" data-id="p-ebit"><td class="ct-l0"><span class="ct-sp"></span>Adjusted EBIT</td><td>1,442.0</td><td class="unf">(107.2)</td><td class="fav ge">+3.0%</td><td>4,268.3</td><td class="unf">(317.3)</td><td class="fav ge">+2.8%</td><td>18,900.2</td><td>0.0</td><td class="fav ge">+3.1%</td></tr>
+<tr data-id="p-m"><td class="ct-l0"><span class="ct-sp"></span>Margin % — Includes Client Funds Interest</td><td>27.5%</td><td class="unf">−240 bps</td><td class="unf ge">−150 bps</td><td>27.7%</td><td class="unf">−225 bps</td><td class="unf ge">−160 bps</td><td>29.9%</td><td>0 bps</td><td class="unf ge">−150 bps</td></tr>
+<tr data-id="p-mx"><td class="ct-l0"><span class="ct-sp"></span>Margin % — Excludes Client Funds Interest</td><td>23.7%</td><td class="unf">−251 bps</td><td class="unf ge">−120 bps</td><td>23.9%</td><td class="unf">−236 bps</td><td class="unf ge">−130 bps</td><td>26.2%</td><td>0 bps</td><td class="unf ge">−120 bps</td></tr>
+<tr data-id="p-em"><td class="ct-l0"><span class="ct-sp"></span>ES margin % — Includes Client Funds Interest</td><td>35.8%</td><td class="unf">−343 bps</td><td class="unf ge">−90 bps</td><td>36.0%</td><td class="unf">−328 bps</td><td class="unf ge">−100 bps</td><td>39.3%</td><td>0 bps</td><td class="unf ge">−90 bps</td></tr>
+<tr data-id="p-emx"><td class="ct-l0"><span class="ct-sp"></span>ES margin % — Excludes Client Funds Interest</td><td>31.9%</td><td class="unf">−364 bps</td><td class="unf ge">−80 bps</td><td>32.0%</td><td class="unf">−349 bps</td><td class="unf ge">−90 bps</td><td>35.5%</td><td>0 bps</td><td class="unf ge">−80 bps</td></tr>
+<tr data-id="p-pm$"><td class="ct-l0"><span class="ct-sp"></span>PEO margin — Includes Client Funds Interest</td><td>118.0</td><td class="fav">+6.0</td><td class="fav ge">+4.4%</td><td>349.3</td><td class="fav">+17.8</td><td class="fav ge">+4.2%</td><td>1,366.4</td><td>0.0</td><td class="fav ge">+4.5%</td></tr>
+<tr data-id="p-pm"><td class="ct-l0"><span class="ct-sp"></span>PEO margin % — Includes Client Funds Interest</td><td>7.6%</td><td class="fav">+25 bps</td><td class="fav ge">+25 bps</td><td>7.8%</td><td class="fav">+40 bps</td><td class="fav ge">+15 bps</td><td>7.4%</td><td>0 bps</td><td class="fav ge">+25 bps</td></tr>
+<tr data-id="p-pmx"><td class="ct-l0"><span class="ct-sp"></span>PEO margin % — Excludes Client Funds Interest and ZMPT</td><td>22.4%</td><td class="fav">+147 bps</td><td class="fav ge">+60 bps</td><td>22.5%</td><td class="fav">+162 bps</td><td class="fav ge">+50 bps</td><td>20.9%</td><td>0 bps</td><td class="fav ge">+60 bps</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ct-foot">Published, month-close figures only (Forecast Working is not used). FY27 forecast: plan for Jul-Sep, then OCTFCST, JANFCST and APRFCST for each later quarter, so the full-year forecast equals plan in Q1. Sample data for layout review; not final financials.</div>
+      </div>
+    </div>
+
+    <!-- Cockpit tables, visualizations and SEC report are hidden for now: remove the wrapper style below to restore -->
+    <div id="cfo-below-kpi" style="display:none;" hidden>
     <!-- MAIN COCKPIT VIEW (Modeled directly after EPM CA Architecture) -->
     <div id="cockpit-container">
       <div class="epm-layout-grid">
@@ -1214,6 +1350,8 @@
 
     </div>
 
+    </div>
+
   </main>
 </div>
 
@@ -1294,6 +1432,15 @@
       t.textContent = open ? '−' : '+';
       t.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+  }
+
+  // CFO summary tables: expand all when any child row is hidden, otherwise collapse all
+  function cfoToggleAll(tableId) {
+    var t = document.getElementById(tableId);
+    if (!t) return;
+    var anyHidden = false;
+    t.querySelectorAll('tr[data-parent]').forEach(function(r) { if (!r.classList.contains('open')) anyHidden = true; });
+    secExpandAll(tableId, anyHidden);
   }
 
   // Default state: all groups collapsed except Segment margin

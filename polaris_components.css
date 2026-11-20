@@ -83,10 +83,7 @@
   #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
   /* 2-Column Split Layout Grid */
-  .epm-layout-grid { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 14px; padding: 14px 20px 28px; align-items: start; }
-  @media (max-width: 1280px) {
-    .epm-layout-grid { grid-template-columns: minmax(0, 1fr); }
-  }
+  .epm-layout-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px 20px 28px; align-items: start; }
 
   .left-col, .right-col { display: flex; flex-direction: column; gap: 14px; }
   
@@ -99,7 +96,9 @@
   .chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
   .chart-cap { font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; margin-top: 6px; line-height: 1.4; }
-  .charts-row { display: flex; flex-direction: column; gap: 14px; }
+  /* Charts run horizontally under the summary table; stack on narrow screens */
+  .charts-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
+  @media (max-width: 1100px) { .charts-row { grid-template-columns: minmax(0, 1fr); } }
   .left-col > .epm-box { width: 100%; }
   .left-col .epm-box > div[style*="overflow-x"] { width: 100%; }
   .left-col .epm-table { width: 100%; border: 1px solid #d0d7de; }
@@ -111,7 +110,7 @@
   .epm-table.pl-draft tbody td:first-child { background: #fff; }
   .epm-table.pl-draft tr.summary-row td:first-child { background: inherit; }
   /* Expand / collapse time-view column groups: a collapsed group keeps only its key column (.gk) */
-  .epm-table.pl-draft.c1 .g1:not(.gk), .epm-table.pl-draft.c2 .g2:not(.gk), .epm-table.pl-draft.c3 .g3:not(.gk), .epm-table.pl-draft.c4 .g4:not(.gk), .epm-table.pl-draft.c5 .g5:not(.gk) { display: none; }
+  .epm-table.pl-draft.c1 .g1:not(.gk):not(.gv), .epm-table.pl-draft.c2 .g2:not(.gk):not(.gv), .epm-table.pl-draft.c3 .g3:not(.gk):not(.gv), .epm-table.pl-draft.c4 .g4:not(.gk):not(.gv), .epm-table.pl-draft.c5 .g5:not(.gk):not(.gv) { display: none; }
   .epm-table.pl-draft th.grp { padding: 0; }
   .grp-tg { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 4px 6px; cursor: pointer; font-weight: 700; font-size: 10.5px; color: #334155; text-align: center; }
   .epm-table.pl-draft thead tr:nth-child(2) th:first-child { position: static; min-width: 62px; background: #f1f5f9; }
@@ -148,3 +147,24 @@
 /* Row hierarchy in the first column of the time-view table (the table's own cell padding would otherwise override .indent) */
 .epm-table.pl-draft td.indent { padding-left: 18px; }
 .epm-table.pl-draft td.indent2 { padding-left: 30px; }
+
+/* Time-view row hierarchy with expand / collapse (same pattern as RS dashboard and Expense P&L) */
+.exp-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 2px; background: #e2e8f0; color: #1e293b; font-size: 11px; font-weight: 700; cursor: pointer; margin-right: 6px; user-select: none; line-height: 1; border: 0; padding: 0; flex: none; }
+.exp-toggle:hover { background: #cbd5e1; color: #000; }
+.exp-toggle:focus-visible { outline: 2px solid #0f62fe; outline-offset: -2px; }
+.expand-ctrls { font-size: 11px; color: #93c5fd; cursor: pointer; text-decoration: underline; }
+.xlab { display: flex; align-items: flex-start; line-height: 1.35; }
+.xt-sp { display: inline-block; width: 15px; margin-right: 6px; flex: none; }
+.epm-table.pl-draft td:first-child { white-space: normal; min-width: 260px; max-width: 320px; }
+.epm-table.pl-draft tr.xh { display: none; }
+.epm-table.pl-draft tr.xl0 td:first-child { padding-left: 10px; }
+.epm-table.pl-draft tr.xl1 td:first-child { padding-left: 24px; }
+.epm-table.pl-draft tr.xl2 td:first-child { padding-left: 38px; }
+.epm-table.pl-draft tr.xk-total td { font-weight: 700; color: #0f172a; border-top: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1; }
+.epm-table.pl-draft tr.xk-total, .epm-table.pl-draft tr.xk-total td:first-child { background: #eef2f7; }
+.epm-table.pl-draft tr.xk-parent, .epm-table.pl-draft tr.xk-parent td:first-child { background: #f1f5f9; }
+.epm-table.pl-draft tr.xk-parent td { font-weight: 700; }
+.epm-table.pl-draft tr.xk-child td:first-child .xlab { font-weight: 400; }
+  /* period separators: line on the last visible column of each period group */
+  .epm-table.pl-draft th.grp, .epm-table.pl-draft td.ge, .epm-table.pl-draft th.ge { border-right: 1px solid #64748b; }
+  .epm-table.pl-draft.c1 .g1.gz, .epm-table.pl-draft.c2 .g2.gz, .epm-table.pl-draft.c3 .g3.gz, .epm-table.pl-draft.c4 .g4.gz, .epm-table.pl-draft.c5 .g5.gz { border-right: 1px solid #64748b; }

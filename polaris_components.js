@@ -70,26 +70,41 @@
     d.groups.forEach(function (g, i) {
       var n = i + 1, open = !!g.open;
       if (!open) closed += ' c' + n;
-      r1 += '<th colspan="' + (open ? g.cols.length : 1) + '" class="grp" data-grp="' + n + '" data-cols="' + g.cols.length + '">' +
+      r1 += '<th colspan="' + (open ? g.cols.length : 3) + '" class="grp" data-grp="' + n + '" data-cols="' + g.cols.length + '">' +
         '<button type="button" class="grp-tg"' + (g.title ? ' title="' + g.title + '"' : '') + ' aria-expanded="' + open + '">' +
         '<span class="grp-chev" aria-hidden="true"></span>' + g.label + '</button></th>';
-      g.cols.forEach(function (c, j) { r2 += '<th class="g' + n + (j === 0 ? ' gk' : '') + '">' + c + '</th>'; });
+      g.cols.forEach(function (c, j) { r2 += '<th class="g' + n + (j === 0 ? ' gk' : (j === 2 || j === 3 ? ' gv' : '')) + (j === g.cols.length - 1 ? ' ge' : '') + (j === 3 ? ' gz' : '') + '">' + c + '</th>'; });
     });
     var sizes = d.groups.map(function (g) { return g.cols.length; });
-    var body = d.rows.map(function (r) {
+    /* Row hierarchy: r.indent is the level (0 = top); a row is a parent when the next row is deeper */
+    var lv = d.rows.map(function (r) { return r.indent || 0; }), stack = [], ids = [], pars = [];
+    d.rows.forEach(function (r, i) {
+      while (stack.length && stack[stack.length - 1].lv >= lv[i]) stack.pop();
+      pars[i] = stack.length ? stack[stack.length - 1].id : '';
+      ids[i] = 'r' + i;
+      stack.push({ lv: lv[i], id: ids[i] });
+    });
+    var body = d.rows.map(function (r, ri) {
+      var isParent = ri + 1 < lv.length && lv[ri + 1] > lv[ri];
+      var kind = lv[ri] === 0 ? 'xk-total' : (isParent ? 'xk-parent' : 'xk-child');
+      var ctl = isParent
+        ? '<button type="button" class="exp-toggle xt" aria-expanded="true" aria-label="Expand or collapse ' + attr(r.label) + '">\u2212</button>'
+        : '<span class="xt-sp"></span>';
       var gi = 0, left = sizes[0], pos = 0;
       var tds = r.cells.map(function (c) {
         if (pos === left) { gi++; left += sizes[gi]; }
         var first = pos === left - sizes[gi];
         pos++;
-        var cls = 'g' + (gi + 1) + (first ? ' gk' : '') + (c instanceof Array ? ' ' + c[1] : '');
+        var idx = pos - 1 - (left - sizes[gi]);
+        var cls = 'g' + (gi + 1) + (first ? ' gk' : (idx === 2 || idx === 3 ? ' gv' : '')) + (idx === sizes[gi] - 1 ? ' ge' : '') + (idx === 3 ? ' gz' : '') + (c instanceof Array ? ' ' + c[1] : '');
         return '<td class="' + cls + '">' + (c instanceof Array ? c[0] : c) + '</td>';
       }).join('');
-      return '<tr' + (r.cls ? ' class="' + r.cls + '"' : '') + (r.style ? ' style="' + r.style + '"' : '') + '><td' + (r.indent ? ' class="indent' + (r.indent > 1 ? r.indent : '') + '"' : '') + '>' + r.label + '</td>' + tds + '</tr>';
+      return '<tr class="xr ' + kind + ' xl' + lv[ri] + (r.cls ? ' ' + r.cls : '') + '" data-id="' + ids[ri] + '" data-parent="' + pars[ri] + '"' + (r.style ? ' style="' + r.style + '"' : '') + '><td><span class="xlab">' + ctl + r.label + '</span></td>' + tds + '</tr>';
     }).join('');
     var t = '<table class="epm-table pl-draft' + closed + '" id="pl-draft-table"><thead><tr>' + r1 + '</tr><tr>' + r2 +
       '</tr></thead><tbody>' + body + '</tbody></table>';
-    return panel({ id: 'pl-draft-box', title: d.title, tag: d.tag, tools: d.tools, body: VAR_NOTE + scroller(t) + footnote(d.cap) });
+    return panel({ id: 'pl-draft-box', title: d.title, tag: d.tag,
+      tools: d.tools + '<span class="expand-ctrls" id="plToggleAll" style="margin-left:12px;">Expand / Collapse All</span>', body: VAR_NOTE + scroller(t) + (d.cap ? footnote(d.cap) : '') });
   }
 
   /* ---------- chart wrapper + SVG renderers (viewBox 0 0 400 200, same grid and palette as RS) ---------- */
@@ -100,7 +115,7 @@
     return panel({
       title: d.title, light: true,
       body: '<div class="epm-box-body"><div class="chart-sub">' + d.sub + '</div><div class="chart-legend">' + legend + '</div>' +
-        svg + '<div class="chart-cap">' + d.cap + '</div></div>'
+        svg + (d.cap ? '<div class="chart-cap">' + d.cap + '</div>' : '') + '</div>'
     });
   }
   function svgOpen(aria) { return '<svg viewBox="0 0 400 200" width="100%" role="group" aria-label="' + attr(aria) + '">'; }
@@ -213,8 +228,39 @@
         var open = btn.getAttribute('aria-expanded') !== 'true';
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
         tbl.classList.toggle('c' + g, !open);
-        th.setAttribute('colspan', open ? n : 1);
+        th.setAttribute('colspan', open ? n : 3);
       });
+    });
+  }
+
+  function initRowHierarchy(tbl, all) {
+    if (!tbl) return;
+    var rows = Array.prototype.slice.call(tbl.querySelectorAll('tbody tr.xr'));
+    function setOpen(btn, open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '\u2212' : '+';
+    }
+    function refresh() {
+      var shown = {};
+      rows.forEach(function (r) {
+        var p = r.getAttribute('data-parent');
+        var vis = !p || shown[p] === 'open';
+        r.classList.toggle('xh', !vis);
+        var b = r.querySelector('.xt');
+        shown[r.getAttribute('data-id')] = (vis && b && b.getAttribute('aria-expanded') === 'true') ? 'open' : 'closed';
+      });
+    }
+    tbl.addEventListener('click', function (e) {
+      var b = e.target.closest('.xt');
+      if (!b) return;
+      setOpen(b, b.getAttribute('aria-expanded') !== 'true');
+      refresh();
+    });
+    if (all) all.addEventListener('click', function () {
+      var btns = tbl.querySelectorAll('.xt');
+      var anyClosed = Array.prototype.some.call(btns, function (b) { return b.getAttribute('aria-expanded') !== 'true'; });
+      btns.forEach(function (b) { setOpen(b, anyClosed); });
+      refresh();
     });
   }
 
@@ -223,9 +269,9 @@
     function put(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
     put('headline-kpis', kpiStrip(data.kpis));
     put('mount-timeview', timeViewCard(data.timeView));
-    put('mount-rst', tableCard(data.rst));
     put('mount-charts', chartCards(data.charts));
     initColumnGroups(document.getElementById('pl-draft-table'));
+    initRowHierarchy(document.getElementById('pl-draft-table'), document.getElementById('plToggleAll'));
     initTooltips();
   }
 

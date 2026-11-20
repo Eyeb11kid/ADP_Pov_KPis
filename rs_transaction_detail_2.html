@@ -96,7 +96,8 @@
   .content { padding: 14px 20px 28px; flex: 1; }
   
   /* Metric Strip */
-  .metric-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .metric-note { font-size: 11px; color: #57606a; margin: -4px 0 14px; line-height: 1.4; }
   .m-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 14px; }
   .m-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
   .m-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
@@ -139,6 +140,7 @@
 </style>
 <link rel="stylesheet" href="site_footer.css">
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="gl_table.css">
 </head>
 <body data-pf-page="P07" data-pf-bu="RS">
 
@@ -167,7 +169,6 @@
       <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit</a>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
       <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L</a>
       <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
     <div class="sb-divider"></div>
@@ -197,8 +198,7 @@
       <div class="title-row">
         <div>
           <div class="page-title">
-            RS Revenue Transaction Detail 2 — Oracle GL Journal Lines
-            <span class="badge">Level-3 Audit Ledger</span>
+            RS Revenue Transaction Detail
           </div>
         </div>
       </div>
@@ -252,29 +252,24 @@
         <div class="m-card">
           <div class="m-label">Total Journal Lines</div>
           <div class="m-val" id="statCount">20 Lines</div>
-          <div class="m-sub">100% Filter Match</div>
         </div>
         <div class="m-card">
           <div class="m-label">Total Debits</div>
-          <div class="m-val" id="statDebit">$32,456.65</div>
+          <div class="m-val" id="statDebit">$19,001.06</div>
           <div class="m-sub" style="color:#64748b;">Adjustments &amp; True-ups</div>
         </div>
         <div class="m-card">
           <div class="m-label">Total Credits</div>
-          <div class="m-val" id="statCredit">$245,692.80</div>
+          <div class="m-val" id="statCredit">$220,285.88</div>
           <div class="m-sub" style="color:var(--green);">Earned Revenue Billings</div>
         </div>
         <div class="m-card">
           <div class="m-label">Net Posted Revenue</div>
-          <div class="m-val" id="statNet" style="color:var(--green);">($213,236.15)</div>
+          <div class="m-val" id="statNet" style="color:var(--green);">($201,284.82)</div>
           <div class="m-sub">Credit Balance (P&amp;L)</div>
         </div>
-        <div class="m-card">
-          <div class="m-label">GL Audit Status</div>
-          <div class="m-val" style="font-size:15px;color:var(--green);">✓ Reconciled</div>
-          <div class="m-sub" style="color:#64748b;">Subledger Balanced</div>
-        </div>
       </div>
+      <div class="metric-note" role="note">Reported values can include amounts loaded to Hyperion without a GL transaction, so listed transactions may not add up to the reported value.</div>
 
       <!-- Oracle GL Revenue Transactions Table -->
       <div class="epm-box">
@@ -326,8 +321,8 @@
                 <td>Apr'23 EBA ACRL Mid Mkt Advisory Fee</td>
                 <td><b>INV-2300100</b></td>
                 <td class="num">0.00</td>
-                <td class="num">12,450.00</td>
-                <td class="num num-pos">(12,450.00)</td>
+                <td class="num">11,369.88</td>
+                <td class="num num-pos">(11,369.88)</td>
               </tr>
               <tr data-src="OTC_Receivables" data-cat="HD" data-je="OTC_Credit_Reclass">
                 <td>2 (FY23)</td>
@@ -346,9 +341,9 @@
                 <td>39</td>
                 <td>Journal Import Created - Participant Reclass</td>
                 <td><b>INV-2300137</b></td>
-                <td class="num">3,200.50</td>
+                <td class="num">2,922.83</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">3,200.50</td>
+                <td class="num num-neg">2,922.83</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
                 <td>3 (FY23)</td>
@@ -368,8 +363,8 @@
                 <td>Month-end true-up Small Mkt Plan Sponsor</td>
                 <td><b>INV-2300174</b></td>
                 <td class="num">0.00</td>
-                <td class="num">8,870.25</td>
-                <td class="num num-pos">(8,870.25)</td>
+                <td class="num">8,100.69</td>
+                <td class="num num-pos">(8,100.69)</td>
               </tr>
               <tr data-src="Subledger" data-cat="ASSET" data-je="Revenue Recognition">
                 <td>4 (FY23)</td>
@@ -389,8 +384,8 @@
                 <td>Monthly billing 401K Small Market Asset Basis</td>
                 <td><b>INV-2300211</b></td>
                 <td class="num">0.00</td>
-                <td class="num">45,120.00</td>
-                <td class="num num-pos">(45,120.00)</td>
+                <td class="num">41,205.52</td>
+                <td class="num num-pos">(41,205.52)</td>
               </tr>
               <tr data-src="Routine" data-cat="SETUP" data-je="Accrual Reverse">
                 <td>5 (FY23)</td>
@@ -409,9 +404,9 @@
                 <td>126</td>
                 <td>Apr'23 EBA ACRL Mid Mkt Conversion</td>
                 <td><b>INV-2300248</b></td>
-                <td class="num">1,500.00</td>
+                <td class="num">1,369.86</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">1,500.00</td>
+                <td class="num num-neg">1,369.86</td>
               </tr>
               <tr data-src="OTC_Receivables" data-cat="DCIO" data-je="OTC_Credit_Reclass">
                 <td>6 (FY23)</td>
@@ -431,8 +426,8 @@
                 <td>Journal Import Created - Partner Share</td>
                 <td><b>INV-2300285</b></td>
                 <td class="num">0.00</td>
-                <td class="num">2,310.75</td>
-                <td class="num num-pos">(2,310.75)</td>
+                <td class="num">2,110.28</td>
+                <td class="num num-pos">(2,110.28)</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
                 <td>7 (FY23)</td>
@@ -452,8 +447,8 @@
                 <td>Month-end true-up Small Mkt Participant</td>
                 <td><b>INV-2300322</b></td>
                 <td class="num">0.00</td>
-                <td class="num">19,800.00</td>
-                <td class="num num-pos">(19,800.00)</td>
+                <td class="num">18,082.21</td>
+                <td class="num num-pos">(18,082.21)</td>
               </tr>
               <tr data-src="Subledger" data-cat="HD" data-je="Revenue Recognition">
                 <td>8 (FY23)</td>
@@ -472,9 +467,9 @@
                 <td>213</td>
                 <td>Monthly billing 401K Small Market Base Fees</td>
                 <td><b>INV-2300359</b></td>
-                <td class="num">760.40</td>
+                <td class="num">694.43</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">760.40</td>
+                <td class="num num-neg">694.43</td>
               </tr>
               <tr data-src="Routine" data-cat="AR-ERISA" data-je="Accrual Reverse">
                 <td>9 (FY23)</td>
@@ -494,8 +489,8 @@
                 <td>Apr'23 EBA ACRL Mid Mkt Accrual</td>
                 <td><b>INV-2300396</b></td>
                 <td class="num">0.00</td>
-                <td class="num">5,400.00</td>
-                <td class="num num-pos">(5,400.00)</td>
+                <td class="num">4,931.51</td>
+                <td class="num num-pos">(4,931.51)</td>
               </tr>
               <tr data-src="OTC_Receivables" data-cat="ASSET" data-je="OTC_Credit_Reclass">
                 <td>10 (FY23)</td>
@@ -515,8 +510,8 @@
                 <td>Journal Import Created - Custodial Trueup</td>
                 <td><b>INV-2300433</b></td>
                 <td class="num">0.00</td>
-                <td class="num">31,250.50</td>
-                <td class="num num-pos">(31,250.50)</td>
+                <td class="num">28,539.30</td>
+                <td class="num num-pos">(28,539.30)</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="SETUP" data-je="Manual Adjustment">
                 <td>11 (FY23)</td>
@@ -535,9 +530,9 @@
                 <td>300</td>
                 <td>Month-end true-up Small Mkt Implementation</td>
                 <td><b>INV-2300470</b></td>
-                <td class="num">9,800.00</td>
+                <td class="num">8,949.78</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">9,800.00</td>
+                <td class="num num-neg">8,949.78</td>
               </tr>
               <tr data-src="Subledger" data-cat="DCIO" data-je="Revenue Recognition">
                 <td>12 (FY23)</td>
@@ -557,8 +552,8 @@
                 <td>Monthly billing 401K Small Partner Revenue</td>
                 <td><b>INV-2300507</b></td>
                 <td class="num">0.00</td>
-                <td class="num">1,275.00</td>
-                <td class="num num-pos">(1,275.00)</td>
+                <td class="num">1,164.38</td>
+                <td class="num num-pos">(1,164.38)</td>
               </tr>
               <tr data-src="Routine" data-cat="AR-ERISA" data-je="Accrual Reverse">
                 <td>1 (FY23)</td>
@@ -578,8 +573,8 @@
                 <td>Apr'23 EBA ACRL Mid Mkt Major Advisory Run</td>
                 <td><b>INV-2300544</b></td>
                 <td class="num">0.00</td>
-                <td class="num">66,010.00</td>
-                <td class="num num-pos">(66,010.00)</td>
+                <td class="num">60,283.17</td>
+                <td class="num num-pos">(60,283.17)</td>
               </tr>
               <tr data-src="OTC_Receivables" data-cat="HD" data-je="OTC_Credit_Reclass">
                 <td>2 (FY23)</td>
@@ -598,9 +593,9 @@
                 <td>387</td>
                 <td>Journal Import Created - Batch Fee Adjustment</td>
                 <td><b>INV-2300581</b></td>
-                <td class="num">420.00</td>
+                <td class="num">383.56</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">420.00</td>
+                <td class="num num-neg">383.56</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
                 <td>3 (FY23)</td>
@@ -620,8 +615,8 @@
                 <td>Month-end true-up Small Mkt Plan Retainage</td>
                 <td><b>INV-2300618</b></td>
                 <td class="num">0.00</td>
-                <td class="num">7,340.80</td>
-                <td class="num num-pos">(7,340.80)</td>
+                <td class="num">6,703.93</td>
+                <td class="num num-pos">(6,703.93)</td>
               </tr>
               <tr data-src="Subledger" data-cat="ASSET" data-je="Revenue Recognition">
                 <td>4 (FY23)</td>
@@ -641,8 +636,8 @@
                 <td>Monthly billing 401K Mid Market Asset Growth</td>
                 <td><b>INV-2300655</b></td>
                 <td class="num">0.00</td>
-                <td class="num">23,190.00</td>
-                <td class="num num-pos">(23,190.00)</td>
+                <td class="num">21,178.10</td>
+                <td class="num num-pos">(21,178.10)</td>
               </tr>
               <tr data-src="Routine" data-cat="SETUP" data-je="Accrual Reverse">
                 <td>5 (FY23)</td>
@@ -661,9 +656,9 @@
                 <td>474</td>
                 <td>Apr'23 EBA ACRL Mid Mkt Conversion Run</td>
                 <td><b>INV-2300692</b></td>
-                <td class="num">5,125.25</td>
+                <td class="num">4,680.60</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">5,125.25</td>
+                <td class="num num-neg">4,680.60</td>
               </tr>
               <tr data-src="OTC_Receivables" data-cat="DCIO" data-je="OTC_Credit_Reclass">
                 <td>6 (FY23)</td>
@@ -683,8 +678,8 @@
                 <td>Journal Import Created - Partner Settlement</td>
                 <td><b>INV-2300729</b></td>
                 <td class="num">0.00</td>
-                <td class="num">980.00</td>
-                <td class="num num-pos">(980.00)</td>
+                <td class="num">894.98</td>
+                <td class="num num-pos">(894.98)</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="AR-ERISA" data-je="Manual Adjustment">
                 <td>7 (FY23)</td>
@@ -704,8 +699,8 @@
                 <td>Month-end true-up Small Mkt Plan Conversion</td>
                 <td><b>INV-2300766</b></td>
                 <td class="num">0.00</td>
-                <td class="num">14,460.00</td>
-                <td class="num num-pos">(14,460.00)</td>
+                <td class="num">13,205.49</td>
+                <td class="num num-pos">(13,205.49)</td>
               </tr>
               <tr data-src="Subledger" data-cat="HD" data-je="Revenue Recognition">
                 <td>8 (FY23)</td>
@@ -725,8 +720,8 @@
                 <td>Monthly billing 401K Small Base Fee Adjustment</td>
                 <td><b>INV-2300803</b></td>
                 <td class="num">0.00</td>
-                <td class="num">2,755.50</td>
-                <td class="num num-pos">(2,755.50)</td>
+                <td class="num">2,516.44</td>
+                <td class="num num-pos">(2,516.44)</td>
               </tr>
             </tbody>
           </table>
@@ -752,6 +747,7 @@
   </div>
 </footer>
 
+<script src="gl_table.js"></script>
 <script>
   var currentSource = 'all';
 
@@ -823,7 +819,7 @@
       var matchLine = !lineCats || lineCats.indexOf(rCat) > -1;
 
       if (matchQuery && matchSrc && matchCat && matchJe && matchLine) {
-        r.style.display = '';
+        r.classList.remove('gl-f');
         visibleCount++;
         var cells = r.querySelectorAll('td.num');
         if (cells.length >= 2) {
@@ -831,7 +827,7 @@
           totalCredit += parseFloat(cells[1].textContent.replace(/,/g, '')) || 0;
         }
       } else {
-        r.style.display = 'none';
+        r.classList.add('gl-f');
       }
     });
 
@@ -842,6 +838,7 @@
     document.getElementById('statNet').textContent = '(' + '$' + Math.abs(net).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ')';
     document.getElementById('tableMatchLabel').textContent = 'Showing ' + visibleCount + ' of ' + rows.length + ' journal records';
     document.getElementById('glEmpty').hidden = visibleCount > 0;
+    if (window.glRender) glRender(true);
   }
 
   if (lineCats) filterTable();
@@ -850,7 +847,7 @@
     var rows = document.querySelectorAll('#glTable tr');
     var csv = [];
     rows.forEach(function(r) {
-      if (r.style.display !== 'none') {
+      if (!r.classList.contains('gl-f')) {
         var rowData = [];
         r.querySelectorAll('th, td').forEach(function(c) {
           var t = c.textContent.trim().replace(/"/g, '""');

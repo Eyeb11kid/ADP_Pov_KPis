@@ -96,7 +96,8 @@
   .content { padding: 14px 20px 28px; flex: 1; }
   
   /* Metric Strip */
-  .metric-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .metric-note { font-size: 11px; color: #57606a; margin: -4px 0 14px; line-height: 1.4; }
   .m-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 14px; }
   .m-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
   .m-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
@@ -141,6 +142,7 @@
 </style>
 <link rel="stylesheet" href="site_footer.css">
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="gl_table.css">
 </head>
 <body data-pf-page="P07" data-pf-bu="NAS">
 
@@ -170,7 +172,6 @@
       <a class="sb-link sub" href="nas_dashboard_2.html">NAS Executive Cockpit</a>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
       <a class="sb-link sub2 active" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="NAS_npi_2.html">NAS NPI P&amp;L</a>
       <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
 
@@ -204,8 +205,7 @@
       <div class="title-row">
         <div>
           <div class="page-title">
-            NAS Transaction Detail 2 — Oracle GL Journal Lines
-            <span class="badge">Level-3 Audit Ledger</span>
+            NAS Transaction Detail
           </div>
         </div>
       </div>
@@ -267,29 +267,24 @@
         <div class="m-card">
           <div class="m-label">Total Journal Lines</div>
           <div class="m-val" id="statCount">24 Lines</div>
-          <div class="m-sub">100% Filter Match</div>
         </div>
         <div class="m-card">
           <div class="m-label">Total Debits</div>
-          <div class="m-val" id="statDebit">$125,817.65</div>
+          <div class="m-val" id="statDebit">$112,501.95</div>
           <div class="m-sub" style="color:#64748b;">Expenses, Allocations &amp; Adjustments</div>
         </div>
         <div class="m-card">
           <div class="m-label">Total Credits</div>
-          <div class="m-val" id="statCredit">$147,511.15</div>
+          <div class="m-val" id="statCredit">$131,899.56</div>
           <div class="m-sub" style="color:var(--green);">Earned Revenue Billings</div>
         </div>
         <div class="m-card">
           <div class="m-label">Net Posted (Dr less Cr)</div>
-          <div class="m-val" id="statNet">($21,693.50)</div>
+          <div class="m-val" id="statNet">($19,397.61)</div>
           <div class="m-sub" style="color:#64748b;">Debit balance = net cost</div>
         </div>
-        <div class="m-card">
-          <div class="m-label">GL Audit Status</div>
-          <div class="m-val" style="font-size:15px;color:var(--green);">✓ Reconciled</div>
-          <div class="m-sub" style="color:#64748b;">Subledger Balanced</div>
-        </div>
       </div>
+      <div class="metric-note" role="note">Reported values can include amounts loaded to Hyperion without a GL transaction, so listed transactions may not add up to the reported value.</div>
 
       <!-- Oracle GL Transactions Table -->
       <div class="epm-box">
@@ -341,8 +336,8 @@
                 <td>Monthly payroll processing billing, national accounts</td>
                 <td><b>INV-NAS-26001</b></td>
                 <td class="num">0.00</td>
-                <td class="num">41,250.00</td>
-                <td class="num num-pos">(41,250.00)</td>
+                <td class="num">36,884.38</td>
+                <td class="num num-pos">(36,884.38)</td>
               </tr>
               <tr data-src="Subledger" data-cat="REV-PROC" data-je="Revenue Recognition">
                 <td>2 (FY27)</td>
@@ -362,8 +357,8 @@
                 <td>Monthly payroll processing billing, national accounts</td>
                 <td><b>INV-NAS-26047</b></td>
                 <td class="num">0.00</td>
-                <td class="num">38,900.40</td>
-                <td class="num num-pos">(38,900.40)</td>
+                <td class="num">34,783.44</td>
+                <td class="num num-pos">(34,783.44)</td>
               </tr>
               <tr data-src="Subledger" data-cat="REV-PROC" data-je="Revenue Recognition">
                 <td>3 (FY27)</td>
@@ -383,8 +378,8 @@
                 <td>Monthly payroll processing billing, national accounts</td>
                 <td><b>INV-NAS-26093</b></td>
                 <td class="num">0.00</td>
-                <td class="num">44,120.75</td>
-                <td class="num num-pos">(44,120.75)</td>
+                <td class="num">39,451.30</td>
+                <td class="num num-pos">(39,451.30)</td>
               </tr>
               <tr data-src="Subledger" data-cat="REV-IMPL" data-je="Revenue Recognition">
                 <td>2 (FY27)</td>
@@ -404,8 +399,8 @@
                 <td>Lyric enterprise implementation milestone billing</td>
                 <td><b>INV-NAS-26061</b></td>
                 <td class="num">0.00</td>
-                <td class="num">12,400.00</td>
-                <td class="num num-pos">(12,400.00)</td>
+                <td class="num">11,087.67</td>
+                <td class="num num-pos">(11,087.67)</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="REV-IMPL" data-je="Manual Adjustment">
                 <td>3 (FY27)</td>
@@ -424,9 +419,9 @@
                 <td>58</td>
                 <td>Month-end true-up, deferred setup fee correction</td>
                 <td><b>INV-NAS-26108</b></td>
-                <td class="num">1,850.00</td>
+                <td class="num">1,654.21</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">1,850.00</td>
+                <td class="num num-neg">1,654.21</td>
               </tr>
               <tr data-src="Subledger" data-cat="REV-PROJ" data-je="Revenue Recognition">
                 <td>3 (FY27)</td>
@@ -446,8 +441,8 @@
                 <td>Consulting and customization hours billed</td>
                 <td><b>INV-NAS-26099</b></td>
                 <td class="num">0.00</td>
-                <td class="num">9,640.00</td>
-                <td class="num num-pos">(9,640.00)</td>
+                <td class="num">8,619.77</td>
+                <td class="num num-pos">(8,619.77)</td>
               </tr>
               <tr data-src="Routine" data-cat="REV-PROJ" data-je="Accrual Reverse">
                 <td>3 (FY27)</td>
@@ -466,9 +461,9 @@
                 <td>3</td>
                 <td>Aug accrual reversal, project services</td>
                 <td><b>INV-NAS-26088</b></td>
-                <td class="num">3,200.00</td>
+                <td class="num">2,861.33</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">3,200.00</td>
+                <td class="num num-neg">2,861.33</td>
               </tr>
               <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
                 <td>1 (FY27)</td>
@@ -487,9 +482,9 @@
                 <td>118</td>
                 <td>Service center salaries and benefits</td>
                 <td><b>PAY-NAS-2607</b></td>
-                <td class="num">18,420.60</td>
+                <td class="num">16,471.09</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">18,420.60</td>
+                <td class="num num-neg">16,471.09</td>
               </tr>
               <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
                 <td>2 (FY27)</td>
@@ -508,9 +503,9 @@
                 <td>121</td>
                 <td>Service center salaries and benefits</td>
                 <td><b>PAY-NAS-2608</b></td>
-                <td class="num">18,905.10</td>
+                <td class="num">16,904.31</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">18,905.10</td>
+                <td class="num num-neg">16,904.31</td>
               </tr>
               <tr data-src="Routine" data-cat="SVC-EMP" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -529,9 +524,9 @@
                 <td>124</td>
                 <td>Service center salaries and benefits</td>
                 <td><b>PAY-NAS-2609</b></td>
-                <td class="num">19,310.00</td>
+                <td class="num">17,266.36</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">19,310.00</td>
+                <td class="num num-neg">17,266.36</td>
               </tr>
               <tr data-src="Subledger" data-cat="SVC-NE" data-je="Revenue Recognition">
                 <td>2 (FY27)</td>
@@ -550,9 +545,9 @@
                 <td>75</td>
                 <td>Contractor and hosting invoices, service operations</td>
                 <td><b>AP-NAS-26312</b></td>
-                <td class="num">6,540.25</td>
+                <td class="num">5,848.07</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">6,540.25</td>
+                <td class="num num-neg">5,848.07</td>
               </tr>
               <tr data-src="Subledger" data-cat="SVC-NE" data-je="Revenue Recognition">
                 <td>3 (FY27)</td>
@@ -571,9 +566,9 @@
                 <td>79</td>
                 <td>Contractor and hosting invoices, service operations</td>
                 <td><b>AP-NAS-26388</b></td>
-                <td class="num">7,215.80</td>
+                <td class="num">6,452.13</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">7,215.80</td>
+                <td class="num num-neg">6,452.13</td>
               </tr>
               <tr data-src="Routine" data-cat="SVC-NE" data-je="Accrual Reverse">
                 <td>3 (FY27)</td>
@@ -593,8 +588,8 @@
                 <td>Aug hosting accrual reversal</td>
                 <td><b>AP-NAS-26340</b></td>
                 <td class="num">0.00</td>
-                <td class="num">1,200.00</td>
-                <td class="num num-pos">(1,200.00)</td>
+                <td class="num">1,073.00</td>
+                <td class="num num-pos">(1,073.00)</td>
               </tr>
               <tr data-src="Routine" data-cat="IMP-EMP" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -613,9 +608,9 @@
                 <td>131</td>
                 <td>Implementation team salaries and benefits</td>
                 <td><b>PAY-NAS-2609I</b></td>
-                <td class="num">8,120.00</td>
+                <td class="num">7,260.63</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">8,120.00</td>
+                <td class="num num-neg">7,260.63</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="IMP-NE" data-je="Manual Adjustment">
                 <td>1 (FY27)</td>
@@ -634,9 +629,9 @@
                 <td>33</td>
                 <td>Client site travel reclass to implementation</td>
                 <td><b>EXP-NAS-26071</b></td>
-                <td class="num">2,450.00</td>
+                <td class="num">2,190.71</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">2,450.00</td>
+                <td class="num num-neg">2,190.71</td>
               </tr>
               <tr data-src="Subledger" data-cat="IMP-NE" data-je="Revenue Recognition">
                 <td>3 (FY27)</td>
@@ -655,9 +650,9 @@
                 <td>82</td>
                 <td>Implementation contractor invoices</td>
                 <td><b>AP-NAS-26371</b></td>
-                <td class="num">3,075.50</td>
+                <td class="num">2,750.01</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">3,075.50</td>
+                <td class="num num-neg">2,750.01</td>
               </tr>
               <tr data-src="Routine" data-cat="NDE" data-je="Allocation">
                 <td>2 (FY27)</td>
@@ -676,9 +671,9 @@
                 <td>15</td>
                 <td>NDE monthly charge</td>
                 <td><b>ALC-NAS-2608N</b></td>
-                <td class="num">4,860.00</td>
+                <td class="num">4,345.65</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">4,860.00</td>
+                <td class="num num-neg">4,345.65</td>
               </tr>
               <tr data-src="Routine" data-cat="NDE" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -697,9 +692,9 @@
                 <td>16</td>
                 <td>NDE monthly charge</td>
                 <td><b>ALC-NAS-2609N</b></td>
-                <td class="num">5,210.40</td>
+                <td class="num">4,658.97</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">5,210.40</td>
+                <td class="num num-neg">4,658.97</td>
               </tr>
               <tr data-src="Routine" data-cat="RD" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -718,9 +713,9 @@
                 <td>201</td>
                 <td>R&amp;D allocation to NAS</td>
                 <td><b>ALC-NAS-2609R</b></td>
-                <td class="num">9,000.00</td>
+                <td class="num">8,047.50</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">9,000.00</td>
+                <td class="num num-neg">8,047.50</td>
               </tr>
               <tr data-src="Routine" data-cat="PM" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -739,9 +734,9 @@
                 <td>202</td>
                 <td>Product management allocation to NAS</td>
                 <td><b>ALC-NAS-2609P</b></td>
-                <td class="num">5,000.00</td>
+                <td class="num">4,470.83</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">5,000.00</td>
+                <td class="num num-neg">4,470.83</td>
               </tr>
               <tr data-src="Routine" data-cat="GETS" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -760,9 +755,9 @@
                 <td>203</td>
                 <td>GETS allocation to NAS</td>
                 <td><b>ALC-NAS-2609G</b></td>
-                <td class="num">4,500.00</td>
+                <td class="num">4,023.75</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">4,500.00</td>
+                <td class="num num-neg">4,023.75</td>
               </tr>
               <tr data-src="Routine" data-cat="OTH" data-je="Allocation">
                 <td>3 (FY27)</td>
@@ -781,9 +776,9 @@
                 <td>204</td>
                 <td>Other shared services allocation to NAS</td>
                 <td><b>ALC-NAS-2609O</b></td>
-                <td class="num">3,500.00</td>
+                <td class="num">3,129.58</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">3,500.00</td>
+                <td class="num num-neg">3,129.58</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="BD" data-je="Manual Adjustment">
                 <td>2 (FY27)</td>
@@ -802,9 +797,9 @@
                 <td>9</td>
                 <td>Allowance for doubtful accounts, aged receivables</td>
                 <td><b>RSV-NAS-2608</b></td>
-                <td class="num">1,260.00</td>
+                <td class="num">1,126.65</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">1,260.00</td>
+                <td class="num num-neg">1,126.65</td>
               </tr>
               <tr data-src="Spreadsheet" data-cat="BD" data-je="Manual Adjustment">
                 <td>3 (FY27)</td>
@@ -823,9 +818,9 @@
                 <td>11</td>
                 <td>Allowance for doubtful accounts, aged receivables</td>
                 <td><b>RSV-NAS-2609</b></td>
-                <td class="num">3,400.00</td>
+                <td class="num">3,040.17</td>
                 <td class="num">0.00</td>
-                <td class="num num-neg">3,400.00</td>
+                <td class="num num-neg">3,040.17</td>
               </tr>
             </tbody>
           </table>
@@ -851,6 +846,7 @@
   </div>
 </footer>
 
+<script src="gl_table.js"></script>
 <script>
   var currentSource = 'all';
 
@@ -920,7 +916,7 @@
       var matchLine = !lineCats || lineCats.indexOf(rCat) > -1;
 
       if (matchQuery && matchSrc && matchCat && matchJe && matchLine) {
-        r.style.display = '';
+        r.classList.remove('gl-f');
         visibleCount++;
         var cells = r.querySelectorAll('td.num');
         if (cells.length >= 2) {
@@ -928,7 +924,7 @@
           totalCredit += parseFloat(cells[1].textContent.replace(/,/g, '')) || 0;
         }
       } else {
-        r.style.display = 'none';
+        r.classList.add('gl-f');
       }
     });
 
@@ -939,6 +935,7 @@
     document.getElementById('statNet').textContent = net < 0 ? '($' + fmt(Math.abs(net)) + ')' : '$' + fmt(net);
     document.getElementById('tableMatchLabel').textContent = 'Showing ' + visibleCount + ' of ' + rows.length + ' journal records \u00B7 sample data, whole dollars';
     document.getElementById('glEmpty').hidden = visibleCount > 0;
+    if (window.glRender) glRender(true);
   }
 
   if (lineCats) filterTable();
@@ -947,7 +944,7 @@
     var rows = document.querySelectorAll('#glTable tr');
     var csv = [];
     rows.forEach(function(r) {
-      if (r.style.display !== 'none') {
+      if (!r.classList.contains('gl-f')) {
         var rowData = [];
         r.querySelectorAll('th, td').forEach(function(c) {
           var t = c.textContent.trim().replace(/"/g, '""');
