@@ -208,8 +208,8 @@ tr.child-row.open { display: table-row; }
 .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
 .site-footer a:hover { text-decoration: underline; }
 
-/* Period column groups (Month / QTD / YTD / ROY / FY) on #rev-summary-table: a collapsed group keeps only its key column (.gk) */
-.epm-table.rev-periods.c1 .g1:not(.gk):not(.gv), .epm-table.rev-periods.c2 .g2:not(.gk):not(.gv), .epm-table.rev-periods.c3 .g3:not(.gk):not(.gv), .epm-table.rev-periods.c4 .g4:not(.gk):not(.gv), .epm-table.rev-periods.c5 .g5:not(.gk):not(.gv) { display: none; }
+/* Period column groups (Month / QTD / YTD / ROY / FY) on #rev-summary-table: a collapsed group keeps key (.gk), plan (.gp), and variance (.gv) */
+.epm-table.rev-periods.c1 .g1:not(.gk):not(.gp):not(.gv), .epm-table.rev-periods.c2 .g2:not(.gk):not(.gp):not(.gv), .epm-table.rev-periods.c3 .g3:not(.gk):not(.gp):not(.gv), .epm-table.rev-periods.c4 .g4:not(.gk):not(.gp):not(.gv), .epm-table.rev-periods.c5 .g5:not(.gk):not(.gp):not(.gv) { display: none; }
 .epm-table.rev-periods { font-size: 11px; }
 .epm-table.rev-periods th, .epm-table.rev-periods td { padding: 4px 8px; }
 .epm-table.rev-periods th { white-space: normal; vertical-align: bottom; }

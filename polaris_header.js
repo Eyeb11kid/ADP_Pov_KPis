@@ -23,7 +23,7 @@
 
   /* ============================================================ reference data (prototype) */
   var PAGES = [
-    { code: 'P01', label: 'CFO Dashboard',     area: 'corp',   file: { ALL: 'cfo_dashboard_3.html' }, cfoOnly: true, product: false, func: false, toggle: true,  views: ['month', 'ytd', 'fy'] },
+    { code: 'P01', label: 'CFO Dashboard',     area: 'corp',   file: { ALL: 'index.html' }, cfoOnly: true, product: false, func: false, toggle: true,  views: ['month', 'ytd', 'fy'] },
     // SEC P&L link hidden for now (uncomment to restore):
     // { code: 'P02', label: 'SEC P&L',           area: 'corp',   file: { ALL: 'sec_report.html' },       cfoOnly: true, product: false, func: false, toggle: false, views: null },
     { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'rs_dashboard_3.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },

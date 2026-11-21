@@ -109,8 +109,8 @@
   .epm-table.pl-draft th:first-child, .epm-table.pl-draft td:first-child { position: sticky; left: 0; background: #f1f5f9; min-width: 190px; z-index: 1; }
   .epm-table.pl-draft tbody td:first-child { background: #fff; }
   .epm-table.pl-draft tr.summary-row td:first-child { background: inherit; }
-  /* Expand / collapse time-view column groups: a collapsed group keeps only its key column (.gk) */
-  .epm-table.pl-draft.c1 .g1:not(.gk):not(.gv), .epm-table.pl-draft.c2 .g2:not(.gk):not(.gv), .epm-table.pl-draft.c3 .g3:not(.gk):not(.gv), .epm-table.pl-draft.c4 .g4:not(.gk):not(.gv), .epm-table.pl-draft.c5 .g5:not(.gk):not(.gv) { display: none; }
+  /* Expand / collapse time-view column groups: a collapsed group keeps key (.gk), plan (.gp), and variance (.gv) */
+  .epm-table.pl-draft.c1 .g1:not(.gk):not(.gp):not(.gv), .epm-table.pl-draft.c2 .g2:not(.gk):not(.gp):not(.gv), .epm-table.pl-draft.c3 .g3:not(.gk):not(.gp):not(.gv), .epm-table.pl-draft.c4 .g4:not(.gk):not(.gp):not(.gv), .epm-table.pl-draft.c5 .g5:not(.gk):not(.gp):not(.gv) { display: none; }
   .epm-table.pl-draft th.grp { padding: 0; }
   .grp-tg { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 4px 6px; cursor: pointer; font-weight: 700; font-size: 10.5px; color: #334155; text-align: center; }
   .epm-table.pl-draft thead tr:nth-child(2) th:first-child { position: static; min-width: 62px; background: #f1f5f9; }

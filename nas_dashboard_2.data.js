@@ -57,7 +57,7 @@ window.NAS_DATA = {
       "id": "hkpi-noi",
       "href": "expense_pl_NAS_2.html",
       "link": "Expense P&amp;L",
-      "tip": "<b>NOI (EBIT)</b><br>Act: $25,036.7K vs Plan $21,907.1K · Var +$3,129.6K / +14.3% favorable<br>Margin: 23.3% vs 21.1% · Var +220 bps favorable<br>Select to open Expense P&amp;L",
+      "tip": "<b>NOI (EBIT)</b><br>Act: $25,036.7K vs Plan $21,907.1K · Var +$3,129.6K / +14.3% favorable<br>Margin: 23.3% vs 21.1% · Var +220 bps favorable<br>Field expense $55,438.3K · NDE $7,153.3K · Shared service allocations $19,671.7K<br>Select to open Expense P&amp;L",
       "val": "$25.0M",
       "planVal": "$21.9M",
       "label": "NOI",
@@ -80,6 +80,33 @@ window.NAS_DATA = {
             "fav"
           ],
           "planVal": "21.1%"
+        },
+        {
+          "label": "Field expense",
+          "val": "$55.4M",
+          "var": [
+            "($1.3M) / −2.5%",
+            "unf"
+          ],
+          "planVal": "$54.1M"
+        },
+        {
+          "label": "NDE",
+          "val": "$7.2M",
+          "var": [
+            "($0.2M) / −2.6%",
+            "unf"
+          ],
+          "planVal": "$7.0M"
+        },
+        {
+          "label": "Shared service allocations",
+          "val": "$19.7M",
+          "var": [
+            "+$1.1M / +5.2%",
+            "fav"
+          ],
+          "planVal": "$20.7M"
         }
       ]
     },
@@ -87,7 +114,7 @@ window.NAS_DATA = {
       "id": "hkpi-sales",
       "href": "revenue_analysis_NAS_2.html",
       "link": "Revenue Analysis",
-      "tip": "<b>Sales (Bookings)</b><br>Act: $16,631.5K vs Plan $16,095.0K · Var +$536.5K / +3.3% favorable<br>Starts $13,591.3K · Losses ($8,762.8K) · Net new business $4,828.5K<br>Select to open Revenue Analysis",
+      "tip": "<b>Sales (Bookings)</b><br>Act: $16,631.5K vs Plan $16,095.0K · Var +$536.5K / +3.3% favorable<br>Starts $13,591.3K · No-starts $1,081.0K<br>Select to open Revenue Analysis",
       "val": "$16.6M",
       "planVal": "$16.1M",
       "label": "Sales",
@@ -116,22 +143,13 @@ window.NAS_DATA = {
           "planVal": "$13.1M"
         },
         {
-          "label": "Loss dollars",
-          "val": "($8.8M)",
+          "label": "No-starts",
+          "val": "$1.1M",
           "var": [
-            "($0.2M) / −2.1%",
-            "unf"
-          ],
-          "planVal": "($8.6M)"
-        },
-        {
-          "label": "Net new business",
-          "val": "$4.8M",
-          "var": [
-            "+$0.4M / +8.0%",
+            "+$0.1M / +10.4%",
             "fav"
           ],
-          "planVal": "$4.5M"
+          "planVal": "$1.2M"
         }
       ]
     },
@@ -139,7 +157,7 @@ window.NAS_DATA = {
       "id": "hkpi-ret",
       "href": "revenue_analysis_NAS_2.html",
       "link": "Revenue Analysis",
-      "tip": "<b>Retention %</b><br>Act: 92.4% vs Plan 92.0% · Var +40 bps favorable<br>YoY: +20 bps<br>Select to open Revenue Analysis",
+      "tip": "<b>Retention %</b><br>Act: 92.4% vs Plan 92.0% · Var +40 bps favorable<br>YoY: +20 bps<br>Losses ($8,762.8K)<br>Select to open Revenue Analysis",
       "val": "92.4%",
       "planVal": "92.0%",
       "label": "Retention %",
@@ -158,7 +176,15 @@ window.NAS_DATA = {
         "fav"
       ],
       "secs": [
-
+        {
+          "label": "Loss dollars",
+          "val": "($8.8M)",
+          "var": [
+            "($0.2M) / −2.1%",
+            "unf"
+          ],
+          "planVal": "($8.6M)"
+        }
       ]
     },
     {
@@ -166,11 +192,11 @@ window.NAS_DATA = {
       "href": "revenue_analysis_NAS_2.html#sec-summary",
       "attrs": "data-pf-unsupported=\"product\"",
       "link": "Revenue Analysis",
-      "tip": "<b>Clients (average)</b><br>Act: 61,500 vs Plan 61,200 · Var +300 / +0.5% favorable<br>YoY: +2.1%<br>Select to open Revenue Analysis",
+      "tip": "<b>Clients</b><br>Act: 61,500 vs Plan 61,200 · Var +300 / +0.5% favorable<br>YoY: +2.1%<br>Select to open Revenue Analysis",
       "val": "61.5K",
       "planVal": "61.2K",
-      "label": "Clients (average)",
-      "desc": "Active National Accounts",
+      "label": "Clients",
+      "desc": "Active clients",
       "var": [
         "+300 / +0.5%",
         "fav"

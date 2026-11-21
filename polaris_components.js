@@ -70,10 +70,10 @@
     d.groups.forEach(function (g, i) {
       var n = i + 1, open = !!g.open;
       if (!open) closed += ' c' + n;
-      r1 += '<th colspan="' + (open ? g.cols.length : 3) + '" class="grp" data-grp="' + n + '" data-cols="' + g.cols.length + '">' +
+      r1 += '<th colspan="' + (open ? g.cols.length : 4) + '" class="grp" data-grp="' + n + '" data-cols="' + g.cols.length + '">' +
         '<button type="button" class="grp-tg"' + (g.title ? ' title="' + g.title + '"' : '') + ' aria-expanded="' + open + '">' +
         '<span class="grp-chev" aria-hidden="true"></span>' + g.label + '</button></th>';
-      g.cols.forEach(function (c, j) { r2 += '<th class="g' + n + (j === 0 ? ' gk' : (j === 2 || j === 3 ? ' gv' : '')) + (j === g.cols.length - 1 ? ' ge' : '') + (j === 3 ? ' gz' : '') + '">' + c + '</th>'; });
+      g.cols.forEach(function (c, j) { r2 += '<th class="g' + n + (j === 0 ? ' gk' : (j === 1 ? ' gp' : (j === 2 || j === 3 ? ' gv' : ''))) + (j === g.cols.length - 1 ? ' ge' : '') + (j === 3 ? ' gz' : '') + '">' + c + '</th>'; });
     });
     var sizes = d.groups.map(function (g) { return g.cols.length; });
     /* Row hierarchy: r.indent is the level (0 = top); a row is a parent when the next row is deeper */
@@ -96,7 +96,7 @@
         var first = pos === left - sizes[gi];
         pos++;
         var idx = pos - 1 - (left - sizes[gi]);
-        var cls = 'g' + (gi + 1) + (first ? ' gk' : (idx === 2 || idx === 3 ? ' gv' : '')) + (idx === sizes[gi] - 1 ? ' ge' : '') + (idx === 3 ? ' gz' : '') + (c instanceof Array ? ' ' + c[1] : '');
+        var cls = 'g' + (gi + 1) + (first ? ' gk' : (idx === 1 ? ' gp' : (idx === 2 || idx === 3 ? ' gv' : ''))) + (idx === sizes[gi] - 1 ? ' ge' : '') + (idx === 3 ? ' gz' : '') + (c instanceof Array ? ' ' + c[1] : '');
         return '<td class="' + cls + '">' + (c instanceof Array ? c[0] : c) + '</td>';
       }).join('');
       return '<tr class="xr ' + kind + ' xl' + lv[ri] + (r.cls ? ' ' + r.cls : '') + '" data-id="' + ids[ri] + '" data-parent="' + pars[ri] + '"' + (r.style ? ' style="' + r.style + '"' : '') + '><td><span class="xlab">' + ctl + r.label + '</span></td>' + tds + '</tr>';
@@ -228,7 +228,7 @@
         var open = btn.getAttribute('aria-expanded') !== 'true';
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
         tbl.classList.toggle('c' + g, !open);
-        th.setAttribute('colspan', open ? n : 3);
+        th.setAttribute('colspan', open ? n : 4);
       });
     });
   }

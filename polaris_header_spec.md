@@ -110,7 +110,7 @@ The header is applied to all nine Experience 2 pages. Each page declares its pla
 
 | Page | Code | BU |
 |---|---|---|
-| `cfo_dashboard_3.html` | P01 | all |
+| `index.html` | P01 | all |
 | `rs_dashboard_3.html` | P03 | RS |
 | `nas_dashboard_2.html` | P03 | NAS |
 | `revenue_analysis_RS_2.html` / `revenue_analysis_NAS_2.html` | P04 | RS / NAS |
