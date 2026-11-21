@@ -1,48 +1,48 @@
 /* Polaris theme: design tokens, reset, page chrome, sidebar, title bar, tooltip and footer.
    Shared by all Polaris dashboards. Values match rs_dashboard_3.html. Load after polaris_header.css, before polaris_components.css. */
   :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --blue:#476bc3; --navy:#393533; --green:#2f5b22; --red:#9c2514;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#544e4a; --line:#e3dfda;
+    --bg:#f7f6f4; --tile:#fff; --inner:#f7f6f4; --hover:#f2f0ed;
     --adp:#E8222F; --sidebar-w:220px;
-    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
-    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+    --p-navy:#121c4e; --p-purple:#7967ae; --p-blue:#476bc3;
+    --p-cyan:#2ba0c9; --p-amber:#db9431; --p-coral:#f25d71; --p-green:#529c42;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 
   /* Top Chrome */
   .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
-  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
-  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 16px; letter-spacing: -0.5px; margin-right: 4px; }
   .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
-  .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .chrome-r b { color: var(--navy); font-weight: 500; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #476bc3; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; }
 
   /* Layout Shell */
   .shell { display: flex; flex: 1; overflow: hidden; }
   .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
-  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
-  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-bu-label { font-size: 18px; font-weight: 700; color: #000; }
+  .sb-section { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 14px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
   .sb-link:hover { background: var(--hover); color: var(--navy); }
-  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.active { color: var(--navy); font-weight: 500; border-left-color: var(--blue); background: #edf4ff; }
   .sb-link.sub { padding-left: 28px; font-size: 12px; }
   .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
   .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
-  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 14px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
   .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
   .sb-acc > summary::-webkit-details-marker { display: none; }
   .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
   .sb-acc[open] > summary::after { transform: rotate(45deg); }
   .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
-  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 500; border-left-color: var(--blue); }
   .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
 
   /* Main Workspace */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #ffffff; }
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
@@ -50,17 +50,17 @@
   .breadcrumb span { margin: 0 5px; }
   .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
-  .page-title .badge { background: #e0e7ff; color: #4338ca; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #c7d2fe; }
+  .page-title .badge { background: #e8effa; color: #324fa5; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; border: 1px solid #d8e5f9; }
   .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
   /* Tooltip standard */
-  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip { position: fixed; z-index: 9999; background: #393533; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 12px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .tip.on { opacity: 1; }
   .nd { cursor: pointer; }
   .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
 
   /* Site Footer */
-  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 12px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
 

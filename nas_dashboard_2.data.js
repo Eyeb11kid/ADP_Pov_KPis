@@ -2394,7 +2394,7 @@ window.NAS_DATA = {
   },
   "charts": {
     "bridge": {
-      "title": "BRIDGE · FIELD NOI PLAN TO ACTUAL",
+      "title": "Field NOI <span class=\"t-sub\">· Plan to Actual</span>",
       "sub": "$M · September close · axis starts at $48M",
       "axis": {
         "min": 48,
@@ -2436,7 +2436,7 @@ window.NAS_DATA = {
       ]
     },
     "mix": {
-      "title": "REVENUE MIX · BY CATEGORY",
+      "title": "Revenue Mix <span class=\"t-sub\">· By Category</span>",
       "sub": "$M · September actual vs plan",
       "axis": {
         "min": 0,
@@ -2478,7 +2478,7 @@ window.NAS_DATA = {
       ]
     },
     "trend": {
-      "title": "TREND · YEAR-OVER-YEAR REVENUE GROWTH",
+      "title": "Monthly Revenue Trend <span class=\"t-sub\">· YoY Growth</span>",
       "sub": "% YoY · last 6 months to September close",
       "axis": {
         "min": 2,

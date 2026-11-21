@@ -3,84 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RS Dashboard 4 — Retirement Services Monthly Close Cockpit — ADP Project Polaris</title>
+<title>RS Dashboard 4 — Retirement Services Monthly Close Dashboard — ADP Project Polaris</title>
 <link rel="stylesheet" href="polaris_header.css">
 <style>
   :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
-    --adp:#E8222F; --sidebar-w:220px;
-    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
-    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+    --blue:#324fa5; --navy:#262321; --green:#2f5b22; --red:#9c2514;
+    --teal:#2ba0c9; --purple:#7967ae; --muted:#544e4a; --line:#e3dfda;
+    --bg:#f7f6f4; --tile:#fff; --inner:#f7f6f4; --hover:#f2f0ed;
+    --adp:#c53422; --sidebar-w:220px;
+    --p-navy:#121c4e; --p-purple:#7967ae; --p-blue:#476bc3;
+    --p-cyan:#2ba0c9; --p-amber:#db9431; --p-coral:#f25d71; --p-green:#529c42;
+    --font: "Circular20", "Circular Std", "CircularStd", "Circular", "Circular XX", "Avenir Next", "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    /* Figma Resources tokens (Waypoint) */
+    --fg-base:#262321; --fg-secondary:#393533; --fg-nav:#544e4a; --fg-tertiary:#726c66; --fg-link:#324fa5; --action:#476bc3; --appbar:#121c4e; --surface-alt:#f7f6f4; --surface-accent:#f2f0ed; --divider:#e3dfda;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  button, input, select, textarea, optgroup { font-family: inherit; }
+  /* shared header panels (polaris_header.css) set their own font */
+  .pf-panel, .pf-proto, .gn-item { font-family: var(--font); }
+  body { font-family: var(--font); font-size: 14px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 
   /* Top Chrome */
-  .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
-  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
-  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
-  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
-  .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .chrome { display: flex; align-items: center; justify-content: space-between; height: 48px; background: var(--appbar); border-bottom: 0; padding: 0 16px; flex: none; }
+  .chrome-l { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: #fff; }
+  .chrome-logo { display: block; height: 26px; width: auto; flex: none; filter: brightness(0) invert(1); }
+  .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: #ffffff; }
+  .chrome-r b { color: #fff; font-weight: 500; }
+  .chrome-user { font-size: 14px; font-weight: 500; color: #fff; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: #393533; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; border: 1px solid #726c66; }
+  /* header status and help (injected by polaris_header.js) restyled for the dark bar */
+  .chrome .ds { color: #ffffff; }
+  .chrome .ds b { color: #fff; }
+  .chrome .ds-ref { color: #e3dfda; }
+  .chrome .ctx-help { color: #fff; }
+  .chrome .ds:focus-visible, .chrome .ctx-help:focus-visible { outline-color: #fff; }
 
   /* EPM Top Bar */
-  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-topbar { background: #121c4e; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #20337d; }
   .epm-title-block { display: flex; align-items: center; gap: 12px; }
-  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
-  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-  .epm-plan-select:hover { background: #2e4461; }
-  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
-  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-app-badge { background: #476bc3; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #20337d; color: #fff; border: 1px solid #324fa5; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-plan-select:hover { background: #20337d; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 12px; color: #cdc7c2; }
+  .epm-meta-links a { color: #cdc7c2; text-decoration: none; }
   .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
 
   /* Sub-Filter Strip */
-  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
-  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
-  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
-  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
-  .ef-pill:hover:not(.active) { background: #273b54; }
-  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+  .epm-filter-strip { background: #121c4e; color: #e3dfda; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid #20337d; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #b2aba5; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #121c4e; color: #e8effa; border: 1px solid #324fa5; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 12px; }
+  .ef-pill.active { background: #476bc3; color: #fff; border-color: #476bc3; }
+  .ef-pill:hover:not(.active) { background: #20337d; }
+  .ef-sep { width: 1px; height: 16px; background: #324fa5; margin: 0 4px; }
 
   /* Tabstrip */
-  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
-  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tabstrip { background: #121c4e; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #476bc3; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 500; color: #cdc7c2; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
   .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
-  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+  .epm-tab.active { color: #fff; background: #121c4e; border-bottom-color: #476bc3; }
 
   /* Layout Shell */
   .shell { display: flex; flex: 1; overflow: hidden; }
-  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
+  .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--divider); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
-  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
-  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
-  .sb-link:hover { background: var(--hover); color: var(--navy); }
-  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
-  .sb-link.sub { padding-left: 28px; font-size: 12px; }
-  .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
+  .sb-bu-label { font-size: 18px; font-weight: 700; color: #000; }
+  .sb-section { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; color: var(--fg-nav); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 14px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-link:hover { background: var(--surface-alt); color: var(--fg-base); }
+  .sb-link.active { color: var(--fg-base); font-weight: 500; border-left-color: var(--action); background: var(--surface-alt); }
+  .sb-link.sub { padding-left: 28px; font-size: 14px; }
+  .sb-link.sub2 { padding-left: 40px; font-size: 14px; }
   .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
-  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 14px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
   .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
   .sb-acc > summary::-webkit-details-marker { display: none; }
   .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
   .sb-acc[open] > summary::after { transform: rotate(45deg); }
-  .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
-  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
-  .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
+  .sb-acc > summary:hover { background: var(--surface-alt); color: var(--fg-base); }
+  .sb-acc.has-active > summary { color: var(--fg-base); font-weight: 500; border-left-color: var(--action); background: var(--surface-alt); }
+  .sb-ext { display: block; padding: 6px 16px; font-size: 14px; color: var(--fg-link); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
 
   /* Main Workspace */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #ffffff; }
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
   .breadcrumb a:hover { text-decoration: underline; }
   .breadcrumb span { margin: 0 5px; }
   .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-  .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
-  .page-title .badge { background: #e0e7ff; color: #4338ca; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #c7d2fe; }
+  .page-title { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--fg-base); line-height: 1.5; display: flex; align-items: center; gap: 10px; }
+  .page-title .badge { background: #e8effa; color: #324fa5; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; border: 1px solid #d8e5f9; }
   .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
   /* Headline 5-KPI Strip */
@@ -101,40 +114,40 @@
     gap: 8px;
   }
   .hkpi-bar-title {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: .06em;
     text-transform: uppercase;
-    color: var(--p-navy);
+    color: var(--fg-base);
     display: flex;
     align-items: center;
     gap: 8px;
   }
   .hkpi-bar-badge {
-    background: #fee2e2;
+    background: #fce8e6;
     color: var(--adp);
-    font-size: 9.5px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
     padding: 2px 6px;
     border-radius: 3px;
   }
   .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
-  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
-  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
-  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
-  .cfo-tg button:hover { background: #f1f5f9; }
-  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cdc7c2; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 12px; font-weight: 500; padding: 4px 10px; background: #fff; color: #393533; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cdc7c2; }
+  .cfo-tg button:hover { background: #f2f0ed; }
+  .cfo-tg button[aria-pressed="true"] { background: #121c4e; color: #fff; }
 
   .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
   @media (max-width: 1100px) { .kpis.kpis-5 { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
 
   .kpis.kpis-5 > .kpi {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-top: 3px solid var(--adp);
+    position: relative;
+    background: #fff;
+    border: 1px solid #f2f0ed;
     border-radius: 4px;
-    padding: 12px 14px 10px;
+    padding: 14px 14px 10px;
     min-width: 0;
     transition: transform .15s, box-shadow .15s, border-color .15s;
     cursor: pointer;
@@ -142,32 +155,27 @@
   .kpis.kpis-5 > .kpi:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-color: #cbd5e1;
+    border-color: #cdc7c2;
     background: #ffffff;
   }
-  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #0f62fe; }
-  .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #2e7d32; }
-  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #7B68B0; }
-  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #009D9A; }
-  .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #E5A83F; }
 
-  .kpi-val { font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: var(--p-navy); line-height: 1.1; margin-bottom: 2px; }
-  .kpi-label { font-size: 12px; font-weight: 700; color: var(--p-navy); margin-bottom: 1px; }
-  .kpi-desc { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
-  .kpi-var { font-size: 11px; font-weight: 600; }
-  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-val { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: var(--fg-base); line-height: 1.2; margin-bottom: 2px; }
+  .kpi-label { font-size: 14px; font-weight: 500; color: var(--fg-base); margin-bottom: 1px; }
+  .kpi-desc { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 12px; font-weight: 500; }
+  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #726c66; border-top: 1px dashed #e3dfda; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
-  .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e2e8f0; font-size: 10.5px; font-weight: 600; color: var(--blue); text-decoration: none; }
+  .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e3dfda; font-size: 12px; font-weight: 500; color: var(--blue); text-decoration: none; }
   .kpis.kpis-5 > a.kpi { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
   .kpis.kpis-5 > a.kpi > .kpi-link { margin-top: auto; }
   .kpis.kpis-5 > a.kpi > :nth-last-child(2) { margin-bottom: 6px; }
-  .kpis.kpis-5 > a.kpi:focus-visible { outline: 2px solid #0f62fe; outline-offset: 2px; }
+  .kpis.kpis-5 > a.kpi:focus-visible { outline: 2px solid #476bc3; outline-offset: 2px; }
   .kpis.kpis-5 > a.kpi:hover .kpi-link, .kpis.kpis-5 > a.kpi:focus-visible .kpi-link { text-decoration: underline; }
-  .kpi-sec { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-sec { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; color: #726c66; border-top: 1px dashed #e3dfda; padding-top: 3px; margin-top: 3px; }
   .kpi-sec-v { text-align: right; white-space: nowrap; }
   .kpi-sec-v b { color: var(--navy); }
-  .fav { color: var(--green); font-weight: 600; }
-  .unf { color: var(--red); font-weight: 600; }
+  .fav { color: var(--green); font-weight: 500; }
+  .unf { color: var(--red); font-weight: 500; }
 
   #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
@@ -179,68 +187,81 @@
 
   .left-col, .right-col { display: flex; flex-direction: column; gap: 14px; }
   
-  .epm-box { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
-  .epm-box-hdr { background: #162436; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
-  .epm-box-hdr.light { background: #f6f8fa; color: var(--p-navy); border-bottom: 1px solid #d0d7de; font-weight: 700; }
-  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: normal; color: #a0aec0; }
+  .epm-box { background: #fff; border: 1px solid #e3dfda; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
+  .epm-box-hdr { background: #121c4e; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
+  .epm-box-hdr.light { background: #f7f6f4; color: var(--p-navy); border-bottom: 1px solid #e3dfda; font-weight: 700; }
+  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 400; color: #b2aba5; }
   .epm-box-body { padding: 12px; }
-  .chart-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .chart-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
-  .chart-sub { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .chart-cap { font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px; margin-top: 6px; line-height: 1.4; }
-  .charts-row { display: flex; flex-direction: column; gap: 14px; }
+  .chart-sub { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .chart-cap { font-size: 12px; color: #726c66; border-top: 1px solid #e3dfda; padding-top: 6px; margin-top: 6px; line-height: 1.4; }
+  /* Charts stack in the right column; cards use the Waypoint card style: white rounded card, large title with star, chart, centered caption, legend at the bottom */
+  .charts-row { display: flex; flex-direction: column; gap: 20px; }
+  .charts-row .epm-box { border: 1px solid #f2f0ed; border-radius: 8px; box-shadow: 0 2px 4px rgba(38,35,33,0.16), 0 0 2px rgba(38,35,33,0.08); display: flex; flex-direction: column; }
+  .charts-row .epm-box-hdr.light { background: #fff; border-bottom: 0; padding: 16px 18px 4px; font-size: 16px; font-weight: 700; letter-spacing: 0; color: #262321; gap: 8px; text-transform: none; }
+  .charts-row .epm-box-hdr .t-sub { font-weight: 400; }
+  .charts-row .epm-box-hdr .chart-star { margin-left: auto; width: 18px; height: 18px; flex: none; fill: none; stroke: #3b4ba0; stroke-width: 1.6; stroke-linejoin: round; }
+  .charts-row .epm-box-body { display: flex; flex-direction: column; padding: 6px 18px 16px; flex: 1; }
+  .charts-row .epm-box-body > svg { order: 1; margin-top: 8px; }
+  .charts-row .chart-sub { order: 2; text-align: center; font-size: 12px; color: #544e4a; margin: 10px 0 8px; }
+  .charts-row .chart-legend { order: 3; gap: 16px; font-size: 14px; font-weight: 500; color: #544e4a; margin: 0; }
+  .charts-row .chart-legend i { width: 11px; height: 11px; border-radius: 1px; margin-right: 6px; vertical-align: -1px; }
+  .charts-row .chart-cap { order: 4; }
   .left-col > .epm-box { width: 100%; }
   .left-col .epm-box > div[style*="overflow-x"] { width: 100%; }
-  .left-col .epm-table { width: 100%; border: 1px solid #d0d7de; }
-  .epm-table.pl-draft { font-size: 10.5px; }
+  .left-col .epm-table { width: 100%; border: 1px solid #e3dfda; }
+  .epm-table.pl-draft { font-size: 12px; }
   .epm-table.pl-draft th, .epm-table.pl-draft td { padding: 4px 6px; }
-  .epm-table.pl-draft th.grp { text-align: center; background: #e2e8f0; border-bottom: 1px solid #cbd5e1; }
+  .epm-table.pl-draft th.grp { text-align: center; background: #e3dfda; border-bottom: 1px solid #cdc7c2; }
   .epm-table.pl-draft thead tr:nth-child(2) th { white-space: normal; text-align: right; vertical-align: bottom; min-width: 62px; }
-  .epm-table.pl-draft th:first-child, .epm-table.pl-draft td:first-child { position: sticky; left: 0; background: #f1f5f9; min-width: 190px; z-index: 1; }
+  .epm-table.pl-draft th:first-child, .epm-table.pl-draft td:first-child { position: sticky; left: 0; background: #f2f0ed; min-width: 190px; z-index: 1; }
   .epm-table.pl-draft tbody td:first-child { background: #fff; }
   .epm-table.pl-draft tr.summary-row td:first-child { background: inherit; }
-  .draft-tag { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 2px; background: #E5A83F; color: #161616; font-size: 9.5px; font-weight: 800; letter-spacing: .06em; vertical-align: 1px; }
+  .draft-tag { display: inline-block; margin-left: 8px; padding: 1px 6px; border-radius: 2px; background: #db9431; color: #393533; font-size: 12px; font-weight: 700; letter-spacing: .06em; vertical-align: 1px; }
 
 
   /* Tables */
-  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
-  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e2e8f0; white-space: nowrap; }
-  .epm-table th { background: #f1f5f9; color: #334155; font-weight: 700; font-size: 11px; text-align: right; }
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: right; }
+  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e3dfda; white-space: nowrap; }
+  .epm-table th { background: #f2f0ed; color: #393533; font-weight: 700; font-size: 12px; text-align: right; }
   .epm-table th:first-child, .epm-table td:first-child { text-align: left; font-weight: 500; }
-  .epm-table tr:hover { background: #f8fafc; }
-  .epm-table tr.summary-row { background: #e2e8f0; font-weight: 700; color: #0f172a; }
-  .epm-table tr.group-hdr { background: #edf2f7; font-weight: 700; color: #1e293b; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.04em; }
+  .epm-table tr:hover { background: #f7f6f4; }
+  .epm-table tr.summary-row { background: #e3dfda; font-weight: 700; color: #262321; }
+  .epm-table tr.group-hdr { background: #f2f0ed; font-weight: 700; color: #262321; text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; }
   .epm-table .indent { padding-left: 18px; }
   .epm-table .indent2 { padding-left: 30px; }
 
   /* Expandable Row Styling */
-  .exp-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; background: #e2e8f0; border-radius: 2px; font-size: 11px; font-weight: bold; color: #334155; cursor: pointer; margin-right: 6px; user-select: none; }
-  .exp-toggle:hover { background: #cbd5e1; }
+  .exp-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; background: #e3dfda; border-radius: 2px; font-size: 12px; font-weight: 700; color: #393533; cursor: pointer; margin-right: 6px; user-select: none; }
+  .exp-toggle:hover { background: #cdc7c2; }
   tr.child-row { display: none; }
   tr.child-row.open { display: table-row; }
-  .expand-ctrls { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #0f62fe; cursor: pointer; }
+  .expand-ctrls { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #476bc3; cursor: pointer; }
   .expand-ctrls:hover { text-decoration: underline; }
 
   /* Right Column Tab Strip */
-  .right-tabstrip { display: flex; border-bottom: 1px solid #d0d7de; background: #f6f8fa; overflow-x: auto; }
-  .right-tab { padding: 7px 12px; font-size: 11px; font-weight: 600; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
-  .right-tab:hover { color: var(--navy); background: #eaeef2; }
-  .right-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
+  .right-tabstrip { display: flex; border-bottom: 1px solid var(--divider); background: #fff; overflow-x: auto; }
+  .right-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--fg-tertiary); border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .right-tab:hover { color: var(--fg-base); background: var(--surface-alt); }
+  .right-tab.active { color: var(--fg-base); border-bottom-color: var(--fg-link); background: #fff; font-weight: 500; }
 
   /* Bottom Highlight Bar */
-  .service-banner { background: #0f1d2e; color: #e2e8f0; padding: 7px 14px; font-size: 11px; font-weight: 600; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
-  .service-banner span.tag { background: #4066C8; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 9.5px; text-transform: uppercase; margin-right: 6px; }
+  .service-banner { background: #121c4e; color: #e3dfda; padding: 7px 14px; font-size: 12px; font-weight: 500; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
+  .service-banner span.tag { background: #476bc3; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 12px; text-transform: uppercase; margin-right: 6px; }
 
   /* Tooltip standard */
-  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip { position: fixed; z-index: 9999; background: #393533; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 12px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .tip.on { opacity: 1; }
   .nd { cursor: pointer; }
   .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
 
   /* Site Footer */
-  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
-  .site-footer a:hover { text-decoration: underline; }
+  .site-footer { background: #fff; border-top: 1px solid #e3dfda; padding: 16px 24px; font-size: 14px; line-height: 1.4; color: #262321; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; }
+  .site-footer .foot-links { display: flex; flex-wrap: wrap; gap: 8px 35px; }
+  .site-footer a { color: #324fa5; text-decoration: underline; }
+  .site-footer a:hover { color: #121c4e; }
+  .site-footer b { color: inherit; font-weight: 400; }
 </style>
 <link rel="stylesheet" href="variance.css">
 </head>
@@ -249,12 +270,13 @@
 <!-- Top Global Chrome -->
 <header class="chrome">
   <div class="chrome-l">
-    <span class="chrome-logo">ADP</span>
-    <span>Project Polaris · Retirement Services (RS) Executive Monthly Close</span>
+    <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP">
+    <span>Project Polaris</span>
   </div>
   <div class="chrome-r">
     <span>Cycle: <b>September Close (FY27 Q1)</b></span>
-    <div class="avatar" title="RS Business Unit CFO">RS</div>
+    <span class="chrome-user">FP&amp;A Lead</span>
+    <div class="avatar" title="FP&amp;A Lead">JL</div>
   </div>
 </header>
 
@@ -262,10 +284,7 @@
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-bu">
-      <div class="sb-bu-label">Polaris</div>
-    </div>
-    <div class="sb-section">BU Executive Cockpit</div>
+    <div class="sb-section">BU Executive Dashboard</div>
     <details class="sb-acc" name="sb-acc">
       <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
@@ -298,7 +317,7 @@
       <div class="title-row">
         <div>
           <div class="page-title">
-            Retirement Services (RS) Management P&amp;L &amp; Close Cockpit
+            Retirement Services (RS) Management P&amp;L &amp; Close Dashboard
           </div>
         </div>
       </div>
@@ -307,11 +326,11 @@
     <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
     <div class="ctx" id="pf-context"></div>
 
-    <!-- 1. Headline KPIs Strip (from Screenshot 1: Headline KPIs) -->
+    <!-- 1. Headline KPIs Strip -->
     <div class="headline-kpi-bar">
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
-          <span>Headline KPIs (Screenshot 1)</span>
+          <span>Headline KPIs</span>
           <span class="hkpi-bar-badge">September Close</span>
         </div>
       </div>
@@ -402,10 +421,10 @@
         <!-- LEFT COLUMN: Management P&L Summary, Revenue & Starts/Stops/Retention -->
         <div class="left-col">
 
-          <!-- Section A: P&L Summary (from Screenshot 1: P&L summary) -->
+          <!-- Section A: P&L Summary -->
           <div class="epm-box">
             <div class="epm-box-hdr">
-              <span>P&amp;L SUMMARY (Screenshot 1)</span>
+              <span>P&amp;L SUMMARY</span>
               <div class="tools"><span>$K USD · Close Actuals</span></div>
             </div>
 <div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
@@ -421,7 +440,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="summary-row" style="background:#edf2f7;">
+                  <tr class="summary-row" style="background:#f2f0ed;">
                     <td>Total revenue</td>
                     <td>93,403.4</td>
                     <td>89,400.0</td>
@@ -435,7 +454,7 @@
                     <td class="unf">(1,390.2)</td>
                     <td>51.8%</td>
                   </tr>
-                  <tr class="summary-row" style="background:#e0f2fe;">
+                  <tr class="summary-row" style="background:#e8effa;">
                     <td>Field NOI</td>
                     <td>45,013.2</td>
                     <td>42,400.0</td>
@@ -463,14 +482,14 @@
                     <td class="unf">(103.0)</td>
                     <td>7.5%</td>
                   </tr>
-                  <tr class="summary-row" style="background:#f1f5f9;">
+                  <tr class="summary-row" style="background:#f2f0ed;">
                     <td>Total expenses</td>
                     <td>60,563.2</td>
                     <td>58,950.0</td>
                     <td class="unf">(1,613.2)</td>
                     <td>64.8%</td>
                   </tr>
-                  <tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;">
+                  <tr class="summary-row" style="background:#e8effa;border-top:2px solid #476bc3;">
                     <td>NOI (EBIT)</td>
                     <td>32,840.2</td>
                     <td>30,450.0</td>
@@ -523,26 +542,26 @@
                   </tr>
                 </thead>
                 <tbody>
-<tr class="summary-row" style="background:#edf2f7;"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td class="fav">+4.5%</td><td>91,802.0</td><td class="fav">+1,601.4</td><td class="fav">+1.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>25.2%</td><td>834,480.5</td><td>818,010.0</td><td class="fav">+16,470.5</td><td class="fav">+2.0%</td><td>810,790.1</td><td>(0.9%)</td><td>1,107,218.5</td><td>1,083,528.0</td><td class="fav">+23,690.5</td><td class="fav">+2.2%</td></tr>
+<tr class="summary-row" style="background:#f2f0ed;"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td class="fav">+4.5%</td><td>91,802.0</td><td class="fav">+1,601.4</td><td class="fav">+1.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>272,737.9</td><td>265,518.0</td><td class="fav">+7,219.9</td><td class="fav">+2.7%</td><td>25.2%</td><td>834,480.5</td><td>818,010.0</td><td class="fav">+16,470.5</td><td class="fav">+2.0%</td><td>810,790.1</td><td>(0.9%)</td><td>1,107,218.5</td><td>1,083,528.0</td><td class="fav">+23,690.5</td><td class="fav">+2.2%</td></tr>
 <tr><td>Field expense</td><td>48,390.2</td><td>47,000.0</td><td class="unf">(1,390.2)</td><td class="unf">−3.0%</td><td>47,834.1</td><td class="unf">(556.1)</td><td class="unf">−1.2%</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">−1.2%</td><td>141,299.4</td><td>139,590.0</td><td class="unf">(1,709.4)</td><td class="unf">−1.2%</td><td>24.8%</td><td>434,812.2</td><td>430,050.0</td><td class="unf">(4,762.2)</td><td class="unf">−1.1%</td><td>428,340.6</td><td>+1.0%</td><td>576,111.5</td><td>569,640.0</td><td class="unf">(6,471.5)</td><td class="unf">−1.1%</td></tr>
-<tr class="summary-row" style="background:#e0f2fe;"><td>Field NOI</td><td>45,013.2</td><td>42,400.0</td><td class="fav">+2,613.2</td><td class="fav">+6.2%</td><td>43,967.9</td><td class="fav">+1,045.3</td><td class="fav">+2.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>25.6%</td><td>399,668.4</td><td>387,960.0</td><td class="fav">+11,708.4</td><td class="fav">+3.0%</td><td>382,449.5</td><td>(3.0%)</td><td>531,106.9</td><td>513,888.0</td><td class="fav">+17,218.9</td><td class="fav">+3.4%</td></tr>
+<tr class="summary-row" style="background:#e8effa;"><td>Field NOI</td><td>45,013.2</td><td>42,400.0</td><td class="fav">+2,613.2</td><td class="fav">+6.2%</td><td>43,967.9</td><td class="fav">+1,045.3</td><td class="fav">+2.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>131,438.5</td><td>125,928.0</td><td class="fav">+5,510.5</td><td class="fav">+4.4%</td><td>25.6%</td><td>399,668.4</td><td>387,960.0</td><td class="fav">+11,708.4</td><td class="fav">+3.0%</td><td>382,449.5</td><td>(3.0%)</td><td>531,106.9</td><td>513,888.0</td><td class="fav">+17,218.9</td><td class="fav">+3.4%</td></tr>
 <tr><td>Field NOI margin %</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>47.9%</td><td class="fav">+30 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>48.2%</td><td>47.4%</td><td class="fav">+76 bps</td><td>-</td><td>-</td><td>47.9%</td><td>47.4%</td><td class="fav">+47 bps</td><td>-</td><td>47.2%</td><td>-</td><td>48.0%</td><td>47.4%</td><td class="fav">+54 bps</td><td>-</td></tr>
 <tr><td>NDE</td><td>5,120.0</td><td>5,000.0</td><td class="unf">(120.0)</td><td class="unf">−2.4%</td><td>5,072.0</td><td class="unf">(48.0)</td><td class="unf">−0.9%</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">−0.7%</td><td>14,950.4</td><td>14,850.0</td><td class="unf">(100.4)</td><td class="unf">−0.7%</td><td>24.7%</td><td>46,104.5</td><td>45,750.0</td><td class="unf">(354.5)</td><td class="unf">−0.8%</td><td>45,649.6</td><td>+1.8%</td><td>61,054.9</td><td>60,600.0</td><td class="unf">(454.9)</td><td class="unf">−0.8%</td></tr>
 <tr><td>Shared service allocations (excl. NDE)</td><td>7,053.0</td><td>6,950.0</td><td class="unf">(103.0)</td><td class="unf">−1.5%</td><td>7,011.8</td><td class="unf">(41.2)</td><td class="unf">−0.6%</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>20,594.8</td><td>20,641.5</td><td class="fav">+46.7</td><td class="fav">+0.2%</td><td>24.4%</td><td>63,737.3</td><td>63,592.5</td><td class="unf">(144.8)</td><td class="unf">−0.2%</td><td>63,639.2</td><td>+3.0%</td><td>84,332.0</td><td>84,234.0</td><td class="unf">(98.0)</td><td class="unf">−0.1%</td></tr>
-<tr class="summary-row" style="background:#f1f5f9;"><td>Total expenses</td><td>60,563.2</td><td>58,950.0</td><td class="unf">(1,613.2)</td><td class="unf">−2.7%</td><td>59,917.9</td><td class="unf">(645.3)</td><td class="unf">−1.1%</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">−1.0%</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">−1.0%</td><td>24.8%</td><td>544,653.9</td><td>539,392.5</td><td class="unf">(5,261.4)</td><td class="unf">−1.0%</td><td>537,629.5</td><td>+1.3%</td><td>721,498.4</td><td>714,474.0</td><td class="unf">(7,024.4)</td><td class="unf">−1.0%</td></tr>
-<tr class="summary-row" style="background:#dbeafe;border-top:2px solid #0f62fe;"><td>NOI (EBIT)</td><td>32,840.2</td><td>30,450.0</td><td class="fav">+2,390.2</td><td class="fav">+7.8%</td><td>31,884.1</td><td class="fav">+956.1</td><td class="fav">+3.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>26.0%</td><td>289,826.7</td><td>278,617.5</td><td class="fav">+11,209.2</td><td class="fav">+4.0%</td><td>273,160.6</td><td>(5.0%)</td><td>385,720.0</td><td>369,054.0</td><td class="fav">+16,666.0</td><td class="fav">+4.5%</td></tr>
+<tr class="summary-row" style="background:#f2f0ed;"><td>Total expenses</td><td>60,563.2</td><td>58,950.0</td><td class="unf">(1,613.2)</td><td class="unf">−2.7%</td><td>59,917.9</td><td class="unf">(645.3)</td><td class="unf">−1.1%</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">−1.0%</td><td>176,844.5</td><td>175,081.5</td><td class="unf">(1,763.0)</td><td class="unf">−1.0%</td><td>24.8%</td><td>544,653.9</td><td>539,392.5</td><td class="unf">(5,261.4)</td><td class="unf">−1.0%</td><td>537,629.5</td><td>+1.3%</td><td>721,498.4</td><td>714,474.0</td><td class="unf">(7,024.4)</td><td class="unf">−1.0%</td></tr>
+<tr class="summary-row" style="background:#e8effa;border-top:2px solid #476bc3;"><td>NOI (EBIT)</td><td>32,840.2</td><td>30,450.0</td><td class="fav">+2,390.2</td><td class="fav">+7.8%</td><td>31,884.1</td><td class="fav">+956.1</td><td class="fav">+3.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>95,893.4</td><td>90,436.5</td><td class="fav">+5,456.9</td><td class="fav">+6.0%</td><td>26.0%</td><td>289,826.7</td><td>278,617.5</td><td class="fav">+11,209.2</td><td class="fav">+4.0%</td><td>273,160.6</td><td>(5.0%)</td><td>385,720.0</td><td>369,054.0</td><td class="fav">+16,666.0</td><td class="fav">+4.5%</td></tr>
 <tr><td>NOI margin %</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>34.7%</td><td class="fav">+43 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>35.2%</td><td>34.1%</td><td class="fav">+110 bps</td><td>-</td><td>-</td><td>34.7%</td><td>34.1%</td><td class="fav">+67 bps</td><td>-</td><td>33.7%</td><td>-</td><td>34.8%</td><td>34.1%</td><td class="fav">+78 bps</td><td>-</td></tr>
                 </tbody>
               </table>
             </div>
-            <div class="chart-cap" style="margin:0;padding:6px 14px 8px;border-top:1px solid #e2e8f0;">DRAFT. Month actual and plan, and the margin and NOI math, come from the P&amp;L Summary above. Month forecast, QTD, YTD, rest of year and full-year forecast and plan are illustrative placeholders and do not tie to the Revenue, Starts, Stops table below. Q1 close, so QTD equals YTD. Growth needed = average monthly amount still to deliver over the remaining 9 months vs the YTD monthly run-rate. 25% of FY plan achieved means 75% still to deliver.</div>
+            <div class="chart-cap" style="margin:0;padding:6px 14px 8px;border-top:1px solid #e3dfda;">DRAFT. Month actual and plan, and the margin and NOI math, come from the P&amp;L Summary above. Month forecast, QTD, YTD, rest of year and full-year forecast and plan are illustrative placeholders and do not tie to the Revenue, Starts, Stops table below. Q1 close, so QTD equals YTD. Growth needed = average monthly amount still to deliver over the remaining 9 months vs the YTD monthly run-rate. 25% of FY plan achieved means 75% still to deliver.</div>
           </div>
 
           <!-- Section B: Revenue + Starts, Stops and Retention (combined) -->
           <div class="epm-box">
             <div class="epm-box-hdr light">
               <span>REVENUE, STARTS, STOPS AND RETENTION</span>
-              <span style="font-size:10px;color:#64748b;">$K · Sep Act, Plan, Var, QTD, YTD, ROY (FY less YTD), FY</span>
+              <span style="font-size:12px;color:#726c66;">$K · Sep Act, Plan, Var, QTD, YTD, ROY (FY less YTD), FY</span>
             </div>
 <div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
             <div style="overflow-x:auto;">
@@ -562,10 +581,10 @@
                 <tbody>
                   <tr class="group-hdr"><td colspan="8">Revenue</td></tr>
                   <tr class="summary-row"><td>Total revenue</td><td>93,403.4</td><td>89,400.0</td><td class="fav">+4,003.4</td><td>93,403.4</td><td>350,000.0</td><td>35,000.0</td><td>385,000.0</td></tr>
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td>93,308.1</td><td>349,620.0</td><td>34,980.0</td><td>384,600.0</td></tr>
+                  <tr class="summary-row" style="background:#f7f6f4;"><td class="indent">Total Processing revenue</td><td>93,308.1</td><td>89,310.0</td><td class="fav">+3,998.1</td><td>93,308.1</td><td>349,620.0</td><td>34,980.0</td><td>384,600.0</td></tr>
                   <tr><td class="indent2">Asset revenue</td><td>22,692.8</td><td>22,000.0</td><td class="fav">+692.8</td><td>22,692.8</td><td>88,400.0</td><td>6,800.0</td><td>95,200.0</td></tr>
                   <tr><td class="indent2">Hard dollar fees</td><td>70,615.3</td><td>67,310.0</td><td class="fav">+3,305.3</td><td>70,615.3</td><td>261,220.0</td><td>28,180.0</td><td>289,400.0</td></tr>
-                  <tr class="summary-row" style="background:#f8fafc;"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td>95.3</td><td>380.0</td><td>20.0</td><td>400.0</td></tr>
+                  <tr class="summary-row" style="background:#f7f6f4;"><td class="indent">Total Non-processing revenue</td><td>95.3</td><td>90.0</td><td class="fav">+5.3</td><td>95.3</td><td>380.0</td><td>20.0</td><td>400.0</td></tr>
                   <tr><td class="indent2">Setup revenue</td><td>66.6</td><td>62.0</td><td class="fav">+4.6</td><td>66.6</td><td>265.6</td><td>13.9</td><td>279.5</td></tr>
                   <tr><td class="indent2">Other recurring revenue (DCIO fees)</td><td>9.4</td><td>9.0</td><td class="fav">+0.4</td><td>9.4</td><td>37.5</td><td>2.0</td><td>39.5</td></tr>
                   <tr><td class="indent2">Offset revenue and interest (client funds interest)</td><td>19.3</td><td>19.0</td><td class="fav">+0.3</td><td>19.3</td><td>76.9</td><td>4.1</td><td>81.0</td></tr>
@@ -577,7 +596,7 @@
                   <tr><td class="indent">Sales by channel: Digital RUN</td><td>1,000.0</td><td>900.0</td><td class="fav">+100.0</td><td>1,000.0</td><td>2,820.8</td><td>1,153.2</td><td>3,974.0</td></tr>
                   <tr><td>Start dollars</td><td>11,840.0</td><td>11,300.0</td><td class="fav">+540.0</td><td>11,840.0</td><td>33,620.2</td><td>13,522.4</td><td>47,142.6</td></tr>
                   <tr><td>Loss dollars</td><td>(8,420.0)</td><td>(8,600.0)</td><td class="fav">+180.0</td><td>(8,420.0)</td><td>(32,720.1)</td><td>(7,027.9)</td><td>(39,748.0)</td></tr>
-                  <tr class="summary-row" style="background:#f0fdf4;"><td>Net new business (Starts - Losses)</td><td>3,420.0</td><td>2,700.0</td><td class="fav">+720.0</td><td>3,420.0</td><td>900.1</td><td>6,494.5</td><td>7,394.6</td></tr>
+                  <tr class="summary-row" style="background:#f7f6f4;"><td>Net new business (Starts - Losses)</td><td>3,420.0</td><td>2,700.0</td><td class="fav">+720.0</td><td>3,420.0</td><td>900.1</td><td>6,494.5</td><td>7,394.6</td></tr>
                   <tr><td>Retention % (annualized)</td><td>94.6%</td><td>94.2%</td><td class="fav">+40 bps</td><td>94.6%</td><td>-</td><td>-</td><td>-</td></tr>
 
                   <tr class="group-hdr"><td colspan="8">Ratios</td></tr>
@@ -599,44 +618,45 @@
         <!-- Chart 1: Field NOI bridge (waterfall) — P&L Summary: plan 42,400.0 + revenue var 4,003.4 - field expense var 1,390.2 = actual 45,013.2 -->
         <div class="epm-box">
           <div class="epm-box-hdr light">
-            <span>BRIDGE · FIELD NOI PLAN TO ACTUAL</span>
+            <span>Field NOI <span class="t-sub">· Plan to Actual</span></span>
+            <svg class="chart-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z"/></svg>
           </div>
           <div class="epm-box-body">
             <div class="chart-sub">$M · September close · axis starts at $40M</div>
             <div class="chart-legend">
-              <span><i style="background:#BDB4DC"></i> Plan</span>
-              <span><i style="background:#3A9A3A"></i> ▲ Favorable (+)</span>
-              <span><i style="background:#F0605D"></i> ▼ Unfavorable ( ) / −</span>
-              <span><i style="background:#7B68B0"></i> Actual</span>
+              <span><i style="background:#7967ae"></i> Plan</span>
+              <span><i style="background:#2ba0c9"></i> ▲ Favorable (+)</span>
+              <span><i style="background:#da7f00"></i> ▼ Unfavorable ( ) / −</span>
+              <span><i style="background:#f25d71"></i> Actual</span>
             </div>
             <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Waterfall: Field NOI plan 42.4 million, revenue plus 4.0, field expense minus 1.4, actual 45.0 million">
-              <line x1="40" y1="30"  x2="390" y2="30"  stroke="#ececec"/>
-              <line x1="40" y1="65"  x2="390" y2="65"  stroke="#ececec"/>
-              <line x1="40" y1="100" x2="390" y2="100" stroke="#ececec"/>
-              <line x1="40" y1="135" x2="390" y2="135" stroke="#ececec"/>
-              <line x1="40" y1="170" x2="390" y2="170" stroke="#cbd5e1"/>
-              <text x="34" y="33"  text-anchor="end" font-size="10" fill="#474747">48</text>
-              <text x="34" y="68"  text-anchor="end" font-size="10" fill="#474747">46</text>
-              <text x="34" y="103" text-anchor="end" font-size="10" fill="#474747">44</text>
-              <text x="34" y="138" text-anchor="end" font-size="10" fill="#474747">42</text>
-              <text x="34" y="173" text-anchor="end" font-size="10" fill="#474747">40</text>
-              <rect class="nd" data-tip="<b>Plan Field NOI</b><br>$42.4M ($42,400.0K)" x="50" y="128" width="62" height="42" fill="#BDB4DC"/>
-              <text x="81" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">42.4</text>
-              <line x1="112" y1="128" x2="138" y2="128" stroke="#94a3b8" stroke-dasharray="3 2"/>
-              <rect class="nd" data-tip="<b>Revenue vs plan</b><br>+$4.0M / +4.5% favorable (+$4,003.4K)" x="138" y="58" width="62" height="70" fill="#3A9A3A"/>
-              <text x="169" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#14562a">▲ +4.0</text>
-              <text x="169" y="39" text-anchor="middle" font-size="10" font-weight="700" fill="#14562a">+4.5%</text>
-              <line x1="200" y1="58" x2="226" y2="58" stroke="#94a3b8" stroke-dasharray="3 2"/>
-              <rect class="nd" data-tip="<b>Field expense vs plan</b><br>($1.4M) / −3.0% unfavorable, $1,390.2K" x="226" y="58" width="62" height="24.3" fill="#F0605D"/>
-              <text x="257" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#9f1d17">▼ (1.4)</text>
-              <text x="257" y="39" text-anchor="middle" font-size="10" font-weight="700" fill="#9f1d17">−3.0%</text>
-              <line x1="288" y1="82.3" x2="314" y2="82.3" stroke="#94a3b8" stroke-dasharray="3 2"/>
-              <rect class="nd" data-tip="<b>Actual Field NOI</b><br>$45.0M ($45,013.2K) · +$2.6M / +6.2% favorable vs plan" x="314" y="82.3" width="62" height="87.7" fill="#7B68B0"/>
-              <text x="345" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">45.0</text>
-              <text x="81"  y="188" text-anchor="middle" font-size="10" fill="#474747">Plan</text>
-              <text x="169" y="188" text-anchor="middle" font-size="10" fill="#474747">Revenue</text>
-              <text x="257" y="188" text-anchor="middle" font-size="10" fill="#474747">Field expense</text>
-              <text x="345" y="188" text-anchor="middle" font-size="10" fill="#474747">Actual</text>
+              <line x1="40" y1="30"  x2="390" y2="30"  stroke="#e3dfda"/>
+              <line x1="40" y1="65"  x2="390" y2="65"  stroke="#e3dfda"/>
+              <line x1="40" y1="100" x2="390" y2="100" stroke="#e3dfda"/>
+              <line x1="40" y1="135" x2="390" y2="135" stroke="#e3dfda"/>
+              <line x1="40" y1="170" x2="390" y2="170" stroke="#544e4a"/>
+              <text x="34" y="33"  text-anchor="end" font-size="12" fill="#726c66">48</text>
+              <text x="34" y="68"  text-anchor="end" font-size="12" fill="#726c66">46</text>
+              <text x="34" y="103" text-anchor="end" font-size="12" fill="#726c66">44</text>
+              <text x="34" y="138" text-anchor="end" font-size="12" fill="#726c66">42</text>
+              <text x="34" y="173" text-anchor="end" font-size="12" fill="#726c66">40</text>
+              <rect class="nd" data-tip="<b>Plan Field NOI</b><br>$42.4M ($42,400.0K)" x="50" y="128" width="62" height="42" fill="#7967ae"/>
+              <text x="81" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">42.4</text>
+              <line x1="112" y1="128" x2="138" y2="128" stroke="#938c85" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Revenue vs plan</b><br>+$4.0M / +4.5% favorable (+$4,003.4K)" x="138" y="58" width="62" height="70" fill="#2ba0c9"/>
+              <text x="169" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">▲ +4.0</text>
+              <text x="169" y="39" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">+4.5%</text>
+              <line x1="200" y1="58" x2="226" y2="58" stroke="#938c85" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Field expense vs plan</b><br>($1.4M) / −3.0% unfavorable, $1,390.2K" x="226" y="58" width="62" height="24.3" fill="#da7f00"/>
+              <text x="257" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">▼ (1.4)</text>
+              <text x="257" y="39" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">−3.0%</text>
+              <line x1="288" y1="82.3" x2="314" y2="82.3" stroke="#938c85" stroke-dasharray="3 2"/>
+              <rect class="nd" data-tip="<b>Actual Field NOI</b><br>$45.0M ($45,013.2K) · +$2.6M / +6.2% favorable vs plan" x="314" y="82.3" width="62" height="87.7" fill="#f25d71"/>
+              <text x="345" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">45.0</text>
+              <text x="81"  y="188" text-anchor="middle" font-size="12" fill="#726c66">Plan</text>
+              <text x="169" y="188" text-anchor="middle" font-size="12" fill="#726c66">Revenue</text>
+              <text x="257" y="188" text-anchor="middle" font-size="12" fill="#726c66">Field expense</text>
+              <text x="345" y="188" text-anchor="middle" font-size="12" fill="#726c66">Actual</text>
             </svg>
             <div class="chart-cap">Field NOI = revenue less field expense. Shared services (incl. NDE) sit below Field NOI on the way to NOI (EBIT).</div>
           </div>
@@ -645,46 +665,47 @@
         <!-- Chart 2: Revenue mix (bar) — values from the Revenue table -->
         <div class="epm-box">
           <div class="epm-box-hdr light">
-            <span>REVENUE MIX · BY CATEGORY</span>
+            <span>Revenue Mix <span class="t-sub">· By Category</span></span>
+            <svg class="chart-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z"/></svg>
           </div>
           <div class="epm-box-body">
             <div class="chart-sub">$M · September actual vs plan</div>
             <div class="chart-legend">
-              <span><i style="background:#7B68B0"></i> Actual</span>
-              <span><i style="background:#BDB4DC"></i> Plan</span>
+              <span><i style="background:#2ba0c9"></i> Actual</span>
+              <span><i style="background:#da7f00"></i> Plan</span>
             </div>
             <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Revenue by category, actual vs plan: asset fee revenue 22.7 vs 22.0, hard dollar revenue 70.6 vs 67.3, other 0.095 vs 0.090 million">
-              <line x1="40" y1="20"  x2="390" y2="20"  stroke="#ececec"/>
-              <line x1="40" y1="55"  x2="390" y2="55"  stroke="#ececec"/>
-              <line x1="40" y1="90"  x2="390" y2="90"  stroke="#ececec"/>
-              <line x1="40" y1="125" x2="390" y2="125" stroke="#ececec"/>
-              <line x1="40" y1="160" x2="390" y2="160" stroke="#cbd5e1"/>
-              <text x="34" y="23"  text-anchor="end" font-size="10" fill="#474747">80</text>
-              <text x="34" y="58"  text-anchor="end" font-size="10" fill="#474747">60</text>
-              <text x="34" y="93"  text-anchor="end" font-size="10" fill="#474747">40</text>
-              <text x="34" y="128" text-anchor="end" font-size="10" fill="#474747">20</text>
-              <text x="34" y="163" text-anchor="end" font-size="10" fill="#474747">0</text>
+              <line x1="40" y1="20"  x2="390" y2="20"  stroke="#e3dfda"/>
+              <line x1="40" y1="55"  x2="390" y2="55"  stroke="#e3dfda"/>
+              <line x1="40" y1="90"  x2="390" y2="90"  stroke="#e3dfda"/>
+              <line x1="40" y1="125" x2="390" y2="125" stroke="#e3dfda"/>
+              <line x1="40" y1="160" x2="390" y2="160" stroke="#544e4a"/>
+              <text x="34" y="23"  text-anchor="end" font-size="12" fill="#726c66">80</text>
+              <text x="34" y="58"  text-anchor="end" font-size="12" fill="#726c66">60</text>
+              <text x="34" y="93"  text-anchor="end" font-size="12" fill="#726c66">40</text>
+              <text x="34" y="128" text-anchor="end" font-size="12" fill="#726c66">20</text>
+              <text x="34" y="163" text-anchor="end" font-size="12" fill="#726c66">0</text>
               <!-- Asset fee revenue (RS-16) -->
-              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Actual</b><br>$22.7M ($22,692.8K) · 24.3% of revenue" x="71" y="120.3" width="28" height="39.7" fill="#7B68B0"/>
-              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Plan</b><br>$22.0M ($22,000.0K)" x="101" y="121.5" width="28" height="38.5" fill="#BDB4DC"/>
-              <text x="85"  y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">22.7</text>
-              <text x="115" y="115" text-anchor="middle" font-size="10" fill="#474747">22.0</text>
-              <text x="100" y="176" text-anchor="middle" font-size="10" fill="#474747">Asset fee revenue</text>
-              <text x="100" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-16)</text>
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Actual</b><br>$22.7M ($22,692.8K) · 24.3% of revenue" x="71" y="120.3" width="28" height="39.7" fill="#2ba0c9"/>
+              <rect class="nd" data-tip="<b>Asset fee revenue (RS-16) · Plan</b><br>$22.0M ($22,000.0K)" x="101" y="121.5" width="28" height="38.5" fill="#da7f00"/>
+              <text x="85"  y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">22.7</text>
+              <text x="115" y="115" text-anchor="middle" font-size="12" fill="#726c66">22.0</text>
+              <text x="100" y="176" text-anchor="middle" font-size="12" fill="#726c66">Asset fee revenue</text>
+              <text x="100" y="188" text-anchor="middle" font-size="12" fill="#726c66">(RS-16)</text>
               <!-- Hard dollar revenue (RS-17*) -->
-              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Actual</b><br>$70.6M ($70,615.3K) · 75.6% of revenue" x="186" y="36.4" width="28" height="123.6" fill="#7B68B0"/>
-              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Plan</b><br>$67.3M ($67,310.0K)" x="216" y="42.2" width="28" height="117.8" fill="#BDB4DC"/>
-              <text x="200" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">70.6</text>
-              <text x="230" y="36" text-anchor="middle" font-size="10" fill="#474747">67.3</text>
-              <text x="215" y="176" text-anchor="middle" font-size="10" fill="#474747">Hard dollar revenue</text>
-              <text x="215" y="188" text-anchor="middle" font-size="10" fill="#474747">(RS-17*)</text>
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Actual</b><br>$70.6M ($70,615.3K) · 75.6% of revenue" x="186" y="36.4" width="28" height="123.6" fill="#2ba0c9"/>
+              <rect class="nd" data-tip="<b>Hard dollar revenue (RS-17*) · Plan</b><br>$67.3M ($67,310.0K)" x="216" y="42.2" width="28" height="117.8" fill="#da7f00"/>
+              <text x="200" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">70.6</text>
+              <text x="230" y="36" text-anchor="middle" font-size="12" fill="#726c66">67.3</text>
+              <text x="215" y="176" text-anchor="middle" font-size="12" fill="#726c66">Hard dollar revenue</text>
+              <text x="215" y="188" text-anchor="middle" font-size="12" fill="#726c66">(RS-17*)</text>
               <!-- Other -->
-              <rect class="nd" data-tip="<b>Other · Actual</b><br>$95.3K: setup $66.6K, other recurring $9.4K, client funds interest $19.3K" x="301" y="158" width="28" height="2" fill="#7B68B0"/>
-              <rect class="nd" data-tip="<b>Other · Plan</b><br>$90.0K: setup $62.0K, other recurring $9.0K, client funds interest $19.0K" x="331" y="158" width="28" height="2" fill="#BDB4DC"/>
-              <text x="315" y="152" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">$95K</text>
-              <text x="345" y="152" text-anchor="middle" font-size="10" fill="#474747">$90K</text>
-              <text x="330" y="176" text-anchor="middle" font-size="10" fill="#474747">Other</text>
-              <text x="330" y="188" text-anchor="middle" font-size="9" fill="#64748b">setup, recurring, interest</text>
+              <rect class="nd" data-tip="<b>Other · Actual</b><br>$95.3K: setup $66.6K, other recurring $9.4K, client funds interest $19.3K" x="301" y="158" width="28" height="2" fill="#2ba0c9"/>
+              <rect class="nd" data-tip="<b>Other · Plan</b><br>$90.0K: setup $62.0K, other recurring $9.0K, client funds interest $19.0K" x="331" y="158" width="28" height="2" fill="#da7f00"/>
+              <text x="315" y="152" text-anchor="middle" font-size="12" font-weight="700" fill="#262321">$95K</text>
+              <text x="345" y="152" text-anchor="middle" font-size="12" fill="#726c66">$90K</text>
+              <text x="330" y="176" text-anchor="middle" font-size="12" fill="#726c66">Other</text>
+              <text x="330" y="188" text-anchor="middle" font-size="12" fill="#726c66">setup, recurring, interest</text>
             </svg>
             <div class="chart-cap">Total revenue $93.4M vs plan $89.4M (+$4.0M). Next drill: revenue by product.</div>
           </div>
@@ -693,44 +714,45 @@
         <!-- Chart 3: YoY revenue growth (line). Apr–Aug are illustrative; September (+6.8% actual, +4.2% plan) matches the headline KPI. -->
         <div class="epm-box">
           <div class="epm-box-hdr light">
-            <span>TREND · YEAR-OVER-YEAR REVENUE GROWTH</span>
+            <span>Monthly Revenue Trend <span class="t-sub">· YoY Growth</span></span>
+            <svg class="chart-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z"/></svg>
           </div>
           <div class="epm-box-body">
             <div class="chart-sub">% YoY · last 6 months to September close</div>
             <div class="chart-legend">
-              <span><i style="background:#7B68B0"></i> Actual YoY</span>
-              <span><i style="background:#4066C8"></i> Plan YoY</span>
+              <span><i style="background:#7967ae"></i> Actual YoY</span>
+              <span><i style="background:#8f7dc5"></i> Plan YoY</span>
             </div>
             <svg viewBox="0 0 400 200" width="100%" role="group" aria-label="Year-over-year revenue growth, April to September: actual rises from 3.9 percent to 6.8 percent, plan 4.0 to 4.2 percent">
-              <line x1="40" y1="30"    x2="390" y2="30"    stroke="#ececec"/>
-              <line x1="40" y1="76.7"  x2="390" y2="76.7"  stroke="#ececec"/>
-              <line x1="40" y1="123.3" x2="390" y2="123.3" stroke="#ececec"/>
-              <line x1="40" y1="170"   x2="390" y2="170"   stroke="#cbd5e1"/>
-              <text x="34" y="33"    text-anchor="end" font-size="10" fill="#474747">8%</text>
-              <text x="34" y="79.7"  text-anchor="end" font-size="10" fill="#474747">6%</text>
-              <text x="34" y="126.3" text-anchor="end" font-size="10" fill="#474747">4%</text>
-              <text x="34" y="173"   text-anchor="end" font-size="10" fill="#474747">2%</text>
-              <polyline points="60,123.3 122,123.3 184,121 246,121 308,118.7 370,118.7" fill="none" stroke="#4066C8" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>
-              <polyline points="60,125.7 122,114 184,97.7 246,86 308,72 370,58" fill="none" stroke="#7B68B0" stroke-width="2.4" stroke-linejoin="round"/>
-              <circle class="nd" data-tip="<b>Apr</b> · Actual YoY +3.9% · Plan +4.0%" cx="60"  cy="125.7" r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <circle class="nd" data-tip="<b>May</b> · Actual YoY +4.4% · Plan +4.0%" cx="122" cy="114"   r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <circle class="nd" data-tip="<b>Jun</b> · Actual YoY +5.1% · Plan +4.1%" cx="184" cy="97.7"  r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <circle class="nd" data-tip="<b>Jul</b> · Actual YoY +5.6% · Plan +4.1%" cx="246" cy="86"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <circle class="nd" data-tip="<b>Aug</b> · Actual YoY +6.2% · Plan +4.2%" cx="308" cy="72"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <circle class="nd" data-tip="<b>Sep</b> · Actual YoY +6.8% · Plan +4.2%" cx="370" cy="58"    r="4" fill="#7B68B0" stroke="#fff" stroke-width="1.5"/>
-              <text x="60"  y="116" text-anchor="middle" font-size="10" fill="#474747">3.9%</text>
-              <text x="122" y="105" text-anchor="middle" font-size="10" fill="#474747">4.4%</text>
-              <text x="184" y="89"  text-anchor="middle" font-size="10" fill="#474747">5.1%</text>
-              <text x="246" y="77"  text-anchor="middle" font-size="10" fill="#474747">5.6%</text>
-              <text x="308" y="63"  text-anchor="middle" font-size="10" fill="#474747">6.2%</text>
-              <text x="370" y="49"  text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">6.8%</text>
-              <text x="370" y="136" text-anchor="middle" font-size="10" fill="#4066C8">4.2%</text>
-              <text x="60"  y="188" text-anchor="middle" font-size="10" fill="#474747">Apr</text>
-              <text x="122" y="188" text-anchor="middle" font-size="10" fill="#474747">May</text>
-              <text x="184" y="188" text-anchor="middle" font-size="10" fill="#474747">Jun</text>
-              <text x="246" y="188" text-anchor="middle" font-size="10" fill="#474747">Jul</text>
-              <text x="308" y="188" text-anchor="middle" font-size="10" fill="#474747">Aug</text>
-              <text x="370" y="188" text-anchor="middle" font-size="10" fill="#474747">Sep</text>
+              <line x1="40" y1="30"    x2="390" y2="30"    stroke="#e3dfda"/>
+              <line x1="40" y1="76.7"  x2="390" y2="76.7"  stroke="#e3dfda"/>
+              <line x1="40" y1="123.3" x2="390" y2="123.3" stroke="#e3dfda"/>
+              <line x1="40" y1="170"   x2="390" y2="170"   stroke="#544e4a"/>
+              <text x="34" y="33"    text-anchor="end" font-size="12" fill="#726c66">8%</text>
+              <text x="34" y="79.7"  text-anchor="end" font-size="12" fill="#726c66">6%</text>
+              <text x="34" y="126.3" text-anchor="end" font-size="12" fill="#726c66">4%</text>
+              <text x="34" y="173"   text-anchor="end" font-size="12" fill="#726c66">2%</text>
+              <polyline points="60,123.3 122,123.3 184,121 246,121 308,118.7 370,118.7" fill="none" stroke="#8f7dc5" stroke-width="2.4" stroke-linejoin="round"/>
+              <polyline points="60,125.7 122,114 184,97.7 246,86 308,72 370,58" fill="none" stroke="#7967ae" stroke-width="2.4" stroke-linejoin="round"/>
+              <circle class="nd" data-tip="<b>Apr</b> · Actual YoY +3.9% · Plan +4.0%" cx="60"  cy="125.7" r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>May</b> · Actual YoY +4.4% · Plan +4.0%" cx="122" cy="114"   r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jun</b> · Actual YoY +5.1% · Plan +4.1%" cx="184" cy="97.7"  r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Jul</b> · Actual YoY +5.6% · Plan +4.1%" cx="246" cy="86"    r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Aug</b> · Actual YoY +6.2% · Plan +4.2%" cx="308" cy="72"    r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <circle class="nd" data-tip="<b>Sep</b> · Actual YoY +6.8% · Plan +4.2%" cx="370" cy="58"    r="4" fill="#7967ae" stroke="#fff" stroke-width="1.5"/>
+              <text x="60"  y="116" text-anchor="middle" font-size="12" fill="#726c66">3.9%</text>
+              <text x="122" y="105" text-anchor="middle" font-size="12" fill="#726c66">4.4%</text>
+              <text x="184" y="89"  text-anchor="middle" font-size="12" fill="#726c66">5.1%</text>
+              <text x="246" y="77"  text-anchor="middle" font-size="12" fill="#726c66">5.6%</text>
+              <text x="308" y="63"  text-anchor="middle" font-size="12" fill="#726c66">6.2%</text>
+              <text x="370" y="49"  text-anchor="middle" font-size="12" font-weight="700" fill="#262321">6.8%</text>
+              <text x="370" y="136" text-anchor="middle" font-size="12" fill="#8f7dc5">4.2%</text>
+              <text x="60"  y="188" text-anchor="middle" font-size="12" fill="#726c66">Apr</text>
+              <text x="122" y="188" text-anchor="middle" font-size="12" fill="#726c66">May</text>
+              <text x="184" y="188" text-anchor="middle" font-size="12" fill="#726c66">Jun</text>
+              <text x="246" y="188" text-anchor="middle" font-size="12" fill="#726c66">Jul</text>
+              <text x="308" y="188" text-anchor="middle" font-size="12" fill="#726c66">Aug</text>
+              <text x="370" y="188" text-anchor="middle" font-size="12" fill="#726c66">Sep</text>
             </svg>
             <div class="chart-cap">September ties to the headline KPI. Apr–Aug values are illustrative placeholders.</div>
           </div>
@@ -748,8 +770,7 @@
 
 <!-- Site Footer -->
 <footer class="site-footer">
-  <div><b style="color:var(--adp)">ADP Project Polaris</b> · Retirement Services (RS) Executive Cockpit (Dashboard 2) · September Close Review</div>
-  <div>
+  <div class="foot-links">
     <a href="index.html">Polaris Home</a>
     <a href="index.html">CFO Dashboard 3</a>
     <a href="rs_dashboard_3.html">RS Dashboard 3</a>
@@ -758,7 +779,9 @@
     <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
     <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
   </div>
+  <div><b>ADP Project Polaris</b> · Retirement Services (RS) Executive Dashboard (Dashboard 2) · September Close Review</div>
 </footer>
+
 
 <!-- Standard Tooltip Container -->
 <div class="tip" id="tip"></div>

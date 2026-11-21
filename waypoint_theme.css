@@ -1,0 +1,77 @@
+/* Waypoint design-system overrides (Figma "Resources" tokens).
+   Link LAST in <head> so these rules win over page / shared styles. */
+:root {
+  --blue:#324fa5; --navy:#262321; --green:#2f5b22; --red:#9c2514;
+  --teal:#2ba0c9; --purple:#7967ae; --muted:#544e4a; --line:#e3dfda;
+  --bg:#f7f6f4; --tile:#fff; --inner:#f7f6f4; --hover:#f2f0ed;
+  --adp:#c53422;
+  --p-navy:#121c4e; --p-purple:#7967ae; --p-blue:#476bc3;
+  --p-cyan:#2ba0c9; --p-amber:#db9431; --p-coral:#f25d71; --p-green:#529c42;
+  --font: "Circular20", "Circular Std", "CircularStd", "Circular", "Circular XX", "Avenir Next", "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --fg-base:#262321; --fg-secondary:#393533; --fg-nav:#544e4a; --fg-tertiary:#726c66; --fg-link:#324fa5; --action:#476bc3; --appbar:#121c4e; --surface-alt:#f7f6f4; --surface-accent:#f2f0ed; --divider:#e3dfda;
+}
+button, input, select, textarea, optgroup { font-family: inherit; }
+body, .pf-panel, .pf-proto, .gn-item { font-family: var(--font); }
+body { font-size: 14px; color: var(--navy); background: var(--bg); }
+
+/* App bar */
+.chrome { display: flex; align-items: center; justify-content: space-between; height: 48px; background: var(--appbar); border-bottom: 0; padding: 0 16px; flex: none; }
+.chrome-l { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: #fff; }
+.chrome-l > a { display: flex; align-items: center; }
+img.chrome-logo { display: block; height: 26px; width: auto; flex: none; filter: brightness(0) invert(1); margin: 0; }
+.chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: #fff; }
+.chrome-r b { color: #fff; font-weight: 500; }
+.chrome-user { font-size: 14px; font-weight: 500; color: #fff; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: #393533; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; border: 1px solid #726c66; }
+.chrome .ds, .chrome .ds b, .chrome .ctx-help { color: #fff; }
+.chrome .ds-ref { color: #e3dfda; }
+.chrome .ds:focus-visible, .chrome .ctx-help:focus-visible { outline-color: #fff; }
+
+/* Side nav */
+.sidebar { background: #fff; border-right: 1px solid var(--divider); }
+.sb-section { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; color: var(--fg-nav); padding: 14px 16px 4px; }
+.sb-link { font-size: 14px; color: var(--muted); }
+.sb-link:hover { background: var(--surface-alt); color: var(--fg-base); }
+.sb-link.active { color: var(--fg-base); font-weight: 500; border-left-color: var(--action); background: var(--surface-alt); }
+.sb-link.sub, .sb-link.sub2 { font-size: 14px; }
+.sb-acc > summary { font-size: 14px; color: var(--muted); }
+.sb-acc > summary:hover { background: var(--surface-alt); color: var(--fg-base); }
+.sb-acc.has-active > summary { color: var(--fg-base); font-weight: 500; border-left-color: var(--action); background: var(--surface-alt); }
+.sb-ext { font-size: 14px; color: var(--fg-link); }
+
+/* Titles */
+.page-title { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--fg-base); line-height: 1.5; }
+
+/* Tabs */
+.right-tabstrip { border-bottom: 1px solid var(--divider); background: #fff; }
+.right-tab { padding: 8px 16px; font-size: 14px; font-weight: 500; color: var(--fg-tertiary); }
+.right-tab:hover { color: var(--fg-base); background: var(--surface-alt); }
+.right-tab.active { color: var(--fg-base); border-bottom-color: var(--fg-link); background: #fff; font-weight: 500; }
+
+/* KPI card: white, light border, no coloured top bar */
+.kpis.kpis-5 > .kpi, .kpis.kpis-5 > .kpi:nth-child(n) { background: #fff; border: 1px solid #f2f0ed; border-radius: 4px; padding: 14px 14px 10px; }
+.kpis.kpis-5 > .kpi:hover { background: #fff; border-color: #cdc7c2; }
+.kpi-val { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: var(--fg-base); line-height: 1.2; }
+.kpi-label { font-size: 14px; font-weight: 500; color: var(--fg-base); }
+
+/* Chart cards (Waypoint): white rounded card, 16px bold title + star, chart, centred caption, legend below */
+.epm-box { background: #fff; border: 1px solid #e3dfda; border-radius: 4px; }
+.charts-row { gap: 20px; align-items: stretch; }
+.charts-row .epm-box { border: 1px solid #f2f0ed; border-radius: 8px; box-shadow: 0 2px 4px rgba(38,35,33,0.16), 0 0 2px rgba(38,35,33,0.08); display: flex; flex-direction: column; }
+.charts-row .epm-box-hdr.light { background: #fff; border-bottom: 0; padding: 16px 18px 4px; font-size: 16px; font-weight: 700; letter-spacing: 0; color: #262321; gap: 8px; text-transform: none; }
+.charts-row .epm-box-hdr .chart-comment-btn { margin-left: 0; }
+.charts-row .epm-box-hdr .t-sub { font-weight: 400; }
+.charts-row .epm-box-hdr .chart-star { margin-left: auto; width: 18px; height: 18px; flex: none; fill: none; stroke: #3b4ba0; stroke-width: 1.6; stroke-linejoin: round; }
+.charts-row .epm-box-body { display: flex; flex-direction: column; padding: 6px 18px 16px; flex: 1; }
+.charts-row .epm-box-body > svg { order: 1; margin-top: 8px; }
+.charts-row .chart-sub { order: 2; text-align: center; font-size: 12px; color: #544e4a; margin: 10px 0 8px; }
+.charts-row .chart-legend { order: 3; gap: 16px; font-size: 14px; font-weight: 500; color: #544e4a; margin: 0; }
+.charts-row .chart-legend i { width: 11px; height: 11px; border-radius: 1px; margin-right: 6px; vertical-align: -1px; }
+.charts-row .chart-cap { order: 4; }
+
+/* Footer */
+.site-footer { background: #fff; border-top: 1px solid #e3dfda; padding: 16px 24px; font-size: 14px; line-height: 1.4; color: #262321; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; }
+.site-footer .foot-links { display: flex; flex-wrap: wrap; gap: 8px 35px; }
+.site-footer a { color: #324fa5; text-decoration: underline; margin: 0; }
+.site-footer a:hover { color: #121c4e; }
+.site-footer b { color: inherit; font-weight: 400; }

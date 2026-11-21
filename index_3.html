@@ -114,7 +114,7 @@
     </button>
     <button type="button" class="suite-tab-btn" id="tabBtnD2" onclick="switchSuite('d2')" role="tab" aria-selected="false" aria-controls="tree-d2">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      Dashboard 2 (EPM Cockpit Suite)
+      Dashboard 2 (EPM Dashboard Suite)
     </button>
   </div>
 </header>
@@ -153,25 +153,25 @@
     <div>
       <div class="hero-top">
         <div class="hero-title">
-          <span>Dashboard 2 — EPM Cockpit Suite</span>
+          <span>Dashboard 2 — EPM Dashboard Suite</span>
         </div>
         <span class="hero-badge d2">EPM Model · 5 Pages</span>
       </div>
       <div class="hero-desc">
-        Next-generation Executive Planning &amp; Close Cockpit: Corporate CFO EPM Cockpit (with 10 visual charts &amp; Form 10-K/ASC 280 Disclosures), RS Dashboard 3 Cockpit, Level-2 Revenue &amp; Expense drilldowns, and Oracle GL transaction detail ledger.
+        Next-generation Executive Planning &amp; Close Dashboard: Corporate CFO EPM Dashboard (with 10 visual charts &amp; Form 10-K/ASC 280 Disclosures), RS Dashboard 3, Level-2 Revenue &amp; Expense drilldowns, and Oracle GL transaction detail ledger.
       </div>
     </div>
     <div class="hero-actions">
       <a class="hero-launch-btn d2" href="index.html">
-        Launch Dashboard 2 (CFO EPM Cockpit) &rarr;
+        Launch Dashboard 2 (CFO EPM Dashboard) &rarr;
       </a>
       <div class="hero-links">
-        <a href="index.html">CFO Cockpit 3</a> ·
-        <a href="nas_dashboard_2.html">NAS Cockpit 2</a> ·
+        <a href="index.html">CFO Dashboard 3</a> ·
+        <a href="nas_dashboard_2.html">NAS Dashboard 2</a> ·
         <a href="revenue_analysis_NAS_2.html">NAS Revenue 2</a> ·
         <a href="NAS_npi_2.html">NAS NPI 2</a> ·
         <a href="expense_pl_NAS_2.html">NAS Expense 2</a> ·
-        <a href="rs_dashboard_3.html">RS Cockpit 3</a> ·
+        <a href="rs_dashboard_3.html">RS Dashboard 3</a> ·
         <a href="revenue_analysis_RS_2.html">RS Revenue 2</a> ·
         <a href="expense_pl_RS_2.html">RS Expense 2</a>
       </div>
@@ -224,35 +224,35 @@
 
   </div>
 
-  <!-- ── TREE VIEW 2: Dashboard 2 (Newer EPM Production Cockpit) ── -->
+  <!-- ── TREE VIEW 2: Dashboard 2 (Newer EPM Production Dashboard) ── -->
   <div class="tree-pane" id="tree-d2" role="tabpanel" aria-labelledby="tabBtnD2">
 
     <!-- Connectors for Tree 2 (5 columns = 500 wide, 4 card rows + 3 connector rows = 505 tall) -->
     <svg class="lines" viewBox="0 0 500 505" preserveAspectRatio="none" aria-hidden="true">
-      <!-- CFO Cockpit 3 (Col 3: 250) to RS Cockpit 3 (Col 3: 250) -->
+      <!-- CFO Dashboard 3 (Col 3: 250) to RS Dashboard 3 (Col 3: 250) -->
       <path d="M250 100V135"/>
-      <!-- RS Cockpit 3 (Col 3: 250) to Level-2 Drilldowns (Col 2: 150 and Col 4: 350) -->
+      <!-- RS Dashboard 3 (Col 3: 250) to Level-2 Drilldowns (Col 2: 150 and Col 4: 350) -->
       <path d="M250 235V252.5M150 252.5H350M150 252.5V270M350 252.5V270"/>
       <!-- Revenue Analysis 2 (Col 2: 150) to RS Transaction Detail 2 (Col 2: 150) -->
       <path d="M150 370V405"/>
     </svg>
 
-    <!-- Level 1: Corporate CFO Cockpit (EPM Production Suite) -->
+    <!-- Level 1: Corporate CFO Dashboard (EPM Production Suite) -->
     <div class="n" style="grid-column:3;grid-row:1">
       <div class="card d2-card-node">
         <svg class="ic d2-ic" role="img" aria-label="Person icon"><use href="#p"/></svg>
         <h2>Corporate CFO Dashboard 3</h2>
-        <p>Enterprise Cockpit: Revenue waterfall, 10 Executive Charts, and Statutory Form 10-K &amp; ASC 280 Disclosures.</p>
+        <p>Enterprise Dashboard: Revenue waterfall, 10 Executive Charts, and Statutory Form 10-K &amp; ASC 280 Disclosures.</p>
         <a class="sel d2-btn" href="index.html">Select</a>
       </div>
     </div>
 
-    <!-- Level 2: RS Executive Cockpit -->
+    <!-- Level 2: RS Executive Dashboard -->
     <div class="n" style="grid-column:3;grid-row:3">
       <div class="card d2-card-node">
         <svg class="ic d2-ic" role="img" aria-label="Person icon"><use href="#p"/></svg>
         <h2>RS Dashboard 3</h2>
-        <p>Retirement Services Close Cockpit: Approved management P&amp;L lines, departmental expense, and NOI.</p>
+        <p>Retirement Services Close Dashboard: Approved management P&amp;L lines, departmental expense, and NOI.</p>
         <a class="sel d2-btn" href="rs_dashboard_3.html">Select</a>
       </div>
     </div>
@@ -298,7 +298,7 @@
   <div class="sf-links">
     <a href="index.html">Polaris Home</a>
     <a href="cfo_dashboard.html">Dashboard 1 (Original)</a>
-    <a href="index.html">Dashboard 2 (EPM Cockpit)</a>
+    <a href="index.html">Dashboard 2 (EPM Dashboard)</a>
   </div>
 </footer>
 
@@ -320,7 +320,7 @@
       tabD2.setAttribute('aria-selected', 'true');
       paneD1.classList.remove('active');
       paneD2.classList.add('active');
-      hdrTitle.textContent = 'Dashboard 2 Financial Architecture Map (EPM Production Cockpit Suite)';
+      hdrTitle.textContent = 'Dashboard 2 Financial Architecture Map (EPM Production Dashboard Suite)';
       hdrMeta.textContent = 'Click any node\'s \'Select\' button to open that report directly in Dashboard 2';
       window.location.hash = 'd2';
     } else {

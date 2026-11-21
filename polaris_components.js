@@ -17,9 +17,9 @@
   function sectionHeader(title, opts) {
     opts = opts || {};
     var tag = opts.tag ? ' <span class="draft-tag">' + opts.tag + '</span>' : '';
-    var tools = opts.tools ? (opts.light ? '<span style="font-size:10px;color:#64748b;">' + opts.tools + '</span>'
+    var tools = opts.tools ? (opts.light ? '<span style="font-size:12px;color:#726c66;">' + opts.tools + '</span>'
                                          : '<div class="tools"><span>' + opts.tools + '</span></div>') : '';
-    return '<div class="epm-box-hdr' + (opts.light ? ' light' : '') + '"><span>' + title + tag + '</span>' + tools + '</div>';
+    return '<div class="epm-box-hdr' + (opts.light ? ' light' : '') + '"><span>' + title + tag + '</span>' + (opts.star || '') + tools + '</div>';
   }
   function panel(opts) {
     return '<div class="epm-box"' + (opts.id ? ' id="' + opts.id + '"' : '') + '>' +
@@ -27,7 +27,7 @@
   }
   function scroller(inner) { return '<div style="overflow-x:auto;">' + inner + '</div>'; }
   function footnote(text) {
-    return '<div class="chart-cap" style="margin:0;padding:6px 14px 8px;border-top:1px solid #e2e8f0;">' + text + '</div>';
+    return '<div class="chart-cap" style="margin:0;padding:6px 14px 8px;border-top:1px solid #e3dfda;">' + text + '</div>';
   }
 
   /* ---------- KPI card + strip ---------- */
@@ -108,12 +108,13 @@
   }
 
   /* ---------- chart wrapper + SVG renderers (viewBox 0 0 400 200, same grid and palette as RS) ---------- */
-  var C = { plan: '#BDB4DC', actual: '#7B68B0', blue: '#4066C8', fav: '#3A9A3A', unf: '#F0605D', favTx: '#14562a', unfTx: '#9f1d17' };
+  var C = { plan: '#BDB4DC', actual: '#7967ae', blue: '#476bc3', fav: '#529c42', unf: '#f25d71', favTx: '#14562a', unfTx: '#9f1d17' };
 
   function legendItem(color, label) { return '<span><i style="background:' + color + '"></i> ' + label + '</span>'; }
+  var STAR = '<svg class="chart-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1L3.2 9.6l6.1-.8z"/></svg>';
   function chartCard(d, legend, svg) {
     return panel({
-      title: d.title, light: true,
+      title: d.title, star: STAR, light: true,
       body: '<div class="epm-box-body"><div class="chart-sub">' + d.sub + '</div><div class="chart-legend">' + legend + '</div>' +
         svg + (d.cap ? '<div class="chart-cap">' + d.cap + '</div>' : '') + '</div>'
     });
@@ -122,15 +123,15 @@
   function f1(n) { return (Math.round(n * 10) / 10).toString(); }
   function txt(x, y, s, o) {
     o = o || {};
-    return '<text x="' + x + '" y="' + y + '" text-anchor="' + (o.anchor || 'middle') + '" font-size="' + (o.size || 10) + '"' +
-      (o.bold ? ' font-weight="700"' : '') + ' fill="' + (o.fill || '#474747') + '">' + s + '</text>';
+    return '<text x="' + x + '" y="' + y + '" text-anchor="' + (o.anchor || 'middle') + '" font-size="' + (o.size || 12) + '"' +
+      (o.bold ? ' font-weight="700"' : '') + ' fill="' + (o.fill || '#726c66') + '">' + s + '</text>';
   }
   /* Gridlines and y-axis labels: ticks from axis.max down to axis.min between pixel rows top..bottom */
   function grid(axis, top, bottom, suffix) {
     var n = Math.round((axis.max - axis.min) / axis.step), h = '';
     for (var i = 0; i <= n; i++) {
       var y = top + (bottom - top) * i / n;
-      h += '<line x1="40" y1="' + f1(y) + '" x2="390" y2="' + f1(y) + '" stroke="' + (i === n ? '#cbd5e1' : '#ececec') + '"/>';
+      h += '<line x1="40" y1="' + f1(y) + '" x2="390" y2="' + f1(y) + '" stroke="' + (i === n ? '#cdc7c2' : '#e3dfda') + '"/>';
       h += txt(34, f1(y + 3), (axis.max - i * axis.step) + (suffix || ''), { anchor: 'end' });
     }
     return h;
@@ -142,7 +143,7 @@
   function waterfall(d) {
     var y = scaleY(d.axis, 30, 170), h = svgOpen(d.aria) + grid(d.axis, 30, 170), level = 0, prevRight = null, prevLevel = 0;
     d.steps.forEach(function (s, i) {
-      var x = 50 + i * 88, top, ht, fill, tx = '#1a1a1a', end;
+      var x = 50 + i * 88, top, ht, fill, tx = '#262321', end;
       if (s.type === 'total') {
         level = s.v; top = y(s.v); ht = 170 - top; fill = i === 0 ? C.plan : C.actual;
       } else {
@@ -150,9 +151,9 @@
         top = y(Math.max(from, to)); ht = Math.abs(y(from) - y(to)); level = to;
         fill = s.v >= 0 ? C.fav : C.unf; tx = s.v >= 0 ? C.favTx : C.unfTx;
       }
-      if (prevRight !== null) h += '<line x1="' + prevRight + '" y1="' + f1(y(prevLevel)) + '" x2="' + x + '" y2="' + f1(y(prevLevel)) + '" stroke="#94a3b8" stroke-dasharray="3 2"/>';
+      if (prevRight !== null) h += '<line x1="' + prevRight + '" y1="' + f1(y(prevLevel)) + '" x2="' + x + '" y2="' + f1(y(prevLevel)) + '" stroke="#938c85" stroke-dasharray="3 2"/>';
       h += '<rect class="nd" data-tip="' + attr(s.tip) + '" x="' + x + '" y="' + f1(top) + '" width="62" height="' + f1(ht) + '" fill="' + fill + '"/>';
-      h += txt(x + 31, f1(top - 6), s.text, { size: 11, bold: true, fill: tx });
+      h += txt(x + 31, f1(top - 6), s.text, { size: 12, bold: true, fill: tx });
       if (s.pct) h += txt(x + 31, f1(top - 19), s.pct, { bold: true, fill: tx });
       h += txt(x + 31, 188, s.label);
       prevRight = x + 62; prevLevel = level;
@@ -166,9 +167,9 @@
       var cx = 100 + i * 115, ya = y(c.act), yp = y(c.plan);
       h += '<rect class="nd" data-tip="' + attr(c.tipA) + '" x="' + (cx - 29) + '" y="' + f1(ya) + '" width="28" height="' + f1(160 - ya) + '" fill="' + C.actual + '"/>';
       h += '<rect class="nd" data-tip="' + attr(c.tipP) + '" x="' + (cx + 1) + '" y="' + f1(yp) + '" width="28" height="' + f1(160 - yp) + '" fill="' + C.plan + '"/>';
-      h += txt(cx - 15, f1(ya - 6), f1(c.act), { bold: true, fill: '#1a1a1a' });
+      h += txt(cx - 15, f1(ya - 6), f1(c.act), { bold: true, fill: '#262321' });
       h += txt(cx + 15, f1(yp - 6), f1(c.plan));
-      h += txt(cx, 176, c.label[0]) + txt(cx, 188, c.label[1], { size: c.label[1].length > 14 ? 9 : 10, fill: c.label[1].length > 14 ? '#64748b' : '#474747' });
+      h += txt(cx, 176, c.label[0]) + txt(cx, 188, c.label[1], { size: 12, fill: '#726c66' });
     });
     return h + '</svg>';
   }
@@ -177,14 +178,14 @@
     var y = scaleY(d.axis, 30, 170), h = svgOpen(d.aria) + grid(d.axis, 30, 170, '%'), n = d.months.length, last = n - 1;
     function px(i) { return 60 + i * 62; }
     function pts(a) { return a.map(function (v, i) { return px(i) + ',' + f1(y(v)); }).join(' '); }
-    h += '<polyline points="' + pts(d.plan) + '" fill="none" stroke="' + C.blue + '" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round"/>';
+    h += '<polyline points="' + pts(d.plan) + '" fill="none" stroke="' + C.blue + '" stroke-width="2" stroke-linejoin="round"/>';
     h += '<polyline points="' + pts(d.actual) + '" fill="none" stroke="' + C.actual + '" stroke-width="2.4" stroke-linejoin="round"/>';
     d.months.forEach(function (m, i) {
       var tip = '<b>' + m + '</b> \u00b7 Actual YoY +' + f1(d.actual[i]) + '% \u00b7 Plan +' + f1(d.plan[i]) + '%';
       h += '<circle class="nd" data-tip="' + attr(tip) + '" cx="' + px(i) + '" cy="' + f1(y(d.actual[i])) + '" r="4" fill="' + C.actual + '" stroke="#fff" stroke-width="1.5"/>';
     });
     d.months.forEach(function (m, i) {
-      h += txt(px(i), f1(y(d.actual[i]) + (d.actual[i] < d.plan[i] ? 17 : -9)), f1(d.actual[i]) + '%', i === last ? { bold: true, fill: '#1a1a1a' } : {});
+      h += txt(px(i), f1(y(d.actual[i]) + (d.actual[i] < d.plan[i] ? 17 : -9)), f1(d.actual[i]) + '%', i === last ? { bold: true, fill: '#262321' } : {});
       h += txt(px(i), 188, m);
     });
     h += txt(px(last), f1(y(d.plan[last]) + 17), f1(d.plan[last]) + '%', { fill: C.blue });

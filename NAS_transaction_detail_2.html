@@ -6,72 +6,72 @@
 <title>NAS Transaction Detail 2 — Oracle GL Journal Lines — ADP Project Polaris</title>
 <style>
   :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --blue:#476bc3; --navy:#393533; --green:#2f5b22; --red:#9c2514;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#544e4a; --line:#e3dfda;
+    --bg:#f7f6f4; --tile:#fff; --inner:#f7f6f4; --hover:#f2f0ed;
     --adp:#E8222F; --sidebar-w:220px;
-    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
-    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+    --p-navy:#121c4e; --p-purple:#7967ae; --p-blue:#476bc3;
+    --p-cyan:#2ba0c9; --p-amber:#db9431; --p-coral:#f25d71; --p-green:#529c42;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 
   /* Top Chrome */
   .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
-  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
-  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 16px; letter-spacing: -0.5px; margin-right: 4px; }
   .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
-  .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4066C8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .chrome-r b { color: var(--navy); font-weight: 500; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #476bc3; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; }
 
   /* EPM Top Bar */
-  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-topbar { background: #121c4e; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #20337d; }
   .epm-title-block { display: flex; align-items: center; gap: 12px; }
-  .epm-app-badge { background: #4066C8; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
-  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-app-badge { background: #476bc3; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #20337d; color: #fff; border: 1px solid #324fa5; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
   .epm-plan-select:hover { background: #2e4461; }
-  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
-  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 12px; color: #cdc7c2; }
+  .epm-meta-links a { color: #cdc7c2; text-decoration: none; }
   .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
 
   /* Sub-Filter Strip */
-  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
-  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
-  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
-  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .epm-filter-strip { background: #121c4e; color: #e3dfda; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid #20337d; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #b2aba5; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 12px; }
+  .ef-pill.active { background: #476bc3; color: #fff; border-color: #476bc3; }
   .ef-pill:hover:not(.active) { background: #273b54; }
-  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+  .ef-sep { width: 1px; height: 16px; background: #324fa5; margin: 0 4px; }
 
   /* Tabstrip */
-  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
-  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tabstrip { background: #121c4e; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #476bc3; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 500; color: #cdc7c2; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
   .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
-  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+  .epm-tab.active { color: #fff; background: #121c4e; border-bottom-color: #476bc3; }
 
   /* Shell Layout */
   .shell { display: flex; flex: 1; overflow: hidden; }
   .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
-  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
-  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-bu-label { font-size: 18px; font-weight: 700; color: #000; }
+  .sb-section { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 14px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
   .sb-link:hover { background: var(--hover); color: var(--navy); }
-  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.active { color: var(--navy); font-weight: 500; border-left-color: var(--blue); background: #edf4ff; }
   .sb-link.sub { padding-left: 28px; font-size: 12px; }
   .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
   .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
-  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 14px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
   .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
   .sb-acc > summary::-webkit-details-marker { display: none; }
   .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
   .sb-acc[open] > summary::after { transform: rotate(45deg); }
   .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
-  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 500; border-left-color: var(--blue); }
   .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
 
   /* Main Area */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #ffffff; }
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
@@ -79,118 +79,111 @@
   .breadcrumb span { margin: 0 5px; }
   .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
-  .page-title .badge { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #fde68a; }
+  .page-title .badge { background: #fef3c7; color: #92400e; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; border: 1px solid #fde68a; }
   .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
   /* Control Banner */
   .ctrl-bar { background: #fff; border: 1px solid var(--line); border-radius: 4px; margin: 14px 20px 0; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .ctrl-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .search-input { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 240px; }
+  .search-input { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #cdc7c2; border-radius: 4px; min-width: 240px; }
   .search-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
-  .filter-select { font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; }
-  .btn { font: inherit; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
-  .btn-primary { background: #141E50; color: #fff; border-color: #141E50; }
-  .btn-primary:hover { background: #1b2a7a; }
+  .filter-select { font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid #cdc7c2; border-radius: 4px; background: #fff; }
+  .btn { font: inherit; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #121c4e; color: #fff; border-color: #121c4e; }
+  .btn-primary:hover { background: #20337d; }
 
   /* Content area */
   .content { padding: 14px 20px 28px; flex: 1; }
   
   /* Metric Strip */
   .metric-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
-  .metric-note { font-size: 11px; color: #57606a; margin: -4px 0 14px; line-height: 1.4; }
+  .metric-note { font-size: 12px; color: #544e4a; margin: -4px 0 14px; line-height: 1.4; }
   .m-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 14px; }
-  .m-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
-  .m-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
-  .m-sub { font-size: 11px; color: #15803d; font-weight: 600; margin-top: 2px; }
+  .m-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #726c66; margin-bottom: 2px; }
+  .m-val { font-size: 18px; font-weight: 700; color: var(--p-navy); line-height: 1.2; }
+  .m-sub { font-size: 12px; color: #15803d; font-weight: 500; margin-top: 2px; }
 
   /* EPM Box & Table */
-  .epm-box { background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-  .epm-box-hdr { background: #141E50; color: #fff; padding: 8px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
-  .epm-box-hdr .tools { font-size: 11px; font-weight: 400; color: #93c5fd; }
+  .epm-box { background: #fff; border: 1px solid #cdc7c2; border-radius: 4px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .epm-box-hdr { background: #121c4e; color: #fff; padding: 8px 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; }
+  .epm-box-hdr .tools { font-size: 12px; font-weight: 400; color: #93c5fd; }
   
-  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; white-space: nowrap; }
-  .epm-table th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; padding: 7px 10px; border-bottom: 2px solid #cbd5e1; font-size: 11px; }
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+  .epm-table th { background: #f2f0ed; color: #475569; font-weight: 700; text-align: left; padding: 7px 10px; border-bottom: 2px solid #cdc7c2; font-size: 12px; }
   .epm-table th.num, .epm-table td.num { text-align: right; }
-  .epm-table td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; color: #1e293b; }
-  .epm-table tr:hover td { background: #f8fafc; }
+  .epm-table td { padding: 6px 10px; border-bottom: 1px solid #e3dfda; color: #262321; }
+  .epm-table tr:hover td { background: #f7f6f4; }
   .epm-table tr.highlight td { background: #fef9c3 !important; }
-  .tag-cat { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .tag-cat { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
   .tag-asset { background: #dbeafe; color: #1e40af; }
   .tag-erisa { background: #fef3c7; color: #92400e; }
-  .tag-hd { background: #e0e7ff; color: #3730a3; }
-  .tag-setup { background: #f1f5f9; color: #475569; }
+  .tag-hd { background: #e8effa; color: #3730a3; }
+  .tag-setup { background: #f2f0ed; color: #475569; }
   .tag-dcio { background: #dcfce7; color: #166534; }
   
-  .num-neg { color: var(--red); font-weight: 600; }
-  .num-pos { color: var(--green); font-weight: 600; }
+  .num-neg { color: var(--red); font-weight: 500; }
+  .num-pos { color: var(--green); font-weight: 500; }
 
   /* Tooltip */
-  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip { position: fixed; z-index: 9999; background: #393533; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 12px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .tip.on { opacity: 1; }
   .nd { cursor: pointer; }
   /* Drill-in context (arrives from a revenue line on RS Revenue Analysis 2) */
   .line-ctx { background: #edf4ff; border: 1px solid #c7dcfb; border-radius: 4px; padding: 8px 14px; margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--navy); }
   .line-ctx[hidden] { display: none; }
-  .line-ctx .lc-k { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #57606a; margin-right: 4px; }
+  .line-ctx .lc-k { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #544e4a; margin-right: 4px; }
   .line-ctx .lc-line { font-weight: 700; }
-  .line-ctx .lc-note { color: #57606a; }
-  .line-ctx a { margin-left: auto; color: var(--blue); font-weight: 600; text-decoration: none; }
+  .line-ctx .lc-note { color: #544e4a; }
+  .line-ctx a { margin-left: auto; color: var(--blue); font-weight: 500; text-decoration: none; }
   .line-ctx a:hover { text-decoration: underline; }
-  .empty-row td { text-align: center; color: #57606a; padding: 18px; white-space: normal; }
+  .empty-row td { text-align: center; color: #544e4a; padding: 18px; white-space: normal; }
   .tag-alloc { background: #ede9fe; color: #5b21b6; }
   .tag-exp { background: #fee2e2; color: #991b1b; }
 </style>
 <link rel="stylesheet" href="site_footer.css">
 <link rel="stylesheet" href="polaris_header.css">
 <link rel="stylesheet" href="gl_table.css">
+<link rel="stylesheet" href="waypoint_theme.css">
 </head>
 <body data-pf-page="P07" data-pf-bu="NAS">
 
-<div class="chrome">
+<header class="chrome">
   <div class="chrome-l">
-    <a href="index.html" style="text-decoration:none"><span class="chrome-logo">ADP</span></a>
-    Project Polaris · Level-3 GL Ledger Inspector
+    <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP">
+    <span>Project Polaris</span>
   </div>
   <div class="chrome-r">
-    <span>SEPTEMBER CLOSE / DAY 4</span>
-    <b>NAS Controller &amp; FP&amp;A</b>
-    <div class="avatar">NAS</div>
+    <span>Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span class="chrome-user">FP&amp;A Lead</span>
+    <div class="avatar" title="FP&amp;A Lead">JL</div>
   </div>
-</div>
+</header>
 
 <div class="shell">
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-bu">
-      <div class="sb-bu-label">Polaris</div>
-    </div>
-
-    <div class="sb-section">BU Executive Cockpit</div>
+    <div class="sb-section">BU Executive Dashboard</div>
     <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
+      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
       <a class="sb-link sub2 active" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
       <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
-
     <div class="sb-divider"></div>
     <details class="sb-acc" name="sb-acc">
-      <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
+      <summary><a href="rs_dashboard_3.html">RS Dashboard</a></summary>
       <a class="sb-link sub" href="Rs_DashBaord_3_Brand.html">RS Dashboard 3 Brand (temp)</a>
       <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
       <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
       <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
     </details>
-
     <div class="sb-divider"></div>
     <div class="sb-section">Corporate Executive</div>
     <details class="sb-acc" name="sb-acc">
       <summary><a href="index.html">Corporate CFO (EPM)</a></summary>
-      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard</a>
       <a class="sb-link sub" href="index.html">CFO Dashboard (EPM)</a>
     </details>
-
     <div class="sb-divider"></div>
     <a class="sb-ext" href="index.html">&larr; Polaris Home</a>
   </nav>
@@ -270,7 +263,7 @@
         <div class="m-card">
           <div class="m-label">Total Debits</div>
           <div class="m-val" id="statDebit">$112,501.95</div>
-          <div class="m-sub" style="color:#64748b;">Expenses, Allocations &amp; Adjustments</div>
+          <div class="m-sub" style="color:#726c66;">Expenses, Allocations &amp; Adjustments</div>
         </div>
         <div class="m-card">
           <div class="m-label">Total Credits</div>
@@ -280,7 +273,7 @@
         <div class="m-card">
           <div class="m-label">Net Posted (Dr less Cr)</div>
           <div class="m-val" id="statNet">($19,397.61)</div>
-          <div class="m-sub" style="color:#64748b;">Debit balance = net cost</div>
+          <div class="m-sub" style="color:#726c66;">Debit balance = net cost</div>
         </div>
       </div>
       <div class="metric-note" role="note">Reported values can include amounts loaded to Hyperion without a GL transaction, so listed transactions may not add up to the reported value.</div>
@@ -823,7 +816,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="empty-row" id="glEmpty" hidden style="padding:18px;text-align:center;color:#57606a;">No journal lines match the current line and filters.</div>
+          <div class="empty-row" id="glEmpty" hidden style="padding:18px;text-align:center;color:#544e4a;">No journal lines match the current line and filters.</div>
         </div>
       </div>
 
@@ -834,15 +827,15 @@
 
 <!-- Footer -->
 <footer class="site-footer">
-  <div><b style="color:var(--adp)">ADP Project Polaris</b> · NAS Level-3 Oracle GL Transaction Ledger (Dashboard 2) · September Close Review</div>
-  <div>
+  <div class="foot-links">
     <a href="index.html">Polaris Home</a>
     <a href="index.html">CFO Dashboard 3</a>
-    <a href="nas_dashboard_2.html">NAS Dashboard 2</a>
-    <a href="revenue_analysis_NAS_2.html">NAS Revenue Analysis 2</a>
-    <a href="NAS_transaction_detail_2.html">NAS Transaction Detail 2</a>
-    <a href="expense_pl_NAS_2.html">NAS Expense P&amp;L 2</a>
+    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
+    <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
+    <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
   </div>
+  <div><b>ADP Project Polaris</b> · NAS Level-3 Oracle GL Transaction Ledger (Dashboard 2) · September Close Review</div>
 </footer>
 
 <script src="gl_table.js"></script>

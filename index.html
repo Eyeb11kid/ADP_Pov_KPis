@@ -3,77 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CFO Dashboard 3 — Polaris Executive EPM Cockpit — ADP Project Polaris</title>
+<title>CFO Dashboard 3 — Polaris Executive EPM Dashboard — ADP Project Polaris</title>
 <style>
   :root {
-    --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
-    --teal:#009D9A; --purple:#5b2fc0; --muted:#525252; --line:#e0e0e0;
-    --bg:#f4f4f4; --tile:#fff; --inner:#f4f4f4; --hover:#e8e8e8;
+    --blue:#476bc3; --navy:#393533; --green:#2f5b22; --red:#9c2514;
+    --teal:#009D9A; --purple:#5b2fc0; --muted:#544e4a; --line:#e3dfda;
+    --bg:#f7f6f4; --tile:#fff; --inner:#f7f6f4; --hover:#f2f0ed;
     --adp:#E8222F; --sidebar-w:220px;
-    --p-navy:#141E50; --p-purple:#7B68B0; --p-blue:#4066C8;
-    --p-cyan:#2A9FCB; --p-amber:#E5A83F; --p-coral:#F0605D; --p-green:#3A9A3A;
+    --p-navy:#121c4e; --p-purple:#7967ae; --p-blue:#476bc3;
+    --p-cyan:#2ba0c9; --p-amber:#db9431; --p-coral:#f25d71; --p-green:#529c42;
     --epm-dark:#0a192f; --epm-bar:#102a4c; --epm-card:#ffffff;
-    --kpi-up:#2e7d32; --kpi-dn:#c8322f;
+    --kpi-up:#2f5b22; --kpi-dn:#9c2514;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 13px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+  body { font-family: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.5; color: var(--navy); background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
   
   /* Top Chrome Bar */
   .chrome { display: flex; align-items: center; justify-content: space-between; height: 40px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 16px; flex: none; }
-  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--navy); }
-  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 15px; letter-spacing: -0.5px; margin-right: 4px; }
+  .chrome-l { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--navy); }
+  .chrome-logo { font-family: "Arial Black", Helvetica, Arial, sans-serif; font-weight: 900; font-style: italic; color: var(--adp); font-size: 16px; letter-spacing: -0.5px; margin-right: 4px; }
   .chrome-r { display: flex; align-items: center; gap: 18px; font-size: 12px; color: var(--muted); }
-  .chrome-r b { color: var(--navy); font-weight: 600; }
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none; }
+  .chrome-r b { color: var(--navy); font-weight: 500; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #5b2fc0; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none; }
 
   /* EPM Application Header Bar */
-  .epm-topbar { background: #162436; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #23354d; }
+  .epm-topbar { background: #121c4e; color: #fff; padding: 6px 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #20337d; }
   .epm-title-block { display: flex; align-items: center; gap: 12px; }
-  .epm-app-badge { background: #0f62fe; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
-  .epm-plan-select { background: #23354d; color: #fff; border: 1px solid #3d516c; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .epm-app-badge { background: #476bc3; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+  .epm-plan-select { background: #20337d; color: #fff; border: 1px solid #324fa5; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
   .epm-plan-select:hover { background: #2e4461; }
-  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #9bb1cf; }
-  .epm-meta-links a { color: #9bb1cf; text-decoration: none; }
+  .epm-meta-links { display: flex; align-items: center; gap: 14px; font-size: 12px; color: #cdc7c2; }
+  .epm-meta-links a { color: #cdc7c2; text-decoration: none; }
   .epm-meta-links a:hover { color: #fff; text-decoration: underline; }
 
   /* Sub-Filter strip */
-  .epm-filter-strip { background: #203046; color: #d0deee; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 11px; border-bottom: 1px solid #2d415b; overflow-x: auto; white-space: nowrap; }
-  .ef-label { color: #8fa6c5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
-  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 11px; }
-  .ef-pill.active { background: #0f62fe; color: #fff; border-color: #0f62fe; }
+  .epm-filter-strip { background: #121c4e; color: #e3dfda; padding: 5px 16px; display: flex; align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid #20337d; overflow-x: auto; white-space: nowrap; }
+  .ef-label { color: #b2aba5; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .ef-pill { background: #152233; color: #e1ebf7; border: 1px solid #344a66; padding: 2px 8px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 12px; }
+  .ef-pill.active { background: #476bc3; color: #fff; border-color: #476bc3; }
   .ef-pill:hover:not(.active) { background: #273b54; }
-  .ef-sep { width: 1px; height: 16px; background: #3d516c; margin: 0 4px; }
+  .ef-sep { width: 1px; height: 16px; background: #324fa5; margin: 0 4px; }
 
   /* Navigation Tabs Strip */
-  .epm-tabstrip { background: #0d1b2a; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #0f62fe; overflow-x: auto; white-space: nowrap; }
-  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 600; color: #9bb1cf; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .epm-tabstrip { background: #121c4e; padding: 0 16px; display: flex; align-items: center; gap: 2px; border-bottom: 2px solid #476bc3; overflow-x: auto; white-space: nowrap; }
+  .epm-tab { padding: 9px 14px; font-size: 12px; font-weight: 500; color: #cdc7c2; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.15s; }
   .epm-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
-  .epm-tab.active { color: #fff; background: #162436; border-bottom-color: #0f62fe; }
+  .epm-tab.active { color: #fff; background: #121c4e; border-bottom-color: #476bc3; }
 
   /* Layout Shell */
   .shell { display: flex; flex: 1; overflow: hidden; }
   .sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--line); flex: none; display: flex; flex-direction: column; overflow-y: auto; padding-bottom: 16px; }
   .sb-bu { padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .sb-bu-label { font-size: 18px; font-weight: 800; color: #000; }
-  .sb-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
-  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
+  .sb-bu-label { font-size: 18px; font-weight: 700; color: #000; }
+  .sb-section { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 14px 16px 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 14px; font-size: 14px; color: var(--muted); text-decoration: none; border-left: 3px solid transparent; }
   .sb-link:hover { background: var(--hover); color: var(--navy); }
-  .sb-link.active { color: var(--navy); font-weight: 600; border-left-color: var(--blue); background: #edf4ff; }
+  .sb-link.active { color: var(--navy); font-weight: 500; border-left-color: var(--blue); background: #edf4ff; }
   .sb-link.sub { padding-left: 28px; font-size: 12px; }
   .sb-link.sub2 { padding-left: 40px; font-size: 12px; }
   .sb-divider { height: 1px; background: var(--line); margin: 8px 0; }
-  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 13px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
+  .sb-acc > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 16px 0 0; font-size: 14px; color: var(--muted); cursor: pointer; border-left: 3px solid transparent; user-select: none; }
   .sb-acc > summary a { flex: 1; padding: 7px 0 7px 11px; color: inherit; text-decoration: none; }
   .sb-acc > summary::-webkit-details-marker { display: none; }
   .sb-acc > summary::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; flex: none; }
   .sb-acc[open] > summary::after { transform: rotate(45deg); }
   .sb-acc > summary:hover { background: var(--hover); color: var(--navy); }
-  .sb-acc.has-active > summary { color: var(--navy); font-weight: 600; border-left-color: var(--blue); }
+  .sb-acc.has-active > summary { color: var(--navy); font-weight: 500; border-left-color: var(--blue); }
   .sb-ext { display: block; padding: 6px 16px; font-size: 12px; color: var(--blue); text-decoration: none; }
   .sb-ext:hover { text-decoration: underline; }
 
   /* Main Workspace */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #eef2f6; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #ffffff; }
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
@@ -81,12 +81,12 @@
   .breadcrumb span { margin: 0 5px; }
   .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .page-title { font-size: 20px; font-weight: 700; color: var(--p-navy); line-height: 1.2; display: flex; align-items: center; gap: 10px; }
-  .page-title .badge { background: #e1f5fe; color: #0288d1; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; border: 1px solid #b3e5fc; }
+  .page-title .badge { background: #e1f5fe; color: #0288d1; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; border: 1px solid #b3e5fc; }
   .page-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
   /* View switch bar */
   .cockpit-view-ctrls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .view-btn { font: inherit; font-size: 12px; font-weight: 600; padding: 5px 12px; border: 1px solid var(--line); background: #fff; color: var(--navy); border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .view-btn { font: inherit; font-size: 12px; font-weight: 500; padding: 5px 12px; border: 1px solid var(--line); background: #fff; color: var(--navy); border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
   .view-btn.active { background: var(--p-navy); color: #fff; border-color: var(--p-navy); }
   .view-btn:hover:not(.active) { background: #f0f0f0; }
 
@@ -108,7 +108,7 @@
     gap: 8px;
   }
   .hkpi-bar-title {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -120,17 +120,17 @@
   .hkpi-bar-badge {
     background: #fee2e2;
     color: var(--adp);
-    font-size: 9.5px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
     padding: 2px 6px;
     border-radius: 3px;
   }
   .cfo-tg-wrap { display: flex; align-items: center; gap: 8px; }
-  .cfo-tg { display: inline-flex; border: 1px solid #cbd5e1; background: #fff; border-radius: 3px; overflow: hidden; }
-  .cfo-tg button { font: inherit; font-size: 11px; font-weight: 600; padding: 4px 10px; background: #fff; color: #334155; border: 0; cursor: pointer; white-space: nowrap; }
-  .cfo-tg button + button { border-left: 1px solid #cbd5e1; }
-  .cfo-tg button:hover { background: #f1f5f9; }
-  .cfo-tg button[aria-pressed="true"] { background: #162436; color: #fff; }
+  .cfo-tg { display: inline-flex; border: 1px solid #cdc7c2; background: #fff; border-radius: 3px; overflow: hidden; }
+  .cfo-tg button { font: inherit; font-size: 12px; font-weight: 500; padding: 4px 10px; background: #fff; color: #393533; border: 0; cursor: pointer; white-space: nowrap; }
+  .cfo-tg button + button { border-left: 1px solid #cdc7c2; }
+  .cfo-tg button:hover { background: #f2f0ed; }
+  .cfo-tg button[aria-pressed="true"] { background: #121c4e; color: #fff; }
 
   /* Headline 5-KPI Grid */
   .kpis.kpis-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
@@ -138,8 +138,8 @@
   @media (max-width: 700px) { .kpis.kpis-5 { grid-template-columns: 1fr; } }
 
   .kpis.kpis-5 > .kpi {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: #f7f6f4;
+    border: 1px solid #e3dfda;
     border-top: 3px solid var(--adp);
     border-radius: 4px;
     padding: 12px 14px 10px;
@@ -150,25 +150,25 @@
   .kpis.kpis-5 > .kpi:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-color: #cbd5e1;
+    border-color: #cdc7c2;
     background: #ffffff;
   }
-  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #0f62fe; }
+  .kpis.kpis-5 > .kpi:nth-child(1) { border-top-color: #476bc3; }
   .kpis.kpis-5 > .kpi:nth-child(2) { border-top-color: #E8222F; }
-  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #2e7d32; }
-  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #7B68B0; }
+  .kpis.kpis-5 > .kpi:nth-child(3) { border-top-color: #2f5b22; }
+  .kpis.kpis-5 > .kpi:nth-child(4) { border-top-color: #7967ae; }
   .kpis.kpis-5 > .kpi:nth-child(5) { border-top-color: #009D9A; }
 
   .kpi-val { font-size: clamp(20px, 2vw, 26px); font-weight: 700; color: var(--p-navy); line-height: 1.1; margin-bottom: 2px; }
   .kpi-label { font-size: 12px; font-weight: 700; color: var(--p-navy); margin-bottom: 1px; }
-  .kpi-desc { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
-  .kpi-var { font-size: 11px; font-weight: 600; }
-  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 3px; margin-top: 3px; }
+  .kpi-desc { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-var { font-size: 12px; font-weight: 500; }
+  .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #726c66; border-top: 1px dashed #e3dfda; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
   #headline-kpis .kpi-row { flex-wrap: wrap; column-gap: 6px; }
   #headline-kpis .kpi-row b { text-align: right; }
-  .fav { color: var(--green); font-weight: 600; }
-  .unf { color: var(--red); font-weight: 600; }
+  .fav { color: var(--green); font-weight: 500; }
+  .unf { color: var(--red); font-weight: 500; }
 
   #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
@@ -182,39 +182,39 @@
   .left-col, .right-col { display: flex; flex-direction: column; gap: 14px; }
   
   /* Widget Box Card */
-  .epm-box { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
-  .epm-box-hdr { background: #162436; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
-  .epm-box-hdr.light { background: #f6f8fa; color: var(--p-navy); border-bottom: 1px solid #d0d7de; font-weight: 700; }
-  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: normal; color: #a0aec0; }
+  .epm-box { background: #fff; border: 1px solid #e3dfda; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; }
+  .epm-box-hdr { background: #121c4e; color: #fff; padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
+  .epm-box-hdr.light { background: #f7f6f4; color: var(--p-navy); border-bottom: 1px solid #e3dfda; font-weight: 700; }
+  .epm-box-hdr .tools { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 400; color: #b2aba5; }
   .epm-box-body { padding: 12px; }
 
   /* Structured Revenue KPI Cards Section */
   .rev-kpi-grid { display: grid; grid-template-columns: 170px 1fr 1fr 1fr; gap: 8px; }
   @media (max-width: 900px) { .rev-kpi-grid { grid-template-columns: 1fr 1fr; } }
 
-  .lead-kpi-card { background: #0f1d2e; color: #fff; border-radius: 4px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--adp); }
-  .lead-kpi-title { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.05em; }
-  .lead-kpi-val { font-size: 24px; font-weight: 800; color: #38bdf8; margin: 4px 0 2px; }
-  .lead-kpi-sub { font-size: 11px; color: #4ade80; font-weight: 600; }
-  .lead-kpi-foot { font-size: 10px; color: #94a3b8; margin-top: 6px; border-top: 1px solid #24354b; padding-top: 6px; }
+  .lead-kpi-card { background: #121c4e; color: #fff; border-radius: 4px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; border-left: 4px solid var(--adp); }
+  .lead-kpi-title { font-size: 12px; text-transform: uppercase; color: #938c85; font-weight: 700; letter-spacing: 0.05em; }
+  .lead-kpi-val { font-size: 24px; font-weight: 700; color: #38bdf8; margin: 4px 0 2px; }
+  .lead-kpi-sub { font-size: 12px; color: #4ade80; font-weight: 500; }
+  .lead-kpi-foot { font-size: 12px; color: #938c85; margin-top: 6px; border-top: 1px solid #24354b; padding-top: 6px; }
 
-  .kpi-col-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: space-between; }
+  .kpi-col-card { background: #f7f6f4; border: 1px solid #e3dfda; border-radius: 4px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: space-between; }
   .kpi-col-card.hl-blue { border-top: 3px solid #0284c7; }
   .kpi-col-card.hl-purple { border-top: 3px solid #7c3aed; }
   .kpi-col-card.hl-teal { border-top: 3px solid #0d9488; }
   .kpi-col-card.hl-amber { border-top: 3px solid #d97706; }
   
-  .kcc-title { font-size: 11px; font-weight: 700; color: #334155; display: flex; align-items: center; justify-content: space-between; }
+  .kcc-title { font-size: 12px; font-weight: 700; color: #393533; display: flex; align-items: center; justify-content: space-between; }
   .kcc-val { font-size: 18px; font-weight: 700; color: var(--p-navy); margin: 2px 0; }
-  .kcc-var { font-size: 10.5px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-  .kcc-subtext { font-size: 10px; color: #64748b; margin-top: 4px; border-top: 1px dashed #cbd5e1; padding-top: 3px; }
+  .kcc-var { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  .kcc-subtext { font-size: 12px; color: #726c66; margin-top: 4px; border-top: 1px dashed #cdc7c2; padding-top: 3px; }
 
   /* Secondary Sub-KPI Grid */
   .sub-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
-  .sub-mini-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 8px; }
-  .smc-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; }
+  .sub-mini-card { background: #ffffff; border: 1px solid #e3dfda; border-radius: 4px; padding: 8px; }
+  .smc-label { font-size: 12px; color: #726c66; font-weight: 500; text-transform: uppercase; }
   .smc-val { font-size: 14px; font-weight: 700; color: var(--navy); margin: 1px 0; }
-  .smc-var { font-size: 10px; font-weight: 600; }
+  .smc-var { font-size: 12px; font-weight: 500; }
 
   /* ACV & Commercial KPI Block */
   .acv-kpi-block { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
@@ -222,32 +222,32 @@
   .acv-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 8px; text-align: left; }
   .acv-card.red-tint { background: #fef2f2; border-color: #fecaca; }
   .acv-card.blue-tint { background: #f0f9ff; border-color: #bae6fd; }
-  .acv-label { font-size: 9.5px; font-weight: 700; color: #475569; text-transform: uppercase; }
-  .acv-val { font-size: 15px; font-weight: 700; color: #0f172a; margin: 2px 0; }
-  .acv-var { font-size: 10px; font-weight: 600; color: #16a34a; }
+  .acv-label { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; }
+  .acv-val { font-size: 16px; font-weight: 700; color: #262321; margin: 2px 0; }
+  .acv-var { font-size: 12px; font-weight: 500; color: #16a34a; }
   .acv-var.down { color: #dc2626; }
 
   /* Tables in Left and Right Columns */
-  .epm-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: right; }
-  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e2e8f0; white-space: nowrap; }
-  .epm-table th { background: #f1f5f9; color: #334155; font-weight: 700; font-size: 11px; text-align: right; }
+  .epm-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: right; }
+  .epm-table th, .epm-table td { padding: 5px 8px; border: 1px solid #e3dfda; white-space: nowrap; }
+  .epm-table th { background: #f2f0ed; color: #393533; font-weight: 700; font-size: 12px; text-align: right; }
   .epm-table th:first-child, .epm-table td:first-child { text-align: left; font-weight: 500; }
-  .epm-table tr:hover { background: #f8fafc; }
-  .epm-table tr.summary-row { background: #e2e8f0; font-weight: 700; color: #0f172a; }
-  .epm-table tr.group-hdr { background: #edf2f7; font-weight: 700; color: #1e293b; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.04em; }
+  .epm-table tr:hover { background: #f7f6f4; }
+  .epm-table tr.summary-row { background: #e3dfda; font-weight: 700; color: #262321; }
+  .epm-table tr.group-hdr { background: #f2f0ed; font-weight: 700; color: #262321; text-transform: uppercase; font-size: 12px; letter-spacing: 0.04em; }
   .epm-table .indent { padding-left: 18px; }
-  .epm-table .fav { color: var(--green); font-weight: 600; }
-  .epm-table .unf { color: var(--red); font-weight: 600; }
+  .epm-table .fav { color: var(--green); font-weight: 500; }
+  .epm-table .unf { color: var(--red); font-weight: 500; }
 
   /* Right Column Tab Strip */
-  .right-tabstrip { display: flex; border-bottom: 1px solid #d0d7de; background: #f6f8fa; overflow-x: auto; }
-  .right-tab { padding: 7px 12px; font-size: 11px; font-weight: 600; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .right-tabstrip { display: flex; border-bottom: 1px solid #e3dfda; background: #f7f6f4; overflow-x: auto; }
+  .right-tab { padding: 7px 12px; font-size: 12px; font-weight: 500; color: #544e4a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
   .right-tab:hover { color: var(--navy); background: #eaeef2; }
-  .right-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
+  .right-tab.active { color: #324fa5; border-bottom-color: #324fa5; background: #fff; font-weight: 700; }
 
   /* Bottom Highlight Bar */
-  .service-banner { background: #0f1d2e; color: #e2e8f0; padding: 7px 14px; font-size: 11px; font-weight: 600; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
-  .service-banner span.tag { background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 9.5px; text-transform: uppercase; margin-right: 6px; }
+  .service-banner { background: #121c4e; color: #e3dfda; padding: 7px 14px; font-size: 12px; font-weight: 500; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; }
+  .service-banner span.tag { background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 2px; font-size: 12px; text-transform: uppercase; margin-right: 6px; }
 
   /* Charts Container Toggleable View */
   #visualizations-container { display: none; }
@@ -256,83 +256,84 @@
   /* SEC report: collapsible rows */
   .sr-table tr[data-parent] { display: none; }
   .sr-table tr[data-parent].open { display: table-row; }
-  .sr-table tr.sr-sub { background: #f1f5f9; font-weight: 600; }
+  .sr-table tr.sr-sub { background: #f2f0ed; font-weight: 500; }
   .sr-table td.p0 { padding-left: 8px; }
   .sr-table td.p1 { padding-left: 32px; }
   .sr-table td.l0 { padding-left: 31px; }
   .sr-table td.l1 { padding-left: 38px; font-weight: 400; }
   .sr-table td.l2 { padding-left: 62px; font-weight: 400; }
   .sr-table td.na { color: var(--muted); font-weight: 400; }
-  .sr-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; margin-right: 8px; padding: 0; background: #e2e8f0; border: 0; border-radius: 2px; font: inherit; font-size: 11px; font-weight: 700; line-height: 1; color: #334155; cursor: pointer; vertical-align: middle; }
-  .sr-toggle:hover { background: #cbd5e1; }
+  .sr-toggle { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; margin-right: 8px; padding: 0; background: #e3dfda; border: 0; border-radius: 2px; font: inherit; font-size: 12px; font-weight: 700; line-height: 1; color: #393533; cursor: pointer; vertical-align: middle; }
+  .sr-toggle:hover { background: #cdc7c2; }
   .sr-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
-  .sr-ctrl { color: #93c5fd; font-size: 11px; font-weight: 600; text-decoration: none; }
+  .sr-ctrl { color: #93c5fd; font-size: 12px; font-weight: 500; text-decoration: none; }
   .sr-ctrl:hover { text-decoration: underline; }
   /* CFO summary tables under the KPI row */
   .cfo-tbl-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px 20px 28px; align-items: start; }
   /* Tabbed CFO summary tables (same look as the Revenue Analysis tabbed panel) */
   .cfo-pane { display: none; }
   .cfo-pane.active { display: block; }
-  .cfo-tab { padding: 7px 12px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: #57606a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .cfo-tab { padding: 7px 12px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.03em; color: #544e4a; border: 0; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
   .cfo-tab:hover { color: var(--navy); background: #eaeef2; }
-  .cfo-tab.active { color: #0969da; border-bottom-color: #0969da; background: #fff; font-weight: 700; }
-  .cfo-pane > .epm-box-hdr { background: #f8fafc; color: #1e293b; border-bottom: 1px solid #e2e8f0; font-size: 11px; letter-spacing: 0; }
-  .cfo-pane > .epm-box-hdr .tools { color: #64748b; font-size: 10.5px; }
+  .cfo-tab.active { color: #324fa5; border-bottom-color: #324fa5; background: #fff; font-weight: 700; }
+  .cfo-pane > .epm-box-hdr { background: #f7f6f4; color: #262321; border-bottom: 1px solid #e3dfda; font-size: 12px; letter-spacing: 0; }
+  .cfo-pane > .epm-box-hdr .tools { color: #726c66; font-size: 12px; }
   .cfo-pane > .epm-box-hdr .sr-ctrl { color: var(--blue); }
   .ct-scroll { overflow: auto; max-height: 640px; }
-  .ct-table thead th { position: sticky; top: 0; z-index: 2; box-shadow: 0 1px 0 #cbd5e1; }
-  .ct-table thead th.grp { text-align: center; background: #e2e8f0; }
+  .ct-table thead th { position: sticky; top: 0; z-index: 2; box-shadow: 0 1px 0 #cdc7c2; }
+  .ct-table thead th.grp { text-align: center; background: #e3dfda; }
   .ct-table thead tr:nth-child(2) th { top: 26px; }
-  .ct-table th.ge, .ct-table td.ge { border-right: 1px solid #64748b; }
-  .ct-l0 { padding-left: 8px !important; font-weight: 600 !important; }
+  .ct-table th.ge, .ct-table td.ge { border-right: 1px solid #726c66; }
+  .ct-l0 { padding-left: 8px !important; font-weight: 500 !important; }
   .ct-l1 { padding-left: 30px !important; }
   .ct-l2 { padding-left: 52px !important; }
   .ct-sp { display: inline-block; width: 15px; margin-right: 8px; }
-  .ct-link { color: var(--blue); font-weight: 600; text-decoration: none; }
+  .ct-link { color: var(--blue); font-weight: 500; text-decoration: none; }
   .ct-link:hover { text-decoration: underline; }
   .ct-table tr.ct-memo td { font-style: italic; color: #475569; }
-  .ct-table tr.summary-row td { background: #e2e8f0; }
-  .ct-basis { padding: 6px 14px; font-size: 10.5px; color: #475569; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
-  .ct-foot { padding: 6px 14px 8px; font-size: 10.5px; color: #64748b; border-top: 1px solid #e2e8f0; }
+  .ct-table tr.summary-row td { background: #e3dfda; }
+  .ct-basis { padding: 6px 14px; font-size: 12px; color: #475569; background: #f7f6f4; border-bottom: 1px solid #e3dfda; }
+  .ct-foot { padding: 6px 14px 8px; font-size: 12px; color: #726c66; border-top: 1px solid #e3dfda; }
   .sec-kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 14px; }
   @media (max-width: 1200px) { .sec-kpi-strip { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 768px) { .sec-kpi-strip { grid-template-columns: repeat(2, 1fr); } }
   .sec-kpi-card { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; }
-  .sec-kpi-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
-  .sec-kpi-val { font-size: 18px; font-weight: 800; color: var(--p-navy); line-height: 1.2; }
-  .sec-kpi-sub { font-size: 11px; font-weight: 600; margin-top: 2px; }
+  .sec-kpi-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #726c66; margin-bottom: 2px; }
+  .sec-kpi-val { font-size: 18px; font-weight: 700; color: var(--p-navy); line-height: 1.2; }
+  .sec-kpi-sub { font-size: 12px; font-weight: 500; margin-top: 2px; }
   .viz-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 10px; }
   @media (max-width: 1000px) { .viz-card-grid { grid-template-columns: 1fr; } }
-  .viz-card { background: #fff; border: 1px solid #d0d7de; border-radius: 4px; padding: 12px 14px; }
-  .viz-title { font-size: 13px; font-weight: 700; color: var(--p-navy); display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
-  .viz-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
-  .viz-footer-note { font-size: 10.5px; color: #64748b; background: #f8fafc; border-left: 3px solid #3b82f6; padding: 4px 8px; margin-top: 8px; }
+  .viz-card { background: #fff; border: 1px solid #e3dfda; border-radius: 4px; padding: 12px 14px; }
+  .viz-title { font-size: 14px; font-weight: 700; color: var(--p-navy); display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+  .viz-sub { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .viz-footer-note { font-size: 12px; color: #726c66; background: #f7f6f4; border-left: 3px solid #3b82f6; padding: 4px 8px; margin-top: 8px; }
 
   /* Tooltip standard */
-  .tip { position: fixed; z-index: 9999; background: #161616; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 11px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .tip { position: fixed; z-index: 9999; background: #393533; color: #fff; padding: 8px 12px; border-radius: 3px; font-size: 12px; line-height: 1.4; pointer-events: none; opacity: 0; transition: opacity .1s; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .tip.on { opacity: 1; }
   .nd { cursor: pointer; }
   .nd:hover { opacity: 0.85; filter: drop-shadow(0 0 2px rgba(15,98,254,0.6)); }
 
   /* Site Footer */
-  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 11px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 12px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
 </style>
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="waypoint_theme.css">
 </head>
 <body data-pf-page="P01">
 
 <!-- Top Global Chrome -->
 <header class="chrome">
   <div class="chrome-l">
-    <span class="chrome-logo">ADP</span>
-    <span>Project Polaris · Executive Planning &amp; Close</span>
+    <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP">
+    <span>Project Polaris</span>
   </div>
   <div class="chrome-r">
-    <span>Reporting Cycle: <b>September Close (FY27 Q1)</b></span>
-    <span>Status: <b style="color:var(--green)">Locked &amp; Verified</b></span>
-    <div class="avatar" title="Corporate CFO Organization">CFO</div>
+    <span>Cycle: <b>September Close (FY27 Q1)</b></span>
+    <span class="chrome-user">FP&amp;A Lead</span>
+    <div class="avatar" title="FP&amp;A Lead">JL</div>
   </div>
 </header>
 
@@ -340,29 +341,26 @@
 
   <!-- Sidebar Navigation -->
   <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-bu">
-      <div class="sb-bu-label">Polaris</div>
-    </div>
-    <div class="sb-section">Corporate Executive</div>
-    <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="index.html">Corporate CFO</a></summary>
-      <a class="sb-link sub active" href="index.html">CFO Dashboard (EPM)</a>
-    </details>
-    <div class="sb-divider"></div>
-    <div class="sb-section">BU Executive Cockpit</div>
-    <details class="sb-acc" name="sb-acc" open>
+    <div class="sb-section">BU Executive Dashboard</div>
+    <details class="sb-acc" name="sb-acc">
       <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
       <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
       <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
       <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
     </details>
     <div class="sb-divider"></div>
-    <details class="sb-acc" name="sb-acc" open>
+    <details class="sb-acc" name="sb-acc">
       <summary><a href="rs_dashboard_3.html">RS Dashboard</a></summary>
       <a class="sb-link sub" href="Rs_DashBaord_3_Brand.html">RS Dashboard 3 Brand (temp)</a>
       <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
       <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
       <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
+    </details>
+    <div class="sb-divider"></div>
+    <div class="sb-section">Corporate Executive</div>
+    <details class="sb-acc has-active" name="sb-acc" open>
+      <summary><a href="index.html">Corporate CFO (EPM)</a></summary>
+      <a class="sb-link sub active" href="index.html">CFO Dashboard (EPM)</a>
     </details>
     <div class="sb-divider"></div>
     <a class="sb-ext" href="index.html">&larr; Polaris Home</a>
@@ -383,7 +381,7 @@
         <div class="cockpit-view-ctrls" style="display:none;" hidden>
           <button class="view-btn active" id="btnViewCockpit" onclick="switchMainTab('cockpit')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            Cockpit Table View
+            Dashboard Table View
           </button>
           <button class="view-btn" id="btnViewViz" onclick="switchMainTab('visualizations')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
@@ -602,7 +600,7 @@
 
     </div>
 
-    <!-- Cockpit tables, visualizations and SEC report are hidden for now: remove the wrapper style below to restore -->
+    <!-- Dashboard tables, visualizations and SEC report are hidden for now: remove the wrapper style below to restore -->
     <div id="cfo-below-kpi" style="display:none;" hidden>
     <!-- MAIN COCKPIT VIEW (Modeled directly after EPM CA Architecture) -->
     <div id="cockpit-container">
@@ -701,28 +699,28 @@
             <div class="epm-box-body" style="padding:10px 12px;">
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
                 
-                <div style="background:#f1f5f9;border-left:3px solid #0284c7;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Enterprise Tier (NAS)</b><br>Retention: 93.8% (-20 bps vs plan)<br>Bookings: $182M (+4.2%)<br>WSE Equivalents: 14.2M">
-                  <div style="font-size:10px;font-weight:700;color:#475569;">ENTERPRISE (NAS)</div>
-                  <div style="font-size:16px;font-weight:700;color:#0f172a;margin:2px 0;">93.8% <span style="font-size:10px;color:#c8322f;">▼ (20 bps)</span></div>
-                  <div style="font-size:10px;color:#64748b;">Bookings: $182M · Starts +3.1%</div>
+                <div style="background:#f2f0ed;border-left:3px solid #0284c7;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Enterprise Tier (NAS)</b><br>Retention: 93.8% (-20 bps vs plan)<br>Bookings: $182M (+4.2%)<br>WSE Equivalents: 14.2M">
+                  <div style="font-size:12px;font-weight:700;color:#475569;">ENTERPRISE (NAS)</div>
+                  <div style="font-size:16px;font-weight:700;color:#262321;margin:2px 0;">93.8% <span style="font-size:12px;color:#9c2514;">▼ (20 bps)</span></div>
+                  <div style="font-size:12px;color:#726c66;">Bookings: $182M · Starts +3.1%</div>
                 </div>
 
-                <div style="background:#f1f5f9;border-left:3px solid #7c3aed;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Mid-Market Tier (MAS)</b><br>Retention: 91.5% (-30 bps vs plan)<br>Bookings: $154M (+2.8%)<br>Run-Off Under Control">
-                  <div style="font-size:10px;font-weight:700;color:#475569;">MID-MARKET (MAS)</div>
-                  <div style="font-size:16px;font-weight:700;color:#0f172a;margin:2px 0;">91.5% <span style="font-size:10px;color:#c8322f;">▼ (30 bps)</span></div>
-                  <div style="font-size:10px;color:#64748b;">Bookings: $154M · Starts +2.2%</div>
+                <div style="background:#f2f0ed;border-left:3px solid #7c3aed;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Mid-Market Tier (MAS)</b><br>Retention: 91.5% (-30 bps vs plan)<br>Bookings: $154M (+2.8%)<br>Run-Off Under Control">
+                  <div style="font-size:12px;font-weight:700;color:#475569;">MID-MARKET (MAS)</div>
+                  <div style="font-size:16px;font-weight:700;color:#262321;margin:2px 0;">91.5% <span style="font-size:12px;color:#9c2514;">▼ (30 bps)</span></div>
+                  <div style="font-size:12px;color:#726c66;">Bookings: $154M · Starts +2.2%</div>
                 </div>
 
-                <div style="background:#f1f5f9;border-left:3px solid #0d9488;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Small Business (SBS)</b><br>Retention: 87.2% (-40 bps vs plan)<br>Bookings: $88M (+3.9%)<br>Strong digital acquisition via RUN">
-                  <div style="font-size:10px;font-weight:700;color:#475569;">SMALL BUSINESS (SBS)</div>
-                  <div style="font-size:16px;font-weight:700;color:#0f172a;margin:2px 0;">87.2% <span style="font-size:10px;color:#c8322f;">▼ (40 bps)</span></div>
-                  <div style="font-size:10px;color:#64748b;">Bookings: $88M · RUN Growth</div>
+                <div style="background:#f2f0ed;border-left:3px solid #0d9488;padding:8px;border-radius:3px;" class="nd" data-tip="<b>Small Business (SBS)</b><br>Retention: 87.2% (-40 bps vs plan)<br>Bookings: $88M (+3.9%)<br>Strong digital acquisition via RUN">
+                  <div style="font-size:12px;font-weight:700;color:#475569;">SMALL BUSINESS (SBS)</div>
+                  <div style="font-size:16px;font-weight:700;color:#262321;margin:2px 0;">87.2% <span style="font-size:12px;color:#9c2514;">▼ (40 bps)</span></div>
+                  <div style="font-size:12px;color:#726c66;">Bookings: $88M · RUN Growth</div>
                 </div>
 
-                <div style="background:#f1f5f9;border-left:3px solid #d97706;padding:8px;border-radius:3px;" class="nd" data-tip="<b>PEO Worksite Scale (Total WSEs)</b><br>Active WSEs: 748,200 (+4.6% YoY / +32.9K WSEs)<br>Retention: 93.4% (-10 bps vs plan)<br>Rev / WSE: $9,820 / year">
-                  <div style="font-size:10px;font-weight:700;color:#475569;">PEO WORKSITE (WSE)</div>
-                  <div style="font-size:16px;font-weight:700;color:#0f172a;margin:2px 0;">748.2K <span style="font-size:10px;color:#2e7d32;">▲ +4.6%</span></div>
-                  <div style="font-size:10px;color:#64748b;">Retention: 93.4% · Rev/WSE $9.8K</div>
+                <div style="background:#f2f0ed;border-left:3px solid #d97706;padding:8px;border-radius:3px;" class="nd" data-tip="<b>PEO Worksite Scale (Total WSEs)</b><br>Active WSEs: 748,200 (+4.6% YoY / +32.9K WSEs)<br>Retention: 93.4% (-10 bps vs plan)<br>Rev / WSE: $9,820 / year">
+                  <div style="font-size:12px;font-weight:700;color:#475569;">PEO WORKSITE (WSE)</div>
+                  <div style="font-size:16px;font-weight:700;color:#262321;margin:2px 0;">748.2K <span style="font-size:12px;color:#2f5b22;">▲ +4.6%</span></div>
+                  <div style="font-size:12px;color:#726c66;">Retention: 93.4% · Rev/WSE $9.8K</div>
                 </div>
 
               </div>
@@ -783,9 +781,9 @@
             
             <!-- Table 1: Market & Business Unit Revenue Breakdown -->
             <div class="epm-box">
-              <div class="epm-box-hdr light" style="font-size:11px;padding:6px 10px;">
+              <div class="epm-box-hdr light" style="font-size:12px;padding:6px 10px;">
                 <span>MARKET / BU REVENUE BREAKDOWN ($M)</span>
-                <span style="font-size:10px;color:#64748b;">Close vs Plan</span>
+                <span style="font-size:12px;color:#726c66;">Close vs Plan</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -815,9 +813,9 @@
 
             <!-- Table 2: Commercial Signings & SaaS ACV by BU -->
             <div class="epm-box">
-              <div class="epm-box-hdr light" style="font-size:11px;padding:6px 10px;">
+              <div class="epm-box-hdr light" style="font-size:12px;padding:6px 10px;">
                 <span>COMMERCIAL SIGNINGS &amp; ARR FLOW ($M)</span>
-                <span style="font-size:10px;color:#64748b;">Pipeline Velocity</span>
+                <span style="font-size:12px;color:#726c66;">Pipeline Velocity</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -851,7 +849,7 @@
               <span class="tag">TEL / Service Lines</span>
               <span>Global Payroll &amp; Tax Compliance · Workforce Management (TLM) · Talent &amp; Benefits Cloud · PEO Co-Employment</span>
             </div>
-            <div style="font-size:10px;color:#93c5fd;">Data Lake: ADP Financial Cloud / Db2</div>
+            <div style="font-size:12px;color:#93c5fd;">Data Lake: ADP Financial Cloud / Db2</div>
           </div>
 
         </div>
@@ -871,9 +869,9 @@
 
             <!-- TAB 1: Hierarchical Revenue Table -->
             <div id="tab-rev" class="right-tab-pane">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">September Close Revenue Breakdown ($M)</span>
-                <span style="font-size:10.5px;color:#64748b;">Plan vs Actual Hierarchy</span>
+              <div style="padding:8px 12px;background:#f7f6f4;border-bottom:1px solid #e3dfda;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:12px;font-weight:700;color:#262321;">September Close Revenue Breakdown ($M)</span>
+                <span style="font-size:12px;color:#726c66;">Plan vs Actual Hierarchy</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -910,7 +908,7 @@
                     <tr class="group-hdr"><td colspan="6">4. Intercompany Eliminations</td></tr>
                     <tr><td class="indent">Pass-Through Adjustments</td><td>(580)</td><td>(599)</td><td>(620)</td><td class="unf">(21)</td><td>-</td></tr>
 
-                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;">
+                    <tr class="summary-row" style="background:#cdc7c2;font-size:12px;">
                       <td>TOTAL ADP REVENUE</td>
                       <td>4,988</td>
                       <td>5,180</td>
@@ -925,9 +923,9 @@
 
             <!-- TAB 2: Operating Expenses & SG&A -->
             <div id="tab-opex" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Operating Expense &amp; Cost Structure ($M)</span>
-                <span style="font-size:10.5px;color:#64748b;">Close vs Plan</span>
+              <div style="padding:8px 12px;background:#f7f6f4;border-bottom:1px solid #e3dfda;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:12px;font-weight:700;color:#262321;">Operating Expense &amp; Cost Structure ($M)</span>
+                <span style="font-size:12px;color:#726c66;">Close vs Plan</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -954,9 +952,9 @@
 
             <!-- TAB 3: Profitability & Margin -->
             <div id="tab-margin" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Profitability &amp; Adj. EBIT Margin ($M)</span>
-                <span style="font-size:10.5px;color:#64748b;">Margin Bridge</span>
+              <div style="padding:8px 12px;background:#f7f6f4;border-bottom:1px solid #e3dfda;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:12px;font-weight:700;color:#262321;">Profitability &amp; Adj. EBIT Margin ($M)</span>
+                <span style="font-size:12px;color:#726c66;">Margin Bridge</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -983,9 +981,9 @@
 
             <!-- TAB 4: FTE Productivity & Workforce -->
             <div id="tab-wf" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Workforce Productivity &amp; Offshoring</span>
-                <span style="font-size:10.5px;color:#64748b;">Efficiency Indices</span>
+              <div style="padding:8px 12px;background:#f7f6f4;border-bottom:1px solid #e3dfda;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:12px;font-weight:700;color:#262321;">Workforce Productivity &amp; Offshoring</span>
+                <span style="font-size:12px;color:#726c66;">Efficiency Indices</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -1011,9 +1009,9 @@
 
             <!-- TAB 5: SEC Form 10-K Statutory Summary -->
             <div id="tab-sec" class="right-tab-pane" style="display:none;">
-              <div style="padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:11px;font-weight:700;color:#1e293b;">Statutory SEC Form 10-K Statement ($M)</span>
-                <span style="font-size:10.5px;color:#0f62fe;cursor:pointer;font-weight:600;" onclick="switchMainTab('sec-10k')">Open Full 10-K View &rarr;</span>
+              <div style="padding:8px 12px;background:#f7f6f4;border-bottom:1px solid #e3dfda;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:12px;font-weight:700;color:#262321;">Statutory SEC Form 10-K Statement ($M)</span>
+                <span style="font-size:12px;color:#476bc3;cursor:pointer;font-weight:500;" onclick="switchMainTab('sec-10k')">Open Full 10-K View &rarr;</span>
               </div>
               <div style="overflow-x:auto;">
                 <table class="epm-table">
@@ -1045,7 +1043,7 @@
                     <tr class="group-hdr"><td colspan="6">Earnings &amp; Taxes</td></tr>
                     <tr><td class="indent">Earnings Before Income Taxes (EBT)</td><td>1,338</td><td>1,510</td><td>1,410</td><td class="unf">(100)</td><td>+5.4%</td></tr>
                     <tr><td class="indent">Provision for Income Taxes (24.0%)</td><td>318</td><td>362</td><td>338</td><td class="fav">+24</td><td>+6.3%</td></tr>
-                    <tr class="summary-row" style="background:#cbd5e1;font-size:12px;">
+                    <tr class="summary-row" style="background:#cdc7c2;font-size:12px;">
                       <td>NET EARNINGS (GAAP)</td>
                       <td>1,020</td>
                       <td>1,148</td>
@@ -1053,7 +1051,7 @@
                       <td class="unf">(76)</td>
                       <td class="fav">+5.1%</td>
                     </tr>
-                    <tr style="font-weight:700;color:#1e293b;">
+                    <tr style="font-weight:700;color:#262321;">
                       <td>Diluted Earnings Per Share ($)</td>
                       <td>$2.44</td>
                       <td>$2.75</td>
@@ -1070,11 +1068,11 @@
 
           <!-- Quick Scenario Sensitivity Box -->
           <div class="epm-box">
-            <div class="epm-box-hdr light" style="font-size:11px;padding:6px 10px;">
+            <div class="epm-box-hdr light" style="font-size:12px;padding:6px 10px;">
               <span>CFI FLOAT &amp; INTEREST RATE SENSITIVITY</span>
-              <span style="font-size:10px;color:#0f62fe;">$38.5B Average Balance</span>
+              <span style="font-size:12px;color:#476bc3;">$38.5B Average Balance</span>
             </div>
-            <div style="padding:10px 12px;font-size:11.5px;color:#334155;">
+            <div style="padding:10px 12px;font-size:12px;color:#393533;">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
                 <span>Current Effective Yield:</span>
                 <b>2.70% (+15 bps YoY)</b>
@@ -1087,7 +1085,7 @@
                 <span>-25 bps Rate Shift Impact (Annualized):</span>
                 <b style="color:var(--red)">-$32M Rev / -$0.06 EPS</b>
               </div>
-              <div style="font-size:10.5px;color:#64748b;border-top:1px dashed #cbd5e1;padding-top:6px;margin-top:4px;">
+              <div style="font-size:12px;color:#726c66;border-top:1px dashed #cdc7c2;padding-top:6px;margin-top:4px;">
                 Ladder duration: 2.8 years. High-yield treasury buffers lock in 82% of FY27 net yield.
               </div>
             </div>
@@ -1103,10 +1101,10 @@
       
       <div class="banner" style="background:#fff;border:1px solid var(--line);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
         <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);">Visual Analytics Suite</div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--muted);">Visual Analytics Suite</div>
           <div style="font-size:16px;font-weight:700;color:var(--p-navy);">Executive Charts: Revenue Dynamics &amp; Operational Leverage</div>
         </div>
-        <button class="view-btn active" onclick="switchMainTab('cockpit')">&larr; Return to Cockpit Tables</button>
+        <button class="view-btn active" onclick="switchMainTab('cockpit')">&larr; Return to Dashboard Tables</button>
       </div>
 
       <div class="viz-card-grid">
@@ -1115,31 +1113,31 @@
         <div class="viz-card">
           <div class="viz-title">
             <span>1. Total Revenue Variance Waterfall</span>
-            <span style="font-size:11px;color:var(--green);font-weight:700;">+$62M (+1.2%) Beat</span>
+            <span style="font-size:12px;color:var(--green);font-weight:700;">+$62M (+1.2%) Beat</span>
           </div>
           <div class="viz-sub">Bridge from Plan $5,180M to Close Actual $5,242M across Core, CFI, and ZMPT</div>
           <svg viewBox="0 0 520 180" width="100%" height="180" style="overflow:visible;">
-            <line x1="40" y1="140" x2="490" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="40" y1="140" x2="490" y2="140" stroke="#cdc7c2" stroke-width="1"/>
             <!-- Plan Bar -->
-            <rect x="50" y="45" width="55" height="95" fill="#141E50" rx="3" class="nd" data-tip="<b>Base Plan Revenue</b>: $5,180M"/>
-            <text x="77" y="38" text-anchor="middle" font-size="11" font-weight="700" fill="#141E50">$5,180M</text>
-            <text x="77" y="155" text-anchor="middle" font-size="10" fill="#64748b">Plan</text>
+            <rect x="50" y="45" width="55" height="95" fill="#121c4e" rx="3" class="nd" data-tip="<b>Base Plan Revenue</b>: $5,180M"/>
+            <text x="77" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#121c4e">$5,180M</text>
+            <text x="77" y="155" text-anchor="middle" font-size="12" fill="#726c66">Plan</text>
             <!-- Core Floating -->
-            <rect x="135" y="27" width="55" height="18" fill="#2e7d32" rx="3" class="nd" data-tip="<b>Core Recurring Volume</b>: +$32M"/>
-            <text x="162" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">+$32M</text>
-            <text x="162" y="155" text-anchor="middle" font-size="10" fill="#64748b">Core Rec.</text>
+            <rect x="135" y="27" width="55" height="18" fill="#2f5b22" rx="3" class="nd" data-tip="<b>Core Recurring Volume</b>: +$32M"/>
+            <text x="162" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#2f5b22">+$32M</text>
+            <text x="162" y="155" text-anchor="middle" font-size="12" fill="#726c66">Core Rec.</text>
             <!-- CFI Floating -->
             <rect x="220" y="20" width="55" height="7" fill="#009D9A" rx="2" class="nd" data-tip="<b>CFI Float Yield</b>: +$2M"/>
-            <text x="247" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#009D9A">+$2M</text>
-            <text x="247" y="155" text-anchor="middle" font-size="10" fill="#64748b">CFI Float</text>
+            <text x="247" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="#009D9A">+$2M</text>
+            <text x="247" y="155" text-anchor="middle" font-size="12" fill="#726c66">CFI Float</text>
             <!-- ZMPT Floating -->
-            <rect x="305" y="6" width="55" height="14" fill="#7B68B0" rx="2" class="nd" data-tip="<b>PEO ZMPT Pass-Through</b>: +$28M"/>
-            <text x="332" y="2" text-anchor="middle" font-size="10" font-weight="700" fill="#7B68B0">+$28M</text>
-            <text x="332" y="155" text-anchor="middle" font-size="10" fill="#64748b">ZMPT</text>
+            <rect x="305" y="6" width="55" height="14" fill="#7967ae" rx="2" class="nd" data-tip="<b>PEO ZMPT Pass-Through</b>: +$28M"/>
+            <text x="332" y="2" text-anchor="middle" font-size="12" font-weight="700" fill="#7967ae">+$28M</text>
+            <text x="332" y="155" text-anchor="middle" font-size="12" fill="#726c66">ZMPT</text>
             <!-- Actual Bar -->
-            <rect x="390" y="6" width="55" height="134" fill="#0f62fe" rx="3" class="nd" data-tip="<b>September Close Actual</b>: $5,242M (+1.2% vs Plan)"/>
-            <text x="417" y="0" text-anchor="middle" font-size="11" font-weight="700" fill="#0f62fe">$5,242M</text>
-            <text x="417" y="155" text-anchor="middle" font-size="10" font-weight="700" fill="#0f62fe">Actual</text>
+            <rect x="390" y="6" width="55" height="134" fill="#476bc3" rx="3" class="nd" data-tip="<b>September Close Actual</b>: $5,242M (+1.2% vs Plan)"/>
+            <text x="417" y="0" text-anchor="middle" font-size="12" font-weight="700" fill="#476bc3">$5,242M</text>
+            <text x="417" y="155" text-anchor="middle" font-size="12" font-weight="700" fill="#476bc3">Actual</text>
           </svg>
           <div class="viz-footer-note">Core recurring and PEO wage inflation drove 97% of top-line overperformance.</div>
         </div>
@@ -1148,21 +1146,21 @@
         <div class="viz-card">
           <div class="viz-title">
             <span>2. Quality of Revenue &amp; Organic Growth Mix</span>
-            <span style="font-size:11px;color:var(--p-navy);font-weight:700;">$5,242M Total</span>
+            <span style="font-size:12px;color:var(--p-navy);font-weight:700;">$5,242M Total</span>
           </div>
           <div class="viz-sub">Core Recurring (72.5%) vs PEO Pass-Through (22.5%) vs CFI Float (5.0%)</div>
           <svg viewBox="0 0 520 180" width="100%" height="180">
             <!-- Segment Stacked Bar -->
-            <rect x="50" y="30" width="290" height="36" fill="#141E50" rx="3" class="nd" data-tip="<b>Core Recurring (ES + PEO Admin)</b>: $3,802M (72.5% of total) · High Margin"/>
-            <text x="195" y="52" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">Core Recurring $3,802M (72.5%)</text>
+            <rect x="50" y="30" width="290" height="36" fill="#121c4e" rx="3" class="nd" data-tip="<b>Core Recurring (ES + PEO Admin)</b>: $3,802M (72.5% of total) · High Margin"/>
+            <text x="195" y="52" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">Core Recurring $3,802M (72.5%)</text>
             
-            <rect x="342" y="30" width="90" height="36" fill="#7B68B0" rx="3" class="nd" data-tip="<b>PEO Pass-Through (ZMPT)</b>: $1,180M (22.5% of total) · Zero EBIT Margin"/>
-            <text x="387" y="52" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">ZMPT 22.5%</text>
+            <rect x="342" y="30" width="90" height="36" fill="#7967ae" rx="3" class="nd" data-tip="<b>PEO Pass-Through (ZMPT)</b>: $1,180M (22.5% of total) · Zero EBIT Margin"/>
+            <text x="387" y="52" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">ZMPT 22.5%</text>
 
             <rect x="434" y="30" width="26" height="36" fill="#009D9A" rx="3" class="nd" data-tip="<b>Client Funds Interest (CFI)</b>: $260M (5.0% of total) · 100% Margin"/>
             
             <!-- YoY Growth Trend Overlay -->
-            <line x1="50" y1="125" x2="460" y2="125" stroke="#e2e8f0" stroke-width="1"/>
+            <line x1="50" y1="125" x2="460" y2="125" stroke="#e3dfda" stroke-width="1"/>
             <path d="M 70 135 L 170 120 L 270 110 L 370 102 L 440 98" fill="none" stroke="#E8222F" stroke-width="2.5"/>
             <circle cx="70" cy="135" r="4" fill="#E8222F"/>
             <circle cx="170" cy="120" r="4" fill="#E8222F"/>
@@ -1170,7 +1168,7 @@
             <circle cx="370" cy="102" r="4" fill="#E8222F"/>
             <circle cx="440" cy="98" r="4" fill="#E8222F"/>
             <text x="440" y="90" font-size="10.5" font-weight="700" fill="#E8222F">+5.1% YoY</text>
-            <text x="50" y="160" font-size="10" fill="#64748b">Q1 FY26 (4.2%) → Q2 (4.5%) → Q3 (4.8%) → Q4 (5.0%) → Q1 FY27 (+5.1%)</text>
+            <text x="50" y="160" font-size="12" fill="#726c66">Q1 FY26 (4.2%) → Q2 (4.5%) → Q3 (4.8%) → Q4 (5.0%) → Q1 FY27 (+5.1%)</text>
           </svg>
           <div class="viz-footer-note">72.5% recurring baseline protects gross margins despite pass-through expansion.</div>
         </div>
@@ -1179,27 +1177,27 @@
         <div class="viz-card">
           <div class="viz-title">
             <span>3. Commercial Net ARR Flow &amp; Churn Bridge</span>
-            <span style="font-size:11px;color:var(--green);font-weight:700;">+$94M Net Expansion</span>
+            <span style="font-size:12px;color:var(--green);font-weight:700;">+$94M Net Expansion</span>
           </div>
           <div class="viz-sub">New Bookings $486M → Starts $412M less Losses ($318M) = +$94M NNB</div>
           <svg viewBox="0 0 520 180" width="100%" height="180">
-            <line x1="30" y1="140" x2="490" y2="140" stroke="#cbd5e1" stroke-width="1"/>
+            <line x1="30" y1="140" x2="490" y2="140" stroke="#cdc7c2" stroke-width="1"/>
             <!-- Bookings -->
-            <rect x="50" y="30" width="60" height="110" fill="#0f62fe" rx="3" class="nd" data-tip="<b>Total Bookings Signings</b>: $486M (+3.4% vs plan)"/>
-            <text x="80" y="24" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0f62fe">$486M</text>
-            <text x="80" y="155" text-anchor="middle" font-size="10" fill="#64748b">Bookings</text>
+            <rect x="50" y="30" width="60" height="110" fill="#476bc3" rx="3" class="nd" data-tip="<b>Total Bookings Signings</b>: $486M (+3.4% vs plan)"/>
+            <text x="80" y="24" text-anchor="middle" font-size="10.5" font-weight="700" fill="#476bc3">$486M</text>
+            <text x="80" y="155" text-anchor="middle" font-size="12" fill="#726c66">Bookings</text>
             <!-- Starts -->
-            <rect x="150" y="47" width="60" height="93" fill="#2e7d32" rx="3" class="nd" data-tip="<b>Live Starts ARR</b>: $412M (+2.5% vs plan)"/>
-            <text x="180" y="41" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2e7d32">+$412M</text>
-            <text x="180" y="155" text-anchor="middle" font-size="10" fill="#64748b">Starts ARR</text>
+            <rect x="150" y="47" width="60" height="93" fill="#2f5b22" rx="3" class="nd" data-tip="<b>Live Starts ARR</b>: $412M (+2.5% vs plan)"/>
+            <text x="180" y="41" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2f5b22">+$412M</text>
+            <text x="180" y="155" text-anchor="middle" font-size="12" fill="#726c66">Starts ARR</text>
             <!-- Losses -->
-            <rect x="250" y="68" width="60" height="72" fill="#c8322f" rx="3" class="nd" data-tip="<b>Client Churn / Losses ARR</b>: -$318M (Retaining 92.1%)"/>
-            <text x="280" y="62" text-anchor="middle" font-size="10.5" font-weight="700" fill="#c8322f">-$318M</text>
-            <text x="280" y="155" text-anchor="middle" font-size="10" fill="#64748b">Losses</text>
+            <rect x="250" y="68" width="60" height="72" fill="#9c2514" rx="3" class="nd" data-tip="<b>Client Churn / Losses ARR</b>: -$318M (Retaining 92.1%)"/>
+            <text x="280" y="62" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9c2514">-$318M</text>
+            <text x="280" y="155" text-anchor="middle" font-size="12" fill="#726c66">Losses</text>
             <!-- Net New Business -->
             <rect x="350" y="119" width="60" height="21" fill="#009D9A" rx="3" class="nd" data-tip="<b>Net New Business Flow</b>: +$94M NNB"/>
             <text x="380" y="113" text-anchor="middle" font-size="10.5" font-weight="700" fill="#009D9A">+$94M</text>
-            <text x="380" y="155" text-anchor="middle" font-size="10" font-weight="700" fill="#009D9A">Net ARR</text>
+            <text x="380" y="155" text-anchor="middle" font-size="12" font-weight="700" fill="#009D9A">Net ARR</text>
           </svg>
           <div class="viz-footer-note">Client retention stable at 92.1%; starts pacing at 84.8% conversion of bookings.</div>
         </div>
@@ -1208,26 +1206,26 @@
         <div class="viz-card">
           <div class="viz-title">
             <span>4. Global Workforce &amp; Shoring Optimization Mix</span>
-            <span style="font-size:11px;color:var(--p-navy);font-weight:700;">64,820 FTEs</span>
+            <span style="font-size:12px;color:var(--p-navy);font-weight:700;">64,820 FTEs</span>
           </div>
           <div class="viz-sub">Onshore vs Offshore (28.4% ratio, +16.6% YoY) &amp; Productivity ($323K/FTE)</div>
           <svg viewBox="0 0 520 180" width="100%" height="180">
             <!-- Shoring Bar -->
-            <rect x="50" y="35" width="270" height="32" fill="#141E50" rx="3" class="nd" data-tip="<b>Onshore Headcount</b>: 46,400 FTEs (71.6%)"/>
+            <rect x="50" y="35" width="270" height="32" fill="#121c4e" rx="3" class="nd" data-tip="<b>Onshore Headcount</b>: 46,400 FTEs (71.6%)"/>
             <text x="185" y="55" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">Onshore: 46,400 (71.6%)</text>
             
             <rect x="322" y="35" width="107" height="32" fill="#009D9A" rx="3" class="nd" data-tip="<b>Offshore / Nearshore</b>: 18,420 FTEs (28.4% / +16.6% YoY)"/>
-            <text x="375" y="55" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">Offshore 28.4%</text>
+            <text x="375" y="55" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">Offshore 28.4%</text>
 
             <!-- Productivity Metric Callouts -->
             <g transform="translate(50, 95)">
-              <rect x="0" y="0" width="180" height="42" fill="#f1f5f9" rx="3" stroke="#cbd5e1"/>
-              <text x="10" y="16" font-size="10" fill="#64748b">Rev / FTE (Annualized)</text>
-              <text x="10" y="34" font-size="14" font-weight="700" fill="#141E50">$323K <span style="font-size:10px;color:var(--green)">▲ +3.5%</span></text>
+              <rect x="0" y="0" width="180" height="42" fill="#f2f0ed" rx="3" stroke="#cdc7c2"/>
+              <text x="10" y="16" font-size="12" fill="#726c66">Rev / FTE (Annualized)</text>
+              <text x="10" y="34" font-size="14" font-weight="700" fill="#121c4e">$323K <span style="font-size:12px;color:var(--green)">▲ +3.5%</span></text>
 
-              <rect x="200" y="0" width="180" height="42" fill="#f1f5f9" rx="3" stroke="#cbd5e1"/>
-              <text x="210" y="16" font-size="10" fill="#64748b">Adj. EBIT / FTE</text>
-              <text x="210" y="34" font-size="14" font-weight="700" fill="#141E50">$89.0K <span style="font-size:10px;color:var(--muted)">Plan $94.9K</span></text>
+              <rect x="200" y="0" width="180" height="42" fill="#f2f0ed" rx="3" stroke="#cdc7c2"/>
+              <text x="210" y="16" font-size="12" fill="#726c66">Adj. EBIT / FTE</text>
+              <text x="210" y="34" font-size="14" font-weight="700" fill="#121c4e">$89.0K <span style="font-size:12px;color:var(--muted)">Plan $94.9K</span></text>
             </g>
           </svg>
           <div class="viz-footer-note">Offshoring increased from 24.8% to 28.4%, yielding ~$42M in annualized labor savings.</div>
@@ -1243,12 +1241,12 @@
       <!-- Top Section Banner -->
       <div class="banner" style="background:#fff;border:1px solid var(--line);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
         <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em;">SEC report · Placeholder 10-K layout</div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:0.04em;">SEC report · Placeholder 10-K layout</div>
           <div style="font-size:16px;font-weight:700;color:var(--p-navy);">Consolidated Statement of Earnings &amp; Segment Results</div>
-          <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Automatic Data Processing, Inc. · September close · $M unless noted · Illustrative sample data</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Automatic Data Processing, Inc. · September close · $M unless noted · Illustrative sample data</div>
         </div>
         <div style="display:flex;gap:8px;">
-          <button class="view-btn" onclick="switchMainTab('cockpit')">&larr; Return to Cockpit Tables</button>
+          <button class="view-btn" onclick="switchMainTab('cockpit')">&larr; Return to Dashboard Tables</button>
           <button class="view-btn" onclick="switchMainTab('visualizations')">Executive Charts &rarr;</button>
         </div>
       </div>
@@ -1376,8 +1374,7 @@
 
 <!-- Footer -->
 <footer class="site-footer">
-  <div><b style="color:var(--adp)">ADP Project Polaris</b> · EPM Production Cockpit · September Close Review · Illustrative Data for Internal Executive Use</div>
-  <div>
+  <div class="foot-links">
     <a href="index.html">Polaris Home</a>
     <a href="index.html">CFO Dashboard 3</a>
     <a href="rs_dashboard_3.html">RS Dashboard 3</a>
@@ -1385,6 +1382,7 @@
     <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
     <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
   </div>
+  <div><b>ADP Project Polaris</b> · EPM Production Dashboard · September Close Review · Illustrative Data for Internal Executive Use</div>
 </footer>
 
 <!-- Standard Tooltip Container -->
