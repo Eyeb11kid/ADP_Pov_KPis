@@ -107,6 +107,156 @@
       tools: d.tools + '<span class="expand-ctrls" id="plToggleAll" style="margin-left:12px;">Expand / Collapse All</span>', body: VAR_NOTE + scroller(t) + (d.cap ? footnote(d.cap) : '') });
   }
 
+  /* Waypoint time-view grid (same markup, classes and behaviour as the RS dashboard P&L SUMMARY BY TIME VIEW ($K) table):
+     { title, groups[{label,title,open,cols[{t,c,tip}]}], rows[{id,parent,kind,lvl,label,btn,open,hidden,cells}] } */
+  function wpTimeViewCard(d) {
+    var closed = '', r1 = '<th rowspan="2">Line</th><th rowspan="2" class="wp-cc" title="Row commentary"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="var(--text-secondary)" stroke-width="1.4" stroke-linejoin="round" style="vertical-align:middle;" aria-hidden="true"><path d="M2.5 2.5h11v8h-6.2L4 13.5v-3H2.5z"/></svg></th>', r2 = '';
+    d.groups.forEach(function (g, i) {
+      var n = i + 1, open = !!g.open;
+      if (!open) closed += ' c' + n;
+      r1 += '<th colspan="' + (open ? g.cols.length : 4) + '" class="wp-grp" data-grp="' + n + '" data-cols="' + g.cols.length + '">' +
+        '<button type="button" class="wp-gt"' + (g.title ? ' title="' + attr(g.title) + '"' : '') + ' aria-expanded="' + open + '">' +
+        '<span class="wp-chev" aria-hidden="true"></span>' + g.label + '</button></th>';
+      g.cols.forEach(function (c) {
+        r2 += '<th class="g' + n + (c.c ? ' ' + c.c : '') + '"' + (c.tip ? ' title="' + attr(c.tip) + '"' : '') + '>' + c.t + '</th>';
+      });
+    });
+    var sizes = d.groups.map(function (g) { return g.cols.length; });
+    var body = d.rows.map(function (r) {
+      var open = r.open !== false;
+      var ctl = r.btn
+        ? '<button type="button" class="wp-xt" aria-expanded="' + open + '" aria-label="Expand or collapse ' + attr(r.label) + '">' + (open ? '\u2212' : '+') + '</button>'
+        : '<span class="wp-sp"></span>';
+      var gi = 0, left = sizes[0], pos = 0;
+      var tds = r.cells.map(function (c) {
+        if (pos === left) { gi++; left += sizes[gi]; }
+        var col = d.groups[gi].cols[pos - (left - sizes[gi])];
+        pos++;
+        var cls = 'g' + (gi + 1) + (col.c ? ' ' + col.c : '') + (c instanceof Array && c[1] ? ' ' + c[1] : '');
+        return '<td class="' + cls + '">' + (c instanceof Array ? c[0] : c) + '</td>';
+      }).join('');
+      return '<tr class="xr ' + r.kind + ' xl' + r.lvl + (r.hidden ? ' xh' : '') + '" data-id="' + r.id + '" data-parent="' + r.parent + '"><td><span class="wp-lab">' +
+        ctl + r.label + '</span></td><td class="wp-cc"></td>' + tds + '</tr>';
+    }).join('');
+    var t = '<table class="wp-grid' + closed + '" id="wp-pl3-table"><thead><tr>' + r1 + '</tr><tr>' + r2 + '</tr></thead><tbody>' + body + '</tbody></table>';
+    return '<div class="wp-card" id="wp-pl3-box"><div class="wp-card-hdr"><span class="wp-card-title">' + d.title + '</span><span class="wp-card-sub"></span>' +
+      '<button type="button" class="wp-link" id="wpPl3HowTo" aria-haspopup="dialog">How to read</button>' +
+      '<button type="button" class="wp-link" id="wpPl3Download" title="Download the full table (all columns and rows expanded) as an Excel file">Download .xls</button>' +
+      '<button type="button" class="wp-link" id="wpPl3ToggleAll">Expand / Collapse All</button></div>' +
+      '<div class="wp-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / \u22125.0%</span> unfavorable ' +
+      '<span class="wp-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>' +
+      '<div class="wp-scroll">' + t + '</div></div>' + wpHowTo();
+  }
+
+  function wpHowTo() {
+    return '<div id="wpPl3HowToBackdrop" class="sc-modal-backdrop" hidden><div class="sc-modal-card wp-howto-card" id="wpPl3HowToModal" role="dialog" aria-modal="true" aria-labelledby="wpPl3HowToTitle">' +
+      '<div class="sc-modal-hdr"><div class="sc-modal-hdr-l"><div class="sc-modal-title" id="wpPl3HowToTitle">How to read</div><div class="sc-modal-subtitle">P&amp;L SUMMARY BY TIME VIEW ($K)</div></div>' +
+      '<button type="button" class="sc-modal-close" id="wpPl3HowToClose" aria-label="Close dialog"><svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>' +
+      '<div class="sc-modal-body"><dl class="wp-howto">' +
+      '<dt>$K</dt><dd>Figures are in thousands of US dollars. Month is shown against plan and against forecast; QTD, YTD and ROY against plan; FY is the latest forecast against plan. All periods are read together in one table.</dd>' +
+      '<dt>PL, FC</dt><dd><b>PL</b> = Plan, <b>FC</b> = Forecast. <b>Var $ / Var % vs PL</b> is variance to plan and <b>vs FC</b> is variance to forecast.</dd>' +
+      '<dt>YoY $ / YoY %</dt><dd>Change versus the same period last year (Month vs same month, QTD, YTD and ROY vs the same period, FY vs last year actual). $ is derived from the YoY % and shown for dollar and count lines only.</dd>' +
+      '<dt>% of FY plan achieved</dt><dd>YTD actual &divide; full-year plan (25% achieved means 75% still to deliver).</dd>' +
+      '<dt>ROY</dt><dd>Full year less YTD, measured against the full-year forecast submitted to corporate, not the Hyperion rest-of-year member (which follows the working forecast and changes each month).</dd>' +
+      '</dl></div><div class="sc-modal-footer"><button type="button" class="btn-sm" id="wpPl3HowToDone">Close</button></div></div></div>';
+  }
+
+  function initWpGroups(tbl) {
+    if (!tbl) return;
+    tbl.querySelectorAll('th.wp-grp[data-grp]').forEach(function (th) {
+      var btn = th.querySelector('.wp-gt'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+      btn.addEventListener('click', function () {
+        var open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        tbl.classList.toggle('c' + g, !open);
+        th.setAttribute('colspan', open ? n : 4);
+      });
+    });
+  }
+
+  function initWpRows(tbl, all) {
+    if (!tbl) return;
+    var rows = Array.prototype.slice.call(tbl.querySelectorAll('tbody tr.xr'));
+    function setOpen(btn, open) { btn.setAttribute('aria-expanded', open ? 'true' : 'false'); btn.textContent = open ? '\u2212' : '+'; }
+    function refresh() {
+      var shown = {};
+      rows.forEach(function (r) {
+        var p = r.getAttribute('data-parent');
+        var vis = !p || shown[p] === 'open';
+        r.classList.toggle('xh', !vis);
+        var b = r.querySelector('.wp-xt');
+        shown[r.getAttribute('data-id')] = (vis && b && b.getAttribute('aria-expanded') === 'true') ? 'open' : 'closed';
+      });
+    }
+    tbl.addEventListener('click', function (e) {
+      var b = e.target.closest('.wp-xt');
+      if (!b) return;
+      setOpen(b, b.getAttribute('aria-expanded') !== 'true');
+      refresh();
+    });
+    if (all) all.addEventListener('click', function () {
+      var btns = tbl.querySelectorAll('.wp-xt');
+      var anyClosed = Array.prototype.some.call(btns, function (b) { return b.getAttribute('aria-expanded') !== 'true'; });
+      btns.forEach(function (b) { setOpen(b, anyClosed); });
+      refresh();
+    });
+  }
+
+  function initWpHowTo() {
+    var open = document.getElementById('wpPl3HowTo'), bd = document.getElementById('wpPl3HowToBackdrop');
+    if (!open || !bd) return;
+    var x = document.getElementById('wpPl3HowToClose'), done = document.getElementById('wpPl3HowToDone');
+    function show() { bd.hidden = false; done.focus(); }
+    function hide() { bd.hidden = true; open.focus(); }
+    open.addEventListener('click', show);
+    x.addEventListener('click', hide);
+    done.addEventListener('click', hide);
+    bd.addEventListener('click', function (e) { if (e.target === bd) hide(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !bd.hidden) hide(); });
+  }
+
+  function initWpDownload(fileName) {
+    var btn = document.getElementById('wpPl3Download'), tbl = document.getElementById('wp-pl3-table');
+    if (!btn || !tbl) return;
+    function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function labelOf(td) {
+      var c = td.cloneNode(true);
+      Array.prototype.forEach.call(c.querySelectorAll('button, .wp-sp'), function (n) { n.parentNode.removeChild(n); });
+      return c.textContent.replace(/\s+/g, ' ').trim();
+    }
+    btn.addEventListener('click', function () {
+      var sub = Array.prototype.slice.call(tbl.querySelectorAll('thead tr:nth-child(2) th'));
+      var head1 = '<tr><th rowspan="2" style="text-align:left">Line</th>';
+      Array.prototype.forEach.call(tbl.querySelectorAll('thead tr:first-child th.wp-grp'), function (th) {
+        var g = th.getAttribute('data-grp');
+        var n = sub.filter(function (h) { return h.classList.contains('g' + g); }).length;
+        head1 += '<th colspan="' + n + '">' + esc(th.textContent.trim()) + '</th>';
+      });
+      head1 += '</tr>';
+      var head2 = '<tr>' + sub.map(function (h) { return '<th>' + esc(h.textContent.trim()) + '</th>'; }).join('') + '</tr>';
+      var body = '';
+      Array.prototype.forEach.call(tbl.tBodies[0].rows, function (r) {
+        var lvl = /\bxl(\d)\b/.test(r.className) ? parseInt(RegExp.$1, 10) : 0;
+        var bold = /\bxk-(total|parent)\b/.test(r.className);
+        var cells = '<td style="text-align:left;mso-number-format:\'\\@\';' + (bold ? 'font-weight:bold;' : '') + 'padding-left:' + (lvl * 12) + 'px">' + esc(labelOf(r.cells[0])) + '</td>';
+        Array.prototype.forEach.call(r.cells, function (td, i) {
+          if (i < 2) return;
+          cells += '<td style="text-align:right;mso-number-format:\'\\@\';' + (bold ? 'font-weight:bold;' : '') + '">' + esc(td.textContent.trim()) + '</td>';
+        });
+        body += '<tr>' + cells + '</tr>';
+      });
+      var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8">' +
+        '<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>P&amp;L by time view</x:Name></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
+        '<style>table{border-collapse:collapse}th,td{border:1px solid #938c85;font-family:Arial,sans-serif;font-size:11pt}th{background:#f7f6f4;font-weight:bold;text-align:center}</style></head><body>' +
+        '<table><thead>' + head1 + head2 + '</thead><tbody>' + body + '</tbody></table></body></html>';
+      var blob = new Blob(['\ufeff', html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      var url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = fileName;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+  }
+
   /* ---------- chart wrapper + SVG renderers (viewBox 0 0 400 200, same grid and palette as RS) ---------- */
   var C = { plan: '#BDB4DC', actual: '#7967ae', blue: '#476bc3', fav: '#529c42', unf: '#f25d71', favTx: '#14562a', unfTx: '#9f1d17' };
 
@@ -269,10 +419,15 @@
   function mount(data) {
     function put(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
     put('headline-kpis', kpiStrip(data.kpis));
-    put('mount-timeview', timeViewCard(data.timeView));
+    put('mount-timeview', data.wpTimeView ? wpTimeViewCard(data.wpTimeView) : timeViewCard(data.timeView));
     put('mount-charts', chartCards(data.charts));
     initColumnGroups(document.getElementById('pl-draft-table'));
     initRowHierarchy(document.getElementById('pl-draft-table'), document.getElementById('plToggleAll'));
+    var wp = document.getElementById('wp-pl3-table');
+    initWpGroups(wp);
+    initWpRows(wp, document.getElementById('wpPl3ToggleAll'));
+    initWpHowTo();
+    initWpDownload(data.wpDownloadName || 'PL_Summary_by_Time_View.xls');
     initTooltips();
   }
 

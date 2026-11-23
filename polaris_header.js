@@ -26,7 +26,7 @@
     { code: 'P01', label: 'CFO Dashboard',     area: 'corp',   file: { ALL: 'index.html' }, cfoOnly: true, product: false, func: false, toggle: true,  views: ['month', 'ytd', 'fy'] },
     // SEC P&L link hidden for now (uncomment to restore):
     // { code: 'P02', label: 'SEC P&L',           area: 'corp',   file: { ALL: 'sec_report.html' },       cfoOnly: true, product: false, func: false, toggle: false, views: null },
-    { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'rs_dashboard_3.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },
+    { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'Rs_Dashboord_3_Brand.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },
     { code: 'P08', label: 'RS Dashboard (Draft)', area: 'bu', file: { RS: 'rs_dashboard_draft.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P04', label: 'Revenue Analysis',  area: 'bu',     file: { RS: 'revenue_analysis_RS_2.html', NAS: 'revenue_analysis_NAS_2.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P05', label: 'Expense P&L',       area: 'bu',     file: { RS: 'expense_pl_RS_2.html', NAS: 'expense_pl_NAS_2.html' }, product: true, func: true, toggle: true, views: null },
@@ -481,11 +481,7 @@
       e.preventDefault(); cells[n].focus();
     });
     var wrap = h('div', null, [h('div', { class: 'pf-panel-hdr', style: 'border-radius:0;text-transform:none;letter-spacing:0' }, [h('span', null, ['Fiscal year ', sel]), h('small', { text: 'Jul\u2013Jun \u00B7 4-5-4' })]), grid]);
-    var foot = h('div', { class: 'pf-panel-foot' }, [
-      'Only months with Actual data in OneData are selectable. Default is the latest month with Actual data. ',
-      h('b', { text: 'OQ-14:' }), ' final-close logic is unresolved. Final / Working labels follow GEN-10.'
-    ]);
-    openPanel(ui.per, 'Fiscal period', wrap, { footer: foot, focus: function () {
+    openPanel(ui.per, 'Fiscal period', wrap, { focus: function () {
       var f = null; cells.forEach(function (c) { if (c._key === state.per) f = c; }); return f || cells.filter(function (c) { return c._ok; })[0];
     } });
   }

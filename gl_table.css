@@ -1,16 +1,16 @@
 /* GL transaction ledger: sortable headers, pagination bar and row count (rs_transaction_detail_2, NAS_transaction_detail_2) */
 #glTable thead th { cursor: pointer; user-select: none; position: relative; padding-right: 18px; }
-#glTable thead th:hover { background: #e3dfda; }
+#glTable thead th:hover { background: #f2f0ed; }
 #glTable thead th:focus-visible { outline: 2px solid #476bc3; outline-offset: -2px; }
 #glTable thead th::after { content: "\2195"; position: absolute; right: 5px; color: #938c85; font-size: 12px; }
 #glTable thead th[aria-sort="ascending"]::after { content: "\25B2"; color: #476bc3; }
 #glTable thead th[aria-sort="descending"]::after { content: "\25BC"; color: #476bc3; }
 #glTable tr.gl-f { display: none; }
-.gl-pager { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 8px 12px; background: #f7f6f4; border-top: 1px solid #e3dfda; font-size: 12px; color: #475569; }
+.gl-pager { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 8px 12px; background: #f7f6f4; border-top: 1px solid #e3dfda; font-size: 12px; color: #393533; }
 .gl-pager .gl-count { font-weight: 500; color: #262321; }
 .gl-pager .gl-nav { display: flex; align-items: center; gap: 4px; }
-.gl-pager button { min-width: 28px; padding: 3px 8px; font-size: 12px; font-weight: 500; color: #393533; background: #fff; border: 1px solid #cdc7c2; border-radius: 3px; cursor: pointer; }
-.gl-pager button:hover:not(:disabled) { background: #e3dfda; }
-.gl-pager button:disabled { color: #938c85; cursor: default; background: #f2f0ed; }
-.gl-pager button.active { background: #476bc3; border-color: #476bc3; color: #fff; }
+.gl-pager button { min-width: 28px; height: 28px; padding: 0 8px; font-size: 12px; font-weight: 500; color: #324fa5; background: #fff; border: 1px solid #324fa5; border-radius: 4px; cursor: pointer; }
+.gl-pager button:hover:not(:disabled) { background: #e8effa; }
+.gl-pager button:disabled { color: #938c85; cursor: default; background: #f2f0ed; border-color: #e3dfda; }
+.gl-pager button.active { background: #324fa5; border-color: #324fa5; color: #fff; }
 .gl-pager .gl-gap { color: #938c85; padding: 0 2px; }

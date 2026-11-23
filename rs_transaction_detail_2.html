@@ -88,9 +88,11 @@
   .search-input { font: inherit; font-size: 12px; padding: 5px 10px; border: 1px solid #cdc7c2; border-radius: 4px; min-width: 240px; }
   .search-input:focus { outline: 2px solid var(--blue); outline-offset: -1px; }
   .filter-select { font: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid #cdc7c2; border-radius: 4px; background: #fff; }
-  .btn { font: inherit; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
-  .btn-primary { background: #121c4e; color: #fff; border-color: #121c4e; }
-  .btn-primary:hover { background: #20337d; }
+  /* Waypoint button (secondary): white fill, 2px #324fa5 stroke, medium text, 8px radius */
+  .btn { font: inherit; font-size: 14px; font-weight: 500; line-height: 1.5; height: 32px; padding: 0 14px; border-radius: 8px; cursor: pointer; border: 2px solid #324fa5; background: #fff; color: #324fa5; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+  .btn:hover { background: #e8effa; }
+  .btn:active { background: #d8e5f9; }
+  .btn:focus-visible { outline: 2px solid #476bc3; outline-offset: 2px; }
 
   /* Content area */
   .content { padding: 14px 20px 28px; flex: 1; }
@@ -142,6 +144,7 @@
 <link rel="stylesheet" href="polaris_header.css">
 <link rel="stylesheet" href="gl_table.css">
 <link rel="stylesheet" href="waypoint_theme.css">
+<link rel="stylesheet" href="side_nav.css">
 </head>
 <body data-pf-page="P07" data-pf-bu="RS">
 
@@ -160,30 +163,19 @@
 <div class="shell">
 
   <!-- Sidebar Navigation -->
-  <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-section">BU Executive Dashboard</div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
-      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
-      <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
-    </details>
-    <div class="sb-divider"></div>
-    <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="rs_dashboard_3.html">RS Dashboard</a></summary>
-      <a class="sb-link sub" href="Rs_DashBaord_3_Brand.html">RS Dashboard 3 Brand (temp)</a>
-      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
-      <a class="sb-link sub2 active" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
-    </details>
-    <div class="sb-divider"></div>
-    <div class="sb-section">Corporate Executive</div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="index.html">Corporate CFO (EPM)</a></summary>
-      <a class="sb-link sub" href="index.html">CFO Dashboard (EPM)</a>
-    </details>
-    <div class="sb-divider"></div>
-    <a class="sb-ext" href="index.html">&larr; Polaris Home</a>
+  <nav class="sidebar side-nav" aria-label="Navigation">
+    <div class="sn-title">Close Review &middot; September</div>
+    <div class="sn-divider"></div>
+    <div class="sn-section">Corporate</div>
+    <a class="sn-item sn-bu" href="index.html">CFO Dashboard</a>
+    <div class="sn-divider"></div>
+    <div class="sn-section">BU Close Review</div>
+    <a class="sn-item sn-bu" href="nas_dashboard_2.html">NAS Dashboard</a>
+    <a class="sn-item sn-bu is-branch" href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
+    <a class="sn-item sn-sub" href="revenue_analysis_RS_2.html">Revenue Analysis</a>
+    <a class="sn-item sn-sub2 is-selected" href="rs_transaction_detail_2.html" aria-current="page">RS Transaction Detail</a>
+    <a class="sn-item sn-sub" href="expense_pl_RS_2.html">Expense P&amp;L</a>
+    <div class="sn-divider"></div>
   </nav>
 
   <!-- Main Content Area -->
@@ -225,8 +217,8 @@
         </select>
       </div>
       <div>
-        <button class="btn btn-primary" onclick="exportCSV()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <button class="btn btn-secondary" onclick="exportCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Export GL Ledger (.CSV)
         </button>
       </div>
@@ -736,7 +728,7 @@
   <div class="foot-links">
     <a href="index.html">Polaris Home</a>
     <a href="index.html">CFO Dashboard 3</a>
-    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
     <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
     <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
     <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>

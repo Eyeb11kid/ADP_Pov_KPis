@@ -1,0 +1,48 @@
+/* Side Nav — mirrors the Figma "Side Nav" component (node 545:125322).
+   Tokens: text #393533, selected text #262321, selected fill #f2f0ed, indicator #324fa5, divider #e3dfda.
+   Load last in <head> so it overrides the legacy .sb-* sidebar rules. */
+.sidebar.side-nav {
+  width: 232px;
+  padding: 0;
+  background: #fff;
+  border-right: 1px solid #e3dfda;
+  font-family: "Circular20", "Circular Std", "CircularStd", "Circular", "Circular XX", "Avenir Next", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color: #393533;
+}
+.side-nav .sn-title {
+  padding: 12px 16px;
+  font-size: 20px; line-height: 30px; font-weight: 700; letter-spacing: -1px;
+  color: #393533;
+}
+.side-nav .sn-section {
+  padding: 12px 16px;
+  font-size: 14px; line-height: 21px; font-weight: 700; letter-spacing: 0;
+  text-transform: uppercase;
+  color: #393533;
+}
+.side-nav .sn-divider { height: 2px; flex: none; background: #e3dfda; }
+.side-nav .sn-item {
+  position: relative;
+  display: block;
+  padding: 8px 16px;
+  font-size: 16px; line-height: 24px; font-weight: 400; letter-spacing: -0.5px;
+  color: #393533;
+  text-decoration: none;
+  background: #fff;
+  word-break: break-word;
+}
+.side-nav .sn-item.sn-bu { padding: 12px 16px; }
+.side-nav .sn-item.sn-sub { padding-left: 32px; }
+.side-nav .sn-item.sn-sub2 { padding-left: 48px; }
+.side-nav .sn-item:hover { background: #f7f6f4; }
+.side-nav .sn-item:focus-visible { outline: 2px solid #324fa5; outline-offset: -2px; }
+.side-nav .sn-item.is-branch { font-weight: 700; color: #262321; }
+.side-nav .sn-item.is-selected { background: #f2f0ed; font-weight: 700; letter-spacing: 0; color: #262321; }
+.side-nav .sn-item.is-selected::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  border-radius: 9999px; background: #324fa5;
+}
+
+@media (max-width: 900px) {
+  .sidebar.side-nav { width: 100%; border-right: 0; border-bottom: 1px solid #e3dfda; max-height: 320px; }
+}

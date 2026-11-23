@@ -1,0 +1,174 @@
+/* Waypoint P&L grid (wp-card / wp-grid) and the "How to read" dialog. Ported from the RS dashboard (Rs_Dashboord_3_Brand.html) so the NAS dashboard time-view table matches it.
+   Needs figma_tokens.css (design tokens) and variance.css (favorable / unfavorable arrows). */
+.wp-card { background: var(--surface); border: 1px solid var(--surface-accent); border-radius: 8px; box-shadow: var(--elevation-2); overflow: hidden; margin-top: 20px; width: 100%; }
+.wp-card-hdr { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.wp-card-title { font-size: var(--fs-16); font-weight: var(--fw-bold); letter-spacing: var(--ls-snug); color: var(--text-primary); white-space: nowrap; }
+.wp-card-sub { flex: 1; min-width: 0; font-size: var(--fs-12); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wp-link { all: unset; box-sizing: border-box; font-family: var(--font-family); font-size: var(--fs-12); font-weight: var(--fw-medium); color: var(--link); cursor: pointer; text-decoration: underline; white-space: nowrap; }
+.wp-link:hover { color: var(--action-active); }
+.wp-link:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+.wp-note { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; padding: 6px 14px; background: var(--surface-alt); border-bottom: 1px solid var(--border); font-size: var(--fs-12); color: var(--text-tertiary); }
+.wp-note b { color: var(--text-primary); font-weight: var(--fw-bold); }
+.wp-note .fav, .wp-note .unf { padding: 0 5px; border: 1px solid transparent; }
+.wp-note .fav { background: var(--var-fav-bg); border-color: var(--var-fav-bd); }
+.wp-note .unf { background: var(--var-unf-bg); border-color: var(--var-unf-bd); }
+.wp-note-t { margin-left: auto; color: var(--text-tertiary); }
+.wp-scroll { overflow-x: auto; width: 100%; }
+.wp-grid { width: 100%; border-collapse: separate; border-spacing: 0; font-family: var(--font-family); font-size: var(--fs-12); font-weight: var(--fw-regular); color: var(--text-primary); text-align: right; background: var(--surface); }
+.wp-grid th, .wp-grid td { height: 28px; padding: 0 8px; white-space: nowrap; border-bottom: 1px solid var(--border); background: var(--surface); }
+/* header: AG Grid header fill #f7f6f4, bold, #938c85 keyline below */
+.wp-grid thead th { height: 32px; background: var(--surface-alt); color: var(--text-primary); font-weight: var(--fw-bold); border-bottom: 1px solid var(--text-quaternary); vertical-align: middle; }
+.wp-grid thead tr:nth-child(2) th { white-space: normal; line-height: 1.25; text-align: right; vertical-align: bottom; padding-top: 4px; padding-bottom: 4px; min-width: 64px; }
+.wp-grid thead th.wp-grp { padding: 0; text-align: center; background: var(--surface-accent); border-bottom: 1px solid var(--border-strong); }
+/* sticky label + comment columns */
+.wp-grid th:first-child, .wp-grid td:first-child { position: sticky; left: 0; width: 270px; min-width: 270px; max-width: 270px; box-sizing: border-box; z-index: 2; white-space: normal; text-align: left; padding: 0 10px; }
+.wp-grid thead tr:first-child th:first-child { background: var(--surface-accent); z-index: 3; }
+.wp-grid thead tr:nth-child(2) th:first-child { position: static; width: auto; min-width: 64px; max-width: none; background: var(--surface-accent); z-index: 1; }
+.wp-grid .wp-cc { position: sticky; left: 270px; width: 41px; min-width: 41px; max-width: 41px; box-sizing: border-box; z-index: 2; padding: 0; text-align: center; border-right: 1px solid var(--text-quaternary); }
+.wp-grid thead tr:first-child .wp-cc { background: var(--surface-accent); z-index: 3; }
+/* collapsed period group keeps Actual/Fcst (gk), Plan (gp), Var $ and Var % (gv) */
+.wp-grid.c1 .g1:not(.gk):not(.gp):not(.gv), .wp-grid.c2 .g2:not(.gk):not(.gp):not(.gv), .wp-grid.c3 .g3:not(.gk):not(.gp):not(.gv), .wp-grid.c4 .g4:not(.gk):not(.gp):not(.gv), .wp-grid.c5 .g5:not(.gk):not(.gp):not(.gv) { display: none; }
+/* period separators: keyline on the last visible column of each period */
+.wp-grid th.wp-grp, .wp-grid td.ge, .wp-grid th.ge { border-right: 1px solid var(--text-muted); }
+.wp-grid.c1 .g1.gz, .wp-grid.c2 .g2.gz, .wp-grid.c3 .g3.gz, .wp-grid.c4 .g4.gz, .wp-grid.c5 .g5.gz { border-right: 1px solid var(--text-muted); }
+/* period toggle = Waypoint tertiary button */
+.wp-gt { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 32px; padding: 0 8px; cursor: pointer; font-family: var(--font-family); font-weight: var(--fw-bold); font-size: var(--fs-12); color: var(--link); text-align: center; }
+.wp-gt:hover { background: var(--surface-info); color: var(--action-active); }
+.wp-gt:focus-visible { outline: 2px solid var(--action); outline-offset: -2px; }
+.wp-chev { width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 5px solid currentColor; flex: none; }
+.wp-gt[aria-expanded="true"] .wp-chev { border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; border-bottom: 0; }
+/* row hierarchy */
+.wp-lab { display: flex; align-items: flex-start; line-height: 1.35; }
+.wp-sp { display: inline-block; width: 16px; margin-right: 6px; flex: none; }
+.wp-xt { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; margin-right: 6px; padding: 0; flex: none; background: var(--surface); border: 1px solid var(--link); border-radius: 2px; color: var(--link); font-family: var(--font-family); font-size: var(--fs-12); font-weight: var(--fw-bold); line-height: 1; cursor: pointer; }
+.wp-xt:hover { background: var(--surface-info); color: var(--action-active); border-color: var(--action-active); }
+.wp-xt:focus-visible { outline: 2px solid var(--action); outline-offset: 1px; }
+.wp-grid tr.xh { display: none; }
+.wp-grid tr.xl0 td:first-child { padding-left: 10px; }
+.wp-grid tr.xl1 td:first-child { padding-left: 24px; }
+.wp-grid tr.xl2 td:first-child { padding-left: 38px; }
+.wp-grid tr.xk-total td { font-weight: var(--fw-bold); border-top: 1px solid var(--text-quaternary); border-bottom: 1px solid var(--text-quaternary); }
+.wp-grid tr.xk-total td:first-child, .wp-grid tr.xk-total .wp-cc, .wp-grid tr.xk-parent td:first-child, .wp-grid tr.xk-parent .wp-cc { background: var(--surface-alt); }
+.wp-grid tr.xk-parent td { font-weight: var(--fw-bold); }
+.wp-grid tr.xk-child td:first-child .wp-lab { font-weight: var(--fw-regular); }
+.wp-grid tbody tr:hover td { background: var(--surface-alt); }
+.wp-grid tbody tr:hover td:first-child, .wp-grid tbody tr:hover .wp-cc { background: var(--surface-accent); }
+.wp-grid tbody tr:last-child td { border-bottom: 1px solid var(--text-quaternary); }
+/* favorable / unfavorable: color, sign and arrow come from variance.css (same contract as the table above) */
+.wp-grid td.fav, .wp-grid td.unf { text-align: right; }
+.wp-grid td.fav::before, .wp-grid td.unf::before { width: 1em; margin-right: 2px; }
+.wp-grid tr.xk-total td.fav, .wp-grid tr.xk-total td.unf, .wp-grid tr.xk-parent td.fav, .wp-grid tr.xk-parent td.unf { font-weight: 700; }
+
+/* How to read dialog */
+.wp-howto { margin: 0; display: grid; grid-template-columns: 170px 1fr; gap: 14px 16px; font-size: var(--fs-14); line-height: 1.5; color: var(--text-primary); }
+.wp-howto dt { font-weight: var(--fw-bold); }
+.wp-howto dd { margin: 0; }
+.wp-card-sub:empty { flex: 1; }
+.sc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  background: var(--scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.sc-modal-backdrop[hidden] { display: none; }
+.sc-modal-card {
+  width: 672px;
+  max-width: 100%;
+  max-height: calc(100vh - 32px);
+  padding-top: 24px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 0.001px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 2px 18px var(--shadow-inner), 0 24px 32px var(--shadow-outer);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scModalPop .18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes scModalPop {
+  0% { opacity: 0; transform: scale(0.96) translateY(6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.sc-modal-hdr {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0 24px 24px;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  flex: none;
+}
+.sc-modal-hdr-l { flex: 1 1 0; min-width: 0; }
+.sc-modal-title { font-size: var(--fs-24); font-weight: var(--fw-bold); line-height: 32px; letter-spacing: var(--ls-tight); color: var(--text-primary); }
+.sc-modal-subtitle { font-size: var(--fs-16); line-height: 24px; color: var(--text-primary); margin-top: 4px; overflow-wrap: anywhere; }
+.sc-modal-subtitle b { font-weight: var(--fw-medium); }
+.sc-modal-close {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 4px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--border);
+  border: 1px solid var(--text-disabled);
+  border-radius: 9999px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.sc-modal-close svg { width: 14px; height: 14px; display: block; }
+.sc-modal-close:hover { background: var(--border-strong); }
+/* Waypoint focus ring: 1px white inner + 3px #476bc3 outer */
+.sc-modal-close:focus-visible,
+.sc-cmt-text:focus,
+.sc-modal-card .btn-sm:focus-visible,
+.sc-modal-card .sc-link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sc-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: var(--surface);
+}
+.sc-modal-footer {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* Buttons: Secondary (default) and Primary (.btn-save-reply), radius 8, 40px, min-width 96 */
+.sc-modal-card .btn-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 96px;
+  height: 40px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: var(--fs-16);
+  font-weight: var(--fw-medium);
+  line-height: 24px;
+  white-space: nowrap;
+  color: var(--link);
+  background: var(--surface);
+  border: 1px solid var(--link);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s;
+}
+.sc-modal-card .btn-sm:hover { color: var(--action-active); background: var(--surface-info); border-color: var(--action-active); }
+.sc-modal-card .btn-sm:active { color: var(--text-inverse); background: var(--action); border-color: var(--action); }

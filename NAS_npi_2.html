@@ -351,6 +351,7 @@
 </style>
 <link rel="stylesheet" href="polaris_header.css">
 <link rel="stylesheet" href="waypoint_theme.css">
+<link rel="stylesheet" href="side_nav.css">
 </head>
 <body data-pf-page="P06" data-pf-bu="NAS">
 
@@ -370,38 +371,19 @@
 <div class="shell">
 
   <!-- Sidebar Navigation -->
-  <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-bu">
-      <div class="sb-bu-label">Polaris</div>
-    </div>
-    
-    <div class="sb-section">BU Executive Dashboard</div>
-    <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="nas_dashboard_2.html">National Account Services (NAS)</a></summary>
-      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
-      <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
-    </details>
-    
-    <div class="sb-divider"></div>
-    <details class="sb-acc" name="sb-acc" open>
-      <summary><a href="rs_dashboard_3.html">Retirement Services (RS)</a></summary>
-      <a class="sb-link sub" href="Rs_DashBaord_3_Brand.html">RS Dashboard 3 Brand (temp)</a>
-      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
-      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
-    </details>
-    
-    <div class="sb-divider"></div>
-    <div class="sb-section">Corporate Executive</div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="index.html">Corporate CFO</a></summary>
-      <a class="sb-link sub" href="cfo_dashboard_2.html">CFO Dashboard</a>
-      <a class="sb-link sub" href="index.html">CFO Dashboard (EPM)</a>
-    </details>
-    
-    <div class="sb-divider"></div>
-    <a class="sb-ext" href="index.html">&larr; Polaris Home</a>
+  <nav class="sidebar side-nav" aria-label="Navigation">
+    <div class="sn-title">Close Review &middot; September</div>
+    <div class="sn-divider"></div>
+    <div class="sn-section">Corporate</div>
+    <a class="sn-item sn-bu" href="index.html">CFO Dashboard</a>
+    <div class="sn-divider"></div>
+    <div class="sn-section">BU Close Review</div>
+    <a class="sn-item sn-bu is-selected" href="nas_dashboard_2.html" aria-current="page">NAS Dashboard</a>
+    <a class="sn-item sn-sub" href="revenue_analysis_NAS_2.html">Revenue Analysis</a>
+    <a class="sn-item sn-sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
+    <a class="sn-item sn-sub" href="expense_pl_NAS_2.html">Expense P&amp;L</a>
+    <a class="sn-item sn-bu" href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
+    <div class="sn-divider"></div>
   </nav>
 
   <!-- Main Content Area -->

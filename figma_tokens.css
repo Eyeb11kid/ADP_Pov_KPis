@@ -1,0 +1,55 @@
+/* Consolidated design tokens — single source of truth, mapped to the Figma "Resources" (Waypoint) variables.
+   Figma variable → token:
+     color/font/purpose/base, context/ui/typography/base/css/color   → --text-primary   #262321
+     color/font/purpose/secondary                                   → --text-secondary #393533
+     (nav / muted copy)                                              → --text-tertiary  #544e4a
+     context/shell-breadcrumbs-divider, avatar stroke                → --text-muted     #726c66
+     context/table-borders/stroke-color, backdrop text               → --text-quaternary #938c85
+     text-quaternary                                                 → --text-disabled  #b2aba5
+     context/link/style/base/text-color                              → --link           #324fa5
+     context/alert-banner/.../icon-color                             → --action         #476bc3
+     context/shell-app-bar/style/base/fill-color                     → --appbar         #121c4e
+     color/border/purpose/divider                                    → --border         #e3dfda
+     context/table-head-cell/fill-color                              → --surface-alt    #f7f6f4
+     context/segmented-control/fill-color, box-shadowed stroke       → --surface-accent #f2f0ed
+     context/alert-banner/.../fill-color                             → --surface-info   #e8effa
+     context/alert-inline/.../success/text-color                     → --success        #2f5b22
+     Elevation/Level 2                                               → --elevation-2
+     Heading/Body typography (Circular20, 12/14/16/20/24)            → --font-family, --fs-*, --ls-*  */
+:root {
+  /* Text */
+  --text-primary:#262321; --text-secondary:#393533; --text-tertiary:#544e4a;
+  --text-muted:#726c66; --text-quaternary:#938c85; --text-disabled:#b2aba5; --text-inverse:#fff;
+
+  /* Interactive */
+  --link:#324fa5; --action:#476bc3; --action-active:#20337d; --appbar:#121c4e;
+
+  /* Surfaces & borders */
+  --surface:#fff; --surface-alt:#f7f6f4; --surface-accent:#f2f0ed;
+  --surface-info:#e8effa; --border-info:#d8e5f9;
+  --border:#e3dfda; --border-strong:#cdc7c2;
+
+  /* Status */
+  --success:#2f5b22; --success-bg:#c2f2c3; --success-strong:#214017;
+  --danger:#9c2514;  --danger-bg:#fce8e6;
+
+  /* Chart series */
+  --chart-purple:#7967ae; --chart-purple-light:#8f7dc5; --chart-cyan:#2ba0c9;
+  --chart-orange:#da7f00; --chart-amber:#db9431; --chart-coral:#f25d71; --chart-green:#529c42;
+
+  /* Elevation (Figma: Elevation/Level 2 = outer 0 2 4 @ .16 + inner 0 0 2 @ .08) */
+  --shadow-outer:rgba(38,35,33,.16); --shadow-inner:rgba(38,35,33,.08); --scrim:rgba(38,35,33,.6);
+  --elevation-2:0 2px 4px var(--shadow-outer), 0 0 2px var(--shadow-inner);
+  --elevation-8:0 8px 16px rgba(38,35,33,.16), 0 0 8px rgba(38,35,33,.06);  /* Elevation/Level 8 (pickers, popovers) */
+  --focus-ring:0 0 0 1px var(--surface), 0 0 0 3px var(--action);
+
+  /* Typography (Figma: Circular20; sizes 12/14/16/20/24; Book 400 / Medium 500 / Bold 700) */
+  --font-family:"Circular20","Circular Std","CircularStd","Circular","Circular XX","Avenir Next","IBM Plex Sans",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --fs-12:12px; --fs-14:14px; --fs-18:18px; --fs-16:16px; --fs-20:20px; --fs-24:24px;
+  --fw-regular:400; --fw-medium:500; --fw-bold:700;
+  --ls-tight:-1px;  /* heading 04 / 05 */
+  --ls-snug:-.5px;  /* heading 02 */
+
+  /* Layout */
+  --sidebar-w:232px; --drawer-w:512px;
+}

@@ -165,10 +165,19 @@
   .kpi-var { font-size: 12px; font-weight: 500; }
   .kpi-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #726c66; border-top: 1px dashed #e3dfda; padding-top: 3px; margin-top: 3px; }
   .kpi-row b { color: var(--navy); }
-  #headline-kpis .kpi-row { flex-wrap: wrap; column-gap: 6px; }
-  #headline-kpis .kpi-row b { text-align: right; }
   .fav { color: var(--green); font-weight: 500; }
   .unf { color: var(--red); font-weight: 500; }
+
+  .kpis.kpis-5 > .kpi { position: relative; }
+  .kpi-link { display: block; margin-top: 6px; padding-top: 5px; border-top: 1px dashed #e3dfda; font-size: 12px; font-weight: 500; color: var(--blue); text-decoration: none; }
+  .kpis.kpis-5 > a.kpi { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+  .kpis.kpis-5 > a.kpi > .kpi-link { margin-top: auto; }
+  .kpis.kpis-5 > a.kpi > :nth-last-child(2) { margin-bottom: 6px; }
+  .kpis.kpis-5 > a.kpi:focus-visible { outline: 2px solid #476bc3; outline-offset: 2px; }
+  .kpis.kpis-5 > a.kpi:hover .kpi-link, .kpis.kpis-5 > a.kpi:focus-visible .kpi-link { text-decoration: underline; }
+  .kpi-sec { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; color: #726c66; border-top: 1px dashed #e3dfda; padding-top: 3px; margin-top: 3px; }
+  .kpi-sec-v { text-align: right; white-space: nowrap; }
+  .kpi-sec-v b { color: var(--navy); }
 
   #headline-kpis[data-cmp="pva"] .m-plan, #headline-kpis[data-cmp="plan"] .m-pva, #headline-kpis[data-fmt="val"] .m-both { display: none; }
 
@@ -320,7 +329,9 @@
   .site-footer a:hover { text-decoration: underline; }
 </style>
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="variance.css">
 <link rel="stylesheet" href="waypoint_theme.css">
+<link rel="stylesheet" href="side_nav.css">
 </head>
 <body data-pf-page="P01">
 
@@ -340,30 +351,16 @@
 <div class="shell">
 
   <!-- Sidebar Navigation -->
-  <nav class="sidebar" aria-label="Navigation">
-    <div class="sb-section">BU Executive Dashboard</div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="nas_dashboard_2.html">NAS (Lyric)</a></summary>
-      <a class="sb-link sub" href="revenue_analysis_NAS_2.html">NAS Revenue Analysis</a>
-      <a class="sb-link sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_NAS_2.html">NAS Expense P&amp;L</a>
-    </details>
-    <div class="sb-divider"></div>
-    <details class="sb-acc" name="sb-acc">
-      <summary><a href="rs_dashboard_3.html">RS Dashboard</a></summary>
-      <a class="sb-link sub" href="Rs_DashBaord_3_Brand.html">RS Dashboard 3 Brand (temp)</a>
-      <a class="sb-link sub" href="revenue_analysis_RS_2.html">RS Revenue Analysis</a>
-      <a class="sb-link sub2" href="rs_transaction_detail_2.html">RS Revenue Transaction Detail</a>
-      <a class="sb-link sub" href="expense_pl_RS_2.html">RS Expense P&amp;L</a>
-    </details>
-    <div class="sb-divider"></div>
-    <div class="sb-section">Corporate Executive</div>
-    <details class="sb-acc has-active" name="sb-acc" open>
-      <summary><a href="index.html">Corporate CFO (EPM)</a></summary>
-      <a class="sb-link sub active" href="index.html">CFO Dashboard (EPM)</a>
-    </details>
-    <div class="sb-divider"></div>
-    <a class="sb-ext" href="index.html">&larr; Polaris Home</a>
+  <nav class="sidebar side-nav" aria-label="Navigation">
+    <div class="sn-title">Close Review &middot; September</div>
+    <div class="sn-divider"></div>
+    <div class="sn-section">Corporate</div>
+    <a class="sn-item sn-bu is-selected" href="index.html" aria-current="page">CFO Dashboard</a>
+    <div class="sn-divider"></div>
+    <div class="sn-section">BU Close Review</div>
+    <a class="sn-item sn-bu" href="nas_dashboard_2.html">NAS Dashboard</a>
+    <a class="sn-item sn-bu" href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
+    <div class="sn-divider"></div>
   </nav>
 
   <!-- Main Content Area -->
@@ -409,46 +406,48 @@
 
       <div class="kpis kpis-5" id="headline-kpis" data-cmp="pva" data-fmt="both">
         <!-- 1. Total revenue, then revenue excluding client funds interest -->
-        <div class="kpi nd" id="hkpi-rev" data-tip="<b>Total ADP Revenue</b><br>Act: $5.24B vs Plan $5.18B (+$62M / +1.2%)<br>Excl. client funds interest: $4.98B vs Plan $4.92B (+$60M / +1.2%)<br>YoY: +5.1% (Plan +3.9%)">
+        <a class="kpi nd" id="hkpi-rev" href="#box-rev-var" data-pane="box-rev-var" title="Open Revenue Variance by Segment and BU" data-tip="<b>Total ADP Revenue</b><br>Act: $5.24B vs Plan $5.18B (+$62M / +1.2%)<br>Excl. client funds interest: $4.98B vs Plan $4.92B (+$60M / +1.2%)<br>YoY: +5.1% (Plan +3.9%)">
           <div class="kpi-val"><span class="m-pva">$5.24B</span><span class="m-plan">$5.18B</span></div>
           <div class="kpi-label">Total revenue</div>
           <div class="kpi-desc">Total ADP Revenue, then excl. client funds interest</div>
-          <div class="kpi-var m-pva"><span class="fav">▲ +$62M</span><span class="m-both"> (+1.2%)</span> vs plan</div>
+          <div class="kpi-var m-pva"><span class="fav">+$62M<span class="m-both"> / +1.2%</span></span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
           <div class="kpi-row m-pva"><span>Plan</span><b>$5.18B</b></div>
-          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+5.1%</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.9%</b></div>
-          <div class="kpi-row m-pva"><span>Excl. client funds interest</span><b>$4.98B <span class="fav">▲ +$60M</span></b></div>
-          <div class="kpi-row m-plan"><span>Excl. client funds interest (plan)</span><b>$4.92B</b></div>
-        </div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b><span class="fav">+5.1%</span></b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b><span class="fav">+3.9%</span></b></div>
+          <div class="kpi-sec m-pva"><span>Excl. client funds interest</span><span class="kpi-sec-v"><b>$4.98B</b> <span class="fav">+$60M</span></span></div>
+          <div class="kpi-sec m-plan"><span>Excl. client funds interest (plan)</span><span class="kpi-sec-v"><b>$4.92B</b></span></div>
+          <span class="kpi-link">Revenue Variance &rarr;</span>
+        </a>
 
         <!-- 2. Adj. EBIT margin %, with and without client funds interest -->
-        <div class="kpi nd" id="hkpi-ebit" data-tip="<b>Adjusted EBIT Margin %</b><br>With client funds interest: 27.5% vs Plan 29.9% (-240 bps)<br>Without client funds interest: 23.7% vs Plan 26.2% (-251 bps)<br>Adj. EBIT $: $1.44B vs Plan $1.55B">
+        <a class="kpi nd" id="hkpi-ebit" href="#box-pl-sum" data-pane="box-pl-sum" title="Open Consolidated Management P&amp;L Summary" data-tip="<b>Adjusted EBIT Margin %</b><br>With client funds interest: 27.5% vs Plan 29.9% (-240 bps)<br>Without client funds interest: 23.7% vs Plan 26.2% (-251 bps)<br>Adj. EBIT $: $1.44B vs Plan $1.55B">
           <div class="kpi-val"><span class="m-pva">27.5%</span><span class="m-plan">29.9%</span></div>
           <div class="kpi-label">Adj. EBIT margin %</div>
           <div class="kpi-desc">With and without client funds interest</div>
-          <div class="kpi-var m-pva"><span class="unf">▼ −240 bps</span> vs plan</div>
+          <div class="kpi-var m-pva"><span class="unf">−240 bps</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
           <div class="kpi-row m-pva"><span>Plan</span><b>29.9%</b></div>
-          <div class="kpi-row m-pva"><span>Without client funds interest</span><b>23.7% <span class="unf">▼ −251 bps</span></b></div>
-          <div class="kpi-row m-plan"><span>Without client funds interest (plan)</span><b>26.2%</b></div>
+          <div class="kpi-sec m-pva"><span>Without client funds interest</span><span class="kpi-sec-v"><b>23.7%</b> <span class="unf">−251 bps</span></span></div>
+          <div class="kpi-sec m-plan"><span>Without client funds interest (plan)</span><span class="kpi-sec-v"><b>26.2%</b></span></div>
           <div class="kpi-row m-pva"><span>Adj. EBIT</span><b>$1.44B</b></div>
           <div class="kpi-row m-plan"><span>Adj. EBIT (plan)</span><b>$1.55B</b></div>
-        </div>
+          <span class="kpi-link">P&amp;L Summary &rarr;</span>
+        </a>
 
         <!-- 3. New business bookings, ES and PEO each on their own line -->
         <div class="kpi nd" id="hkpi-nbb" data-tip="<b>New Business Bookings</b><br>Total: $486M vs Plan $470M (+$16M / +3.4%)<br>ES: $318M vs Plan $309M (+$9M)<br>PEO: $168M vs Plan $161M (+$7M)">
           <div class="kpi-val"><span class="m-pva">$486M</span><span class="m-plan">$470M</span></div>
           <div class="kpi-label">New business bookings</div>
           <div class="kpi-desc">ES and PEO</div>
-          <div class="kpi-var m-pva"><span class="fav">▲ +$16M</span><span class="m-both"> (+3.4%)</span> vs plan</div>
+          <div class="kpi-var m-pva"><span class="fav">+$16M<span class="m-both"> / +3.4%</span></span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>ES</span><b>$318M <span class="fav">▲ +$9M</span></b></div>
-          <div class="kpi-row m-pva"><span>PEO</span><b>$168M <span class="fav">▲ +$7M</span></b></div>
-          <div class="kpi-row m-plan"><span>ES (plan)</span><b>$309M</b></div>
-          <div class="kpi-row m-plan"><span>PEO (plan)</span><b>$161M</b></div>
-          <div class="kpi-row m-pva m-both"><span>YoY</span><b>+6.8%</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+3.3%</b></div>
+          <div class="kpi-sec m-pva"><span>ES</span><span class="kpi-sec-v"><b>$318M</b> <span class="fav">+$9M</span></span></div>
+          <div class="kpi-sec m-pva"><span>PEO</span><span class="kpi-sec-v"><b>$168M</b> <span class="fav">+$7M</span></span></div>
+          <div class="kpi-sec m-plan"><span>ES (plan)</span><span class="kpi-sec-v"><b>$309M</b></span></div>
+          <div class="kpi-sec m-plan"><span>PEO (plan)</span><span class="kpi-sec-v"><b>$161M</b></span></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b><span class="fav">+6.8%</span></b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b><span class="fav">+3.3%</span></b></div>
         </div>
 
         <!-- 4. Retention, ES and PEO each on their own line -->
@@ -456,14 +455,14 @@
           <div class="kpi-val"><span class="m-pva">92.1%</span><span class="m-plan">92.4%</span></div>
           <div class="kpi-label">Retention</div>
           <div class="kpi-desc">ES and PEO</div>
-          <div class="kpi-var m-pva"><span class="unf">▼ −30 bps</span> vs plan</div>
+          <div class="kpi-var m-pva"><span class="unf">−30 bps</span> vs plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
-          <div class="kpi-row m-pva"><span>ES</span><b>91.8% <span class="unf">▼ −30 bps</span></b></div>
-          <div class="kpi-row m-pva"><span>PEO</span><b>93.4% <span class="fav">▲ +20 bps</span></b></div>
-          <div class="kpi-row m-plan"><span>ES (plan)</span><b>92.1%</b></div>
-          <div class="kpi-row m-plan"><span>PEO (plan)</span><b>93.2%</b></div>
-          <div class="kpi-row m-pva m-both"><span>YoY</span><b>−10 bps</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+20 bps</b></div>
+          <div class="kpi-sec m-pva"><span>ES</span><span class="kpi-sec-v"><b>91.8%</b> <span class="unf">−30 bps</span></span></div>
+          <div class="kpi-sec m-pva"><span>PEO</span><span class="kpi-sec-v"><b>93.4%</b> <span class="fav">+20 bps</span></span></div>
+          <div class="kpi-sec m-plan"><span>ES (plan)</span><span class="kpi-sec-v"><b>92.1%</b></span></div>
+          <div class="kpi-sec m-plan"><span>PEO (plan)</span><span class="kpi-sec-v"><b>93.2%</b></span></div>
+          <div class="kpi-row m-pva m-both"><span>YoY</span><b><span class="unf">−10 bps</span></b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b><span class="fav">+20 bps</span></b></div>
         </div>
 
         <!-- 5. Average total FTEs, with ending headcount -->
@@ -471,12 +470,12 @@
           <div class="kpi-val"><span class="m-pva">64,820</span><span class="m-plan">65,300</span></div>
           <div class="kpi-label">Average total FTEs</div>
           <div class="kpi-desc">With ending headcount</div>
-          <div class="kpi-var m-pva"><span class="fav">▼ 480 lower</span><span class="m-both"> (−0.7%)</span> than plan</div>
+          <div class="kpi-var m-pva"><span class="neu down">480 lower<span class="m-both"> / −0.7%</span></span> than plan</div>
           <div class="kpi-var m-plan">Plan · September</div>
           <div class="kpi-row m-pva"><span>Plan</span><b>65,300</b></div>
           <div class="kpi-row m-pva"><span>Ending headcount</span><b>65,140</b></div>
           <div class="kpi-row m-plan"><span>Ending headcount (plan)</span><b>65,300</b></div>
-          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b>+2.7%</b></div>
+          <div class="kpi-row m-plan m-both"><span>YoY (plan)</span><b><span class="fav">+2.7%</span></b></div>
         </div>
       </div>
     </div>
@@ -520,7 +519,7 @@
 <tr class="ct-memo" data-id="tx"><td class="ct-l0"><span class="ct-sp"></span>Total revenue — Excludes Client Funds Interest</td><td>4,982.0</td><td class="fav">+60.0</td><td class="fav ge">+4.9%</td><td>14,746.7</td><td class="fav">+177.6</td><td class="fav ge">+4.7%</td><td>60,048.4</td><td>0.0</td><td class="fav ge">+5.0%</td></tr>
 <tr class="sr-sub" data-id="es"><td class="ct-l0"><button type="button" class="sr-toggle" aria-expanded="true" onclick="secToggle(this)">−</button>ES subtotal — Excludes Client Funds Interest</td><td>3,480.0</td><td class="fav">+32.0</td><td class="fav ge">+4.8%</td><td>10,300.8</td><td class="fav">+94.7</td><td class="fav ge">+4.6%</td><td>42,065.6</td><td>0.0</td><td class="fav ge">+4.9%</td></tr>
 <tr class="open" data-id="bu0" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span><a class="ct-link" href="nas_dashboard_2.html" title="Open NAS dashboard">NAS</a></td><td>107.3</td><td class="fav">+3.6</td><td class="fav ge">+5.9%</td><td>317.6</td><td class="fav">+10.7</td><td class="fav ge">+5.7%</td><td>1,265.1</td><td>0.0</td><td class="fav ge">+6.0%</td></tr>
-<tr class="open" data-id="bu1" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span><a class="ct-link" href="rs_dashboard_3.html" title="Open RS dashboard">RS</a></td><td>85.3</td><td class="fav">+3.7</td><td class="fav ge">+6.8%</td><td>252.5</td><td class="fav">+11.0</td><td class="fav ge">+6.6%</td><td>995.5</td><td>0.0</td><td class="fav ge">+6.9%</td></tr>
+<tr class="open" data-id="bu1" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span><a class="ct-link" href="Rs_Dashboord_3_Brand.html" title="Open RS dashboard">RS</a></td><td>85.3</td><td class="fav">+3.7</td><td class="fav ge">+6.8%</td><td>252.5</td><td class="fav">+11.0</td><td class="fav ge">+6.6%</td><td>995.5</td><td>0.0</td><td class="fav ge">+6.9%</td></tr>
 <tr class="open" data-id="bu2" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>SBS</td><td>980.0</td><td class="unf">(5.0)</td><td class="fav ge">+4.1%</td><td>2,900.8</td><td class="unf">(14.8)</td><td class="fav ge">+3.9%</td><td>12,017.0</td><td>0.0</td><td class="fav ge">+4.2%</td></tr>
 <tr class="open" data-id="bu3" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>IS</td><td>540.0</td><td class="fav">+5.0</td><td class="fav ge">+6.5%</td><td>1,598.4</td><td class="fav">+14.8</td><td class="fav ge">+6.3%</td><td>6,527.0</td><td>0.0</td><td class="fav ge">+6.6%</td></tr>
 <tr class="open" data-id="bu4" data-parent="es"><td class="ct-l1"><span class="ct-sp"></span>WorkMarket</td><td>118.4</td><td class="fav">+4.4</td><td class="fav ge">+7.2%</td><td>350.5</td><td class="fav">+13.0</td><td class="fav ge">+7.0%</td><td>1,390.8</td><td>0.0</td><td class="fav ge">+7.3%</td></tr>
@@ -1377,7 +1376,7 @@
   <div class="foot-links">
     <a href="index.html">Polaris Home</a>
     <a href="index.html">CFO Dashboard 3</a>
-    <a href="rs_dashboard_3.html">RS Dashboard 3</a>
+    <a href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
     <a href="revenue_analysis_RS_2.html">RS Revenue Analysis 2</a>
     <a href="rs_transaction_detail_2.html">RS Revenue Transaction Detail 2</a>
     <a href="expense_pl_RS_2.html">RS Expense P&amp;L 2</a>
@@ -1520,6 +1519,17 @@
       document.querySelectorAll('#cfo-tabbed-box .cfo-pane').forEach(function(p) {
         p.classList.toggle('active', p.id === id);
       });
+    });
+  });
+
+  // Headline KPI cards that map to a summary table open that tab
+  document.querySelectorAll('#headline-kpis a.kpi[data-pane]').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      e.preventDefault();
+      var tab = document.querySelector('#cfo-tabbed-box .cfo-tab[data-pane="' + card.getAttribute('data-pane') + '"]');
+      if (tab) tab.click();
+      var box = document.getElementById('cfo-tabbed-box');
+      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
