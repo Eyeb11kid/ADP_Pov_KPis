@@ -327,6 +327,15 @@
   .site-footer { background: #fff; border-top: 1px solid var(--line); padding: 12px 20px; font-size: 12px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .site-footer a { color: var(--blue); text-decoration: none; margin-left: 12px; }
   .site-footer a:hover { text-decoration: underline; }
+
+  /* BU Dashboard Link Cards */
+  .bu-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 20px 0; }
+  .bu-card { background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--p-blue); border-radius: 4px; padding: 16px 18px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 6px; transition: box-shadow .15s, border-color .15s; }
+  .bu-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.07); border-color: #b8c8e8; }
+  .bu-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .bu-card-title { font-size: 15px; font-weight: 700; color: var(--p-navy); line-height: 1.25; }
+  .bu-card-desc { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .bu-card-arrow { font-size: 12px; font-weight: 600; color: var(--p-blue); margin-top: 4px; }
 /* CFL:BEGIN */
   .cfl-grid .wp-card { margin-top: 0; }
   .cfl-tabstrip { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); overflow-x: auto; }
@@ -437,7 +446,7 @@
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
           <span>Executive Close Highlights · September</span>
-          <span class="hkpi-bar-badge">Key CFO Metrics</span>
+          
         </div>
       </div>
 
@@ -1663,6 +1672,22 @@ CFST:END -->
     </div>
 
     </div>
+
+  <!-- BU Dashboard Cards -->
+  <div class="bu-cards">
+    <a class="bu-card" href="Rs_Dashboord_3_Brand.html">
+      <div class="bu-card-label">Business Unit</div>
+      <div class="bu-card-title">Retirement Services (RS)</div>
+      <div class="bu-card-desc">RS close dashboard: Management P&amp;L, revenue analysis, departmental expense, and NOI.</div>
+      <div class="bu-card-arrow">Open RS Dashboard &rarr;</div>
+    </a>
+    <a class="bu-card" href="nas_dashboard_2.html">
+      <div class="bu-card-label">Business Unit</div>
+      <div class="bu-card-title">National Accounts (NAS)</div>
+      <div class="bu-card-desc">NAS close dashboard: Management P&amp;L, revenue analysis, NPI, and field expense.</div>
+      <div class="bu-card-arrow">Open NAS Dashboard &rarr;</div>
+    </a>
+  </div>
 
   </main>
 </div>

@@ -55,6 +55,45 @@
   .page-title .badge { background: var(--surface-info); color: var(--link); font-size: var(--fs-12); font-weight: var(--fw-medium); padding: 2px 8px; border-radius: 3px; border: 1px solid var(--border-info); }
   .page-sub { font-size: var(--fs-12); color: var(--text-tertiary); margin-top: 3px; }
 
+  /* AI Insight Alerts — Waypoint Banner Alert style */
+  .ai-alerts { display: flex; flex-direction: column; gap: 8px; margin: 14px 20px 0; }
+  .ai-alert {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start;
+    padding: 16px; border-radius: 12px; position: relative;
+  }
+  .ai-alert.critical { background: var(--danger-bg); }
+  .ai-alert.moderate { background: #fff3cd; }
+  .ai-alert-content { display: flex; flex: 1 0 0; gap: 8px; align-items: baseline; min-width: 0; }
+  .ai-alert-icon {
+    flex: none; width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-size: 13px; font-weight: var(--fw-bold);
+    margin-top: 2px;
+  }
+  .ai-alert.critical .ai-alert-icon { background: var(--danger); color: #fff; }
+  .ai-alert.moderate  .ai-alert-icon { background: #92650a; color: #fff; }
+  .ai-alert-body { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .ai-alert-title {
+    font-family: var(--font-family); font-size: 18px; font-weight: var(--fw-bold);
+    line-height: 27px; letter-spacing: -0.5px; color: var(--text-primary);
+  }
+  .ai-alert-text {
+    font-family: var(--font-family); font-size: var(--fs-14); font-weight: 450;
+    line-height: 21px; letter-spacing: 0; color: var(--text-primary);
+  }
+  .ai-alert-source {
+    font-size: 11px; color: var(--text-muted); margin-top: 2px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .ai-alert-source::before { content: "✦"; font-size: 9px; color: var(--action); }
+  .ai-alert-close {
+    flex: none; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--surface-accent); border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 13px; color: var(--text-secondary); line-height: 1;
+  }
+  .ai-alert-close:hover { background: var(--border); }
+
   /* Headline 5-KPI Strip */
   .headline-kpi-bar {
     background: var(--surface);
@@ -1230,12 +1269,43 @@
     <!-- Polaris Context bar (filters; sticky within the content column), rendered by polaris_header.js -->
     <div class="ctx" id="pf-context"></div>
 
+    <!-- AI-Driven Insight Alerts — Waypoint Banner Alert style -->
+    <div class="ai-alerts">
+
+      <!-- Critical Alert -->
+      <div class="ai-alert critical">
+        <div class="ai-alert-content">
+          <div class="ai-alert-icon">!</div>
+          <div class="ai-alert-body">
+            <div class="ai-alert-title">Revenue Miss Risk — Processing Clients</div>
+            <div class="ai-alert-text">Processing revenue is $4.2M (4.9%) below Plan at Close Day 4. Mid-market renewals slipped 18 days; run-rate projects a $6.1M miss unless Day 6 entries confirm acceleration.</div>
+            <div class="ai-alert-source">AI Insight · Close actuals, renewal pipeline &amp; prior-year cadence</div>
+          </div>
+        </div>
+        <button class="ai-alert-close" aria-label="Dismiss" onclick="this.closest('.ai-alert').remove()">&#x2715;</button>
+      </div>
+
+      <!-- Moderate Alert -->
+      <div class="ai-alert moderate">
+        <div class="ai-alert-content">
+          <div class="ai-alert-icon">~</div>
+          <div class="ai-alert-body">
+            <div class="ai-alert-title">NOI Margin Compression — Expense Timing</div>
+            <div class="ai-alert-text">NOI margin is 110bps below Plan at 31.4%. $2.8M in delivery &amp; mailing costs pulled forward from October — a recurring Q1 pattern (FY25, FY26). Recovery expected next month; no structural risk.</div>
+            <div class="ai-alert-source">AI Insight · Expense ledger &amp; historical seasonal patterns</div>
+          </div>
+        </div>
+        <button class="ai-alert-close" aria-label="Dismiss" onclick="this.closest('.ai-alert').remove()">&#x2715;</button>
+      </div>
+
+    </div>
+
     <!-- 1. Headline KPIs Strip -->
     <div class="headline-kpi-bar">
       <div class="hkpi-top-row">
         <div class="hkpi-bar-title">
           <span>Headline KPIs</span>
-          <span class="hkpi-bar-badge">September Close</span>
+          
         </div>
       </div>
 
