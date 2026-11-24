@@ -1,0 +1,26 @@
+/* Shared blue app header (Project Polaris): brand, Executive / RS / NAS tabs, Fiscal Period button, cycle + user.
+   Mirrors the header on Rs_Dashboord_3_Simple.html. Selectors are prefixed with "header.chrome" so they win over
+   the older white .chrome rules still defined inline on some pages. Needs figma_tokens.css for the variables. */
+header.chrome { display: flex; align-items: center; justify-content: space-between; height: 48px; background: var(--appbar); border-bottom: 0; padding: 0 16px; flex: none; }
+header.chrome .chrome-l { display: flex; align-items: center; align-self: stretch; gap: 8px; font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--text-inverse); }
+header.chrome .chrome-r { display: flex; align-items: center; gap: 18px; font-size: var(--fs-12); color: var(--text-inverse); }
+header.chrome .chrome-r b { color: var(--text-inverse); font-weight: var(--fw-medium); }
+header.chrome .chrome-user { font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--text-inverse); }
+header.chrome .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--text-secondary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; font-size: var(--fs-12); font-weight: var(--fw-bold); flex: none; border: 1px solid var(--text-muted); }
+
+/* tabs: aria-current="page" on the exact page, aria-current="true" on the section tab when on a sub page */
+header.chrome .chrome-tabs { display: flex; align-items: stretch; align-self: stretch; margin-left: 24px; }
+header.chrome .chrome-tab { display: inline-flex; align-items: center; padding: 0 16px; font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--border); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+header.chrome .chrome-tab:hover { color: var(--text-inverse); background: var(--action-active); }
+header.chrome .chrome-tab[aria-current] { color: var(--text-inverse); border-bottom-color: var(--text-inverse); font-weight: var(--fw-bold); }
+header.chrome .chrome-tab:focus-visible { outline: 2px solid var(--surface); outline-offset: -4px; }
+
+/* Fiscal Period button: opens the Fiscal period layer from polaris_header.js (data-pf-open="period") */
+header.chrome .fy-btn { display: inline-flex; align-items: center; gap: 8px; align-self: center; flex: none; height: 32px; margin-left: 16px; padding: 0 14px; font: inherit; font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--text-inverse); background: transparent; border: 1px solid var(--action); border-radius: 8px; cursor: pointer; white-space: nowrap; }
+header.chrome .fy-btn:hover, header.chrome .fy-btn[aria-expanded="true"] { background: transparent; border-color: var(--text-inverse); }
+header.chrome .fy-btn:focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
+
+/* header status and help (injected by polaris_header.js) restyled for the dark bar */
+header.chrome .ds, header.chrome .ds b, header.chrome .ctx-help { color: var(--text-inverse); }
+header.chrome .ds-ref { color: var(--border); }
+header.chrome .ds:focus-visible, header.chrome .ctx-help:focus-visible { outline-color: var(--surface); }

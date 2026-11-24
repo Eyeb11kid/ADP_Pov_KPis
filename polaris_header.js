@@ -388,7 +388,7 @@
 
     // Row 1: BU, (Function if Expense P&L), Fiscal period
     ui.bu = pfButton('pf-l-bu', 'pf-bu', ''); ui.bu.addEventListener('click', openBU);
-    ui.per = pfButton('pf-l-per', 'pf-per', ''); ui.per.addEventListener('click', openPeriod);
+    ui.per = pfButton('pf-l-per', 'pf-per', ''); ui.per.addEventListener('click', function () { openPeriod(); });
 
     var row1Items = [field('Business unit', 'pf-l-bu', ui.bu)];
     if (PAGE.func) {
@@ -427,12 +427,17 @@
   }
 
   /* ---- BU selector ---- */
+  var CORP_ID = 'CORP';
   function openBU() {
+    if (ui.bu.getAttribute('aria-disabled') === 'true') return;
     var items = ROLE.bus.map(function (k) { return { id: k, label: BUS[k].short, sub: BUS[k].name }; });
-    var list = buildList('Business unit', items, false, function () { return [CUR_BU]; }, function (k) {
+    // Corporate pages span all BUs: "Corporate" is the default selection and each BU option opens that BU's dashboard
+    if (!PBU) items.unshift({ id: CORP_ID, label: 'Corporate', sub: 'All business units' });
+    var list = buildList('Business unit', items, false, function () { return [PBU ? CUR_BU : CORP_ID]; }, function (k) {
       closePanel(true);
-      if (k === CUR_BU) return;
-      var tgt = pageFile(PAGE, k) || pageFile(pageByCode('P03'), k); // fall back to that BU's dashboard when the page has no counterpart
+      if (k === CORP_ID || (PBU && k === CUR_BU)) return;
+      var tgt = PBU ? (pageFile(PAGE, k) || pageFile(pageByCode('P03'), k)) // fall back to that BU's dashboard when the page has no counterpart
+                    : pageFile(pageByCode('P03'), k);                      // from a corporate page, go to that BU's dashboard
       var snap = snapshot(); snap.prod = []; snap.fn = [];   // product/function values are BU-specific
       var s = snapshot(); s.bu = k; s.prod = []; s.fn = []; store(CONFIG.storageKey, s);
       if (tgt) location.href = withState(tgt, snap);
@@ -441,7 +446,9 @@
   }
 
   /* ---- fiscal period selector ---- */
-  function openPeriod() {
+  // anchor is optional: the context-bar button by default, or any element marked data-pf-open="period"
+  function openPeriod(anchor) {
+    anchor = anchor && anchor.nodeType === 1 ? anchor : ui.per;
     var viewFY = fiscalYearOf(state.per), cells = [];
     var sel = h('select', { class: 'pf-sel', 'aria-label': 'Fiscal year' });
     fyList().forEach(function (fy) { sel.appendChild(h('option', { value: String(fy), text: fyLabel(fy) + (fy === fiscalYearOf(DATA.latest) ? ' (current)' : '') })); });
@@ -481,10 +488,14 @@
       e.preventDefault(); cells[n].focus();
     });
     var wrap = h('div', null, [h('div', { class: 'pf-panel-hdr', style: 'border-radius:0;text-transform:none;letter-spacing:0' }, [h('span', null, ['Fiscal year ', sel]), h('small', { text: 'Jul\u2013Jun \u00B7 4-5-4' })]), grid]);
-    openPanel(ui.per, 'Fiscal period', wrap, { focus: function () {
+    openPanel(anchor, 'Fiscal period', wrap, { focus: function () {
       var f = null; cells.forEach(function (c) { if (c._key === state.per) f = c; }); return f || cells.filter(function (c) { return c._ok; })[0];
     } });
   }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-pf-open="period"]');
+    if (t) openPeriod(t);
+  });
 
   /* ---- time view ---- */
   function setTV(id) { state.tv = id; commit('Time view: ' + byId(TIME_VIEWS, id).label); }
@@ -562,10 +573,10 @@
   /* ---- sync every control with state ---- */
   var DENIED = false;
   function updateAll() {
-    ui.bu._v.textContent = CUR_BU && PBU ? BUS[CUR_BU].short : 'All BUs';
-    var buDisabled = !PBU || ROLE.bus.length < 2;
+    ui.bu._v.textContent = CUR_BU && PBU ? BUS[CUR_BU].short : 'Corporate';
+    var buDisabled = PBU ? ROLE.bus.length < 2 : !ROLE.corp;
     ui.bu.setAttribute('aria-disabled', buDisabled ? 'true' : 'false');
-    tip(ui.bu, buDisabled ? (PBU ? 'Your access is limited to ' + CUR_BU : 'Corporate pages span all business units') : '');
+    tip(ui.bu, buDisabled ? (PBU ? 'Your access is limited to ' + CUR_BU : 'Corporate pages span all business units') : (PBU ? '' : 'Choose a business unit to open its dashboard'));
     ui.per._v.textContent = monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + ' \u00B7 ' + fyLabel(fiscalYearOf(state.per));
     if (PAGE.func && ui.fnBtn) {
       var n = state.fn.length, badge = ui.fnBtn.querySelector('.pf-badge'), vSpan = ui.fnBtn.querySelector('.pf-v');
@@ -577,7 +588,7 @@
     updateChips(); updateStatus(); updateHrefs();
     var nF = PAGE.func ? state.fn.length : 0;
     var sumEl = document.getElementById('pf-sum-t');
-    if (sumEl) sumEl.textContent = (PBU ? CUR_BU : 'All BUs') + ' \u00B7 ' + monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + (nF ? ' \u00B7 ' + nF + (nF === 1 ? ' filter' : ' filters') : '');
+    if (sumEl) sumEl.textContent = (PBU ? CUR_BU : 'Corporate') + ' \u00B7 ' + monthName(state.per).slice(0, 3) + ' ' + state.per.slice(0, 4) + (nF ? ' \u00B7 ' + nF + (nF === 1 ? ' filter' : ' filters') : '');
     if (trail) renderCrumbs(trail);
   }
 

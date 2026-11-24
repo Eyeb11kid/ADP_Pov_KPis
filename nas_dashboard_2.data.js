@@ -214,6 +214,50 @@ window.NAS_DATA = {
       "secs": [
 
       ]
+    },
+    {
+      "id": "hkpi-hc",
+      "href": "expense_pl_NAS_2.html#sec-expense-lines",
+      "attrs": "data-pf-unsupported=\"product\"",
+      "link": "Expense P&amp;L",
+      "tip": "<b>Headcount / FTE</b><br>Ending headcount: 860 vs Plan 850 · +10 / +1.2% higher than plan<br>Average FTE: 857.5 vs Plan 850.0 · +7.5 higher<br>Onshore 575 · Offshore GBS 285 (33.1% shoring mix)<br>Select to open Expense P&amp;L",
+      "val": "860",
+      "planVal": "850",
+      "label": "Headcount / FTE",
+      "desc": "Ending headcount (857.5 Avg FTE)",
+      "var": [
+        "+10 / +1.2% higher",
+        "neu up"
+      ],
+      "plan": "850",
+      "yoy": [
+        "+2.4% higher",
+        "neu up"
+      ],
+      "yoyPlan": [
+        "+1.5% higher",
+        "neu up"
+      ],
+      "secs": [
+        {
+          "label": "Average FTE",
+          "val": "857.5",
+          "var": [
+            "+7.5 higher",
+            "neu up"
+          ],
+          "planVal": "850.0"
+        },
+        {
+          "label": "Revenue per FTE",
+          "val": "$139.5K",
+          "var": [
+            "+$3.0K / +2.2%",
+            "fav"
+          ],
+          "planVal": "$136.5K"
+        }
+      ]
     }
   ],
   "timeView": {

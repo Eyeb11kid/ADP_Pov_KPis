@@ -172,3 +172,17 @@
 }
 .sc-modal-card .btn-sm:hover { color: var(--action-active); background: var(--surface-info); border-color: var(--action-active); }
 .sc-modal-card .btn-sm:active { color: var(--text-inverse); background: var(--action); border-color: var(--action); }
+
+/* Expense lines extensions: deeper indents and the row kinds used by the Expense P&L line tables (reference, section, subtotal, percent) */
+.wp-grid tr.xl3 td:first-child { padding-left: 52px; }
+.wp-grid tr.xl4 td:first-child { padding-left: 66px; }
+.wp-grid tr.xl5 td:first-child { padding-left: 80px; }
+.wp-grid tr.xl6 td:first-child { padding-left: 94px; }
+.wp-grid tr.xk-ref td { font-style: italic; color: var(--text-tertiary); }
+.wp-grid tr.xk-sect td { font-weight: var(--fw-bold); background: var(--surface-accent); border-top: 1px solid var(--border-strong); }
+.wp-grid tr.xk-sum td { font-weight: var(--fw-bold); background: var(--surface-info); }
+.wp-grid tr.xk-pct td { font-style: italic; color: var(--text-tertiary); }
+.wp-grid tr.xk-pct td:first-child { padding-left: 24px; }
+.wp-grid tr.xk-sect td.fav, .wp-grid tr.xk-sect td.unf, .wp-grid tr.xk-sum td.fav, .wp-grid tr.xk-sum td.unf { font-weight: 700; }
+.wp-grid tr.xk-sect:hover td, .wp-grid tr.xk-sum:hover td { background: var(--surface-accent); }
+.wp-card .exp-an-foot { padding: 6px 14px; font-size: var(--fs-12); color: var(--text-tertiary); background: var(--surface-alt); border-top: 1px solid var(--border); }

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAS NPI P&L 2 (Lyric) — Executive Close — ADP Project Polaris</title>
+<link rel="stylesheet" href="figma_tokens.css">
 <style>
   :root {
     --blue:#0f62fe; --navy:#161616; --green:#2e7d32; --red:#c8322f;
@@ -350,16 +351,29 @@
   .site-footer a:hover { text-decoration: underline; }
 </style>
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="app_header.css">
+
 <link rel="stylesheet" href="waypoint_theme.css">
 <link rel="stylesheet" href="side_nav.css">
+<script src="side_nav.js"></script>
+<link rel="stylesheet" href="rs_filter_select.css">
 </head>
 <body data-pf-page="P06" data-pf-bu="NAS">
 
 <!-- Top Chrome -->
 <header class="chrome">
   <div class="chrome-l">
-    <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP">
-    <span>Project Polaris</span>
+    <!-- ADP logo hidden for now; remove the comment markers to restore: <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP"> -->
+    <a href="index.html" title="Go to CFO Dashboard" style="color:inherit;text-decoration:none">Project Polaris</a>
+    <nav class="chrome-tabs" aria-label="Dashboards">
+      <a class="chrome-tab" href="index.html">Executive</a>
+      <a class="chrome-tab" href="Rs_Dashboord_3_Simple.html">RS</a>
+      <a class="chrome-tab" href="nas_dashboard_2.html" aria-current="true">NAS</a>
+    </nav>
+    <button type="button" class="fy-btn" data-pf-open="period" aria-haspopup="dialog" aria-expanded="false">
+      <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="15" height="13.5" rx="2"/><path d="M2.5 8h15M6.5 2.5v3M13.5 2.5v3"/></svg>
+      Fiscal Period
+    </button>
   </div>
   <div class="chrome-r">
     <span>Cycle: <b>September Close (FY27 Q1)</b></span>
@@ -383,6 +397,7 @@
     <a class="sn-item sn-sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
     <a class="sn-item sn-sub" href="expense_pl_NAS_2.html">Expense P&amp;L</a>
     <a class="sn-item sn-bu" href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
+    <a class="sn-item sn-bu" href="Rs_Dashboord_3_Simple.html">RS Dashboard (Simplified KPIs)</a>
     <div class="sn-divider"></div>
   </nav>
 

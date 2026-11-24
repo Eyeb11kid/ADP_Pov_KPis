@@ -1,0 +1,62 @@
+/* Filter row ("Select Simple" + "Picker") for the Polaris context bar (#pf-context).
+   Mirrors the inline block in Rs_Dashboord_3_Brand.html so pages linked from it match the RS dashboard.
+   Needs figma_tokens.css; load LAST in <head> so it wins over polaris_header.css / waypoint_theme.css. */
+/* ── Filters: Waypoint "Select Simple" (Figma 533:91872) + "Picker" ──────────────────────────
+   Input   40px, 2px --text-quaternary stroke, radius 8, 12px side padding, Body 02 value, filled --link caret
+   Hover   stroke --action      Focus  1px white + 3px --action ring      Disabled  --surface-accent / --border-strong
+   Label   Medium 14/21         Picker  radius 8, Elevation Level 8, items 8px padding, radius 6, Body 02 */
+#pf-context .ctx-lbl { font-size: var(--fs-14); line-height: 21px; font-weight: var(--fw-medium); letter-spacing: 0; text-transform: none; color: var(--text-primary); }
+#pf-context .pf-btn { box-sizing: border-box; height: 40px; min-width: 96px; padding: 8px 12px; gap: 8px; justify-content: space-between; font-size: var(--fs-16); line-height: 24px; font-weight: var(--fw-regular); color: var(--text-primary); background: var(--surface); border: 2px solid var(--text-quaternary); border-radius: 8px; }
+#pf-context .pf-btn .pf-v { font-weight: var(--fw-regular); }
+#pf-context .pf-btn .pf-ico { display: none; }
+#pf-context .pf-btn::after { content: ""; flex: none; width: 20px; height: 20px; background: no-repeat center / 20px 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.83333 8.33333L10 12.5L14.1667 8.33333H5.83333Z' fill='%23324FA5'/%3E%3C/svg%3E"); }
+#pf-context .pf-btn:hover:not([aria-disabled="true"]), #pf-context .pf-btn[aria-expanded="true"] { background: var(--surface); border-color: var(--action); }
+#pf-context .pf-btn:focus-visible { outline: none; border-color: var(--text-quaternary); box-shadow: var(--focus-ring); }
+#pf-context .pf-btn[aria-disabled="true"] { background: var(--surface-accent); border: 2px solid var(--border-strong); color: var(--text-quaternary); cursor: not-allowed; }
+#pf-context .pf-btn[aria-disabled="true"]::after { opacity: .4; }
+/* Filter select row removed (fiscal period is chosen from the "Fiscal Period" button in the header bar).
+   Hidden, not deleted, so polaris_header.js keeps working; the "Close in progress" banner can still show. */
+#pf-context { border-bottom: 0; }
+#pf-context .ctx-summary, #pf-context .ctx-body { display: none !important; }
+.pf-panel { border: 0; border-radius: 8px; box-shadow: var(--elevation-8); font-family: var(--font-family); font-size: var(--fs-16); line-height: 24px; color: var(--text-primary); }
+.pf-panel-hdr { padding: 16px 16px 8px; background: var(--surface); border-bottom: 0; border-radius: 8px 8px 0 0; font-size: var(--fs-16); line-height: 24px; letter-spacing: var(--ls-snug); text-transform: none; color: var(--text-primary); }
+.pf-panel-hdr small, .pf-panel-foot { font-size: var(--fs-14); line-height: 21px; color: var(--text-tertiary); }
+.pf-panel-foot { border-top: 1px solid var(--border); }
+.pf-list { padding: 8px; }
+.pf-opt { padding: 8px; gap: 8px; border-left: 0; border-radius: 6px; }
+.pf-opt:hover:not([aria-disabled="true"]) { background: var(--surface-accent); }
+.pf-opt[aria-selected="true"] { background: var(--surface-info); }
+.pf-opt .pf-main { font-weight: var(--fw-regular); }
+.pf-opt[aria-selected="true"] .pf-main { font-weight: var(--fw-medium); }
+.pf-opt .pf-sub, .pf-opt .pf-right { font-size: var(--fs-14); line-height: 21px; color: var(--text-tertiary); }
+.pf-opt[aria-disabled="true"] { color: var(--text-quaternary); }
+.pf-opt:focus-visible, .pf-cell:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.pf-cell { border: 1px solid var(--border-strong); border-radius: 6px; }
+.pf-cell .pf-m { font-size: var(--fs-14); font-weight: var(--fw-medium); }
+.pf-cell .pf-y, .pf-cell .pf-wk { color: var(--text-tertiary); }
+.pf-cell:hover:not([aria-disabled="true"]) { background: var(--surface-accent); border-color: var(--action); }
+.pf-cell[aria-selected="true"] { background: var(--action); border-color: var(--action); color: var(--text-inverse); }
+.pf-cell[aria-selected="true"] .pf-y, .pf-cell[aria-selected="true"] .pf-wk, .pf-cell[aria-selected="true"] .pf-tag { color: var(--text-inverse); }
+.pf-cell[aria-disabled="true"] { background: var(--surface-accent); border-style: solid; color: var(--text-quaternary); }
+.pf-panel .pf-sel { box-sizing: border-box; height: 32px; padding: 0 8px; font-family: inherit; font-size: var(--fs-14); font-weight: var(--fw-regular); color: var(--text-primary); background: var(--surface); border: 2px solid var(--text-quaternary); border-radius: 8px; }
+.pf-panel .pf-sel:hover { border-color: var(--action); }
+.pf-panel .pf-sel:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Transaction detail control bar: same Waypoint "Select Simple" / text-input spec as the filter row above ──
+   Field   40px, 2px --text-quaternary stroke, radius 8, 8/12px padding, Body 02 (16/24 regular), --surface fill
+   Select  native arrow replaced by the filled --link caret   Hover  stroke --action   Focus  1px white + 3px --action ring
+   Button  40px so it sits level with the fields */
+.ctrl-bar .search-input, .ctrl-bar .filter-select { box-sizing: border-box; height: 40px; padding: 8px 12px; font: inherit; font-size: var(--fs-16); line-height: 24px; font-weight: var(--fw-regular); color: var(--text-primary); background-color: var(--surface); border: 2px solid var(--text-quaternary); border-radius: 8px; }
+.ctrl-bar .search-input { flex: 1 1 320px; min-width: 240px; max-width: 520px; }
+.ctrl-bar .search-input::placeholder { color: var(--text-muted); opacity: 1; }
+.ctrl-bar .filter-select { -webkit-appearance: none; appearance: none; min-width: 96px; max-width: 100%; padding-right: 40px; cursor: pointer; background-repeat: no-repeat; background-position: right 10px center; background-size: 20px 20px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.83333 8.33333L10 12.5L14.1667 8.33333H5.83333Z' fill='%23324FA5'/%3E%3C/svg%3E"); }
+.ctrl-bar .search-input:hover, .ctrl-bar .filter-select:hover { border-color: var(--action); }
+.ctrl-bar .search-input:focus, .ctrl-bar .filter-select:focus { outline: none; }
+.ctrl-bar .search-input:focus-visible, .ctrl-bar .filter-select:focus-visible { outline: none; border-color: var(--text-quaternary); box-shadow: var(--focus-ring); }
+.ctrl-bar .btn { height: 40px; }
+/* Keep the transaction control bar on a single row */
+.ctrl-bar { flex-wrap: nowrap; }
+.ctrl-bar .ctrl-left { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; }
+.ctrl-bar .search-input { flex: 1 1 200px; min-width: 120px; max-width: 520px; }
+.ctrl-bar .filter-select { flex: 0 1 auto; min-width: 96px; text-overflow: ellipsis; }
+.ctrl-bar .btn { flex: 0 0 auto; white-space: nowrap; }

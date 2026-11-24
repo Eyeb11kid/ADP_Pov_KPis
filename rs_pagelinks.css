@@ -1,0 +1,15 @@
+/* Related-page link cards (Waypoint card surface) shown at the bottom of the RS dashboard, Revenue Analysis and Expense P&L.
+   Needs figma_tokens.css. */
+.wp-linkcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px 20px 24px; }
+.wp-linkcard { display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; min-height: 120px; padding: 16px; background: var(--surface); border: 1px solid var(--surface-accent); border-radius: 8px; box-shadow: var(--elevation-2); color: var(--text-primary); text-decoration: none; font-family: var(--font-family); }
+.wp-linkcard:hover { border-color: var(--action); box-shadow: var(--elevation-8); }
+.wp-linkcard:focus-visible { outline: none; border-color: var(--action); box-shadow: var(--focus-ring); }
+.wp-linkcard-eyebrow { font-size: var(--fs-12); font-weight: var(--fw-medium); color: var(--text-muted); }
+.wp-linkcard-title { font-size: var(--fs-16); font-weight: var(--fw-bold); letter-spacing: var(--ls-snug); color: var(--text-primary); }
+.wp-linkcard-desc { flex: 1; font-size: var(--fs-14); line-height: 1.5; color: var(--text-tertiary); }
+.wp-linkcard-go { font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--link); }
+.wp-linkcard-go::after { content: " \2192"; }
+.wp-linkcard:hover .wp-linkcard-go { color: var(--action-active); text-decoration: underline; }
+
+/* Headline KPI strip with a sixth card (Headcount / FTE) */
+@media (min-width: 1101px) { .kpis.kpis-5.kpis-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); } }

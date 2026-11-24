@@ -4,19 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NAS Revenue Analysis 2 — National Account Services — ADP Project Polaris</title>
+<link rel="stylesheet" href="figma_tokens.css">
 <link rel="stylesheet" href="revenue_analysis_2.css">
 <link rel="stylesheet" href="polaris_header.css">
+<link rel="stylesheet" href="app_header.css">
+
 <link rel="stylesheet" href="variance.css">
 <link rel="stylesheet" href="waypoint_theme.css">
+<link rel="stylesheet" href="wp_grid.css">
+<style>
+  /* Revenue Analysis panel in the Waypoint card style (same look as EXPENSE LINES on the NAS Expense P&L page) */
+  .epm-layout-grid .wp-card { margin-top: 0; }
+  .wp-card .right-tabstrip { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .wp-card .right-tab { font-family: var(--font-family); font-size: var(--fs-14); font-weight: var(--fw-medium); color: var(--text-tertiary); padding: 8px 16px; text-transform: none; letter-spacing: 0; }
+  .wp-card .right-tab:hover { color: var(--text-primary); background: var(--surface-alt); }
+  .wp-card .right-tab.active { color: var(--text-primary); border-bottom-color: var(--link); background: var(--surface); font-weight: var(--fw-medium); }
+  .wp-card .right-tab:focus-visible { outline: 2px solid var(--action); outline-offset: -2px; }
+  .wp-grid th.txt, .wp-grid td.txt { text-align: left; white-space: normal; min-width: 140px; }
+  /* drill-through rows keep their link behaviour */
+  .wp-grid a.line-link { color: inherit; text-decoration: none; cursor: pointer; }
+  .wp-grid a.line-link::after { content: "\203A"; color: var(--blue); font-size: 1.2em; font-weight: 700; margin-left: 6px; line-height: 1; vertical-align: -1px; }
+  .wp-grid tr.row-link { cursor: pointer; }
+  .wp-grid a.line-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
+</style>
 <link rel="stylesheet" href="side_nav.css">
+<link rel="stylesheet" href="rs_pagelinks.css">
+<script src="side_nav.js"></script>
+<link rel="stylesheet" href="rs_filter_select.css">
 </head>
 <body class="bu-nas" data-pf-page="P04" data-pf-bu="NAS">
 
 <!-- Top Chrome -->
 <header class="chrome">
   <div class="chrome-l">
-    <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP">
-    <span>Project Polaris</span>
+    <!-- ADP logo hidden for now; remove the comment markers to restore: <img class="chrome-logo" src="images/ADP-logo.png" alt="ADP"> -->
+    <a href="index.html" title="Go to CFO Dashboard" style="color:inherit;text-decoration:none">Project Polaris</a>
+    <nav class="chrome-tabs" aria-label="Dashboards">
+      <a class="chrome-tab" href="index.html">Executive</a>
+      <a class="chrome-tab" href="Rs_Dashboord_3_Simple.html">RS</a>
+      <a class="chrome-tab" href="nas_dashboard_2.html" aria-current="true">NAS</a>
+    </nav>
+    <button type="button" class="fy-btn" data-pf-open="period" aria-haspopup="dialog" aria-expanded="false">
+      <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="15" height="13.5" rx="2"/><path d="M2.5 8h15M6.5 2.5v3M13.5 2.5v3"/></svg>
+      Fiscal Period
+    </button>
   </div>
   <div class="chrome-r">
     <span>Cycle: <b>September Close (FY27 Q1)</b></span>
@@ -40,6 +71,7 @@
     <a class="sn-item sn-sub2" href="NAS_transaction_detail_2.html">NAS Transaction Detail</a>
     <a class="sn-item sn-sub" href="expense_pl_NAS_2.html">Expense P&amp;L</a>
     <a class="sn-item sn-bu" href="Rs_Dashboord_3_Brand.html">RS Dashboard</a>
+    <a class="sn-item sn-bu" href="Rs_Dashboord_3_Simple.html">RS Dashboard (Simplified KPIs)</a>
     <div class="sn-divider"></div>
   </nav>
 
@@ -141,28 +173,28 @@
       <div class="epm-layout-grid single">
 
           <!-- REVENUE ANALYSIS component container: one tabbed panel for the three tables (same header, variance key, pane header and table style on every tab) -->
-          <div class="epm-box rev-tabs" id="rev-analysis-box">
-            <div class="epm-box-hdr">
-              <span>REVENUE ANALYSIS ($K)</span>
-              <div class="tools"><span>September Close</span></div>
+          <div class="wp-card" id="rev-analysis-box">
+            <div class="wp-card-hdr">
+              <span class="wp-card-title">REVENUE ANALYSIS ($K)</span>
+              <span class="wp-card-sub">September Close</span>
             </div>
             <div class="right-tabstrip" role="tablist">
-              <button type="button" class="right-tab active" role="tab" aria-selected="true" data-pane="tab-rev-summary">REVENUE SUMMARY</button>
-              <button type="button" class="right-tab" role="tab" aria-selected="false" data-pane="tab-rev-rst">STARTS, LOSSES AND RETENTION</button>
-              <button type="button" class="right-tab" role="tab" aria-selected="false" data-pane="tab-rev-chan">NAS SALES CHANNEL ($K)</button>
+              <button type="button" class="right-tab active" role="tab" aria-selected="true" data-pane="tab-rev-summary">Revenue Summary</button>
+              <button type="button" class="right-tab" role="tab" aria-selected="false" data-pane="tab-rev-rst">Starts, Losses and Retention</button>
+              <button type="button" class="right-tab" role="tab" aria-selected="false" data-pane="tab-rev-chan">NAS Sales Channel ($K)</button>
             </div>
           <div class="right-tab-pane active" id="tab-rev-summary">
-            <div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
-            <div class="table-wrap">
-              <table class="epm-table rev-periods c1 c2 c3 c4 c5" id="rev-summary-table">
+            <div class="wp-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="wp-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
+            <div class="wp-scroll">
+              <table class="wp-grid c2 c3 c4 c5" id="rev-summary-table">
                 <thead>
                   <tr>
                     <th rowspan="2">Line</th>
-                    <th colspan="4" class="grp" data-grp="1" data-cols="8"><button type="button" class="grp-tg" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
-                    <th colspan="4" class="grp" data-grp="2" data-cols="5"><button type="button" class="grp-tg" title="Quarter to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>QTD</button></th>
-                    <th colspan="4" class="grp" data-grp="3" data-cols="6"><button type="button" class="grp-tg" title="Year to date" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>YTD</button></th>
-                    <th colspan="4" class="grp" data-grp="4" data-cols="7"><button type="button" class="grp-tg" title="Rest of year (FY less YTD)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>ROY</button></th>
-                    <th colspan="4" class="grp" data-grp="5" data-cols="5"><button type="button" class="grp-tg" title="Full year (latest forecast vs plan)" aria-expanded="false"><span class="grp-chev" aria-hidden="true"></span>FY</button></th>
+                    <th colspan="8" class="wp-grp" data-grp="1" data-cols="8"><button type="button" class="wp-gt" aria-expanded="true"><span class="wp-chev" aria-hidden="true"></span>Month (Sep)</button></th>
+                    <th colspan="4" class="wp-grp" data-grp="2" data-cols="5"><button type="button" class="wp-gt" title="Quarter to date" aria-expanded="false"><span class="wp-chev" aria-hidden="true"></span>QTD</button></th>
+                    <th colspan="4" class="wp-grp" data-grp="3" data-cols="6"><button type="button" class="wp-gt" title="Year to date" aria-expanded="false"><span class="wp-chev" aria-hidden="true"></span>YTD</button></th>
+                    <th colspan="4" class="wp-grp" data-grp="4" data-cols="7"><button type="button" class="wp-gt" title="Rest of year (FY less YTD)" aria-expanded="false"><span class="wp-chev" aria-hidden="true"></span>ROY</button></th>
+                    <th colspan="4" class="wp-grp" data-grp="5" data-cols="5"><button type="button" class="wp-gt" title="Full year (latest forecast vs plan)" aria-expanded="false"><span class="wp-chev" aria-hidden="true"></span>FY</button></th>
                   </tr>
                   <tr>
                     <th class="g1 gk">Actual</th><th class="g1 gp">Plan</th><th class="g1 gv">Var $</th><th class="g1 gv gz">Var %</th><th class="g1">Fcst</th><th class="g1">Var $</th><th class="g1">Var %</th><th class="g1 ge" title="Year over year: month actual vs same month last year">YoY %</th>
@@ -173,49 +205,49 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="row-link hx-row hx-L0" data-id="rev"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=rev" data-pf-line="Revenue (for reference)" title="Open GL transaction detail for Revenue (for reference)">Revenue (for reference)</a></td><td class="g1 gk">107,300.0</td><td class="g1 gp">103,723.3</td><td class="g1 fav gv">+3,576.7</td><td class="g1 fav gv gz">+3.4%</td><td class="g1">105,511.7</td><td class="g1 fav">+1,788.3</td><td class="g1 fav">+1.7%</td><td class="g1 fav ge">+5.9%</td><td class="g2 gk">317,608.0</td><td class="g2 gp">311,170.0</td><td class="g2 fav gv">+6,438.0</td><td class="g2 fav gv gz">+2.1%</td><td class="g2 fav ge">+5.9%</td><td class="g3 gk">317,608.0</td><td class="g3 gp">311,170.0</td><td class="g3 fav gv">+6,438.0</td><td class="g3 fav gv gz">+2.1%</td><td class="g3">25.5%</td><td class="g3 fav ge">+5.9%</td><td class="g4 gk">949,605.0</td><td class="g4 gp">933,510.0</td><td class="g4 fav gv">+16,095.0</td><td class="g4 fav gv gz">+1.7%</td><td class="g4">927,072.0</td><td class="g4">(2.7%)</td><td class="g4 fav ge">+6.7%</td><td class="g5 gk">1,267,213.0</td><td class="g5 gp">1,244,680.0</td><td class="g5 fav gv">+22,533.0</td><td class="g5 fav gv gz">+1.8%</td><td class="g5 fav ge">+6.5%</td></tr>
-                  <tr class="hx-row hx-L0" data-id="starts"><td class="hx-c0">Starts</td><td class="g1 gk">13,591.3</td><td class="g1 gp">13,054.8</td><td class="g1 fav gv">+536.5</td><td class="g1 fav gv gz">+4.1%</td><td class="g1">13,323.1</td><td class="g1 fav">+268.3</td><td class="g1 fav">+2.0%</td><td class="g1 fav ge">+9.2%</td><td class="g2 gk">40,230.3</td><td class="g2 gp">39,164.5</td><td class="g2 fav gv">+1,065.8</td><td class="g2 fav gv gz">+2.7%</td><td class="g2 fav ge">+9.8%</td><td class="g3 gk">40,230.3</td><td class="g3 gp">39,164.5</td><td class="g3 fav gv">+1,065.8</td><td class="g3 fav gv gz">+2.7%</td><td class="g3">25.7%</td><td class="g3 fav ge">+9.8%</td><td class="g4 gk">119,907.8</td><td class="g4 gp">117,493.5</td><td class="g4 fav gv">+2,414.3</td><td class="g4 fav gv gz">+2.1%</td><td class="g4">116,427.7</td><td class="g4">(3.5%)</td><td class="g4 fav ge">+8.8%</td><td class="g5 gk">160,138.1</td><td class="g5 gp">156,658.0</td><td class="g5 fav gv">+3,480.1</td><td class="g5 fav gv gz">+2.2%</td><td class="g5 fav ge">+9.1%</td></tr>
-                  <tr class="hx-row hx-L0" data-id="losses"><td class="hx-c0">Losses</td><td class="g1 gk">(8,762.8)</td><td class="g1 gp">(8,941.7)</td><td class="g1 fav gv">+178.8</td><td class="g1 fav gv gz">+2.0%</td><td class="g1">(8,852.3)</td><td class="g1 fav">+89.4</td><td class="g1 fav">+1.0%</td><td class="g1 fav ge">+4.3%</td><td class="g2 gk">(25,938.0)</td><td class="g2 gp">(26,825.0)</td><td class="g2 fav gv">+887.0</td><td class="g2 fav gv gz">+3.3%</td><td class="g2 fav ge">+4.4%</td><td class="g3 gk">(25,938.0)</td><td class="g3 gp">(26,825.0)</td><td class="g3 fav gv">+887.0</td><td class="g3 fav gv gz">+3.3%</td><td class="g3">24.2%</td><td class="g3 fav ge">+4.4%</td><td class="g4 gk">(79,670.3)</td><td class="g4 gp">(80,475.0)</td><td class="g4 fav gv">+804.8</td><td class="g4 fav gv gz">+1.0%</td><td class="g4">(81,362.0)</td><td class="g4">+4.6%</td><td class="g4 fav ge">+4.2%</td><td class="g5 gk">(105,608.2)</td><td class="g5 gp">(107,300.0)</td><td class="g5 fav gv">+1,691.8</td><td class="g5 fav gv gz">+1.6%</td><td class="g5 fav ge">+4.3%</td></tr>
-                  <tr class="row-link hx-row hx-L0" data-id="baddebt"><td class="hx-c0"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=baddebt" data-pf-line="Bad debt" title="Open GL transaction detail for Bad debt">Bad debt</a></td><td class="g1 gk">375.6</td><td class="g1 gp">402.4</td><td class="g1 fav gv">+26.8</td><td class="g1 fav gv gz">+6.7%</td><td class="g1">389.0</td><td class="g1 fav">+13.4</td><td class="g1 fav">+3.4%</td><td class="g1 unf ge">+2.8%</td><td class="g2 gk">1,111.6</td><td class="g2 gp">1,207.1</td><td class="g2 fav gv">+95.5</td><td class="g2 fav gv gz">+7.9%</td><td class="g2 unf ge">+2.8%</td><td class="g3 gk">1,111.6</td><td class="g3 gp">1,207.1</td><td class="g3 fav gv">+95.5</td><td class="g3 fav gv gz">+7.9%</td><td class="g3">23.0%</td><td class="g3 unf ge">+2.8%</td><td class="g4 gk">3,500.7</td><td class="g4 gp">3,621.4</td><td class="g4 fav gv">+120.7</td><td class="g4 fav gv gz">+3.3%</td><td class="g4">3,716.9</td><td class="g4">+11.5%</td><td class="g4 unf ge">+2.6%</td><td class="g5 gk">4,612.3</td><td class="g5 gp">4,828.5</td><td class="g5 fav gv">+216.2</td><td class="g5 fav gv gz">+4.5%</td><td class="g5 unf ge">+2.7%</td></tr>
-                  <tr class="hx-row hx-L0" data-id="cpf"><td class="hx-c0">Cost per FTE: base and implementation*</td><td class="g1 gk">$88.0K</td><td class="g1 gp">$88.6K</td><td class="g1 fav gv">+$0.6K</td><td class="g1 fav gv gz">+0.7%</td><td class="g1">$88.3K</td><td class="g1 fav">+$0.4K</td><td class="g1 fav">+0.4%</td><td class="g1 unf ge">+3.8%</td><td class="g2 gk">$88.2K</td><td class="g2 gp">$88.6K</td><td class="g2 fav gv">+$0.4K</td><td class="g2 fav gv gz">+0.5%</td><td class="g2 unf ge">+4.3%</td><td class="g3 gk">$88.2K</td><td class="g3 gp">$88.6K</td><td class="g3 fav gv">+$0.4K</td><td class="g3 fav gv gz">+0.5%</td><td class="g3">-</td><td class="g3 unf ge">+4.3%</td><td class="g4 gk">$88.3K</td><td class="g4 gp">$88.6K</td><td class="g4 fav gv">+$0.3K</td><td class="g4 fav gv gz">+0.3%</td><td class="g4">-</td><td class="g4">-</td><td class="g4 unf ge">+3.1%</td><td class="g5 gk">$88.3K</td><td class="g5 gp">$88.6K</td><td class="g5 fav gv">+$0.3K</td><td class="g5 fav gv gz">+0.3%</td><td class="g5 unf ge">+3.4%</td></tr>
+                  <tr class="xr xk-ref xl0 row-link" data-id="rev"><td><span class="wp-lab"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=rev" data-pf-line="Revenue (for reference)" title="Open GL transaction detail for Revenue (for reference)">Revenue (for reference)</a></span></td><td class="g1 gk">107,300.0</td><td class="g1 gp">103,723.3</td><td class="g1 fav gv">+3,576.7</td><td class="g1 fav gv gz">+3.4%</td><td class="g1">105,511.7</td><td class="g1 fav">+1,788.3</td><td class="g1 fav">+1.7%</td><td class="g1 fav ge">+5.9%</td><td class="g2 gk">317,608.0</td><td class="g2 gp">311,170.0</td><td class="g2 fav gv">+6,438.0</td><td class="g2 fav gv gz">+2.1%</td><td class="g2 fav ge">+5.9%</td><td class="g3 gk">317,608.0</td><td class="g3 gp">311,170.0</td><td class="g3 fav gv">+6,438.0</td><td class="g3 fav gv gz">+2.1%</td><td class="g3">25.5%</td><td class="g3 fav ge">+5.9%</td><td class="g4 gk">949,605.0</td><td class="g4 gp">933,510.0</td><td class="g4 fav gv">+16,095.0</td><td class="g4 fav gv gz">+1.7%</td><td class="g4">927,072.0</td><td class="g4">(2.7%)</td><td class="g4 fav ge">+6.7%</td><td class="g5 gk">1,267,213.0</td><td class="g5 gp">1,244,680.0</td><td class="g5 fav gv">+22,533.0</td><td class="g5 fav gv gz">+1.8%</td><td class="g5 fav ge">+6.5%</td></tr>
+                  <tr class="xr xk-child xl0" data-id="starts"><td><span class="wp-lab">Starts</span></td><td class="g1 gk">13,591.3</td><td class="g1 gp">13,054.8</td><td class="g1 fav gv">+536.5</td><td class="g1 fav gv gz">+4.1%</td><td class="g1">13,323.1</td><td class="g1 fav">+268.3</td><td class="g1 fav">+2.0%</td><td class="g1 fav ge">+9.2%</td><td class="g2 gk">40,230.3</td><td class="g2 gp">39,164.5</td><td class="g2 fav gv">+1,065.8</td><td class="g2 fav gv gz">+2.7%</td><td class="g2 fav ge">+9.8%</td><td class="g3 gk">40,230.3</td><td class="g3 gp">39,164.5</td><td class="g3 fav gv">+1,065.8</td><td class="g3 fav gv gz">+2.7%</td><td class="g3">25.7%</td><td class="g3 fav ge">+9.8%</td><td class="g4 gk">119,907.8</td><td class="g4 gp">117,493.5</td><td class="g4 fav gv">+2,414.3</td><td class="g4 fav gv gz">+2.1%</td><td class="g4">116,427.7</td><td class="g4">(3.5%)</td><td class="g4 fav ge">+8.8%</td><td class="g5 gk">160,138.1</td><td class="g5 gp">156,658.0</td><td class="g5 fav gv">+3,480.1</td><td class="g5 fav gv gz">+2.2%</td><td class="g5 fav ge">+9.1%</td></tr>
+                  <tr class="xr xk-child xl0" data-id="losses"><td><span class="wp-lab">Losses</span></td><td class="g1 gk">(8,762.8)</td><td class="g1 gp">(8,941.7)</td><td class="g1 fav gv">+178.8</td><td class="g1 fav gv gz">+2.0%</td><td class="g1">(8,852.3)</td><td class="g1 fav">+89.4</td><td class="g1 fav">+1.0%</td><td class="g1 fav ge">+4.3%</td><td class="g2 gk">(25,938.0)</td><td class="g2 gp">(26,825.0)</td><td class="g2 fav gv">+887.0</td><td class="g2 fav gv gz">+3.3%</td><td class="g2 fav ge">+4.4%</td><td class="g3 gk">(25,938.0)</td><td class="g3 gp">(26,825.0)</td><td class="g3 fav gv">+887.0</td><td class="g3 fav gv gz">+3.3%</td><td class="g3">24.2%</td><td class="g3 fav ge">+4.4%</td><td class="g4 gk">(79,670.3)</td><td class="g4 gp">(80,475.0)</td><td class="g4 fav gv">+804.8</td><td class="g4 fav gv gz">+1.0%</td><td class="g4">(81,362.0)</td><td class="g4">+4.6%</td><td class="g4 fav ge">+4.2%</td><td class="g5 gk">(105,608.2)</td><td class="g5 gp">(107,300.0)</td><td class="g5 fav gv">+1,691.8</td><td class="g5 fav gv gz">+1.6%</td><td class="g5 fav ge">+4.3%</td></tr>
+                  <tr class="xr xk-child xl0 row-link" data-id="baddebt"><td><span class="wp-lab"><a class="line-link" href="NAS_transaction_detail_2.html" data-pf-q="line=baddebt" data-pf-line="Bad debt" title="Open GL transaction detail for Bad debt">Bad debt</a></span></td><td class="g1 gk">375.6</td><td class="g1 gp">402.4</td><td class="g1 fav gv">+26.8</td><td class="g1 fav gv gz">+6.7%</td><td class="g1">389.0</td><td class="g1 fav">+13.4</td><td class="g1 fav">+3.4%</td><td class="g1 unf ge">+2.8%</td><td class="g2 gk">1,111.6</td><td class="g2 gp">1,207.1</td><td class="g2 fav gv">+95.5</td><td class="g2 fav gv gz">+7.9%</td><td class="g2 unf ge">+2.8%</td><td class="g3 gk">1,111.6</td><td class="g3 gp">1,207.1</td><td class="g3 fav gv">+95.5</td><td class="g3 fav gv gz">+7.9%</td><td class="g3">23.0%</td><td class="g3 unf ge">+2.8%</td><td class="g4 gk">3,500.7</td><td class="g4 gp">3,621.4</td><td class="g4 fav gv">+120.7</td><td class="g4 fav gv gz">+3.3%</td><td class="g4">3,716.9</td><td class="g4">+11.5%</td><td class="g4 unf ge">+2.6%</td><td class="g5 gk">4,612.3</td><td class="g5 gp">4,828.5</td><td class="g5 fav gv">+216.2</td><td class="g5 fav gv gz">+4.5%</td><td class="g5 unf ge">+2.7%</td></tr>
+                  <tr class="xr xk-child xl0" data-id="cpf"><td><span class="wp-lab">Cost per FTE: base and implementation*</span></td><td class="g1 gk">$88.0K</td><td class="g1 gp">$88.6K</td><td class="g1 fav gv">+$0.6K</td><td class="g1 fav gv gz">+0.7%</td><td class="g1">$88.3K</td><td class="g1 fav">+$0.4K</td><td class="g1 fav">+0.4%</td><td class="g1 unf ge">+3.8%</td><td class="g2 gk">$88.2K</td><td class="g2 gp">$88.6K</td><td class="g2 fav gv">+$0.4K</td><td class="g2 fav gv gz">+0.5%</td><td class="g2 unf ge">+4.3%</td><td class="g3 gk">$88.2K</td><td class="g3 gp">$88.6K</td><td class="g3 fav gv">+$0.4K</td><td class="g3 fav gv gz">+0.5%</td><td class="g3">-</td><td class="g3 unf ge">+4.3%</td><td class="g4 gk">$88.3K</td><td class="g4 gp">$88.6K</td><td class="g4 fav gv">+$0.3K</td><td class="g4 fav gv gz">+0.3%</td><td class="g4">-</td><td class="g4">-</td><td class="g4 unf ge">+3.1%</td><td class="g5 gk">$88.3K</td><td class="g5 gp">$88.6K</td><td class="g5 fav gv">+$0.3K</td><td class="g5 fav gv gz">+0.3%</td><td class="g5 unf ge">+3.4%</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="right-tab-pane" id="tab-rev-rst">
-            <div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
-            <div class="table-wrap">
-              <table class="epm-table rev-flat" id="rev-rst-table">
+            <div class="wp-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="wp-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
+            <div class="wp-scroll">
+              <table class="wp-grid" id="rev-rst-table">
                 <thead><tr><th>Line</th><th>Sep Act</th><th>Plan</th><th>Var</th><th>QTD</th><th>YTD</th><th>ROY</th><th>FY</th></tr></thead>
                 <tbody>
-                  <tr class="group-hdr"><td colspan="8">Revenue</td></tr>
-                  <tr class="summary-row"><td>Total revenue</td><td>107,300.0</td><td>103,723.3</td><td class="fav">+3,576.7 / +3.4%</td><td>317,608.0</td><td>317,608.0</td><td>924,174.9</td><td>1,241,782.9</td></tr>
-                  <tr class="summary-row sub-row"><td class="indent">Recurring service revenue</td><td>87,628.3</td><td>84,588.2</td><td class="fav">+3,040.2 / +3.6%</td><td>259,379.9</td><td>259,379.9</td><td>753,680.6</td><td>1,013,060.4</td></tr>
-                  <tr><td class="indent2">Payroll processing</td><td>54,723.0</td><td>52,666.4</td><td class="fav">+2,056.6 / +3.9%</td><td>161,980.1</td><td>161,980.1</td><td>469,257.8</td><td>631,237.9</td></tr>
-                  <tr><td class="indent2">HCM and benefits administration</td><td>32,905.3</td><td>31,921.8</td><td class="fav">+983.6 / +3.1%</td><td>97,399.8</td><td>97,399.8</td><td>284,422.8</td><td>381,822.6</td></tr>
-                  <tr><td class="indent">Implementation and setup revenue</td><td>11,445.3</td><td>10,640.6</td><td class="fav">+804.8 / +7.6%</td><td>33,878.2</td><td>33,878.2</td><td>94,807.6</td><td>128,685.8</td></tr>
-                  <tr><td class="indent">Other revenue (interest, pass-through)</td><td>8,226.3</td><td>8,494.6</td><td class="unf">(268.3) / −3.2%</td><td>24,349.9</td><td>24,349.9</td><td>75,686.7</td><td>100,036.7</td></tr>
-                  <tr class="group-hdr"><td colspan="8">Sales, starts, losses and retention</td></tr>
-                  <tr class="summary-row"><td>Sales dollars</td><td>16,631.5</td><td>16,095.0</td><td class="fav">+536.5 / +3.3%</td><td>49,229.2</td><td>49,229.2</td><td>143,406.5</td><td>192,635.7</td></tr>
-                  <tr><td class="indent">Sales by channel: Direct</td><td>10,461.8</td><td>10,282.9</td><td class="fav">+178.8 / +1.7%</td><td>30,966.8</td><td>30,966.8</td><td>91,620.8</td><td>122,587.6</td></tr>
-                  <tr><td class="indent">Sales by channel: Partner / Broker</td><td>4,023.8</td><td>3,755.5</td><td class="fav">+268.3 / +7.1%</td><td>11,910.3</td><td>11,910.3</td><td>33,461.5</td><td>45,371.8</td></tr>
-                  <tr><td class="indent">Sales by channel: Digital</td><td>2,146.0</td><td>2,056.6</td><td class="fav">+89.4 / +4.3%</td><td>6,352.2</td><td>6,352.2</td><td>18,324.2</td><td>24,676.3</td></tr>
-                  <tr><td>Start dollars</td><td>13,591.3</td><td>13,054.8</td><td class="fav">+536.5 / +4.1%</td><td>40,230.3</td><td>40,230.3</td><td>116,318.6</td><td>156,548.9</td></tr>
-                  <tr><td>Loss dollars</td><td>(8,762.8)</td><td>(8,584.0)</td><td class="unf">(178.8) / −2.1%</td><td>(25,938.0)</td><td>(25,938.0)</td><td>(76,483.4)</td><td>(102,421.4)</td></tr>
-                  <tr class="summary-row"><td>Net new business (Starts - Losses)</td><td>4,828.5</td><td>4,470.8</td><td class="fav">+357.7 / +8.0%</td><td>14,292.4</td><td>14,292.4</td><td>39,835.1</td><td>54,127.5</td></tr>
-                  <tr><td>Retention % (annualized)</td><td>92.4%</td><td>92.0%</td><td class="fav">+40 bps</td><td>92.4%</td><td>-</td><td>-</td><td>-</td></tr>
-                  <tr><td>Average clients (count)</td><td>61,500</td><td>61,200</td><td class="fav">+300 / +0.5%</td><td>61,500</td><td>-</td><td>-</td><td>-</td></tr>
-                  <tr class="group-hdr"><td colspan="8">Ratios</td></tr>
-                  <tr><td>NOI margin %</td><td>23.3%</td><td>21.1%</td><td class="fav">+220 bps</td><td>23.3%</td><td>-</td><td>-</td><td>-</td></tr>
-                  <tr><td>Revenue per client ($)</td><td>$1,745</td><td>$1,694</td><td class="fav">+$50</td><td>$1,745</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr class="xr xk-sect xl0" data-id="rr1"><td><span class="wp-lab">Revenue</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                  <tr class="xr xk-parent xl0" data-id="rr2"><td><span class="wp-lab">Total revenue</span></td><td>107,300.0</td><td>103,723.3</td><td class="fav">+3,576.7 / +3.4%</td><td>317,608.0</td><td>317,608.0</td><td>924,174.9</td><td>1,241,782.9</td></tr>
+                  <tr class="xr xk-parent xl1" data-id="rr3"><td><span class="wp-lab">Recurring service revenue</span></td><td>87,628.3</td><td>84,588.2</td><td class="fav">+3,040.2 / +3.6%</td><td>259,379.9</td><td>259,379.9</td><td>753,680.6</td><td>1,013,060.4</td></tr>
+                  <tr class="xr xk-child xl2" data-id="rr4"><td><span class="wp-lab">Payroll processing</span></td><td>54,723.0</td><td>52,666.4</td><td class="fav">+2,056.6 / +3.9%</td><td>161,980.1</td><td>161,980.1</td><td>469,257.8</td><td>631,237.9</td></tr>
+                  <tr class="xr xk-child xl2" data-id="rr5"><td><span class="wp-lab">HCM and benefits administration</span></td><td>32,905.3</td><td>31,921.8</td><td class="fav">+983.6 / +3.1%</td><td>97,399.8</td><td>97,399.8</td><td>284,422.8</td><td>381,822.6</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr6"><td><span class="wp-lab">Implementation and setup revenue</span></td><td>11,445.3</td><td>10,640.6</td><td class="fav">+804.8 / +7.6%</td><td>33,878.2</td><td>33,878.2</td><td>94,807.6</td><td>128,685.8</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr7"><td><span class="wp-lab">Other revenue (interest, pass-through)</span></td><td>8,226.3</td><td>8,494.6</td><td class="unf">(268.3) / −3.2%</td><td>24,349.9</td><td>24,349.9</td><td>75,686.7</td><td>100,036.7</td></tr>
+                  <tr class="xr xk-sect xl0" data-id="rr8"><td><span class="wp-lab">Sales, starts, losses and retention</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                  <tr class="xr xk-parent xl0" data-id="rr9"><td><span class="wp-lab">Sales dollars</span></td><td>16,631.5</td><td>16,095.0</td><td class="fav">+536.5 / +3.3%</td><td>49,229.2</td><td>49,229.2</td><td>143,406.5</td><td>192,635.7</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr10"><td><span class="wp-lab">Sales by channel: Direct</span></td><td>10,461.8</td><td>10,282.9</td><td class="fav">+178.8 / +1.7%</td><td>30,966.8</td><td>30,966.8</td><td>91,620.8</td><td>122,587.6</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr11"><td><span class="wp-lab">Sales by channel: Partner / Broker</span></td><td>4,023.8</td><td>3,755.5</td><td class="fav">+268.3 / +7.1%</td><td>11,910.3</td><td>11,910.3</td><td>33,461.5</td><td>45,371.8</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr12"><td><span class="wp-lab">Sales by channel: Digital</span></td><td>2,146.0</td><td>2,056.6</td><td class="fav">+89.4 / +4.3%</td><td>6,352.2</td><td>6,352.2</td><td>18,324.2</td><td>24,676.3</td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr13"><td><span class="wp-lab">Start dollars</span></td><td>13,591.3</td><td>13,054.8</td><td class="fav">+536.5 / +4.1%</td><td>40,230.3</td><td>40,230.3</td><td>116,318.6</td><td>156,548.9</td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr14"><td><span class="wp-lab">Loss dollars</span></td><td>(8,762.8)</td><td>(8,584.0)</td><td class="unf">(178.8) / −2.1%</td><td>(25,938.0)</td><td>(25,938.0)</td><td>(76,483.4)</td><td>(102,421.4)</td></tr>
+                  <tr class="xr xk-parent xl0" data-id="rr15"><td><span class="wp-lab">Net new business (Starts - Losses)</span></td><td>4,828.5</td><td>4,470.8</td><td class="fav">+357.7 / +8.0%</td><td>14,292.4</td><td>14,292.4</td><td>39,835.1</td><td>54,127.5</td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr16"><td><span class="wp-lab">Retention % (annualized)</span></td><td>92.4%</td><td>92.0%</td><td class="fav">+40 bps</td><td>92.4%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr17"><td><span class="wp-lab">Average clients (count)</span></td><td>61,500</td><td>61,200</td><td class="fav">+300 / +0.5%</td><td>61,500</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr class="xr xk-sect xl0" data-id="rr18"><td><span class="wp-lab">Ratios</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr19"><td><span class="wp-lab">NOI margin %</span></td><td>23.3%</td><td>21.1%</td><td class="fav">+220 bps</td><td>23.3%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr class="xr xk-child xl0" data-id="rr20"><td><span class="wp-lab">Revenue per client ($)</span></td><td>$1,745</td><td>$1,694</td><td class="fav">+$50</td><td>$1,745</td><td>-</td><td>-</td><td>-</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="right-tab-pane" id="tab-rev-chan">
-            <div class="var-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="var-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
-            <div class="table-wrap">
-              <table class="epm-table rev-flat" id="sales-channel-table">
+            <div class="wp-note" role="note"><b>Variance key</b> <span class="fav">+1,000 / +5.0%</span> favorable <span class="unf">(1,000) / −5.0%</span> unfavorable <span class="wp-note-t">Positive variance = favorable. $ and % are always shown together.</span></div>
+            <div class="wp-scroll">
+              <table class="wp-grid" id="sales-channel-table">
                 <thead>
                   <tr>
                     <th>Line</th>
@@ -228,23 +260,31 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="summary-row top"><td>Sales</td><td class="txt">NAS</td><td>16,631.5</td><td>16,095.0</td><td class="fav">+536.5</td><td class="fav">+3.3%</td><td>100.0%</td></tr>
-                  <tr><td class="indent">Direct enterprise sales force</td><td class="txt">NAS</td><td>8,762.8</td><td>8,494.6</td><td class="fav">+268.3</td><td class="fav">+3.2%</td><td>52.7%</td></tr>
-                  <tr><td class="indent">Major accounts team</td><td class="txt">NAS</td><td>3,040.2</td><td>2,950.8</td><td class="fav">+89.4</td><td class="fav">+3.0%</td><td>18.3%</td></tr>
-                  <tr><td class="indent">Advisor &amp; consultant channel</td><td class="txt">Partner</td><td>3,397.8</td><td>3,308.4</td><td class="fav">+89.4</td><td class="fav">+2.7%</td><td>20.4%</td></tr>
-                  <tr><td class="indent">Digital inbound sales</td><td class="txt">Digital</td><td>894.2</td><td>849.5</td><td class="fav">+44.7</td><td class="fav">+5.3%</td><td>5.4%</td></tr>
-                  <tr><td class="indent">Inside sales</td><td class="txt">Digital</td><td>536.5</td><td>491.8</td><td class="fav">+44.7</td><td class="fav">+9.1%</td><td>3.2%</td></tr>
+                  <tr class="xr xk-parent xl0" data-id="rr21"><td><span class="wp-lab">Sales</span></td><td class="txt">NAS</td><td>16,631.5</td><td>16,095.0</td><td class="fav">+536.5</td><td class="fav">+3.3%</td><td>100.0%</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr22"><td><span class="wp-lab">Direct enterprise sales force</span></td><td class="txt">NAS</td><td>8,762.8</td><td>8,494.6</td><td class="fav">+268.3</td><td class="fav">+3.2%</td><td>52.7%</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr23"><td><span class="wp-lab">Major accounts team</span></td><td class="txt">NAS</td><td>3,040.2</td><td>2,950.8</td><td class="fav">+89.4</td><td class="fav">+3.0%</td><td>18.3%</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr24"><td><span class="wp-lab">Advisor &amp; consultant channel</span></td><td class="txt">Partner</td><td>3,397.8</td><td>3,308.4</td><td class="fav">+89.4</td><td class="fav">+2.7%</td><td>20.4%</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr25"><td><span class="wp-lab">Digital inbound sales</span></td><td class="txt">Digital</td><td>894.2</td><td>849.5</td><td class="fav">+44.7</td><td class="fav">+5.3%</td><td>5.4%</td></tr>
+                  <tr class="xr xk-child xl1" data-id="rr26"><td><span class="wp-lab">Inside sales</span></td><td class="txt">Digital</td><td>536.5</td><td>491.8</td><td class="fav">+44.7</td><td class="fav">+9.1%</td><td>3.2%</td></tr>
                 </tbody>
               </table>
             </div>
-            <div class="pane-ftr">
-              <span>Channel = the sales organization that sold the product. Sales credit goes to the selling channel; revenue stays with the BU that owns the product. Illustrative NAS placeholder figures.</span>
-            </div>
+            <div class="exp-an-foot">Channel = the sales organization that sold the product. Sales credit goes to the selling channel; revenue stays with the BU that owns the product. Illustrative NAS placeholder figures.</div>
           </div>
           </div>
 
       </div>
     </div>
+
+    <!-- Related pages: Waypoint link cards -->
+    <nav class="wp-linkcards" aria-label="Related NAS pages">
+<a class="wp-linkcard" href="expense_pl_NAS_2.html">
+  <span class="wp-linkcard-eyebrow">NAS · September Close</span>
+  <span class="wp-linkcard-title">EXPENSE P&amp;L</span>
+  <span class="wp-linkcard-desc">NAS expense lines and allocations through to NOI.</span>
+  <span class="wp-linkcard-go">Open Expense P&amp;L</span>
+</a>
+    </nav>
 
   </main>
 </div>
@@ -270,8 +310,8 @@
 (function () {
   var tbl = document.getElementById('rev-summary-table');
   if (!tbl) return;
-  tbl.querySelectorAll('th.grp[data-grp]').forEach(function (th) {
-    var btn = th.querySelector('.grp-tg'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
+  tbl.querySelectorAll('th.wp-grp[data-grp]').forEach(function (th) {
+    var btn = th.querySelector('.wp-gt'), g = th.getAttribute('data-grp'), n = parseInt(th.getAttribute('data-cols'), 10);
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') !== 'true';
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');

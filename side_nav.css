@@ -46,3 +46,35 @@
 @media (max-width: 900px) {
   .sidebar.side-nav { width: 100%; border-right: 0; border-bottom: 1px solid #e3dfda; max-height: 320px; }
 }
+
+/* Collapsible side nav: slides out of view; the "Menu" handle (added by side_nav.js) slides it back in.
+   State is the .nav-collapsed class on <html>; .nav-ready (set after first paint) turns on the slide animation. */
+.shell { position: relative; }
+html.nav-ready .sidebar.side-nav { transition: margin-left .2s ease, visibility 0s linear 0s; }
+html.nav-collapsed .sidebar.side-nav { margin-left: -232px; visibility: hidden; }
+html.nav-ready.nav-collapsed .sidebar.side-nav { transition: margin-left .2s ease, visibility 0s linear .2s; }
+
+.sn-handle {
+  position: absolute; top: 166px; left: 232px; z-index: 150;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 8px;
+  box-sizing: border-box; width: 20px; padding: 10px 0; margin: 0;
+  background: #fff; color: #393533;
+  border: 1px solid #e3dfda; border-left: 0; border-radius: 0 6px 6px 0;
+  font-family: inherit; font-size: 12px; font-weight: 700; line-height: 1; letter-spacing: .08em; text-transform: uppercase;
+  cursor: pointer;
+}
+.sn-handle-label { writing-mode: vertical-rl; white-space: nowrap; }
+html.nav-ready .sn-handle { transition: left .2s ease; }
+html.nav-collapsed .sn-handle { left: 0; }
+.sn-handle:hover { background: #f2f0ed; color: #262321; }
+.sn-handle:focus-visible { outline: 2px solid #324fa5; outline-offset: 1px; }
+.sn-handle-chev { display: block; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-right: 5px solid currentColor; flex: none; }
+html.nav-collapsed .sn-handle-chev { border-right: 0; border-left: 5px solid currentColor; }
+
+@media (max-width: 900px) {
+  /* sidebar is stacked above the content here: hide it outright and put the handle top right */
+  html.nav-collapsed .sidebar.side-nav { display: none; margin-left: 0; }
+  .sn-handle, html.nav-collapsed .sn-handle { left: auto; right: 8px; top: 8px; width: auto; padding: 6px 10px; flex-direction: row; border: 1px solid #e3dfda; border-radius: 6px; }
+  .sn-handle-label, html.nav-collapsed .sn-handle-label { writing-mode: horizontal-tb; }
+}
+@media print { .sn-handle { display: none; } }
