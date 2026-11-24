@@ -26,7 +26,7 @@
     { code: 'P01', label: 'CFO Dashboard',     area: 'corp',   file: { ALL: 'index.html' }, cfoOnly: true, product: false, func: false, toggle: true,  views: ['month', 'ytd', 'fy'] },
     // SEC P&L link hidden for now (uncomment to restore):
     // { code: 'P02', label: 'SEC P&L',           area: 'corp',   file: { ALL: 'sec_report.html' },       cfoOnly: true, product: false, func: false, toggle: false, views: null },
-    { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'Rs_Dashboord_3_Brand.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },
+    { code: 'P03', label: 'BU Dashboard',      area: 'bu',     file: { RS: 'Rs_Dashboord_3_Simple.html', NAS: 'nas_dashboard_2.html' }, product: true, func: false, toggle: true,  views: null },
     { code: 'P08', label: 'RS Dashboard (Draft)', area: 'bu', file: { RS: 'rs_dashboard_draft.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P04', label: 'Revenue Analysis',  area: 'bu',     file: { RS: 'revenue_analysis_RS_2.html', NAS: 'revenue_analysis_NAS_2.html' }, product: true, func: false, toggle: true, views: null },
     { code: 'P05', label: 'Expense P&L',       area: 'bu',     file: { RS: 'expense_pl_RS_2.html', NAS: 'expense_pl_NAS_2.html' }, product: true, func: true, toggle: true, views: null },
@@ -217,9 +217,9 @@
     closePanel(false);
     var sheet = narrow();
     var close = h('button', { type: 'button', class: 'pf-close' }, ['Done']);
-    var el = h('div', { class: 'pf-panel' + (sheet ? ' pf-sheet' : ''), role: 'dialog', 'aria-label': title, tabindex: '-1' }, [
-      h('div', { class: 'pf-panel-hdr' }, [h('span', { text: title }), close]), content
-    ]);
+    // opts.hideTitle: no visible title; the desktop panel drops its title bar, the mobile sheet keeps an empty one for the Done button. The aria-label still names the dialog.
+    var hdr = (opts.hideTitle && !sheet) ? null : h('div', { class: 'pf-panel-hdr' }, [h('span', { text: opts.hideTitle ? '' : title }), close]);
+    var el = h('div', { class: 'pf-panel' + (sheet ? ' pf-sheet' : ''), role: 'dialog', 'aria-label': title, tabindex: '-1' }, [hdr, content]);
     if (opts.footer) el.appendChild(opts.footer);
     var backdrop = sheet ? h('div', { class: 'pf-backdrop' }) : null;
     if (backdrop) { body.appendChild(backdrop); backdrop.addEventListener('click', function () { closePanel(true); }); }
@@ -488,7 +488,7 @@
       e.preventDefault(); cells[n].focus();
     });
     var wrap = h('div', null, [h('div', { class: 'pf-panel-hdr', style: 'border-radius:0;text-transform:none;letter-spacing:0' }, [h('span', null, ['Fiscal year ', sel]), h('small', { text: 'Jul\u2013Jun \u00B7 4-5-4' })]), grid]);
-    openPanel(anchor, 'Fiscal period', wrap, { focus: function () {
+    openPanel(anchor, 'Fiscal period', wrap, { hideTitle: true, focus: function () {
       var f = null; cells.forEach(function (c) { if (c._key === state.per) f = c; }); return f || cells.filter(function (c) { return c._ok; })[0];
     } });
   }
