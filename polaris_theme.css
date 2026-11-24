@@ -42,7 +42,7 @@
   .sb-ext:hover { text-decoration: underline; }
 
   /* Main Workspace */
-  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: #ffffff; }
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; background: var(--surface-alt); }
   .titlebar { background: #fff; border-bottom: 1px solid var(--line); padding: 10px 20px 12px; flex: none; }
   .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .breadcrumb a { color: var(--blue); text-decoration: none; }
