@@ -56,7 +56,7 @@
   .page-sub { font-size: var(--fs-12); color: var(--text-tertiary); margin-top: 3px; }
 
   /* AI Insight Alerts — Waypoint Banner Alert style */
-  .ai-alerts { display: flex; flex-direction: column; gap: 8px; margin: 14px 20px 0; }
+  .ai-alerts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 20px 0; }
   .ai-alert {
     display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start;
     padding: 16px; border-radius: 12px; position: relative;
@@ -74,12 +74,12 @@
   .ai-alert.moderate  .ai-alert-icon { background: #92650a; color: #fff; }
   .ai-alert-body { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
   .ai-alert-title {
-    font-family: var(--font-family); font-size: 18px; font-weight: var(--fw-bold);
-    line-height: 27px; letter-spacing: -0.5px; color: var(--text-primary);
+    font-family: var(--font-family); font-size: var(--fs-14); font-weight: var(--fw-bold);
+    line-height: 20px; letter-spacing: -0.5px; color: var(--text-primary);
   }
   .ai-alert-text {
-    font-family: var(--font-family); font-size: var(--fs-14); font-weight: 450;
-    line-height: 21px; letter-spacing: 0; color: var(--text-primary);
+    font-family: var(--font-family); font-size: var(--fs-12); font-weight: 450;
+    line-height: 18px; letter-spacing: 0; color: var(--text-secondary);
   }
   .ai-alert-source {
     font-size: 11px; color: var(--text-muted); margin-top: 2px;
